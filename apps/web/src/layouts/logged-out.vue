@@ -9,5 +9,6 @@
 <style lang="scss" scoped>
 .layout-root {
   height: 100vh;
+  background-color: $dark-page;
 }
 </style>
