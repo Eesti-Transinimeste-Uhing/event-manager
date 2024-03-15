@@ -1,4 +1,6 @@
 node:
   version: 20.11.1
   packageManager: yarn
-  yarn: {}
+  yarn:
+    installArgs:
+      - --immutable
