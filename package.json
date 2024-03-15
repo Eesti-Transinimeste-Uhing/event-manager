@@ -15,6 +15,7 @@
     "verror": "^1.10.1"
   },
   "devDependencies": {
+    "@moonrepo/cli": "^1.22.7",
     "@types/node": "20.11.1",
     "@types/verror": "^1.10.10",
     "env-cmd": "^10.1.0",

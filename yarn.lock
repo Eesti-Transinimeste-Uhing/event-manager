@@ -138,6 +138,88 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@moonrepo/cli@npm:^1.22.7":
+  version: 1.22.7
+  resolution: "@moonrepo/cli@npm:1.22.7"
+  dependencies:
+    "@moonrepo/core-linux-arm64-gnu": "npm:1.22.7"
+    "@moonrepo/core-linux-arm64-musl": "npm:1.22.7"
+    "@moonrepo/core-linux-x64-gnu": "npm:1.22.7"
+    "@moonrepo/core-linux-x64-musl": "npm:1.22.7"
+    "@moonrepo/core-macos-arm64": "npm:1.22.7"
+    "@moonrepo/core-macos-x64": "npm:1.22.7"
+    "@moonrepo/core-windows-x64-msvc": "npm:1.22.7"
+    detect-libc: "npm:^2.0.2"
+  dependenciesMeta:
+    "@moonrepo/core-linux-arm64-gnu":
+      optional: true
+    "@moonrepo/core-linux-arm64-musl":
+      optional: true
+    "@moonrepo/core-linux-x64-gnu":
+      optional: true
+    "@moonrepo/core-linux-x64-musl":
+      optional: true
+    "@moonrepo/core-macos-arm64":
+      optional: true
+    "@moonrepo/core-macos-x64":
+      optional: true
+    "@moonrepo/core-windows-x64-msvc":
+      optional: true
+  bin:
+    moon: moon
+  checksum: 10c0/88c1a7cd40922e544ee0a4d2bb3b98ec27015a018bc7be03878165475f3f8470f70c6f9a40d2f00ff4d9efe3317bf7ad4d830d4d9650553b5dd9b5c4d09900ee
+  languageName: node
+  linkType: hard
+
+"@moonrepo/core-linux-arm64-gnu@npm:1.22.7":
+  version: 1.22.7
+  resolution: "@moonrepo/core-linux-arm64-gnu@npm:1.22.7"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@moonrepo/core-linux-arm64-musl@npm:1.22.7":
+  version: 1.22.7
+  resolution: "@moonrepo/core-linux-arm64-musl@npm:1.22.7"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@moonrepo/core-linux-x64-gnu@npm:1.22.7":
+  version: 1.22.7
+  resolution: "@moonrepo/core-linux-x64-gnu@npm:1.22.7"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@moonrepo/core-linux-x64-musl@npm:1.22.7":
+  version: 1.22.7
+  resolution: "@moonrepo/core-linux-x64-musl@npm:1.22.7"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@moonrepo/core-macos-arm64@npm:1.22.7":
+  version: 1.22.7
+  resolution: "@moonrepo/core-macos-arm64@npm:1.22.7"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@moonrepo/core-macos-x64@npm:1.22.7":
+  version: 1.22.7
+  resolution: "@moonrepo/core-macos-x64@npm:1.22.7"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@moonrepo/core-windows-x64-msvc@npm:1.22.7":
+  version: 1.22.7
+  resolution: "@moonrepo/core-windows-x64-msvc@npm:1.22.7"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
 "@npmcli/agent@npm:^2.0.0":
   version: 2.2.1
   resolution: "@npmcli/agent@npm:2.2.1"
@@ -697,6 +779,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"detect-libc@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "detect-libc@npm:2.0.2"
+  checksum: 10c0/a9f4ffcd2701525c589617d98afe5a5d0676c8ea82bcc4ed6f3747241b79f781d36437c59a5e855254c864d36a3e9f8276568b6b531c28d6e53b093a15703f11
+  languageName: node
+  linkType: hard
+
 "diff@npm:^4.0.1":
   version: 4.0.2
   resolution: "diff@npm:4.0.2"
@@ -818,6 +907,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "etu-discord-bot@workspace:."
   dependencies:
+    "@moonrepo/cli": "npm:^1.22.7"
     "@sapphire/framework": "npm:^5.0.7"
     "@types/node": "npm:20.11.1"
     "@types/verror": "npm:^1.10.10"
