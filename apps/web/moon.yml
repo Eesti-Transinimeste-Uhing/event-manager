@@ -1,0 +1,32 @@
+project:
+  name: 'etue-web'
+  description: 'The web component of ETUE'
+
+tasks:
+  build:
+    command:
+      - quasar
+      - ssg
+      - generate
+    inputs:
+      - 'src/**/*'
+      - 'public/**/*'
+      - 'tsconfig.json'
+      - 'tsconfig.vue-tsc.json'
+      - 'package.json'
+      - quasar.config.js
+    outputs:
+      - 'dist/ssg'
+
+  dev:
+    command:
+      - quasar
+      - ssg
+      - dev
+    inputs:
+      - 'src/**/*'
+      - 'public/**/*'
+      - 'tsconfig.json'
+      - 'tsconfig.vue-tsc.json'
+      - 'package.json'
+      - quasar.config.js
