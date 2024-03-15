@@ -1,5 +1,5 @@
 import VError from 'verror'
 
 export class ConfigurationError extends VError {
-  name = 'ConfigurationError'
+  public override name = 'ConfigurationError'
 }

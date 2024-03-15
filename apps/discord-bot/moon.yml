@@ -1,0 +1,22 @@
+project:
+  name: 'discord-bot'
+  description: 'The Discord arm of our many-handed bot'
+
+tasks:
+  build:
+    command: 'tsc'
+    inputs:
+      - 'src/**/*'
+    outputs:
+      - 'dist'
+
+  dev:
+    command:
+      - ts-node-dev
+      - src/index.ts
+    inputs:
+      - 'src/**/*'
+      - 'tsconfig.json'
+      - 'package.json'
+    options:
+      envFile: .env

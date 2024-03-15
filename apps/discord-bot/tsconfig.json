@@ -1,0 +1,12 @@
+{
+  "extends": "tsconfig-moon/tsconfig.projects.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "checkJs": false,
+    "outDir": "dist",
+    "strict": true,
+    "target": "ES6",
+    "module": "CommonJS",
+    "verbatimModuleSyntax": false
+  }
+}
