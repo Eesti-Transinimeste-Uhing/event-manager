@@ -2942,9 +2942,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"etu-web@workspace:apps/frontend":
+"etue-web@workspace:apps/frontend":
   version: 0.0.0-use.local
-  resolution: "etu-web@workspace:apps/frontend"
+  resolution: "etue-web@workspace:apps/frontend"
   dependencies:
     "@quasar/app-vite": "npm:^1.8.0"
     "@quasar/extras": "npm:^1.16.4"
@@ -2965,9 +2965,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"etu@workspace:.":
+"etue@workspace:.":
   version: 0.0.0-use.local
-  resolution: "etu@workspace:."
+  resolution: "etue@workspace:."
   dependencies:
     "@moonrepo/cli": "npm:^1.22.7"
   languageName: unknown

@@ -1,0 +1,23 @@
+project:
+  name: 'etue-web'
+  description: 'The web component of ETUE'
+
+tasks:
+  build:
+    command: 'tsc'
+    inputs:
+      - 'src/**/*'
+      - 'package.json'
+    outputs:
+      - 'dist'
+
+  dev:
+    command:
+      - ts-node-dev
+      - src/index.ts
+    inputs:
+      - 'src/**/*'
+      - 'tsconfig.json'
+      - 'package.json'
+    options:
+      envFile: .env
