@@ -1,18 +1,5 @@
-import * as Pino from 'pino'
-
 import { getLevel, getString } from './validators'
-
-type Config = {
-  node: {
-    env: 'production' | 'development'
-  }
-  discord: {
-    token: string
-  }
-  log: {
-    level: Pino.Level
-  }
-}
+import { Config } from './types'
 
 const getConfig = (): Config => {
   return {
