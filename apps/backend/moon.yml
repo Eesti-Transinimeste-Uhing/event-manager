@@ -1,0 +1,24 @@
+project:
+  name: 'backend'
+  description: 'The API behind the web service'
+
+tasks:
+  build:
+    command: 'tsc'
+    inputs:
+      - 'src/**/*'
+      - 'package.json'
+    outputs:
+      - 'dist'
+
+  dev:
+    command:
+      - ts-node-dev
+      - --clear
+      - src/index.ts
+    inputs:
+      - 'src/**/*'
+      - 'tsconfig.json'
+      - 'package.json'
+    options:
+      envFile: .env
