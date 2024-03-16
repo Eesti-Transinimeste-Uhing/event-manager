@@ -1,5 +1,11 @@
 <template>
-  <q-dialog ref="dialogRef" @hide="onDialogCancel" backdrop-filter="blur(4px)">
+  <q-dialog
+    ref="dialogRef"
+    @hide="handleHide"
+    backdrop-filter="blur(4px)"
+    transition-hide="jump-up"
+    transition-show="jump-down"
+  >
     <q-card class="dialog-card">
       <q-img
         class="image"
@@ -40,13 +46,18 @@ defineEmits([
   ...useDialogPluginComponent.emits,
 ])
 
-const { dialogRef, onDialogCancel } = useDialogPluginComponent()
+const { dialogRef, onDialogHide, onDialogCancel } = useDialogPluginComponent()
 // dialogRef      - Vue ref to be applied to QDialog
 // onDialogHide   - Function to be used as handler for @hide on QDialog
 // onDialogOK     - Function to call to settle dialog with "ok" outcome
 //                    example: onDialogOK() - no payload
 //                    example: onDialogOK({ /*...*/ }) - with payload
 // onDialogCancel - Function to call to settle dialog with "cancel" outcome
+
+const handleHide = () => {
+  onDialogCancel()
+  onDialogHide()
+}
 </script>
 
 <style lang="scss" scoped>

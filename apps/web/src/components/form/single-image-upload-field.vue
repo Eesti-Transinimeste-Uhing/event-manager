@@ -18,8 +18,6 @@ const q = useQuasar()
 
 const handlePreviewClick = () => {
   q.dialog({
-    ok: false,
-    cancel: false,
     component: SingleImagePreviewDialog,
     componentProps: {
       label: props.modelValue?.name,

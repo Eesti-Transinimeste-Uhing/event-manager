@@ -4,7 +4,6 @@ export const useFilePreview = (
   file: Ref<File | string | null> | ComputedRef<File | string | null>
 ) => {
   const preview = ref('')
-
   const dimensions = ref([256, 256])
 
   const generatePreview = () => {
@@ -25,14 +24,13 @@ export const useFilePreview = (
         return
       }
 
-      preview.value = event.target?.result ?? ''
-
       const img = new Image()
 
       img.onload = function () {
         dimensions.value = [img.width, img.height]
       }
 
+      preview.value = event.target?.result ?? ''
       img.src = preview.value
     }
 
