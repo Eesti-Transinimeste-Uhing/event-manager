@@ -19,3 +19,5 @@ To run a project, use `yarn moon [project]:[target]`. For example, `yarn
 moon discord-bot:dev`. Note that some projects need an .env file. In these
 cases, you'll find a `.env.example` in the project root. Copy this file and name
 it `.env`, then fill out the fields.
+
+To run all projects at once, use `yarn moon :dev`.

@@ -16,7 +16,7 @@ export const AppDataSource = new DataSource({
   synchronize: config.node.env === 'development',
   logger: new PinoLogger(log.child({ source: 'typeorm' })),
   logging: true,
-  entities: [path.resolve(__dirname, 'entity/**/*.ts')],
-  migrations: [path.resolve(__dirname, './migration/**/*.ts')],
-  subscribers: [path.resolve(__dirname, './subscriber/**/*.ts')],
+  entities: [path.resolve(__dirname, 'entity/**/*.{ts,js}')],
+  migrations: [path.resolve(__dirname, './migration/**/*.{ts,js}')],
+  subscribers: [path.resolve(__dirname, './subscriber/**/*.{ts,js}')],
 })

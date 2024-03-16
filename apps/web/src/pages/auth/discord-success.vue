@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import { graphql } from 'src/graphql/generated'
+
+graphql(`
+  query TestQuery {
+    checkDiscordToken
+  }
+`)
+</script>
+
 <template>
   <q-card class="fixed-center card">
     <q-card-section>

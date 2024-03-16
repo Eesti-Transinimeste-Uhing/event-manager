@@ -14,7 +14,6 @@ tasks:
   dev:
     command:
       - ts-node-dev
-      - --clear
       - src/index.ts
     inputs:
       - 'src/**/*'

@@ -12,21 +12,24 @@ tasks:
       - 'src/**/*'
       - 'public/**/*'
       - 'tsconfig.json'
-      - 'tsconfig.vue-tsc.json'
       - 'package.json'
+      - 'tsconfig.vue-tsc.json'
       - quasar.config.js
     outputs:
       - 'dist/ssg'
 
   dev:
     command:
-      - quasar
-      - ssg
-      - dev
+      - concurrently
+      - -s
+      - first
+      - -r
+      - 'env-cmd quasar ssg dev'
+      - 'graphql-codegen --watch'
     inputs:
       - 'src/**/*'
       - 'public/**/*'
       - 'tsconfig.json'
-      - 'tsconfig.vue-tsc.json'
       - 'package.json'
+      - 'tsconfig.vue-tsc.json'
       - quasar.config.js
