@@ -34,7 +34,7 @@ onMounted(() => {
     router.push(
       `/auth/discord/failure?message=${encodeURIComponent('Timed out waiting for the session to initialise, please try again.')}`
     )
-  }, 5000)
+  }, 10_000)
 })
 
 onBeforeUnmount(() => {
