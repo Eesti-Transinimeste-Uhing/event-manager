@@ -13,6 +13,11 @@
     "noUnusedLocals": false,
     "typeRoots": ["types/"],
     "skipLibCheck": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
   }
 }

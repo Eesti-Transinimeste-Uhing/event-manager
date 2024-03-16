@@ -1,8 +1,10 @@
-import fastify, { FastifyReply, FastifyRequest } from 'fastify'
+import fastify from 'fastify'
 import passport from '@fastify/passport'
 import fastifySecureSession from '@fastify/secure-session'
-import { config } from '../config'
 
+import * as routes from './routes/v1'
+
+import { config } from '../config'
 import { discordStrategy } from './auth-strategies/discord'
 
 export const server = fastify()
@@ -18,20 +20,13 @@ passport.registerUserDeserializer(async (id, request) => {
   }
 })
 
-// set up secure sessions for @fastify/passport to store data in
 server.register(fastifySecureSession, { key: Buffer.from(config.secureSession.key) })
-// initialize @fastify/passport and connect it to the secure-session storage. Note: both of these plugins are mandatory.
+
 server.register(passport.initialize())
 server.register(passport.secureSession())
 
-// register an example strategy for fastifyPassport to authenticate users using
-passport.use(discordStrategy) // you'd probably use some passport strategy from npm here
+passport.use(discordStrategy)
 
-// Add an authentication for a route which will use the strategy named "test" to protect the route
-server.get(
-  '/auth/discord/callback',
-  { preValidation: passport.authenticate('discord', { authInfo: false }) },
-  async () => 'hello world!'
-)
-
-server.get('/auth/discord', passport.authenticate('discord'))
+for (const route of Object.values(routes)) {
+  server.register(route, { prefix: '/v1' })
+}

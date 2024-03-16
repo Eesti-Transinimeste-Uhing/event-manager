@@ -27,8 +27,11 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.23.0",
+    "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "quasar-app-extension-ssg": "^5.1.1",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.6",
     "vite-plugin-checker": "^0.6.4",
     "vite-plugin-imagemin": "^0.6.1",
     "vue-tsc": "^1"

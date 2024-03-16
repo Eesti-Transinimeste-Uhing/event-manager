@@ -19,4 +19,17 @@ export type Config = {
     clientSecret: string
     callbackUrl: string
   }
+  db: {
+    host: string
+    port: number
+    username: string
+    password: string
+    database: string
+  }
+  web: {
+    routes: {
+      discordAuthFailed: string
+      discordAuthSuccess: string
+    }
+  }
 }
