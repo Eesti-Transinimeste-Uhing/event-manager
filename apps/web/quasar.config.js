@@ -9,6 +9,20 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers')
+const fs = require('fs')
+
+const base64Loader = {
+  name: 'base64-loader',
+  transform(_, id) {
+    const [path, query] = id.split('?')
+    if (query != 'base64') return null
+
+    const data = fs.readFileSync(path)
+    const base64 = data.toString('base64')
+
+    return `export default 'data:image;base64,${base64}';`
+  },
+}
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -110,6 +124,7 @@ module.exports = configure(function (/* ctx */) {
             },
           },
         ],
+        [base64Loader],
       ],
     },
 

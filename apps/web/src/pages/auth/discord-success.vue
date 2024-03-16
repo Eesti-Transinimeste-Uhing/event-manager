@@ -15,7 +15,7 @@ const { onResult, onError } = useQuery(
     }
   `),
   {},
-  { prefetch: false }
+  { prefetch: false, fetchPolicy: 'network-only' }
 )
 
 onError((error) => {
@@ -31,7 +31,9 @@ let failTimeout: NodeJS.Timeout | null = null
 
 onMounted(() => {
   failTimeout = setTimeout(() => {
-    router.push('/auth/discord/failure?message=Timeout')
+    router.push(
+      `/auth/discord/failure?message=${encodeURIComponent('Timed out waiting for the session to initialise, please try again.')}`
+    )
   }, 5000)
 })
 
@@ -40,7 +42,13 @@ onBeforeUnmount(() => {
 })
 
 onResult((result) => {
-  console.log('result:', result.data)
+  if (!result.data.viewer) {
+    return router.push(
+      `/auth/discord/failure?message=${encodeURIComponent("You either aren't registered, or you don't have permission to view this page.")}`
+    )
+  }
+
+  router.push('/')
 })
 </script>
 

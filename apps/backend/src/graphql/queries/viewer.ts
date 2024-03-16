@@ -4,8 +4,8 @@ import { UserRepository } from '../../repository/user'
 export const ViewerQuery = queryField((t) => {
   t.field('viewer', {
     type: 'User',
-    resolve(root, args) {
-      return UserRepository.findOne({})
+    resolve(root, args, context) {
+      return context.user
     },
   })
 })

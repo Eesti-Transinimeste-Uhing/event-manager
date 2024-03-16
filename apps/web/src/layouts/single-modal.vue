@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import background from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM-unsplash-small.jpg'
+import background from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM-unsplash-lg.jpg'
+import backgroundXSBL from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM-unsplash-xsbl.jpg?base64'
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import background from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM-uns
         <q-img
           class="col absolute top left"
           :src="background"
+          :placeholder-src="backgroundXSBL"
           no-spinner
           fit="cover"
           height="100%"

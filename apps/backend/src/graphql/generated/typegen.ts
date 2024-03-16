@@ -3,6 +3,8 @@
  * Do not make changes to this file directly
  */
 
+import type { GraphqlContext } from './../../server/context'
+
 declare global {
   interface NexusGen extends NexusGenTypes {}
 }
@@ -88,7 +90,7 @@ export type NexusGenFeaturesConfig = {
 }
 
 export interface NexusGenTypes {
-  context: any
+  context: GraphqlContext
   inputTypes: NexusGenInputs
   rootTypes: NexusGenRootTypes
   inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars

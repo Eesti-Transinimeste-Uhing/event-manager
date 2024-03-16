@@ -8,6 +8,10 @@ import { config } from '../config'
 export const schema = makeSchema({
   types: [ViewerQuery, User],
   shouldGenerateArtifacts: config.node.env === 'development',
+  contextType: {
+    module: path.resolve(__dirname, '../server/context.ts'),
+    export: 'GraphqlContext',
+  },
   outputs: {
     schema: path.resolve(__dirname, 'generated/schema.graphql'),
     typegen: path.resolve(__dirname, 'generated/typegen.ts'),
