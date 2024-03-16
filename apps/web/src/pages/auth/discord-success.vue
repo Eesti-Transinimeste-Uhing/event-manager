@@ -41,14 +41,14 @@ onBeforeUnmount(() => {
   if (failTimeout) clearTimeout(failTimeout)
 })
 
-onResult((result) => {
+onResult(async (result) => {
   if (!result.data.viewer) {
     return router.push(
       `/auth/discord/failure?message=${encodeURIComponent("You either aren't registered, or you don't have permission to view this page.")}`
     )
   }
 
-  router.push('/')
+  await router.push('/')
 })
 </script>
 

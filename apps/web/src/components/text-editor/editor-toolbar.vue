@@ -1,0 +1,52 @@
+<script lang="ts" setup>
+import TooltipButton from 'components/tooltip-button.vue'
+
+const props = defineProps<{
+  canUndo: boolean
+  canRedo: boolean
+}>()
+
+const emit = defineEmits<{
+  (event: 'bold'): void
+  (event: 'italic'): void
+  (event: 'underline'): void
+
+  (event: 'undo'): void
+  (event: 'redo'): void
+}>()
+</script>
+
+<template>
+  <div class="flex justify-start items-center">
+    <tooltip-button
+      flat
+      square
+      icon="las la-undo"
+      tooltip="Undo"
+      @click="emit('undo')"
+      :disabled="!props.canUndo"
+    />
+    <tooltip-button
+      flat
+      square
+      icon="las la-redo"
+      tooltip="Redo"
+      @click="emit('redo')"
+      :disabled="!props.canRedo"
+    />
+
+    <q-separator vertical />
+
+    <tooltip-button flat square icon="las la-bold" tooltip="Bold" @click="emit('bold')" />
+    <tooltip-button flat square icon="las la-italic" tooltip="Italic" @click="emit('italic')" />
+    <tooltip-button
+      flat
+      square
+      icon="las la-underline"
+      tooltip="Underline"
+      @click="emit('underline')"
+    />
+
+    <q-separator vertical />
+  </div>
+</template>

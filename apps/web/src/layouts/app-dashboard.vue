@@ -74,7 +74,7 @@ const handleDrawerToggle = (value?: boolean) => {
 
         <q-page-sticky position="top" expand class="bg-secondary text-white">
           <q-toolbar>
-            <q-btn flat round dense :icon="String(route.meta.icon)" />
+            <q-icon flat round size="md" :name="String(route.meta.icon)" />
             <q-toolbar-title>{{ route.meta.label }}</q-toolbar-title>
           </q-toolbar>
         </q-page-sticky>

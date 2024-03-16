@@ -11,7 +11,7 @@ export const discordAuth: FastifyPluginCallback = (server, opts, done) => {
     {
       preValidation: passport.authenticate('discord', {
         authInfo: false,
-        failureRedirect: config.web.routes.discordAuthFailed,
+        failureRedirect: `${config.web.routes.discordAuthFailed}?message=${encodeURIComponent('Authentication cancelled')}`,
       }),
     },
     (req, res) => {

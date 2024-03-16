@@ -9,11 +9,23 @@ export type RouteRecord = RouteRecordRaw & {
   }
 }
 
+export const indexDashboard: RouteRecord = {
+  name: 'dashboard',
+  path: '',
+  component: () => import('pages/index-page.vue'),
+  meta: {
+    auth: true,
+    dark: true,
+    label: 'Dashboard',
+    icon: 'las la-pager',
+  },
+}
+
 export const index: RouteRecord = {
   name: 'index',
   path: '/',
   component: () => import('layouts/app-dashboard.vue'),
-  children: [{ path: 'dashboard', component: () => import('pages/index-page.vue') }],
+  children: [indexDashboard],
   meta: {
     auth: true,
     dark: true,
