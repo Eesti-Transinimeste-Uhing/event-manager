@@ -7,13 +7,19 @@
     transition-show="jump-down"
   >
     <q-card class="dialog-card">
-      <q-img
-        class="image"
-        fit="contain"
-        :width="`${dimensions[0]}px`"
-        :height="`${dimensions[1]}px`"
-        :src="preview"
-      />
+      <div
+        class="image-wrapper"
+        :class="{ loading }"
+        :style="loading ? undefined : { width: `${width}px`, height: `${height}px` }"
+      >
+        <q-img
+          class="image"
+          fit="contain"
+          :src="preview"
+          :width="`${width}px`"
+          :height="`${height}px`"
+        />
+      </div>
 
       <q-item>
         <q-item-section>
@@ -26,9 +32,11 @@
 </template>
 
 <script lang="ts" setup>
-import { useDialogPluginComponent } from 'quasar'
+import { useDialogPluginComponent, useQuasar } from 'quasar'
 import { useFilePreview } from 'src/hooks/use-file-preview'
 import { computed } from 'vue'
+
+const q = useQuasar()
 
 const props = defineProps<{
   label: string
@@ -38,7 +46,10 @@ const props = defineProps<{
 
 const reactivePreviewFile = computed(() => props.previewFile)
 
-const { preview, dimensions } = useFilePreview(reactivePreviewFile)
+const { preview, ratio, dimensions, loading } = useFilePreview(reactivePreviewFile)
+
+const height = computed(() => Math.min(dimensions.value[1], q.screen.height - 450))
+const width = computed(() => height.value * ratio.value)
 
 defineEmits([
   // REQUIRED; need to specify some events that your
@@ -62,11 +73,35 @@ const handleHide = () => {
 
 <style lang="scss" scoped>
 .dialog-card {
+  overflow: hidden;
   max-width: 100%;
 }
 
-.image {
-  max-width: calc(80vw - 2rem);
-  max-height: calc(80vw - 2rem);
+.image-wrapper {
+  transition-property: width, height;
+  transition-duration: 0.5s;
+  transition-timing-function: $in-out-bezier;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  &.loading {
+    width: 256px;
+    height: 256px;
+
+    > .image {
+      top: -50%;
+      left: -50%;
+    }
+  }
+
+  > .image {
+    transition-property: top, left;
+    transition-duration: 0.5s;
+    transition-timing-function: $in-out-bezier;
+
+    top: 0;
+    left: 0;
+  }
 }
 </style>

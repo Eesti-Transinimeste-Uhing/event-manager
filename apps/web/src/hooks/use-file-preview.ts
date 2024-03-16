@@ -5,6 +5,8 @@ export const useFilePreview = (
 ) => {
   const preview = ref('')
   const dimensions = ref([256, 256])
+  const ratio = ref(1)
+  const loading = ref(true)
 
   const generatePreview = () => {
     if (!file.value) {
@@ -28,6 +30,8 @@ export const useFilePreview = (
 
       img.onload = function () {
         dimensions.value = [img.width, img.height]
+        ratio.value = img.width / img.height
+        loading.value = false
       }
 
       preview.value = event.target?.result ?? ''
@@ -42,6 +46,8 @@ export const useFilePreview = (
   onMounted(generatePreview)
 
   return {
+    loading,
+    ratio,
     preview,
     dimensions,
   }
