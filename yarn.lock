@@ -2836,6 +2836,7 @@ __metadata:
     graphql: "npm:^16.8.1"
     nexus: "npm:^1.3.0"
     passport-discord: "npm:^0.1.4"
+    passport-oauth2-refresh: "npm:^2.2.0"
     pg: "npm:^8.4.0"
     pino-pretty: "npm:^10.3.1"
     reflect-metadata: "npm:^0.1.13"
@@ -8934,6 +8935,13 @@ __metadata:
   dependencies:
     passport-oauth2: "npm:^1.5.0"
   checksum: 10c0/bcd2b9801eb06009f03d71ded37a9cd63cca921bdfc03e75cabc1dcd6fb55693c69ac3a00c9ee25356414c97ced92b4aafc9b81176703752a536d2bcb6147a59
+  languageName: node
+  linkType: hard
+
+"passport-oauth2-refresh@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "passport-oauth2-refresh@npm:2.2.0"
+  checksum: 10c0/d2f3829871abc40efa88a627b5206bd27058a02a0440ad0aa102967f1bed6cbd762999fcac0ce8d93de87adfe957c880e3334ae18156b73ea1e6cd575a615d10
   languageName: node
   linkType: hard
 

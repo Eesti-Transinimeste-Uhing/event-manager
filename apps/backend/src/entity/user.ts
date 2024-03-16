@@ -6,5 +6,11 @@ export class User {
   id: string
 
   @Column()
-  email: string
+  discordId: string
+
+  @Column()
+  accessToken: string
+
+  @Column()
+  refreshToken: string
 }

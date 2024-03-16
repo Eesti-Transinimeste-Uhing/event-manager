@@ -1,13 +1,8 @@
 import { makeSchema, queryField, queryType } from 'nexus'
 
-const testQuery = queryField((t) => {
-  t.string('test', {
-    resolve() {
-      return String(Date.now())
-    },
-  })
-})
+import { DiscordCallbackMutation } from './mutations/discord-callback'
+import { User } from './types/user'
 
 export const schema = makeSchema({
-  types: [testQuery],
+  types: [DiscordCallbackMutation, User],
 })

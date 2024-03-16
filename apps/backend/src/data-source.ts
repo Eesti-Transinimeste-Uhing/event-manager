@@ -1,5 +1,7 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
+import path from 'node:path'
+
 import { config } from './config'
 import { PinoLogger } from './log/typeorm'
 import { log } from './log'
@@ -14,7 +16,7 @@ export const AppDataSource = new DataSource({
   synchronize: config.node.env === 'development',
   logger: new PinoLogger(log.child({ source: 'typeorm' })),
   logging: true,
-  entities: ['./entity/**/*.ts'],
-  migrations: ['./migration/**/*.ts'],
-  subscribers: ['./subscriber/**/*.ts'],
+  entities: [path.resolve(__dirname, 'entity/**/*.ts')],
+  migrations: [path.resolve(__dirname, './migration/**/*.ts')],
+  subscribers: [path.resolve(__dirname, './subscriber/**/*.ts')],
 })
