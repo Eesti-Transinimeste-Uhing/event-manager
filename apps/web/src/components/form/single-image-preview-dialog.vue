@@ -10,14 +10,14 @@
       <div
         class="image-wrapper"
         :class="{ loading }"
-        :style="loading ? undefined : { width: `${width}px`, height: `${height}px` }"
+        :style="loading ? undefined : { width: `${size[0]}px`, height: `${size[1]}px` }"
       >
         <q-img
           class="image"
           fit="contain"
           :src="preview"
-          :width="`${width}px`"
-          :height="`${height}px`"
+          :width="`${size[0]}px`"
+          :height="`${size[1]}px`"
         />
       </div>
 
@@ -27,11 +27,22 @@
           <q-item-label caption> {{ props.caption }} </q-item-label>
         </q-item-section>
       </q-item>
+
+      <tooltip-button
+        icon="las la-times"
+        tooltip="Dismiss"
+        flat
+        color="red"
+        round
+        class="q-ma-sm absolute-top-right"
+        @click="emit('hide')"
+      />
     </q-card>
   </q-dialog>
 </template>
 
 <script lang="ts" setup>
+import TooltipButton from 'components/tooltip-button.vue'
 import { useDialogPluginComponent, useQuasar } from 'quasar'
 import { useFilePreview } from 'src/hooks/use-file-preview'
 import { computed } from 'vue'
@@ -48,10 +59,25 @@ const reactivePreviewFile = computed(() => props.previewFile)
 
 const { preview, ratio, dimensions, loading } = useFilePreview(reactivePreviewFile)
 
-const height = computed(() => Math.min(dimensions.value[1], q.screen.height - 450))
-const width = computed(() => height.value * ratio.value)
+const size = computed(() => {
+  let height = dimensions.value[1]
+  let width = dimensions.value[0]
 
-defineEmits([
+  height = Math.min(height, q.screen.height - 100)
+  width = Math.min(width, q.screen.width - 100)
+
+  if (width < height) {
+    width = height * ratio.value
+    height = width / ratio.value
+  } else {
+    width = height * ratio.value
+    height = width / ratio.value
+  }
+
+  return [width, height]
+})
+
+const emit = defineEmits([
   // REQUIRED; need to specify some events that your
   // component will emit through useDialogPluginComponent()
   ...useDialogPluginComponent.emits,
@@ -79,29 +105,18 @@ const handleHide = () => {
 
 .image-wrapper {
   transition-property: width, height;
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
   transition-timing-function: $in-out-bezier;
 
   max-width: 100%;
   max-height: 100%;
 
+  display: flex;
+  align-items: center;
+
   &.loading {
     width: 256px;
     height: 256px;
-
-    > .image {
-      top: -50%;
-      left: -50%;
-    }
-  }
-
-  > .image {
-    transition-property: top, left;
-    transition-duration: 0.5s;
-    transition-timing-function: $in-out-bezier;
-
-    top: 0;
-    left: 0;
   }
 }
 </style>
