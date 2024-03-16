@@ -1,0 +1,13 @@
+diff --git a/dist/index.js b/dist/index.js
+index d80b7fbd18a89d329657fca87441af5b3742e778..de4cc9f7fb3f693efc1e9b4c60f74231e234c5ad 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -247,7 +247,7 @@ function trackSubscription(loading) {
+ }
+ 
+ // src/util/toApolloError.ts
+-var import_core = __toModule(require("@apollo/client/core/index.js"));
++var import_core = __toModule(require("@apollo/client/core/core.cjs"));
+ function toApolloError(error) {
+   if (!(error instanceof Error)) {
+     return new import_core.ApolloError({

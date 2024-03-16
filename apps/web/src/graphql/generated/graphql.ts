@@ -20,14 +20,9 @@ export type Scalars = {
   Float: { input: number; output: number }
 }
 
-export type Mutation = {
-  __typename?: 'Mutation'
-  discordCallback?: Maybe<Scalars['String']['output']>
-}
-
 export type Query = {
   __typename?: 'Query'
-  checkDiscordToken?: Maybe<Scalars['Boolean']['output']>
+  viewer?: Maybe<User>
 }
 
 export type User = {
@@ -35,21 +30,33 @@ export type User = {
   id?: Maybe<Scalars['ID']['output']>
 }
 
-export type TestQueryQueryVariables = Exact<{ [key: string]: never }>
+export type PostOauthViewerQueryVariables = Exact<{ [key: string]: never }>
 
-export type TestQueryQuery = { __typename?: 'Query'; checkDiscordToken?: boolean | null }
+export type PostOauthViewerQuery = {
+  __typename?: 'Query'
+  viewer?: { __typename?: 'User'; id?: string | null } | null
+}
 
-export const TestQueryDocument = {
+export const PostOauthViewerDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'TestQuery' },
+      name: { kind: 'Name', value: 'PostOauthViewer' },
       selectionSet: {
         kind: 'SelectionSet',
-        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'checkDiscordToken' } }],
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'viewer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+        ],
       },
     },
   ],
-} as unknown as DocumentNode<TestQueryQuery, TestQueryQueryVariables>
+} as unknown as DocumentNode<PostOauthViewerQuery, PostOauthViewerQueryVariables>

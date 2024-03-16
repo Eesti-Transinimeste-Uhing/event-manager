@@ -47,3 +47,18 @@ h6,
 .text-h6 {
   font-family: 'pragati-narrow', sans-serif;
 }
+
+.card-enter-active,
+.card-leave-active {
+  transition-duration: 0.2s;
+  transition-property: filter transform opacity;
+  transition-timing-function: ease-in-out;
+  transform-origin: center center;
+}
+
+.card-enter-from,
+.card-leave-to {
+  opacity: 0;
+  transform: scale(0.98);
+  filter: grayscale(0.4);
+}

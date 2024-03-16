@@ -20,7 +20,6 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  Mutation: {}
   Query: {}
   User: {
     // root type
@@ -37,13 +36,9 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
-  Mutation: {
-    // field return type
-    discordCallback: string | null // String
-  }
   Query: {
     // field return type
-    checkDiscordToken: boolean | null // Boolean
+    viewer: NexusGenRootTypes['User'] | null // User
   }
   User: {
     // field return type
@@ -52,13 +47,9 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
-  Mutation: {
-    // field return type name
-    discordCallback: 'String'
-  }
   Query: {
     // field return type name
-    checkDiscordToken: 'Boolean'
+    viewer: 'User'
   }
   User: {
     // field return type name

@@ -8,10 +8,12 @@
   "dependencies": {
     "@apollo/server": "^4.10.1",
     "@as-integrations/fastify": "^2.1.1",
+    "@fastify/cors": "^9.0.1",
+    "@fastify/helmet": "^11.1.1",
     "@fastify/passport": "^2.4.0",
     "@fastify/secure-session": "^7.1.0",
     "fastify": "^4.26.2",
-    "graphql": "^16.8.1",
+    "graphql": "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch",
     "nexus": "^1.3.0",
     "passport-discord": "^0.1.4",
     "passport-oauth2-refresh": "^2.2.0",

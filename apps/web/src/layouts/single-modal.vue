@@ -16,9 +16,13 @@ import background from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM-uns
         <div class="fit backdrop" />
       </div>
 
-      <div class="fit absolute">
-        <router-view />
-      </div>
+      <router-view v-slot="{ Component, route }">
+        <transition name="card" mode="out-in">
+          <div class="fit absolute" :key="route.path">
+            <component :is="Component" />
+          </div>
+        </transition>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>

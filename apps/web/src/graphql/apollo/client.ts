@@ -1,7 +1,12 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client/core'
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
 import { config } from 'src/config'
 
-export const apolloClient = new ApolloClient({
+const httpLink = new HttpLink({
   uri: config.backend.graphqlUrl,
+  credentials: 'include',
+})
+
+export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
+  link: httpLink,
 })

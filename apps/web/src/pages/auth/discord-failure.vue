@@ -1,3 +1,16 @@
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const message = computed(() =>
+  decodeURIComponent(
+    (Array.isArray(route.query.message) ? route.query.message.join(' ') : route.query.message) ?? ''
+  )
+)
+</script>
+
 <template>
   <q-card class="fixed-center card">
     <q-card-section>
@@ -5,11 +18,20 @@
       <div class="text-subtitle2">Could not authenticate with Discord</div>
     </q-card-section>
 
-    <q-separator />
+    <q-no-ssr>
+      <q-banner inline-actions class="text-white bg-red">
+        {{ message }}
+      </q-banner>
+      <template v-slot:placeholder>
+        <q-banner inline-actions class="text-white bg-red q-px-none">
+          <q-linear-progress indeterminate color="white" />
+        </q-banner>
+      </template>
+    </q-no-ssr>
 
     <q-card-section horizontal class="q-ma-md">
       <q-icon name="las la-exclamation" size="md" color="red" />
-      An error occurred during your authentication flow. Please try again.
+      An error occurred during the authentication flow. Please try again.
     </q-card-section>
 
     <q-separator />

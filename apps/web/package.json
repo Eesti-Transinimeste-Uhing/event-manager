@@ -14,8 +14,9 @@
   "dependencies": {
     "@apollo/client": "^3.9.7",
     "@quasar/extras": "^1.16.9",
-    "@vue/apollo-composable": "^4.0.2",
-    "graphql": "^16.8.1",
+    "@vue/apollo-composable": "patch:@vue/apollo-composable@npm%3A4.0.2#~/.yarn/patches/@vue-apollo-composable-npm-4.0.2-b877f7f6b2.patch",
+    "buffer": "^6.0.3",
+    "graphql": "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch",
     "pinia": "^2.1.7",
     "quasar": "^2.15.1",
     "verror": "^1.10.1",

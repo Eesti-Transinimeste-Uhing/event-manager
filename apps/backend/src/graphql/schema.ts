@@ -1,17 +1,20 @@
 import { makeSchema, queryField, queryType } from 'nexus'
 import path from 'path'
 
-import { DiscordCallbackMutation } from './mutations/discord-callback'
 import { User } from './types/user'
-import { CheckDiscordTokenQuery } from './queries/checkDiscordToken'
+import { ViewerQuery } from './queries/viewer'
 import { config } from '../config'
 
 export const schema = makeSchema({
-  types: [DiscordCallbackMutation, CheckDiscordTokenQuery, User],
+  types: [ViewerQuery, User],
   shouldGenerateArtifacts: config.node.env === 'development',
   outputs: {
     schema: path.resolve(__dirname, 'generated/schema.graphql'),
     typegen: path.resolve(__dirname, 'generated/typegen.ts'),
+  },
+  nonNullDefaults: {
+    input: true,
+    output: false,
   },
   prettierConfig:
     config.node.env === 'development'

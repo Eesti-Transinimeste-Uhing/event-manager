@@ -29,6 +29,7 @@ const getConfig = (): Config => {
       database: getString('DB_NAME', process.env.DB_NAME),
     },
     web: {
+      corsOrigin: getString('WEB_CORS_ORIGIN', process.env.WEB_CORS_ORIGIN),
       routes: {
         discordAuthFailed: getString(
           'WEB_DISCORD_AUTH_FAILURE',

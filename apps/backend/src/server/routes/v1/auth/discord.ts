@@ -1,9 +1,12 @@
 import passport from '@fastify/passport'
 import { FastifyPluginCallback, FastifyRequest, RouteHandler } from 'fastify'
 import { config } from '../../../../config'
+import { AuthenticateOptions } from '@fastify/passport/dist/AuthenticationRoute'
+
+type Query = { code: string }
 
 export const discordAuth: FastifyPluginCallback = (server, opts, done) => {
-  server.get(
+  server.get<{ Querystring: Query }>(
     '/auth/discord/callback',
     {
       preValidation: passport.authenticate('discord', {
@@ -20,7 +23,7 @@ export const discordAuth: FastifyPluginCallback = (server, opts, done) => {
     '/auth/discord',
     passport.authenticate('discord', {
       permissions: 17998060453952,
-    } as any)
+    } as AuthenticateOptions)
   )
 
   done()

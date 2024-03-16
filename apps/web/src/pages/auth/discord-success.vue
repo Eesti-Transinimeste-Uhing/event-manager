@@ -1,11 +1,47 @@
 <script lang="ts" setup>
+import { onBeforeUnmount, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useQuery } from '@vue/apollo-composable'
 import { graphql } from 'src/graphql/generated'
 
-graphql(`
-  query TestQuery {
-    checkDiscordToken
-  }
-`)
+const router = useRouter()
+
+const { onResult, onError } = useQuery(
+  graphql(`
+    query PostOauthViewer {
+      viewer {
+        id
+      }
+    }
+  `),
+  {},
+  { prefetch: false }
+)
+
+onError((error) => {
+  const errors = [
+    ...error.graphQLErrors.map((graphqlError) => graphqlError.message),
+    error.networkError?.message,
+  ].filter(Boolean)
+
+  router.push(`/auth/discord/failure?message=${encodeURIComponent(errors.join('\n'))}`)
+})
+
+let failTimeout: NodeJS.Timeout | null = null
+
+onMounted(() => {
+  failTimeout = setTimeout(() => {
+    router.push('/auth/discord/failure?message=Timeout')
+  }, 5000)
+})
+
+onBeforeUnmount(() => {
+  if (failTimeout) clearTimeout(failTimeout)
+})
+
+onResult((result) => {
+  console.log('result:', result.data)
+})
 </script>
 
 <template>

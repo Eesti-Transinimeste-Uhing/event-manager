@@ -1,8 +1,6 @@
-import { ConfigurationError } from './errors'
-
 export const getString = (name: string, input?: string | null): string => {
   if (!input) {
-    throw new ConfigurationError(`${name} must be defined`)
+    throw new Error(`${name} must be defined`)
   }
 
   return input
@@ -13,7 +11,7 @@ export const getNumber = (name: string, input?: string | null): number => {
   const parsed = Number.parseFloat(checkedInput)
 
   if (Number.isNaN(parsed)) {
-    throw new ConfigurationError(`${name} must be a number, got "${checkedInput}"`)
+    throw new Error(`${name} must be a number, got "${checkedInput}"`)
   }
 
   return parsed

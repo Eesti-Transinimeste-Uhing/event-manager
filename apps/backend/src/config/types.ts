@@ -31,5 +31,6 @@ export type Config = {
       discordAuthFailed: string
       discordAuthSuccess: string
     }
+    corsOrigin: string
   }
 }
