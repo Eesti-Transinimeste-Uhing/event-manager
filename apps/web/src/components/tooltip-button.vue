@@ -9,9 +9,11 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <q-btn v-bind="$attrs" @click="emit('click')">
+  <q-btn v-bind="$attrs" @click.stop.prevent="emit('click')">
     <q-tooltip class="bg-black" anchor="top middle" self="center middle">
       {{ props.tooltip }}
     </q-tooltip>
+
+    <slot />
   </q-btn>
 </template>

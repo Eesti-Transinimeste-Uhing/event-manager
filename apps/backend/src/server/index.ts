@@ -36,7 +36,12 @@ passport.registerUserDeserializer(async (id: string, request) => {
 
 server.register(fastifySecureSession, {
   key: Buffer.from(config.secureSession.key),
-  cookie: { httpOnly: true, secure: true, path: '/' },
+  cookie: {
+    httpOnly: true,
+    secure: true,
+    path: '/',
+    maxAge: 259_200, // in seconds, 3 days
+  },
 })
 
 server.register(passport.initialize())
