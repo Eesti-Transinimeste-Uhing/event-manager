@@ -11,6 +11,9 @@ export class User {
   @Column()
   accessToken: string
 
+  @Column('timestamp')
+  accessTokenExpiresAt: Date
+
   @Column()
   refreshToken: string
 }

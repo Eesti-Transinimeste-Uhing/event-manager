@@ -3,7 +3,7 @@
  * Do not make changes to this file directly
  */
 
-import type { GraphqlContext } from './../../server/context'
+import type { GraphqlContext } from './../context'
 
 declare global {
   interface NexusGen extends NexusGenTypes {}

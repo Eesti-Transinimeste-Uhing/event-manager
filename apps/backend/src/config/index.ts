@@ -39,6 +39,7 @@ const getConfig = (): Config => {
           'WEB_DISCORD_AUTH_SUCCESS',
           process.env.WEB_DISCORD_AUTH_SUCCESS
         ),
+        loginUrl: getString('WEB_LOGIN_URL', process.env.WEB_LOGIN_URL),
       },
     },
   }

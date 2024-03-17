@@ -30,6 +30,7 @@ export type Config = {
     routes: {
       discordAuthFailed: string
       discordAuthSuccess: string
+      loginUrl: string
     }
     corsOrigin: string
   }

@@ -6,7 +6,6 @@
   "license": "MIT",
   "packageManager": "yarn@4.1.1",
   "scripts": {
-    "dev": "env-cmd ts-node-dev src/index.ts",
     "moon": "../../node_modules/.bin/moon"
   },
   "dependencies": {

@@ -10,7 +10,7 @@ import { log } from './log'
 import { schema } from './graphql/schema'
 import { server } from './server'
 import { AppDataSource } from './data-source'
-import { GraphqlContext, graphqlContextFunction } from './server/context'
+import { GraphqlContext, graphqlContextFunction } from './graphql/context'
 
 const main = async () => {
   log.debug(`connecting to database`)

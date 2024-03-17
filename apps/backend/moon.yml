@@ -13,7 +13,9 @@ tasks:
 
   dev:
     command:
+      - yarn
       - ts-node-dev
+      - --respawn
       - src/index.ts
     inputs:
       - 'src/**/*'

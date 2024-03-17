@@ -10,7 +10,7 @@ import * as routes from './routes/v1'
 import { config } from '../config'
 import { discordStrategy } from './auth-strategies/discord'
 import { User } from '../entity/user'
-import { UserRepository } from '../repository/user'
+import { userController } from './static-context'
 
 export const server = fastify()
 
@@ -25,14 +25,10 @@ server.register(cors, {
 })
 
 // register a serializer that stores the user object's id in the session ...
-passport.registerUserSerializer(async (user: User, request) => {
-  return user.id
-})
+passport.registerUserSerializer((user: User) => userController.serialise(user))
 
 // ... and then a deserializer that will fetch that user from the database when a request with an id in the session arrives
-passport.registerUserDeserializer(async (id: string, request) => {
-  return await UserRepository.findOneBy({ id })
-})
+passport.registerUserDeserializer((id: string) => userController.deserialise(id))
 
 server.register(fastifySecureSession, {
   key: Buffer.from(config.secureSession.key),
@@ -48,7 +44,7 @@ server.register(passport.initialize())
 server.register(passport.secureSession())
 
 passport.use(discordStrategy)
-refresh.use(discordStrategy)
+refresh.use(discordStrategy as any)
 
 for (const route of Object.values(routes)) {
   server.register(route, { prefix: '/v1' })

@@ -9,7 +9,7 @@ export const schema = makeSchema({
   types: [ViewerQuery, User],
   shouldGenerateArtifacts: config.node.env === 'development',
   contextType: {
-    module: path.resolve(__dirname, '../server/context.ts'),
+    module: path.resolve(__dirname, 'context.ts'),
     export: 'GraphqlContext',
   },
   outputs: {

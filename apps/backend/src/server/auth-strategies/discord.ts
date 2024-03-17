@@ -1,4 +1,3 @@
-import { Strategy } from '@fastify/passport'
 import { Strategy as DiscordStrategy } from 'passport-discord'
 import { config } from '../../config'
 import { UserRepository } from '../../repository/user'
@@ -17,13 +16,4 @@ export const discordStrategy = new DiscordStrategy(
 
     return cb(null, user)
   }
-) as Strategy
-
-/**
-  refresh.requestNewAccessToken('discord', profile.refreshToken, function(err, accessToken, refreshToken) {
-    if (err)
-        throw; // boys, we have an error here.
-
-    profile.accessToken = accessToken; // store this new one for our new requests!
-  });
- */
+)

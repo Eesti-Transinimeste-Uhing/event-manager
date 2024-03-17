@@ -19,7 +19,7 @@ import { gql } from '@apollo/client/core'
  * with the Router instance.
  */
 
-export default route(({ ssrContext }) => {
+export default route(() => {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history'
@@ -36,7 +36,7 @@ export default route(({ ssrContext }) => {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   })
 
-  if (ssrContext) {
+  if (typeof window === 'undefined') {
     return router
   }
 

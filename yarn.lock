@@ -3486,6 +3486,56 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/oauth@npm:*":
+  version: 0.9.4
+  resolution: "@types/oauth@npm:0.9.4"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/fcf8f5db7756a3e4d406ce3520abf78fecaf5e14963ad75fe0057425bb8b754e98d09dcb2b73a70e8fbe1e345b7d972d8090cf8cf08247e80d6eaac3acbe3fc7
+  languageName: node
+  linkType: hard
+
+"@types/passport-discord@npm:^0.1.13":
+  version: 0.1.13
+  resolution: "@types/passport-discord@npm:0.1.13"
+  dependencies:
+    "@types/express": "npm:*"
+    "@types/passport": "npm:*"
+    "@types/passport-oauth2": "npm:*"
+  checksum: 10c0/b49904a783663c619abae813c357846e88b7482c880bed9163215b5e2fd73b5ba78116c912aa7237f5cb264d1b0c675450fdabbe29b212cbc2d31fee594e9f1f
+  languageName: node
+  linkType: hard
+
+"@types/passport-oauth2-refresh@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "@types/passport-oauth2-refresh@npm:1.1.4"
+  dependencies:
+    "@types/oauth": "npm:*"
+    "@types/passport-oauth2": "npm:*"
+  checksum: 10c0/aac61c441320b03ca3f27dcf6c0b4c55b1a5f2404a0e0bed2cd6f1e71e374b95b6b4ee6e1ff8d53ceb0c4885e81ea39859ab7047bb576a604b1767d3986c33b9
+  languageName: node
+  linkType: hard
+
+"@types/passport-oauth2@npm:*":
+  version: 1.4.15
+  resolution: "@types/passport-oauth2@npm:1.4.15"
+  dependencies:
+    "@types/express": "npm:*"
+    "@types/oauth": "npm:*"
+    "@types/passport": "npm:*"
+  checksum: 10c0/3f2b1c5c96ce0a1af9d55c07b18d68e443adccd9c5d429c0b08c6e35f0ca259bf77c29cecf2b94c1a035ce7c1c84087a2528e5ecc5ecfa0fba543e158bab7427
+  languageName: node
+  linkType: hard
+
+"@types/passport@npm:*":
+  version: 1.0.16
+  resolution: "@types/passport@npm:1.0.16"
+  dependencies:
+    "@types/express": "npm:*"
+  checksum: 10c0/7120c1186c8c67e3818683b5b6a4439d102f67da93cc1c7d8f32484f7bf10e8438dd5de0bf571910b23d06caa43dd1ad501933b48618bfaf54e63219500993fe
+  languageName: node
+  linkType: hard
+
 "@types/qs@npm:*":
   version: 6.9.12
   resolution: "@types/qs@npm:6.9.12"
@@ -4727,7 +4777,9 @@ __metadata:
     "@fastify/secure-session": "npm:^7.1.0"
     "@types/luxon": "npm:^3.4.2"
     "@types/node": "npm:20.11.1"
+    "@types/passport-discord": "npm:^0.1.13"
     "@types/verror": "npm:^1.10.10"
+    discord.js: "npm:^14.14.1"
     fastify: "npm:^4.26.2"
     graphql: "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch"
     luxon: "npm:^3.4.4"
@@ -5526,13 +5578,6 @@ __metadata:
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
   checksum: 10c0/74c781a5248c2402a0a3e966a0a2bba3c054aad144f5c023364be83265e796b20565aa9feff624132ff629aa64e16999fa40a743c10c12f7c61e96a794b99288
-  languageName: node
-  linkType: hard
-
-"commander@npm:^4.0.0":
-  version: 4.1.1
-  resolution: "commander@npm:4.1.1"
-  checksum: 10c0/84a76c08fe6cc08c9c93f62ac573d2907d8e79138999312c92d4155bc2325d487d64d13f669b2000c9f8caf70493c1be2dac74fec3c51d5a04f8bc3ae1830bab
   languageName: node
   linkType: hard
 
@@ -6381,7 +6426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"discord.js@npm:14.x":
+"discord.js@npm:14.x, discord.js@npm:^14.14.1":
   version: 14.14.1
   resolution: "discord.js@npm:14.14.1"
   dependencies:
@@ -6686,18 +6731,6 @@ __metadata:
   version: 4.5.0
   resolution: "entities@npm:4.5.0"
   checksum: 10c0/5b039739f7621f5d1ad996715e53d964035f75ad3b9a4d38c6b3804bb226e282ffeae2443624d8fdd9c47d8e926ae9ac009c54671243f0c3294c26af7cc85250
-  languageName: node
-  linkType: hard
-
-"env-cmd@npm:^10.1.0":
-  version: 10.1.0
-  resolution: "env-cmd@npm:10.1.0"
-  dependencies:
-    commander: "npm:^4.0.0"
-    cross-spawn: "npm:^7.0.0"
-  bin:
-    env-cmd: bin/env-cmd.js
-  checksum: 10c0/8ea5f4205bed83f39ea0ef0eb94d52a47bc815302c55779fb6c38346ca9284df1855f0847c8f5c702554f7f01e3575d171f12cffd13a1bada01961815842abe3
   languageName: node
   linkType: hard
 
@@ -7508,6 +7541,7 @@ __metadata:
     "@tiptap/vue-3": "npm:^2.2.4"
     "@types/bytes": "npm:^3.1.4"
     "@types/node": "npm:^20.11.1"
+    "@types/passport-oauth2-refresh": "npm:^1.1.4"
     "@types/verror": "npm:^1.10.10"
     "@typescript-eslint/eslint-plugin": "npm:^7.2.0"
     "@typescript-eslint/parser": "npm:^7.2.0"
@@ -7516,7 +7550,6 @@ __metadata:
     buffer: "npm:^6.0.3"
     bytes: "npm:^3.1.2"
     concurrently: "npm:^8.2.2"
-    env-cmd: "npm:^10.1.0"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-vue: "npm:^9.23.0"

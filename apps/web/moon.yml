@@ -20,11 +20,12 @@ tasks:
 
   dev:
     command:
+      - yarn
       - concurrently
       - -s
       - first
       - -r
-      - 'env-cmd quasar ssg dev'
+      - 'quasar ssg dev'
       - 'graphql-codegen --watch'
     inputs:
       - 'src/**/*'
@@ -33,3 +34,5 @@ tasks:
       - 'package.json'
       - 'tsconfig.vue-tsc.json'
       - quasar.config.js
+    options:
+      envFile: .env

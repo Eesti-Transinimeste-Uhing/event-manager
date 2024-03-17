@@ -12,6 +12,7 @@
     "@fastify/helmet": "^11.1.1",
     "@fastify/passport": "^2.4.0",
     "@fastify/secure-session": "^7.1.0",
+    "discord.js": "^14.14.1",
     "fastify": "^4.26.2",
     "graphql": "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch",
     "luxon": "^3.4.4",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@types/luxon": "^3.4.2",
     "@types/node": "20.11.1",
+    "@types/passport-discord": "^0.1.13",
     "@types/verror": "^1.10.10",
     "pino-pretty": "^10.3.1",
     "ts-node-dev": "^2.0.0",
