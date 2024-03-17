@@ -4,9 +4,10 @@ import path from 'path'
 import { User } from './types/user'
 import { ViewerQuery } from './queries/viewer'
 import { config } from '../config'
+import { DiscordUser } from './types/discord-user'
 
 export const schema = makeSchema({
-  types: [ViewerQuery, User],
+  types: [ViewerQuery, User, DiscordUser],
   shouldGenerateArtifacts: config.node.env === 'development',
   contextType: {
     module: path.resolve(__dirname, 'context.ts'),

@@ -22,6 +22,10 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  DiscordUser: {
+    // root type
+    id?: string | null // ID
+  }
   Query: {}
   User: {
     // root type
@@ -38,6 +42,10 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  DiscordUser: {
+    // field return type
+    id: string | null // ID
+  }
   Query: {
     // field return type
     viewer: NexusGenRootTypes['User'] | null // User
@@ -49,6 +57,10 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  DiscordUser: {
+    // field return type name
+    id: 'ID'
+  }
   Query: {
     // field return type name
     viewer: 'User'
