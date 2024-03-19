@@ -1,13 +1,14 @@
-import { makeSchema, queryField, queryType } from 'nexus'
+import { makeSchema, connectionPlugin } from 'nexus'
 import path from 'path'
 
-import { User } from './types/user'
-import { ViewerQuery } from './queries/viewer'
 import { config } from '../config'
-import { DiscordUser } from './types/discord-user'
+
+import * as Types from './types'
+import * as Queries from './queries'
+import * as Mutations from './mutations'
 
 export const schema = makeSchema({
-  types: [ViewerQuery, User, DiscordUser],
+  types: [...Object.values(Types), ...Object.values(Queries), ...Object.values(Mutations)],
   shouldGenerateArtifacts: config.node.env === 'development',
   contextType: {
     module: path.resolve(__dirname, 'context.ts'),
@@ -21,6 +22,7 @@ export const schema = makeSchema({
     input: true,
     output: false,
   },
+  plugins: [connectionPlugin()],
   prettierConfig:
     config.node.env === 'development'
       ? path.resolve(__dirname, '../../../../.prettierrc')

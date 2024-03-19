@@ -20,9 +20,56 @@ export type Scalars = {
   Float: { input: number; output: number }
 }
 
+export type DiscordUser = {
+  __typename?: 'DiscordUser'
+  id?: Maybe<Scalars['ID']['output']>
+}
+
+/** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+export type PageInfo = {
+  __typename?: 'PageInfo'
+  /** The cursor corresponding to the last nodes in edges. Null if the connection is empty. */
+  endCursor?: Maybe<Scalars['String']['output']>
+  /** Used to indicate whether more edges exist following the set defined by the clients arguments. */
+  hasNextPage: Scalars['Boolean']['output']
+  /** Used to indicate whether more edges exist prior to the set defined by the clients arguments. */
+  hasPreviousPage: Scalars['Boolean']['output']
+  /** The cursor corresponding to the first nodes in edges. Null if the connection is empty. */
+  startCursor?: Maybe<Scalars['String']['output']>
+}
+
 export type Query = {
   __typename?: 'Query'
+  templates?: Maybe<TemplateConnection>
   viewer?: Maybe<User>
+}
+
+export type QueryTemplatesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+export type Template = {
+  __typename?: 'Template'
+  id?: Maybe<Scalars['ID']['output']>
+}
+
+export type TemplateConnection = {
+  __typename?: 'TemplateConnection'
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges?: Maybe<Array<Maybe<TemplateEdge>>>
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo
+}
+
+export type TemplateEdge = {
+  __typename?: 'TemplateEdge'
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String']['output']
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node?: Maybe<Template>
 }
 
 export type User = {

@@ -1,5 +1,6 @@
 import { BaseContext } from '@apollo/server'
 import { ApolloFastifyContextFunction } from '@as-integrations/fastify'
+
 import { User } from '../entity/user'
 import { UserRepository } from '../repository/user'
 
