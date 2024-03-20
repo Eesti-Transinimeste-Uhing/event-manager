@@ -15,7 +15,7 @@ export const Template = objectType({
     t.string('description')
     t.url('banner', {
       resolve(root) {
-        return urlJoin(config.server.publicUrl, 'static', 'banners', root.id)
+        return urlJoin(config.server.publicUrl, 'v1', 'static', 'banners', root.id, root.bannerId)
       },
     })
     t.list.field('fields', {

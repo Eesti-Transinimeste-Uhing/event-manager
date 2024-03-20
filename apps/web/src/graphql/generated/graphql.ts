@@ -42,10 +42,15 @@ export enum FormFieldKind {
 export type Mutation = {
   __typename?: 'Mutation'
   createTemplate?: Maybe<Template>
+  submitForm?: Maybe<Scalars['Boolean']['output']>
 }
 
 export type MutationCreateTemplateArgs = {
   input: CreateTemplateInput
+}
+
+export type MutationSubmitFormArgs = {
+  input: SubmitFormInput
 }
 
 /** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
@@ -74,9 +79,13 @@ export type QueryTemplatesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
 }
 
+export type SubmitFormInput = {
+  id: Scalars['ID']['input']
+}
+
 export type Template = {
   __typename?: 'Template'
-  bannerUrl?: Maybe<Scalars['URL']['output']>
+  banner?: Maybe<Scalars['URL']['output']>
   description?: Maybe<Scalars['String']['output']>
   fields?: Maybe<Array<Maybe<FormFieldKind>>>
   id?: Maybe<Scalars['ID']['output']>

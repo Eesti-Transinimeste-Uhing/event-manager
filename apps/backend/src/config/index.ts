@@ -44,7 +44,7 @@ const getConfig = (): Config => {
       },
     },
     mounts: {
-      banners: getString('BANNERS_MOUNT', process.env.BANNERS_MOUNT),
+      staticFiles: getString('STATIC_FILES_MOUNT', process.env.STATIC_FILES_MOUNT),
     },
   }
 }

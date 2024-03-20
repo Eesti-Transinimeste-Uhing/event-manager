@@ -8,13 +8,14 @@ import fastifyApollo, {
 import { config } from './config'
 import { log } from './log'
 import { schema } from './graphql/schema'
-import { server } from './server'
+import { createServer } from './server'
 import { AppDataSource } from './data-source'
 import { GraphqlContext, graphqlContextFunction } from './graphql/context'
 
 const main = async () => {
   log.debug(`connecting to database`)
   await AppDataSource.initialize()
+  const server = await createServer()
 
   const apollo = new ApolloServer<GraphqlContext>({
     schema,

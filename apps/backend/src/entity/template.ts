@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 export enum FormFieldKind {
@@ -19,12 +20,16 @@ export class Template {
   @UpdateDateColumn()
   updatedAt: Date
 
-  @Column('varchar', {
+  @Column('uuid', {
     nullable: true,
-    default: '',
-    length: 2_083,
   })
-  bannerPath: string
+  bannerId: string
+
+  public regenerateBannerId() {
+    this.bannerId = randomUUID()
+
+    return this.bannerId
+  }
 
   @Column('varchar', {
     nullable: true,

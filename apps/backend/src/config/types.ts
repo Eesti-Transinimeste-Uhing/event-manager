@@ -36,6 +36,6 @@ export type Config = {
     corsOrigin: string
   }
   mounts: {
-    banners: string
+    staticFiles: string
   }
 }

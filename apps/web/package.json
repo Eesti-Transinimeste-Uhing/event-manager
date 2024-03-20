@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.9.7",
+    "@fastify/static": "^7.0.1",
     "@quasar/extras": "^1.16.9",
     "@tiptap/core": "^2.2.4",
     "@tiptap/extension-bold": "^2.2.4",
