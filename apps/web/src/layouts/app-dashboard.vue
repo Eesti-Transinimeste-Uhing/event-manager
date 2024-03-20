@@ -73,10 +73,12 @@ const handleDrawerToggle = (value?: boolean) => {
         </router-view>
 
         <q-page-sticky position="top" expand class="bg-secondary text-white">
-          <q-toolbar>
-            <q-icon flat round size="md" :name="String(route.meta.icon)" />
-            <q-toolbar-title>{{ route.meta.label }}</q-toolbar-title>
-          </q-toolbar>
+          <transition name="slide" mode="out-in">
+            <q-toolbar :key="route.fullPath">
+              <q-icon flat round size="md" :name="String(route.meta.icon)" />
+              <q-toolbar-title>{{ route.meta.label }}</q-toolbar-title>
+            </q-toolbar>
+          </transition>
         </q-page-sticky>
       </q-page>
 

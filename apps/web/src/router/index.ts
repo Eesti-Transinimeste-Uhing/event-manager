@@ -59,7 +59,7 @@ export default route(() => {
         fetchPolicy: 'cache-first',
         errorPolicy: 'ignore',
         query: gql`
-          query {
+          query AuthRouteGuard {
             viewer {
               id
             }

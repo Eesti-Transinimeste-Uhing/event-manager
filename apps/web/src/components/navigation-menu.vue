@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import * as route from 'src/router/routes'
 
-const routes = [route.indexDashboard]
+const routes = [route.indexDashboard, route.templates]
 </script>
 
 <template>
   <q-list>
-    <q-item v-for="route in routes" :key="route.path" :to="route.path">
+    <q-item v-for="route in routes" :key="route.path" :to="route.path" v-ripple>
       <q-item-section avatar>
         <q-icon :name="route.meta.icon" />
       </q-item-section>

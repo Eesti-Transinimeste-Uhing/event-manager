@@ -32,6 +32,8 @@
     "@tiptap/pm": "^2.2.4",
     "@tiptap/vue-3": "^2.2.4",
     "@vue/apollo-composable": "patch:@vue/apollo-composable@npm%3A4.0.2#~/.yarn/patches/@vue-apollo-composable-npm-4.0.2-b877f7f6b2.patch",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
     "buffer": "^6.0.3",
     "bytes": "^3.1.2",
     "graphql": "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch",

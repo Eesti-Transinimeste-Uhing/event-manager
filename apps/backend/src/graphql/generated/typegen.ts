@@ -44,6 +44,16 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  PaginationFilter: {
+    // input type
+    column: string // String!
+    filter: string // String!
+  }
+  PaginationSorting: {
+    // input type
+    order: NexusGenEnums['PaginationSortingOrder'] // PaginationSortingOrder!
+    sort: string // String!
+  }
   SubmitFormInput: {
     // input type
     id: string // ID!
@@ -57,10 +67,15 @@ export interface NexusGenInputs {
     // input type
     id: string // ID!
   }
+  WhereIdInput: {
+    // input type
+    id: string // ID!
+  }
 }
 
 export interface NexusGenEnums {
   FormFieldKind: 2 | 4 | 1 | 3 | 0
+  PaginationSortingOrder: 'ASC' | 'DESC'
 }
 
 export interface NexusGenScalars {
@@ -81,9 +96,10 @@ export interface NexusGenObjects {
   PageInfo: {
     // root type
     endCursor?: string | null // String
-    hasNextPage: boolean // Boolean!
-    hasPreviousPage: boolean // Boolean!
+    hasNextPage?: boolean | null // Boolean
+    hasPreviousPage?: boolean | null // Boolean
     startCursor?: string | null // String
+    totalCount?: number | null // Int
   }
   Query: {}
   Template: Template
@@ -122,12 +138,14 @@ export interface NexusGenFieldTypes {
   PageInfo: {
     // field return type
     endCursor: string | null // String
-    hasNextPage: boolean // Boolean!
-    hasPreviousPage: boolean // Boolean!
+    hasNextPage: boolean | null // Boolean
+    hasPreviousPage: boolean | null // Boolean
     startCursor: string | null // String
+    totalCount: number | null // Int
   }
   Query: {
     // field return type
+    template: NexusGenRootTypes['Template'] | null // Template
     templates: NexusGenRootTypes['TemplateConnection'] | null // TemplateConnection
     viewer: NexusGenRootTypes['User'] | null // User
   }
@@ -171,9 +189,11 @@ export interface NexusGenFieldTypeNames {
     hasNextPage: 'Boolean'
     hasPreviousPage: 'Boolean'
     startCursor: 'String'
+    totalCount: 'Int'
   }
   Query: {
     // field return type name
+    template: 'Template'
     templates: 'TemplateConnection'
     viewer: 'User'
   }
@@ -213,12 +233,18 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    template: {
+      // args
+      where: NexusGenInputs['WhereIdInput'] // WhereIdInput!
+    }
     templates: {
       // args
       after?: string | null // String
       before?: string | null // String
+      filter?: NexusGenInputs['PaginationFilter'][] | null // [PaginationFilter!]
       first?: number | null // Int
       last?: number | null // Int
+      sort?: NexusGenInputs['PaginationSorting'][] | null // [PaginationSorting!]
     }
   }
 }
@@ -288,8 +314,71 @@ export interface NexusGenTypes {
 declare global {
   interface NexusGenPluginTypeConfig<TypeName extends string> {}
   interface NexusGenPluginInputTypeConfig<TypeName extends string> {}
-  interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {}
-  interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {}
+  interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
+    /**
+     * Whether the type can be null
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    nullable?: boolean
+    /**
+     * Whether the type is list of values, or just a single value.
+     * If list is true, we assume the type is a list. If list is an array,
+     * we'll assume that it's a list with the depth. The boolean indicates whether
+     * the type is required (non-null), where true = nonNull, false = nullable.
+     * @see declarativeWrappingPlugin
+     */
+    list?: true | boolean[]
+    /**
+     * Whether the type should be non null, `required: true` = `nullable: false`
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    required?: boolean
+  }
+  interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {
+    /**
+     * Whether the type can be null
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    nullable?: boolean
+    /**
+     * Whether the type is list of values, or just a single value.
+     * If list is true, we assume the type is a list. If list is an array,
+     * we'll assume that it's a list with the depth. The boolean indicates whether
+     * the type is required (non-null), where true = nonNull, false = nullable.
+     * @see declarativeWrappingPlugin
+     */
+    list?: true | boolean[]
+    /**
+     * Whether the type should be non null, `required: true` = `nullable: false`
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    required?: boolean
+  }
   interface NexusGenPluginSchemaConfig {}
-  interface NexusGenPluginArgConfig {}
+  interface NexusGenPluginArgConfig {
+    /**
+     * Whether the type can be null
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    nullable?: boolean
+    /**
+     * Whether the type is list of values, or just a single value.
+     * If list is true, we assume the type is a list. If list is an array,
+     * we'll assume that it's a list with the depth. The boolean indicates whether
+     * the type is required (non-null), where true = nonNull, false = nullable.
+     * @see declarativeWrappingPlugin
+     */
+    list?: true | boolean[]
+    /**
+     * Whether the type should be non null, `required: true` = `nullable: false`
+     * @default (depends on whether nullability is configured in type or schema)
+     * @see declarativeWrappingPlugin
+     */
+    required?: boolean
+  }
 }

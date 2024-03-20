@@ -6,7 +6,6 @@ export type RouteRecord = RouteRecordRaw & {
     dark: boolean
     label: string
     icon: string
-    layout: 'none' | 'app-dashboard' | 'single-modal'
   }
 }
 
@@ -19,7 +18,30 @@ export const indexDashboard: RouteRecord = {
     dark: true,
     label: 'Dashboard',
     icon: 'las la-pager',
-    layout: 'app-dashboard',
+  },
+}
+
+export const templates: RouteRecord = {
+  name: 'template-list',
+  path: '/template/list',
+  component: () => import('pages/templates/templates-list.vue'),
+  meta: {
+    auth: 'require',
+    dark: true,
+    icon: 'las la-file',
+    label: 'Templates',
+  },
+}
+
+export const editTemplate: RouteRecord = {
+  name: 'template-edit',
+  path: '/template/:id/edit',
+  component: () => import('pages/templates/edit-template.vue'),
+  meta: {
+    auth: 'require',
+    dark: true,
+    icon: 'las la-edit',
+    label: 'Edit template',
   },
 }
 
@@ -27,13 +49,12 @@ export const index: RouteRecord = {
   name: 'index',
   path: '/',
   component: () => import('layouts/app-dashboard.vue'),
-  children: [indexDashboard],
+  children: [indexDashboard, templates, editTemplate],
   meta: {
     auth: 'require',
     dark: true,
     label: 'Index',
     icon: 'las la-pager',
-    layout: 'none',
   },
 }
 
@@ -46,7 +67,6 @@ export const authLogin: RouteRecord = {
     dark: false,
     label: 'Log in',
     icon: 'las la-user',
-    layout: 'single-modal',
   },
 }
 
@@ -59,7 +79,6 @@ export const authSuccess: RouteRecord = {
     dark: false,
     label: 'Discord success callback',
     icon: 'lab la-discord',
-    layout: 'single-modal',
   },
 }
 
@@ -72,7 +91,6 @@ export const authFailure: RouteRecord = {
     dark: false,
     label: 'Discord failure callback',
     icon: 'lab la-discord',
-    layout: 'single-modal',
   },
 }
 
@@ -86,7 +104,6 @@ export const auth: RouteRecord = {
     dark: false,
     label: 'Authentication',
     icon: 'las la-user',
-    layout: 'none',
   },
 }
 
@@ -99,7 +116,6 @@ export const catchAll: RouteRecord = {
     dark: true,
     label: 'Not Found',
     icon: 'las la-question-circle',
-    layout: 'single-modal',
   },
 }
 

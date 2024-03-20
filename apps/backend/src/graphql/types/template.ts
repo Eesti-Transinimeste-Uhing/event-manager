@@ -14,7 +14,12 @@ export const Template = objectType({
     t.id('id')
     t.string('description')
     t.url('banner', {
+      nullable: true,
       resolve(root) {
+        if (!root.bannerId) {
+          return null
+        }
+
         return urlJoin(config.server.publicUrl, 'v1', 'static', 'banners', root.id, root.bannerId)
       },
     })

@@ -1419,6 +1419,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@girin/connection@npm:^0.5.2-alpha.0":
+  version: 0.5.2-alpha.0
+  resolution: "@girin/connection@npm:0.5.2-alpha.0"
+  checksum: 10c0/eb7866d67bc4ef2cf42cc8d5a82d63f8ccf97b5a3d03b01654466ad66d9f90c2472e27b56cac83998e01e8c4eb1fb44a79a444a45017e95af3426a4251b977ba
+  languageName: node
+  linkType: hard
+
 "@graphql-codegen/add@npm:^5.0.2":
   version: 5.0.2
   resolution: "@graphql-codegen/add@npm:5.0.2"
@@ -4042,6 +4049,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vuelidate/core@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@vuelidate/core@npm:2.0.3"
+  dependencies:
+    vue-demi: "npm:^0.13.11"
+  peerDependencies:
+    "@vue/composition-api": ^1.0.0-rc.1
+    vue: ^2.0.0 || >=3.0.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+  checksum: 10c0/bdd5df3692adcb9bef3dc430f3ec4c763364b27691008a4f1e3cc28ad492f5ae0e8c1cc60585ef220ecac9ad65e0a0a312e7ae3bb56a1ed05c765adb04a0d533
+  languageName: node
+  linkType: hard
+
+"@vuelidate/validators@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@vuelidate/validators@npm:2.0.4"
+  dependencies:
+    vue-demi: "npm:^0.13.11"
+  peerDependencies:
+    "@vue/composition-api": ^1.0.0-rc.1
+    vue: ^2.0.0 || >=3.0.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+  checksum: 10c0/53cb362b5b561b22fb1d1021ab0d78e0fbf3324efba78a88f53b8b3ac996d546aabb9cd1069256ddb877d70841ea1f4771cb0f6b6b8a1074efbd972c6549c2fc
+  languageName: node
+  linkType: hard
+
 "@webassemblyjs/ast@npm:1.12.1, @webassemblyjs/ast@npm:^1.11.5":
   version: 1.12.1
   resolution: "@webassemblyjs/ast@npm:1.12.1"
@@ -4823,6 +4860,7 @@ __metadata:
     discord.js: "npm:^14.14.1"
     fastify: "npm:^4.26.2"
     graphql: "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch"
+    graphql-relay: "npm:^0.10.0"
     luxon: "npm:^3.4.4"
     nexus: "npm:^1.3.0"
     passport-discord: "npm:^0.1.4"
@@ -4833,6 +4871,7 @@ __metadata:
     ts-node-dev: "npm:^2.0.0"
     tsconfig-moon: "npm:^1.3.0"
     typeorm: "npm:0.3.20"
+    typeorm-cursor-connection: "npm:^0.6.0"
     typescript: "npm:^5.4.2"
     verror: "npm:^1.10.1"
   languageName: unknown
@@ -6613,6 +6652,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dot-prop@npm:^8.0.2":
+  version: 8.0.2
+  resolution: "dot-prop@npm:8.0.2"
+  dependencies:
+    type-fest: "npm:^3.8.0"
+  checksum: 10c0/422b4a65aad880fc4a21d09615ae97bf6c66767e7b29522fbafa34d2dd0489adff745f79dd1126ac463730f2b43eada75a02e5114065491c6148953f29551f27
+  languageName: node
+  linkType: hard
+
 "dotenv@npm:^16.0.0, dotenv@npm:^16.0.3":
   version: 16.4.5
   resolution: "dotenv@npm:16.4.5"
@@ -7588,6 +7636,8 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^7.2.0"
     "@typescript-eslint/parser": "npm:^7.2.0"
     "@vue/apollo-composable": "patch:@vue/apollo-composable@npm%3A4.0.2#~/.yarn/patches/@vue-apollo-composable-npm-4.0.2-b877f7f6b2.patch"
+    "@vuelidate/core": "npm:^2.0.3"
+    "@vuelidate/validators": "npm:^2.0.4"
     autoprefixer: "npm:^10.4.18"
     buffer: "npm:^6.0.3"
     bytes: "npm:^3.1.2"
@@ -7618,6 +7668,7 @@ __metadata:
   resolution: "etue@workspace:."
   dependencies:
     "@moonrepo/cli": "npm:^1.22.8"
+    dot-prop: "npm:^8.0.2"
   languageName: unknown
   linkType: soft
 
@@ -8719,6 +8770,15 @@ __metadata:
     cosmiconfig-toml-loader:
       optional: true
   checksum: 10c0/dadd04b08b0af5b9652ef1e8baf09adb7221ffca48e5272d933ee6faf0b962260a46b5e0da536576de56ffbdca118b257038e3319834045403fec9528b743e78
+  languageName: node
+  linkType: hard
+
+"graphql-relay@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "graphql-relay@npm:0.10.0"
+  peerDependencies:
+    graphql: ^16.2.0
+  checksum: 10c0/07f34c1292f9624667643bc2c1edd89759f370a4f5844c976d0211e5dddcb1d0526bc7ffba81592d59c2403d29b2500639d845423b626b90924a42b7bc3786f9
   languageName: node
   linkType: hard
 
@@ -15036,6 +15096,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"type-fest@npm:^3.8.0":
+  version: 3.13.1
+  resolution: "type-fest@npm:3.13.1"
+  checksum: 10c0/547d22186f73a8c04590b70dcf63baff390078c75ea8acd366bbd510fd0646e348bd1970e47ecf795b7cff0b41d26e9c475c1fedd6ef5c45c82075fbf916b629
+  languageName: node
+  linkType: hard
+
 "type-is@npm:~1.6.18":
   version: 1.6.18
   resolution: "type-is@npm:1.6.18"
@@ -15043,6 +15110,17 @@ __metadata:
     media-typer: "npm:0.3.0"
     mime-types: "npm:~2.1.24"
   checksum: 10c0/a23daeb538591b7efbd61ecf06b6feb2501b683ffdc9a19c74ef5baba362b4347e42f1b4ed81f5882a8c96a3bfff7f93ce3ffaf0cbbc879b532b04c97a55db9d
+  languageName: node
+  linkType: hard
+
+"typeorm-cursor-connection@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "typeorm-cursor-connection@npm:0.6.0"
+  dependencies:
+    "@girin/connection": "npm:^0.5.2-alpha.0"
+  peerDependencies:
+    typeorm: ^0.2.9
+  checksum: 10c0/ade7b790addc2102ffbdea28c3442ce63479399434ca1b540b93912bd16ad13ad9ca40daf1ad40441cb6a5198679b8990f9711a18bba82bec0ebd62717bbb1d2
   languageName: node
   linkType: hard
 
@@ -15723,6 +15801,22 @@ __metadata:
     vue-demi-fix: bin/vue-demi-fix.js
     vue-demi-switch: bin/vue-demi-switch.js
   checksum: 10c0/303216e3e6ee3f6ab5631488dd00a767ef3760a0a14e580c0223b278d093dc9ada8164ecec6bf8d8e12034e0bdf8dbb947c0c6f83095c6a53030a4a6dcbd57ce
+  languageName: node
+  linkType: hard
+
+"vue-demi@npm:^0.13.11":
+  version: 0.13.11
+  resolution: "vue-demi@npm:0.13.11"
+  peerDependencies:
+    "@vue/composition-api": ^1.0.0-rc.1
+    vue: ^3.0.0-0 || ^2.6.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+  bin:
+    vue-demi-fix: bin/vue-demi-fix.js
+    vue-demi-switch: bin/vue-demi-switch.js
+  checksum: 10c0/8f1a38e41e3dd0a4821c87231c664dcc00e6dbf5eecd3de397b7ddb6ae01f173aed5385c55a3c3239be36145742f1a5be407662fc67f9c4515ea691dd0ac93e1
   languageName: node
   linkType: hard
 

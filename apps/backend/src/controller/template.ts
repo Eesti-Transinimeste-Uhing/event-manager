@@ -18,6 +18,10 @@ export class TemplateController {
     return await this.templates.find()
   }
 
+  public async getById(id: string) {
+    return await this.templates.findOneBy({ id })
+  }
+
   public async createNew() {
     const template = this.templates.create({
       fields: [],

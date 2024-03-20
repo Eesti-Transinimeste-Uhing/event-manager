@@ -1,4 +1,4 @@
-import { makeSchema, connectionPlugin } from 'nexus'
+import { makeSchema, connectionPlugin, declarativeWrappingPlugin } from 'nexus'
 import path from 'path'
 
 import { config } from '../config'
@@ -28,7 +28,16 @@ export const schema = makeSchema({
     input: true,
     output: false,
   },
-  plugins: [connectionPlugin()],
+  plugins: [
+    connectionPlugin(),
+    declarativeWrappingPlugin(),
+    connectionPlugin({
+      additionalArgs: {
+        sort: Types.PaginationSorting.asArg({ list: true, required: false }),
+        filter: Types.PaginationFilter.asArg({ list: true, required: false }),
+      },
+    }),
+  ],
   prettierConfig:
     config.node.env === 'development'
       ? path.resolve(__dirname, '../../../../.prettierrc')
