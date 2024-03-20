@@ -6,9 +6,10 @@ import {
   createWebHistory,
 } from 'vue-router'
 
-import { routes, RouteRecord } from './routes'
+import { routes, RouteRecord, authLogin, authFailure, indexDashboard, index } from './routes'
 import { apolloClient } from 'src/graphql/apollo/client'
 import { gql } from '@apollo/client/core'
+import { nextTick } from 'vue'
 
 /*
  * If not building with SSR mode, you can
@@ -40,31 +41,51 @@ export default route(() => {
     return router
   }
 
-  router.beforeEach(async (_to) => {
+  router.beforeResolve(async (_to) => {
     const to = _to as unknown as RouteRecord
 
-    const { data } = await apolloClient.query({
-      fetchPolicy: 'cache-first',
-      query: gql`
-        query {
-          viewer {
-            id
+    // Special handling for '/' because routing can't always match if the layout
+    // and its main child have the same URL
+    if (to.name === index.name) {
+      return indexDashboard
+    }
+
+    if (to.meta.auth === 'any') {
+      return
+    }
+
+    nextTick(async () => {
+      const { data, errors } = await apolloClient.query({
+        fetchPolicy: 'cache-first',
+        errorPolicy: 'ignore',
+        query: gql`
+          query {
+            viewer {
+              id
+            }
           }
-        }
-      `,
+        `,
+      })
+
+      if (errors && errors.length > 0) {
+        return router.push({
+          name: authFailure.name,
+          query: {
+            message: errors.map((error) => error.message).join('\n'),
+          },
+        })
+      }
+
+      if (to.meta.auth === 'require' && !data.viewer) {
+        return router.push(authLogin)
+      }
+
+      if (to.meta.auth === 'forbid' && data.viewer) {
+        return router.push(indexDashboard)
+      }
     })
 
-    if (to.meta.auth && !data.viewer) {
-      return {
-        path: '/auth/login',
-      }
-    }
-
-    if (!to.meta.auth && data.viewer) {
-      return {
-        path: '/',
-      }
-    }
+    return
   })
 
   return router

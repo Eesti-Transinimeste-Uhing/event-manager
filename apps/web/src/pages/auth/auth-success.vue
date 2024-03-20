@@ -3,6 +3,7 @@ import { onBeforeUnmount, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuery } from '@vue/apollo-composable'
 import { graphql } from 'src/graphql/generated'
+import { authFailure, indexDashboard } from 'src/router/routes'
 
 const router = useRouter()
 
@@ -15,7 +16,7 @@ const { onResult, onError } = useQuery(
     }
   `),
   {},
-  { prefetch: false, fetchPolicy: 'network-only' }
+  { prefetch: false, fetchPolicy: 'cache-first' }
 )
 
 onError((error) => {
@@ -24,16 +25,24 @@ onError((error) => {
     error.networkError?.message,
   ].filter(Boolean)
 
-  router.push(`/auth/discord/failure?message=${encodeURIComponent(errors.join('\n'))}`)
+  router.push({
+    name: authFailure.name,
+    query: {
+      message: errors.join('\n'),
+    },
+  })
 })
 
 let failTimeout: NodeJS.Timeout | null = null
 
 onMounted(() => {
   failTimeout = setTimeout(() => {
-    router.push(
-      `/auth/discord/failure?message=${encodeURIComponent('Timed out waiting for the session to initialise, please try again.')}`
-    )
+    router.push({
+      name: authFailure.name,
+      query: {
+        message: 'Timed out waiting for the session to initialise, please try again.',
+      },
+    })
   }, 10_000)
 })
 
@@ -43,12 +52,15 @@ onBeforeUnmount(() => {
 
 onResult(async (result) => {
   if (!result.data.viewer) {
-    return router.push(
-      `/auth/discord/failure?message=${encodeURIComponent("You either aren't registered, or you don't have permission to view this page.")}`
-    )
+    return router.push({
+      name: authFailure.name,
+      query: {
+        message: "You either aren't registered, or you don't have permission to view this page.",
+      },
+    })
   }
 
-  await router.push('/')
+  await router.push(indexDashboard)
 })
 </script>
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import * as route from 'src/router/routes'
 
-const routes = [route.index]
+const routes = [route.indexDashboard]
 </script>
 
 <template>
