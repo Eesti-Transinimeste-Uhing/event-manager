@@ -10,7 +10,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@moonrepo/cli": "^1.22.7"
+    "@moonrepo/cli": "^1.22.8"
   },
   "engines": {
     "node": "20.11.1"
