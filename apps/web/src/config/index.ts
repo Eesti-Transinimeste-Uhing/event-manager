@@ -8,6 +8,7 @@ const getConfig = (): Config => {
     },
     backend: {
       graphqlUrl: getString('GRAPHQL_URL', process.env.GRAPHQL_URL),
+      logoutUrl: getString('SERVER_LOGOUT_URL', process.env.SERVER_LOGOUT_URL),
     },
   }
 }

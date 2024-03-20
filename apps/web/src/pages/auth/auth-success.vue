@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
 })
 
 onResult(async (result) => {
-  if (!result.data.viewer) {
+  if (result.data && !result.data.viewer) {
     return router.push({
       name: authFailure.name,
       query: {

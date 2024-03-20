@@ -37,10 +37,6 @@ export default route(() => {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   })
 
-  if (typeof window === 'undefined') {
-    return router
-  }
-
   router.beforeResolve(async (_to) => {
     const to = _to as unknown as RouteRecord
 
@@ -51,6 +47,10 @@ export default route(() => {
     }
 
     if (to.meta.auth === 'any') {
+      return
+    }
+
+    if (typeof window === 'undefined') {
       return
     }
 
