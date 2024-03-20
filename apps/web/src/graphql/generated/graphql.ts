@@ -22,10 +22,6 @@ export type Scalars = {
   URL: { input: any; output: any }
 }
 
-export type CreateTemplateInput = {
-  fields: Array<FormFieldKind>
-}
-
 export type DiscordUser = {
   __typename?: 'DiscordUser'
   id?: Maybe<Scalars['ID']['output']>
@@ -43,10 +39,6 @@ export type Mutation = {
   __typename?: 'Mutation'
   createTemplate?: Maybe<Template>
   submitForm?: Maybe<Scalars['Boolean']['output']>
-}
-
-export type MutationCreateTemplateArgs = {
-  input: CreateTemplateInput
 }
 
 export type MutationSubmitFormArgs = {

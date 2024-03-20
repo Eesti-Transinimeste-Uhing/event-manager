@@ -18,8 +18,10 @@ export class TemplateController {
     return await this.templates.find()
   }
 
-  public async createNew(dto: DeepPartial<Template>) {
-    const template = this.templates.create(dto)
+  public async createNew() {
+    const template = this.templates.create({
+      fields: [],
+    })
 
     await this.manager.transaction(async (manager) => {
       await manager.save(template)

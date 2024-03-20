@@ -44,11 +44,16 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  CreateTemplateInput: {
+  SubmitFormInput: {
     // input type
+    id: string // ID!
+  }
+  UpdateTemplateDataInput: {
+    // input type
+    description: string // String!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
   }
-  SubmitFormInput: {
+  UpdateTemplateWhereInput: {
     // input type
     id: string // ID!
   }
@@ -112,6 +117,7 @@ export interface NexusGenFieldTypes {
     // field return type
     createTemplate: NexusGenRootTypes['Template'] | null // Template
     submitForm: boolean | null // Boolean
+    updateTemplate: NexusGenRootTypes['Template'] | null // Template
   }
   PageInfo: {
     // field return type
@@ -157,6 +163,7 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     createTemplate: 'Template'
     submitForm: 'Boolean'
+    updateTemplate: 'Template'
   }
   PageInfo: {
     // field return type name
@@ -195,13 +202,14 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createTemplate: {
-      // args
-      input: NexusGenInputs['CreateTemplateInput'] // CreateTemplateInput!
-    }
     submitForm: {
       // args
       input: NexusGenInputs['SubmitFormInput'] // SubmitFormInput!
+    }
+    updateTemplate: {
+      // args
+      data: NexusGenInputs['UpdateTemplateDataInput'] // UpdateTemplateDataInput!
+      where: NexusGenInputs['UpdateTemplateWhereInput'] // UpdateTemplateWhereInput!
     }
   }
   Query: {
