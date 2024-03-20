@@ -15,6 +15,7 @@ const getConfig = (): Config => {
     server: {
       host: getString('SERVER_HOST', process.env.SERVER_HOST),
       port: getNumber('SERVER_PORT', process.env.SERVER_PORT),
+      publicUrl: getString('SERVER_PUBLIC_URL', process.env.SERVER_PUBLIC_URL),
     },
     discord: {
       clientId: getString('DISCORD_CLIENT_ID', process.env.DISCORD_CLIENT_ID),
@@ -41,6 +42,9 @@ const getConfig = (): Config => {
         ),
         loginUrl: getString('WEB_LOGIN_URL', process.env.WEB_LOGIN_URL),
       },
+    },
+    mounts: {
+      banners: getString('BANNERS_MOUNT', process.env.BANNERS_MOUNT),
     },
   }
 }

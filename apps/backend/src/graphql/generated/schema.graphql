@@ -19,6 +19,7 @@ enum FormFieldKind {
 
 type Mutation {
   createTemplate(input: CreateTemplateInput!): Template
+  submitForm(input: SubmitFormInput!): Boolean
 }
 
 """
@@ -71,7 +72,14 @@ type Query {
   viewer: User
 }
 
+input SubmitFormInput {
+  id: ID!
+}
+
 type Template {
+  banner: URL
+  description: String
+  fields: [FormFieldKind]
   id: ID
 }
 
@@ -98,6 +106,11 @@ type TemplateEdge {
   """
   node: Template
 }
+
+"""
+A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
+"""
+scalar URL
 
 type User {
   id: ID

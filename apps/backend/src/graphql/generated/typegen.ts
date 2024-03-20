@@ -7,9 +7,26 @@ import type { GraphqlContext } from './../context'
 import type { User } from './../../entity/user'
 import type { Template } from './../../entity/template'
 import type { core, connectionPluginCore } from 'nexus'
-
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
+     */
+    url<FieldName extends string>(
+      fieldName: FieldName,
+      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
+    ): void // "URL";
+  }
+}
 declare global {
   interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
+     */
+    url<FieldName extends string>(
+      fieldName: FieldName,
+      ...opts: core.ScalarOutSpread<TypeName, FieldName>
+    ): void // "URL";
     /**
      * Adds a Relay-style connection to the type, with numerous options for configuration
      *
@@ -31,6 +48,10 @@ export interface NexusGenInputs {
     // input type
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
   }
+  SubmitFormInput: {
+    // input type
+    id: string // ID!
+  }
 }
 
 export interface NexusGenEnums {
@@ -43,6 +64,7 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  URL: any
 }
 
 export interface NexusGenObjects {
@@ -89,6 +111,7 @@ export interface NexusGenFieldTypes {
   Mutation: {
     // field return type
     createTemplate: NexusGenRootTypes['Template'] | null // Template
+    submitForm: boolean | null // Boolean
   }
   PageInfo: {
     // field return type
@@ -104,6 +127,9 @@ export interface NexusGenFieldTypes {
   }
   Template: {
     // field return type
+    banner: NexusGenScalars['URL'] | null // URL
+    description: string | null // String
+    fields: Array<NexusGenEnums['FormFieldKind'] | null> | null // [FormFieldKind]
     id: string | null // ID
   }
   TemplateConnection: {
@@ -130,6 +156,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: {
     // field return type name
     createTemplate: 'Template'
+    submitForm: 'Boolean'
   }
   PageInfo: {
     // field return type name
@@ -145,6 +172,9 @@ export interface NexusGenFieldTypeNames {
   }
   Template: {
     // field return type name
+    banner: 'URL'
+    description: 'String'
+    fields: 'FormFieldKind'
     id: 'ID'
   }
   TemplateConnection: {
@@ -168,6 +198,10 @@ export interface NexusGenArgTypes {
     createTemplate: {
       // args
       input: NexusGenInputs['CreateTemplateInput'] // CreateTemplateInput!
+    }
+    submitForm: {
+      // args
+      input: NexusGenInputs['SubmitFormInput'] // SubmitFormInput!
     }
   }
   Query: {

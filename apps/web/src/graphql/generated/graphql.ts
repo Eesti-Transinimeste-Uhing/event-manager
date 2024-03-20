@@ -18,11 +18,34 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean }
   Int: { input: number; output: number }
   Float: { input: number; output: number }
+  /** A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt. */
+  URL: { input: any; output: any }
+}
+
+export type CreateTemplateInput = {
+  fields: Array<FormFieldKind>
 }
 
 export type DiscordUser = {
   __typename?: 'DiscordUser'
   id?: Maybe<Scalars['ID']['output']>
+}
+
+export enum FormFieldKind {
+  Age = 'Age',
+  ConfirmEvent = 'ConfirmEvent',
+  Email = 'Email',
+  Gender = 'Gender',
+  PreferredName = 'PreferredName',
+}
+
+export type Mutation = {
+  __typename?: 'Mutation'
+  createTemplate?: Maybe<Template>
+}
+
+export type MutationCreateTemplateArgs = {
+  input: CreateTemplateInput
 }
 
 /** PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
@@ -53,6 +76,9 @@ export type QueryTemplatesArgs = {
 
 export type Template = {
   __typename?: 'Template'
+  bannerUrl?: Maybe<Scalars['URL']['output']>
+  description?: Maybe<Scalars['String']['output']>
+  fields?: Maybe<Array<Maybe<FormFieldKind>>>
   id?: Maybe<Scalars['ID']['output']>
 }
 

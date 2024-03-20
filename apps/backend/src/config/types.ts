@@ -13,6 +13,7 @@ export type Config = {
   server: {
     host: string
     port: number
+    publicUrl: string
   }
   discord: {
     clientId: string
@@ -33,5 +34,8 @@ export type Config = {
       loginUrl: string
     }
     corsOrigin: string
+  }
+  mounts: {
+    banners: string
   }
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 export enum FormFieldKind {
   PreferredName,
@@ -12,6 +12,12 @@ export enum FormFieldKind {
 export class Template {
   @PrimaryGeneratedColumn('uuid')
   id: string
+
+  @CreateDateColumn()
+  createdAt: Date
+
+  @UpdateDateColumn()
+  updatedAt: Date
 
   @Column('varchar', {
     nullable: true,

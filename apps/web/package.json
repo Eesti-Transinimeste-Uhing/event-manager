@@ -34,6 +34,7 @@
     "buffer": "^6.0.3",
     "bytes": "^3.1.2",
     "graphql": "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch",
+    "graphql-scalars": "^1.23.0",
     "pinia": "^2.1.7",
     "quasar": "^2.15.1",
     "verror": "^1.10.1",

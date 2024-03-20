@@ -7554,6 +7554,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-vue: "npm:^9.23.0"
     graphql: "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch"
+    graphql-scalars: "npm:^1.23.0"
     pinia: "npm:^2.1.7"
     postcss: "npm:^8.4.35"
     prettier: "npm:^3.2.5"
@@ -8688,6 +8689,17 @@ __metadata:
   peerDependencies:
     graphql: 14 - 16
   checksum: 10c0/f8167925a110e8e1de93d56c14245e7e64391dc8dce5002dd01bf24a3059f345d4ca1bb6ce2040e2ec78264211b0704e75da3e63984f0f74d2042f697a4e8cc6
+  languageName: node
+  linkType: hard
+
+"graphql-scalars@npm:^1.23.0":
+  version: 1.23.0
+  resolution: "graphql-scalars@npm:1.23.0"
+  dependencies:
+    tslib: "npm:^2.5.0"
+  peerDependencies:
+    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+  checksum: 10c0/7666c305b8367528c4fbb583a2731d93d52f36043d71f4957ecc1d2db71d710d268e25535243beb1b2497db921daa94d3cfa83daaf4a3101a667f358ddbf3436
   languageName: node
   linkType: hard
 

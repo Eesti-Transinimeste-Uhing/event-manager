@@ -3,12 +3,18 @@ import path from 'path'
 
 import { config } from '../config'
 
+import * as Scalars from './scalars'
 import * as Types from './types'
 import * as Queries from './queries'
 import * as Mutations from './mutations'
 
 export const schema = makeSchema({
-  types: [...Object.values(Types), ...Object.values(Queries), ...Object.values(Mutations)],
+  types: [
+    ...Object.values(Scalars),
+    ...Object.values(Types),
+    ...Object.values(Queries),
+    ...Object.values(Mutations),
+  ],
   shouldGenerateArtifacts: config.node.env === 'development',
   contextType: {
     module: path.resolve(__dirname, 'context.ts'),
