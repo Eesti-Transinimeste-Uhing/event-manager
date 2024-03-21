@@ -26,7 +26,7 @@ export const schema = makeSchema({
   },
   nonNullDefaults: {
     input: true,
-    output: false,
+    output: true,
   },
   plugins: [
     connectionPlugin(),

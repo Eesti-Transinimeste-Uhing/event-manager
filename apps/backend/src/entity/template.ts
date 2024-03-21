@@ -14,11 +14,21 @@ export class Template {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: 'timestamp with time zone',
+  })
   createdAt: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    type: 'timestamp with time zone',
+  })
   updatedAt: Date
+
+  @Column('varchar', {
+    length: 32,
+    default: '',
+  })
+  name: string
 
   @Column('uuid', {
     nullable: true,

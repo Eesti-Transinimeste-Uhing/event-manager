@@ -2,7 +2,7 @@
 const props = withDefaults(
   defineProps<{
     tooltip: string
-    position:
+    position?:
       | 'top middle'
       | 'top left'
       | 'top right'

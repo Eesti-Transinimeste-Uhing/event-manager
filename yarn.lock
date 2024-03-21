@@ -4584,6 +4584,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"apollo3-cache-persist@npm:^0.14.1":
+  version: 0.14.1
+  resolution: "apollo3-cache-persist@npm:0.14.1"
+  peerDependencies:
+    "@apollo/client": ^3.2.5
+  checksum: 10c0/5437b4dec9e9f19c2e9e56af34916a14b304b82f465bcb68d8c3441d84000348ca0b140ca4a8a9b0133bb5407d227bfa5d077c44293763e0abd36ca91ea90a81
+  languageName: node
+  linkType: hard
+
 "app-root-path@npm:^3.1.0":
   version: 3.1.0
   resolution: "app-root-path@npm:3.1.0"
@@ -7638,6 +7647,7 @@ __metadata:
     "@vue/apollo-composable": "patch:@vue/apollo-composable@npm%3A4.0.2#~/.yarn/patches/@vue-apollo-composable-npm-4.0.2-b877f7f6b2.patch"
     "@vuelidate/core": "npm:^2.0.3"
     "@vuelidate/validators": "npm:^2.0.4"
+    apollo3-cache-persist: "npm:^0.14.1"
     autoprefixer: "npm:^10.4.18"
     buffer: "npm:^6.0.3"
     bytes: "npm:^3.1.2"
@@ -7647,6 +7657,8 @@ __metadata:
     eslint-plugin-vue: "npm:^9.23.0"
     graphql: "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch"
     graphql-scalars: "npm:^1.23.0"
+    idb-keyval: "npm:^6.2.1"
+    luxon: "npm:^3.4.4"
     pinia: "npm:^2.1.7"
     postcss: "npm:^8.4.35"
     prettier: "npm:^3.2.5"
@@ -9204,6 +9216,13 @@ __metadata:
   dependencies:
     safer-buffer: "npm:>= 2.1.2 < 3.0.0"
   checksum: 10c0/98102bc66b33fcf5ac044099d1257ba0b7ad5e3ccd3221f34dd508ab4070edff183276221684e1e0555b145fce0850c9f7d2b60a9fcac50fbb4ea0d6e845a3b1
+  languageName: node
+  linkType: hard
+
+"idb-keyval@npm:^6.2.1":
+  version: 6.2.1
+  resolution: "idb-keyval@npm:6.2.1"
+  checksum: 10c0/9f0c83703a365e00bd0b4ed6380ce509a06dedfc6ec39b2ba5740085069fd2f2ff5c14ba19356488e3612a2f9c49985971982d836460a982a5d0b4019eeba48a
   languageName: node
   linkType: hard
 

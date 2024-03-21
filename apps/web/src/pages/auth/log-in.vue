@@ -1,5 +1,12 @@
 <script lang="ts" setup>
 import siteLogo from 'components/site-logo.vue'
+import { onMounted } from 'vue'
+
+import { apolloClient } from 'src/graphql/apollo/client'
+
+onMounted(async () => {
+  await apolloClient.resetStore()
+})
 </script>
 
 <template>

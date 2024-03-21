@@ -4,6 +4,7 @@ import { Template } from '../entity/template'
 import { DeepPartial } from 'typeorm'
 import { EntityNotFoundError } from '../errors/entity-not-found'
 import { EntityFetchingError } from '../errors/entity-fetching-error'
+import { PaginationArgs } from 'nexus/dist/plugins/connectionPlugin'
 
 export class TemplateController {
   private manager = AppDataSource.createEntityManager()
@@ -20,6 +21,10 @@ export class TemplateController {
 
   public async getById(id: string) {
     return await this.templates.findOneBy({ id })
+  }
+
+  public async paginate(args: PaginationArgs) {
+    return await this.templates.paginate(args)
   }
 
   public async createNew() {

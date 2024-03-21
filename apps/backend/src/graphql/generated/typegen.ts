@@ -16,6 +16,13 @@ declare global {
       fieldName: FieldName,
       opts?: core.CommonInputFieldConfig<TypeName, FieldName>
     ): void // "URL";
+    /**
+     * A DateTime value consumable with Luxon
+     */
+    dateTime<FieldName extends string>(
+      fieldName: FieldName,
+      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
+    ): void // "DateTime";
   }
 }
 declare global {
@@ -27,6 +34,13 @@ declare global {
       fieldName: FieldName,
       ...opts: core.ScalarOutSpread<TypeName, FieldName>
     ): void // "URL";
+    /**
+     * A DateTime value consumable with Luxon
+     */
+    dateTime<FieldName extends string>(
+      fieldName: FieldName,
+      ...opts: core.ScalarOutSpread<TypeName, FieldName>
+    ): void // "DateTime";
     /**
      * Adds a Relay-style connection to the type, with numerous options for configuration
      *
@@ -84,13 +98,14 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  DateTime: any
   URL: any
 }
 
 export interface NexusGenObjects {
   DiscordUser: {
     // root type
-    id?: string | null // ID
+    id: string // ID!
   }
   Mutation: {}
   PageInfo: {
@@ -105,13 +120,13 @@ export interface NexusGenObjects {
   Template: Template
   TemplateConnection: {
     // root type
-    edges?: Array<NexusGenRootTypes['TemplateEdge'] | null> | null // [TemplateEdge]
+    edges: NexusGenRootTypes['TemplateEdge'][] // [TemplateEdge!]!
     pageInfo: NexusGenRootTypes['PageInfo'] // PageInfo!
   }
   TemplateEdge: {
     // root type
     cursor: string // String!
-    node?: NexusGenRootTypes['Template'] | null // Template
+    node: NexusGenRootTypes['Template'] // Template!
   }
   User: User
 }
@@ -127,13 +142,13 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnu
 export interface NexusGenFieldTypes {
   DiscordUser: {
     // field return type
-    id: string | null // ID
+    id: string // ID!
   }
   Mutation: {
     // field return type
-    createTemplate: NexusGenRootTypes['Template'] | null // Template
-    submitForm: boolean | null // Boolean
-    updateTemplate: NexusGenRootTypes['Template'] | null // Template
+    createTemplate: NexusGenRootTypes['Template'] // Template!
+    submitForm: boolean // Boolean!
+    updateTemplate: NexusGenRootTypes['Template'] // Template!
   }
   PageInfo: {
     // field return type
@@ -146,29 +161,32 @@ export interface NexusGenFieldTypes {
   Query: {
     // field return type
     template: NexusGenRootTypes['Template'] | null // Template
-    templates: NexusGenRootTypes['TemplateConnection'] | null // TemplateConnection
+    templates: NexusGenRootTypes['TemplateConnection'] // TemplateConnection!
     viewer: NexusGenRootTypes['User'] | null // User
   }
   Template: {
     // field return type
     banner: NexusGenScalars['URL'] | null // URL
-    description: string | null // String
-    fields: Array<NexusGenEnums['FormFieldKind'] | null> | null // [FormFieldKind]
-    id: string | null // ID
+    createdAt: NexusGenScalars['DateTime'] // DateTime!
+    description: string // String!
+    fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
+    id: string // ID!
+    name: string // String!
+    updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
   TemplateConnection: {
     // field return type
-    edges: Array<NexusGenRootTypes['TemplateEdge'] | null> | null // [TemplateEdge]
+    edges: NexusGenRootTypes['TemplateEdge'][] // [TemplateEdge!]!
     pageInfo: NexusGenRootTypes['PageInfo'] // PageInfo!
   }
   TemplateEdge: {
     // field return type
     cursor: string // String!
-    node: NexusGenRootTypes['Template'] | null // Template
+    node: NexusGenRootTypes['Template'] // Template!
   }
   User: {
     // field return type
-    id: string | null // ID
+    id: string // ID!
   }
 }
 
@@ -200,9 +218,12 @@ export interface NexusGenFieldTypeNames {
   Template: {
     // field return type name
     banner: 'URL'
+    createdAt: 'DateTime'
     description: 'String'
     fields: 'FormFieldKind'
     id: 'ID'
+    name: 'String'
+    updatedAt: 'DateTime'
   }
   TemplateConnection: {
     // field return type name

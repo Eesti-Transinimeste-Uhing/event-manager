@@ -17,7 +17,7 @@ const documents = {
     types.PostOauthViewerDocument,
   '\n    query EditTemplate($id: ID!) {\n      template(where: { id: $id }) {\n        id\n      }\n    }\n  ':
     types.EditTemplateDocument,
-  '\n    query TemplateList($first: Int) {\n      templates(first: $first) {\n        edges {\n          cursor\n          node {\n            id\n            banner\n            description\n            fields\n          }\n        }\n      }\n    }\n  ':
+  '\n    query TemplateList($first: Int, $last: Int, $after: String, $before: String) {\n      templates(first: $first, last: $last, after: $after, before: $before) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          cursor\n          node {\n            id\n            name\n            updatedAt\n            banner\n            description\n            fields\n          }\n        }\n      }\n    }\n  ':
     types.TemplateListDocument,
 }
 
@@ -51,8 +51,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    query TemplateList($first: Int) {\n      templates(first: $first) {\n        edges {\n          cursor\n          node {\n            id\n            banner\n            description\n            fields\n          }\n        }\n      }\n    }\n  '
-): (typeof documents)['\n    query TemplateList($first: Int) {\n      templates(first: $first) {\n        edges {\n          cursor\n          node {\n            id\n            banner\n            description\n            fields\n          }\n        }\n      }\n    }\n  ']
+  source: '\n    query TemplateList($first: Int, $last: Int, $after: String, $before: String) {\n      templates(first: $first, last: $last, after: $after, before: $before) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          cursor\n          node {\n            id\n            name\n            updatedAt\n            banner\n            description\n            fields\n          }\n        }\n      }\n    }\n  '
+): (typeof documents)['\n    query TemplateList($first: Int, $last: Int, $after: String, $before: String) {\n      templates(first: $first, last: $last, after: $after, before: $before) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          cursor\n          node {\n            id\n            name\n            updatedAt\n            banner\n            description\n            fields\n          }\n        }\n      }\n    }\n  ']
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {}

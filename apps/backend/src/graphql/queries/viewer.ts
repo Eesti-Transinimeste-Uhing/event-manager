@@ -2,7 +2,7 @@ import { queryField } from 'nexus'
 import { userController } from '../../server/static-context'
 
 export const ViewerQuery = queryField((t) => {
-  t.field('viewer', {
+  t.nullable.field('viewer', {
     type: 'User',
     async resolve(root, args, context) {
       if (context.user) {

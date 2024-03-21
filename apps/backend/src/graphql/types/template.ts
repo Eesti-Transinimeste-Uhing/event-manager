@@ -12,6 +12,9 @@ export const Template = objectType({
   },
   definition(t) {
     t.id('id')
+    t.string('name')
+    t.dateTime('createdAt')
+    t.dateTime('updatedAt')
     t.string('description')
     t.url('banner', {
       nullable: true,

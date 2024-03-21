@@ -18,13 +18,15 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean }
   Int: { input: number; output: number }
   Float: { input: number; output: number }
+  /** A DateTime value consumable with Luxon */
+  DateTime: { input: any; output: any }
   /** A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt. */
   URL: { input: any; output: any }
 }
 
 export type DiscordUser = {
   __typename?: 'DiscordUser'
-  id?: Maybe<Scalars['ID']['output']>
+  id: Scalars['ID']['output']
 }
 
 export enum FormFieldKind {
@@ -37,9 +39,9 @@ export enum FormFieldKind {
 
 export type Mutation = {
   __typename?: 'Mutation'
-  createTemplate?: Maybe<Template>
-  submitForm?: Maybe<Scalars['Boolean']['output']>
-  updateTemplate?: Maybe<Template>
+  createTemplate: Template
+  submitForm: Scalars['Boolean']['output']
+  updateTemplate: Template
 }
 
 export type MutationSubmitFormArgs = {
@@ -84,7 +86,7 @@ export enum PaginationSortingOrder {
 export type Query = {
   __typename?: 'Query'
   template?: Maybe<Template>
-  templates?: Maybe<TemplateConnection>
+  templates: TemplateConnection
   viewer?: Maybe<User>
 }
 
@@ -108,15 +110,18 @@ export type SubmitFormInput = {
 export type Template = {
   __typename?: 'Template'
   banner?: Maybe<Scalars['URL']['output']>
-  description?: Maybe<Scalars['String']['output']>
-  fields?: Maybe<Array<Maybe<FormFieldKind>>>
-  id?: Maybe<Scalars['ID']['output']>
+  createdAt: Scalars['DateTime']['output']
+  description: Scalars['String']['output']
+  fields: Array<FormFieldKind>
+  id: Scalars['ID']['output']
+  name: Scalars['String']['output']
+  updatedAt: Scalars['DateTime']['output']
 }
 
 export type TemplateConnection = {
   __typename?: 'TemplateConnection'
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
-  edges?: Maybe<Array<Maybe<TemplateEdge>>>
+  edges: Array<TemplateEdge>
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
   pageInfo: PageInfo
 }
@@ -126,7 +131,7 @@ export type TemplateEdge = {
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
   cursor: Scalars['String']['output']
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
-  node?: Maybe<Template>
+  node: Template
 }
 
 export type UpdateTemplateDataInput = {
@@ -140,7 +145,7 @@ export type UpdateTemplateWhereInput = {
 
 export type User = {
   __typename?: 'User'
-  id?: Maybe<Scalars['ID']['output']>
+  id: Scalars['ID']['output']
 }
 
 export type WhereIdInput = {
@@ -151,7 +156,7 @@ export type PostOauthViewerQueryVariables = Exact<{ [key: string]: never }>
 
 export type PostOauthViewerQuery = {
   __typename?: 'Query'
-  viewer?: { __typename?: 'User'; id?: string | null } | null
+  viewer?: { __typename?: 'User'; id: string } | null
 }
 
 export type EditTemplateQueryVariables = Exact<{
@@ -160,29 +165,42 @@ export type EditTemplateQueryVariables = Exact<{
 
 export type EditTemplateQuery = {
   __typename?: 'Query'
-  template?: { __typename?: 'Template'; id?: string | null } | null
+  template?: { __typename?: 'Template'; id: string } | null
 }
 
 export type TemplateListQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type TemplateListQuery = {
   __typename?: 'Query'
-  templates?: {
+  templates: {
     __typename?: 'TemplateConnection'
-    edges?: Array<{
+    pageInfo: {
+      __typename?: 'PageInfo'
+      totalCount?: number | null
+      hasNextPage?: boolean | null
+      hasPreviousPage?: boolean | null
+      endCursor?: string | null
+      startCursor?: string | null
+    }
+    edges: Array<{
       __typename?: 'TemplateEdge'
       cursor: string
-      node?: {
+      node: {
         __typename?: 'Template'
-        id?: string | null
+        id: string
+        name: string
+        updatedAt: any
         banner?: any | null
-        description?: string | null
-        fields?: Array<FormFieldKind | null> | null
-      } | null
-    } | null> | null
-  } | null
+        description: string
+        fields: Array<FormFieldKind>
+      }
+    }>
+  }
 }
 
 export const PostOauthViewerDocument = {
@@ -270,6 +288,21 @@ export const TemplateListDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -283,10 +316,39 @@ export const TemplateListDocument = {
                 name: { kind: 'Name', value: 'first' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
             ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'edges' },
@@ -301,6 +363,8 @@ export const TemplateListDocument = {
                           kind: 'SelectionSet',
                           selections: [
                             { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'fields' } },

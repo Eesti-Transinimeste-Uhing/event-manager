@@ -63,7 +63,7 @@ export const authLogin: RouteRecord = {
   path: '/auth/login',
   component: () => import('pages/auth/log-in.vue'),
   meta: {
-    auth: 'forbid',
+    auth: 'any',
     dark: false,
     label: 'Log in',
     icon: 'las la-user',

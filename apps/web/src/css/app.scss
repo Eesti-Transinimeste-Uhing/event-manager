@@ -50,6 +50,11 @@ h6,
   font-family: 'pragati-narrow', sans-serif;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .card {
   &-enter-active,
   &-leave-active {
@@ -95,5 +100,45 @@ h6,
     opacity: 0;
     transform: translateY(-1rem);
     filter: grayscale(0.4);
+  }
+}
+
+.list {
+  // &-move {
+  //   transition-duration: 0.2s;
+  //   transition-property: filter transform;
+  //   transform-origin: center center;
+  // }
+
+  &-enter-active,
+  &-leave-active {
+    transition-duration: 0.2s;
+    transition-property: filter transform opacity;
+    transform-origin: center center;
+  }
+
+  &-enter-active {
+    transition-timing-function: ease-out;
+  }
+
+  &-leave-active {
+    transition-timing-function: ease-in;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+    transform: scale(0.98);
+    filter: grayscale(0.4);
+  }
+
+  &-leave-active {
+    position: absolute;
+  }
+}
+
+@for $i from 1 through 30 {
+  .stagger:nth-child(#{$i}n) {
+    transition-delay: #{$i * 0.1}s;
   }
 }

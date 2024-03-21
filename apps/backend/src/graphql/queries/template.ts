@@ -3,7 +3,7 @@ import { templateController } from '../../server/static-context'
 import { WhereIdInput } from '../types/where-id-input'
 
 export const TemplateQuery = queryField((t) => {
-  t.field('template', {
+  t.nullable.field('template', {
     type: 'Template',
     args: {
       where: WhereIdInput.asArg(),
