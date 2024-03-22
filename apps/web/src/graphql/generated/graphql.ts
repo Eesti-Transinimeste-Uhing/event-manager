@@ -173,6 +173,8 @@ export type TemplateListQueryVariables = Exact<{
   last?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
+  filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
+  sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
 }>
 
 export type TemplateListQuery = {
@@ -189,7 +191,6 @@ export type TemplateListQuery = {
     }
     edges: Array<{
       __typename?: 'TemplateEdge'
-      cursor: string
       node: {
         __typename?: 'Template'
         id: string
@@ -303,6 +304,28 @@ export const TemplateListDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
+            },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -331,6 +354,16 @@ export const TemplateListDocument = {
                 name: { kind: 'Name', value: 'before' },
                 value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
+              },
             ],
             selectionSet: {
               kind: 'SelectionSet',
@@ -355,7 +388,6 @@ export const TemplateListDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'cursor' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'node' },

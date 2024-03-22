@@ -13,6 +13,7 @@ import { useIsServer } from 'src/hooks/is-server'
 import DateTime from 'src/components/date-time.vue'
 import TooltipButton from 'src/components/tooltip-button.vue'
 import { TemplateListQueryVariables } from 'src/graphql/generated/graphql'
+import { PaginationSortingOrder } from 'src/graphql/generated/graphql'
 
 const { isServer } = useIsServer()
 
@@ -33,23 +34,69 @@ const rowCount = computed(() => {
   return 5
 })
 
+const sortDir = ref<PaginationSortingOrder>(PaginationSortingOrder.Desc)
+
 const variables = ref<Pick<TemplateListQueryVariables, 'after' | 'before'>>({
   after: null,
   before: null,
 })
 
+const toggleSortDir = () => {
+  variables.value = {
+    after: null,
+    before: null,
+  }
+
+  sortDir.value =
+    sortDir.value === PaginationSortingOrder.Asc
+      ? PaginationSortingOrder.Desc
+      : PaginationSortingOrder.Asc
+}
+
+const filterText = ref('')
+
 const computedVariables = computed<TemplateListQueryVariables>(() => {
   return {
     first: variables.value.before ? undefined : itemsPerRow.value * rowCount.value,
     last: variables.value.before ? itemsPerRow.value * rowCount.value : undefined,
+    filter: [
+      {
+        column: 'name',
+        filter: filterText.value,
+      },
+      {
+        column: 'description',
+        filter: filterText.value,
+      },
+    ],
+    sort: [
+      {
+        order: sortDir.value,
+        sort: 'updatedAt',
+      },
+    ],
     ...variables.value,
   }
 })
 
 const { error, refetch, result, loading } = useQuery(
   graphql(`
-    query TemplateList($first: Int, $last: Int, $after: String, $before: String) {
-      templates(first: $first, last: $last, after: $after, before: $before) {
+    query TemplateList(
+      $first: Int
+      $last: Int
+      $after: String
+      $before: String
+      $filter: [PaginationFilter!]
+      $sort: [PaginationSorting!]
+    ) {
+      templates(
+        first: $first
+        last: $last
+        after: $after
+        before: $before
+        filter: $filter
+        sort: $sort
+      ) {
         pageInfo {
           totalCount
           hasNextPage
@@ -58,7 +105,6 @@ const { error, refetch, result, loading } = useQuery(
           startCursor
         }
         edges {
-          cursor
           node {
             id
             name
@@ -72,7 +118,7 @@ const { error, refetch, result, loading } = useQuery(
     }
   `),
   computedVariables,
-  { prefetch: false, fetchPolicy: 'no-cache' }
+  { prefetch: false, fetchPolicy: 'no-cache', debounce: 100 }
 )
 
 const q = useQuasar()
@@ -147,17 +193,29 @@ const handlePreviousPage = () => {
       {{ error }}
     </div>
 
-    <div class="col-12 column" v-else>
-      <q-banner inline-actions rounded class="text-white q-mb-md col">
-        <span v-if="result">
-          Showing {{ result.templates.edges.length }} of {{ result.templates.pageInfo.totalCount }}
-        </span>
+    <div class="col column" v-else>
+      <q-banner inline-actions rounded class="text-white q-mb-md">
+        <q-input dense borderless v-model="filterText" label="Search..." />
 
         <template v-slot:action>
           <tooltip-button
-            round
             color="secondary"
             flat
+            round
+            :icon="
+              sortDir === PaginationSortingOrder.Desc
+                ? 'las la-sort-amount-down'
+                : 'las la-sort-amount-up'
+            "
+            tooltip="Sort"
+            :loading="loading"
+            @click="toggleSortDir"
+          />
+
+          <tooltip-button
+            color="secondary"
+            flat
+            round
             icon="las la-sync"
             tooltip="Refresh"
             :loading="loading"
@@ -167,43 +225,43 @@ const handlePreviousPage = () => {
       </q-banner>
 
       <div class="results-container column col" v-if="result">
-        <q-scroll-area style="height: 1000px; width: 100%">
-          <div class="row q-col-gutter-md">
-            <transition-group name="list">
-              <div :class="colClass" v-for="edge of result.templates.edges" :key="edge.cursor">
-                <router-link :to="createEditPath(edge.node.id)">
-                  <q-card v-ripple flat>
-                    <q-img
-                      :src="
-                        edge.node.banner || `https://picsum.photos/seed/${edge.node.id}/360/203.jpg`
-                      "
-                      :placeholder-src="backgroundXSBL"
-                      height="150px"
-                      fit="cover"
-                    >
-                      <div class="absolute-bottom text-h6">
-                        {{ edge.node.name || 'Unnamed template' }}
-                      </div>
-                    </q-img>
+        <div class="row q-col-gutter-md">
+          <transition-group name="list">
+            <div :class="colClass" v-for="edge of result.templates.edges" :key="edge.node.id">
+              <router-link :to="createEditPath(edge.node.id)">
+                <q-card v-ripple flat>
+                  <q-img
+                    :src="
+                      edge.node.banner || `https://picsum.photos/seed/${edge.node.id}/360/203.jpg`
+                    "
+                    :placeholder-src="backgroundXSBL"
+                    height="148px"
+                    fit="cover"
+                  >
+                    <div class="absolute-bottom text-h6">
+                      {{ edge.node.name || 'Unnamed template' }}
+                    </div>
+                  </q-img>
 
-                    <q-card-section>
-                      <q-item dense class="q-pa-none">
-                        <q-item-section>
-                          <q-item-label caption>
-                            Updated <date-time :model-value="edge.node.updatedAt" />
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-                    </q-card-section>
-                  </q-card>
-                </router-link>
-              </div>
-            </transition-group>
-          </div>
-        </q-scroll-area>
+                  <q-card-section>
+                    <q-item dense class="q-pa-none">
+                      <q-item-section>
+                        <q-item-label caption>
+                          Updated <date-time :model-value="edge.node.updatedAt" />
+                        </q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-card-section>
+                </q-card>
+              </router-link>
+            </div>
+          </transition-group>
+        </div>
       </div>
 
       <q-banner inline-actions rounded class="text-white q-mt-md">
+        <span v-if="result"> Total: {{ result.templates.pageInfo.totalCount }} </span>
+
         <template v-if="result" v-slot:action>
           <tooltip-button
             :disabled="!result.templates.pageInfo.hasPreviousPage"

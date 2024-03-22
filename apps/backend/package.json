@@ -23,7 +23,7 @@
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "0.3.20",
-    "typeorm-cursor-connection": "^0.6.0",
+    "typeorm-cursor-connection": "patch:typeorm-cursor-connection@npm%3A0.6.0#~/.yarn/patches/typeorm-cursor-connection-npm-0.6.0-322c8158d0.patch",
     "verror": "^1.10.1"
   },
   "devDependencies": {

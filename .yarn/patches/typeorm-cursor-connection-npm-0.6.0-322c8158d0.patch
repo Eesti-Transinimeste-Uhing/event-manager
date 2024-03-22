@@ -1,0 +1,27 @@
+diff --git a/lib/EntityConnection.js b/lib/EntityConnection.js
+index 98b0d50df9481a40c53e0265039e9a9f7aee2ea9..385582744ff14be36bf5f21f5a3b89e10d505b6b 100644
+--- a/lib/EntityConnection.js
++++ b/lib/EntityConnection.js
+@@ -93,7 +93,7 @@ class EntityConnection extends connection_1.Connection {
+             queryBuilder.orderBy();
+             for (let i = 0; i < sortOptions.length; i++) {
+                 const { sort, order } = sortOptions[i];
+-                queryBuilder.addOrderBy(`${sort}`, appliedOrderMap[order]);
++                queryBuilder.addOrderBy(`"${queryBuilder.alias}"."${sort}"`, appliedOrderMap[order]);
+             }
+             if (this.limit) {
+                 queryBuilder.limit(this.limit);
+@@ -139,7 +139,7 @@ class EntityConnection extends connection_1.Connection {
+                         else {
+                             equality = (order === 'ASC') ? eq[2] : eq[3];
+                         }
+-                        qb.andWhere(`${sort} ${equality} :${paramterName}`, { [paramterName]: cursorKey });
++                        qb.andWhere(`"${qb.alias}"."${sort}" ${equality} :${paramterName}`, { [paramterName]: cursorKey });
+                     }
+                 });
+                 rootQb.orWhere(subKeySetComparison);
+@@ -149,3 +149,4 @@ class EntityConnection extends connection_1.Connection {
+ }
+ exports.EntityConnection = EntityConnection;
+ //# sourceMappingURL=EntityConnection.js.map
++

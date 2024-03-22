@@ -4880,7 +4880,7 @@ __metadata:
     ts-node-dev: "npm:^2.0.0"
     tsconfig-moon: "npm:^1.3.0"
     typeorm: "npm:0.3.20"
-    typeorm-cursor-connection: "npm:^0.6.0"
+    typeorm-cursor-connection: "patch:typeorm-cursor-connection@npm%3A0.6.0#~/.yarn/patches/typeorm-cursor-connection-npm-0.6.0-322c8158d0.patch"
     typescript: "npm:^5.4.2"
     verror: "npm:^1.10.1"
   languageName: unknown
@@ -15132,7 +15132,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeorm-cursor-connection@npm:^0.6.0":
+"typeorm-cursor-connection@npm:0.6.0":
   version: 0.6.0
   resolution: "typeorm-cursor-connection@npm:0.6.0"
   dependencies:
@@ -15140,6 +15140,17 @@ __metadata:
   peerDependencies:
     typeorm: ^0.2.9
   checksum: 10c0/ade7b790addc2102ffbdea28c3442ce63479399434ca1b540b93912bd16ad13ad9ca40daf1ad40441cb6a5198679b8990f9711a18bba82bec0ebd62717bbb1d2
+  languageName: node
+  linkType: hard
+
+"typeorm-cursor-connection@patch:typeorm-cursor-connection@npm%3A0.6.0#~/.yarn/patches/typeorm-cursor-connection-npm-0.6.0-322c8158d0.patch":
+  version: 0.6.0
+  resolution: "typeorm-cursor-connection@patch:typeorm-cursor-connection@npm%3A0.6.0#~/.yarn/patches/typeorm-cursor-connection-npm-0.6.0-322c8158d0.patch::version=0.6.0&hash=40568b"
+  dependencies:
+    "@girin/connection": "npm:^0.5.2-alpha.0"
+  peerDependencies:
+    typeorm: ^0.2.9
+  checksum: 10c0/1f07315934e6974daab12ef4f47268a0584cc4f32270a659cae15f87553d6d38cc58adc6de338d1380d41842bb0da80fed54401e8e949ca75b647887247f0a32
   languageName: node
   linkType: hard
 

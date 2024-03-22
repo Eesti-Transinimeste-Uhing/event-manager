@@ -104,11 +104,11 @@ a {
 }
 
 .list {
-  // &-move {
-  //   transition-duration: 0.2s;
-  //   transition-property: filter transform;
-  //   transform-origin: center center;
-  // }
+  &-move {
+    transition-duration: 0.2s;
+    transition-property: filter transform;
+    transform-origin: center center;
+  }
 
   &-enter-active,
   &-leave-active {

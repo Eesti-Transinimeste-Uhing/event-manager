@@ -3,6 +3,7 @@ import { EntityConnection } from 'typeorm-cursor-connection'
 import { ConnectionArguments, Connection } from 'graphql-relay'
 
 import { NexusGenInputs } from '../graphql/generated/typegen'
+import { addColumnFilter } from './entity-search'
 
 export const paginate = <Entity extends ObjectLiteral>(
   args: ConnectionArguments & {
@@ -11,7 +12,15 @@ export const paginate = <Entity extends ObjectLiteral>(
   },
   qb: SelectQueryBuilder<Entity>
 ): Connection<Entity> => {
-  const { sort = [], after, before, first, last, filter } = args
+  const { sort = [], after, before, first, last, filter = [] } = args
+
+  if (filter) {
+    filter
+      .filter((item) => item.column && item.filter)
+      .forEach((item) => {
+        addColumnFilter(qb, item.column, item.filter, 'DESC')
+      })
+  }
 
   // Sorting preference goes from the beginning of the array, push 'id' to the
   // end, so that when users aren't sorting, we still have a way to get the
