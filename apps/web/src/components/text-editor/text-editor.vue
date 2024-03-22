@@ -1,49 +1,3 @@
-<template>
-  <q-card flat bordered>
-    <q-no-ssr>
-      <editor-toolbar
-        key="real"
-        @bold="editor?.chain().focus().toggleBold().run()"
-        @italic="editor?.chain().focus().toggleItalic().run()"
-        @underline="editor?.chain().focus().toggleUnderline().run()"
-        @undo="editor?.chain().focus().undo().run()"
-        @redo="editor?.chain().focus().redo().run()"
-        :can-undo="editor?.can().undo() ?? false"
-        :can-redo="editor?.can().redo() ?? false"
-      />
-
-      <q-separator />
-
-      <editor-content :editor="editor" class="editor" />
-
-      <template v-slot:placeholder>
-        <q-card flat>
-          <q-skeleton type="QBtn" style="width: 100%" />
-        </q-card>
-
-        <q-separator />
-
-        <div class="editor">
-          <div class="tiptap"></div>
-        </div>
-      </template>
-    </q-no-ssr>
-  </q-card>
-</template>
-
-<style lang="scss" scoped>
-:deep(.tiptap),
-.tiptap {
-  min-height: 2rem;
-  height: 100%;
-  padding: 1rem;
-}
-
-:deep(.ProseMirror-focused) {
-  outline: none;
-}
-</style>
-
 <script lang="ts" setup>
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import { onBeforeUnmount, watch } from 'vue'
@@ -119,3 +73,55 @@ onBeforeUnmount(() => {
   editor.value?.destroy()
 })
 </script>
+
+<style lang="scss" scoped>
+:deep(.tiptap),
+.tiptap {
+  min-height: 15rem;
+  height: 100%;
+  padding: 1rem;
+}
+
+:deep(.ProseMirror-focused) {
+  outline: none;
+}
+
+.editor-content {
+  height: 15rem;
+}
+</style>
+
+<template>
+  <q-card flat bordered>
+    <q-no-ssr>
+      <editor-toolbar
+        key="real"
+        @bold="editor?.chain().focus().toggleBold().run()"
+        @italic="editor?.chain().focus().toggleItalic().run()"
+        @underline="editor?.chain().focus().toggleUnderline().run()"
+        @undo="editor?.chain().focus().undo().run()"
+        @redo="editor?.chain().focus().redo().run()"
+        :can-undo="editor?.can().undo() ?? false"
+        :can-redo="editor?.can().redo() ?? false"
+      />
+
+      <q-separator />
+
+      <q-scroll-area class="editor-content">
+        <editor-content :editor="editor" />
+      </q-scroll-area>
+
+      <template v-slot:placeholder>
+        <q-card flat>
+          <q-skeleton type="QBtn" style="width: 100%" />
+        </q-card>
+
+        <q-separator />
+
+        <div class="editor">
+          <div class="tiptap"></div>
+        </div>
+      </template>
+    </q-no-ssr>
+  </q-card>
+</template>

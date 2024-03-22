@@ -139,6 +139,6 @@ a {
 
 @for $i from 1 through 30 {
   .stagger:nth-child(#{$i}n) {
-    transition-delay: #{$i * 0.1}s;
+    transition-delay: #{$i * 0.02}s;
   }
 }

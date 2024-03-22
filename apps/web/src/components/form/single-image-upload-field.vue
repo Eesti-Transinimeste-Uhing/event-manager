@@ -33,7 +33,7 @@ const { preview } = useFilePreview(reactivePreviewFile)
 </script>
 
 <template>
-  <q-card flat bordered class="q-pl-md flex justify-between">
+  <div class="q-pl-md flex justify-between">
     <q-file
       class="col"
       :model-value="props.modelValue"
@@ -69,5 +69,5 @@ const { preview } = useFilePreview(reactivePreviewFile)
       tooltip="Clear"
       @click="emit('update:model-value', null)"
     />
-  </q-card>
+  </div>
 </template>

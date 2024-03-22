@@ -165,7 +165,14 @@ export type EditTemplateQueryVariables = Exact<{
 
 export type EditTemplateQuery = {
   __typename?: 'Query'
-  template?: { __typename?: 'Template'; id: string } | null
+  template?: {
+    __typename?: 'Template'
+    id: string
+    name: string
+    banner?: any | null
+    description: string
+    fields: Array<FormFieldKind>
+  } | null
 }
 
 export type TemplateListQueryVariables = Exact<{
@@ -268,7 +275,13 @@ export const EditTemplateDocument = {
             ],
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'fields' } },
+              ],
             },
           },
         ],
