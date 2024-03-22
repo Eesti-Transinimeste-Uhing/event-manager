@@ -8,5 +8,8 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "[svg]": {
     "editor.defaultFormatter": "jock.svg"
+  },
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
   }
 }

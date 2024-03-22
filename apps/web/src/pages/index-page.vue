@@ -1,16 +1,19 @@
 <script lang="ts" setup>
-import TextEditor from 'components/form/text-editor/text-editor-field.vue'
-import FileUploadField from 'components/form/single-image-upload-field.vue'
-
+import DndList from 'components/dnd-list/dnd-list.vue'
+import { FormFieldKind } from 'src/graphql/generated/graphql'
 import { ref } from 'vue'
 
-const content = ref('Hi!')
-const image = ref(null)
+const options = Object.values(FormFieldKind).map((value, index) => ({
+  value,
+  index,
+  label: FormFieldKind[value],
+}))
+
+const fields = ref([])
 </script>
 
 <template>
   <div class="column">
-    <text-editor v-model="content" />
-    <file-upload-field v-model="image" />
+    <dnd-list v-model="fields" :options="options" />
   </div>
 </template>
