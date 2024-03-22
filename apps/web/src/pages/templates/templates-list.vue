@@ -118,7 +118,7 @@ const { error, refetch, result, loading } = useQuery(
     }
   `),
   computedVariables,
-  { prefetch: false, fetchPolicy: 'no-cache', debounce: 100 }
+  { prefetch: false, fetchPolicy: 'no-cache' }
 )
 
 const q = useQuasar()
@@ -152,6 +152,15 @@ const handlePreviousPage = () => {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.template-name {
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.6);
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+</style>
 
 <template>
   <transition name="card" mode="out-in">
@@ -194,8 +203,8 @@ const handlePreviousPage = () => {
     </div>
 
     <div class="col column" v-else>
-      <q-banner inline-actions rounded class="text-white q-mb-md">
-        <q-input dense borderless v-model="filterText" label="Search..." />
+      <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">
+        <q-input borderless :debounce="300" v-model="filterText" label="Search..." />
 
         <template v-slot:action>
           <tooltip-button
@@ -235,23 +244,16 @@ const handlePreviousPage = () => {
                       edge.node.banner || `https://picsum.photos/seed/${edge.node.id}/360/203.jpg`
                     "
                     :placeholder-src="backgroundXSBL"
-                    height="148px"
+                    height="212px"
                     fit="cover"
                   >
-                    <div class="absolute-bottom text-h6">
-                      {{ edge.node.name || 'Unnamed template' }}
+                    <div class="absolute-bottom template-name row items-center justify-between">
+                      <span class="text-h6">{{ edge.node.name || 'Unnamed template' }}</span>
+                      <span class="text-subtitle2">
+                        <date-time :model-value="edge.node.updatedAt" />
+                      </span>
                     </div>
                   </q-img>
-
-                  <q-card-section>
-                    <q-item dense class="q-pa-none">
-                      <q-item-section>
-                        <q-item-label caption>
-                          Updated <date-time :model-value="edge.node.updatedAt" />
-                        </q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-card-section>
                 </q-card>
               </router-link>
             </div>
