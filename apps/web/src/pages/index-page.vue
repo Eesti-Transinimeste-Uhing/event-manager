@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import DndList from 'components/dnd-list/dnd-list.vue'
-import { FormFieldKind } from 'src/graphql/generated/graphql'
+import NameField from 'components/form/name-field.vue'
+import AgeField from 'components/form/age-field.vue'
 import { ref } from 'vue'
 
-const options = Object.values(FormFieldKind).map((value, index) => ({
-  value,
-  index,
-  label: FormFieldKind[value],
-}))
-
-const fields = ref([])
+const name = ref('Brooke')
+const age = ref(25)
 </script>
 
 <template>
-  <div class="row justify-between overflow-hidden">
+  <div>
+    <name-field v-model="name" />
+    <age-field v-model="age" />
+  </div>
+
+  <!-- <div class="row justify-between overflow-hidden">
     <dnd-list v-model="fields" :options="options" :target-props="{ class: 'col' }">
       <template #source-item="{ element, ...props }">
         <q-item v-bind="props" flat class="q-ma-sm">
@@ -27,5 +27,5 @@ const fields = ref([])
         </q-item>
       </template>
     </dnd-list>
-  </div>
+  </div> -->
 </template>
