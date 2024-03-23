@@ -13,7 +13,21 @@ const fields = ref([])
 </script>
 
 <template>
-  <div class="column">
-    <dnd-list v-model="fields" :options="options" />
+  <div class="row justify-between">
+    <q-list>
+      <dnd-list v-model="fields" :options="options">
+        <template #source-item="item">
+          <q-item flat class="q-ma-sm">
+            {{ item.value }}
+          </q-item>
+        </template>
+
+        <template #target-item="item">
+          <q-item flat class="q-ma-sm">
+            {{ item.value }}
+          </q-item>
+        </template>
+      </dnd-list>
+    </q-list>
   </div>
 </template>
