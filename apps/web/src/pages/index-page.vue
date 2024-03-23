@@ -13,21 +13,19 @@ const fields = ref([])
 </script>
 
 <template>
-  <div class="row justify-between">
-    <q-list>
-      <dnd-list v-model="fields" :options="options">
-        <template #source-item="item">
-          <q-item flat class="q-ma-sm">
-            {{ item.value }}
-          </q-item>
-        </template>
+  <div class="row justify-between overflow-hidden">
+    <dnd-list v-model="fields" :options="options" :target-props="{ class: 'col' }">
+      <template #source-item="{ element, ...props }">
+        <q-item v-bind="props" flat class="q-ma-sm">
+          {{ element.value }}
+        </q-item>
+      </template>
 
-        <template #target-item="item">
-          <q-item flat class="q-ma-sm">
-            {{ item.value }}
-          </q-item>
-        </template>
-      </dnd-list>
-    </q-list>
+      <template #target-item="{ element, ...props }">
+        <q-item v-bind="props" flat class="q-ma-sm">
+          {{ element.value }}
+        </q-item>
+      </template>
+    </dnd-list>
   </div>
 </template>

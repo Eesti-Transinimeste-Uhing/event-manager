@@ -9,6 +9,8 @@ type Option = {
 const props = defineProps<{
   modelValue: unknown[]
   options: Option[]
+  sourceProps?: object
+  targetProps?: object
 }>()
 
 const emit = defineEmits<{
@@ -27,16 +29,16 @@ const pullFunction = () => {
     group="a"
     item-key="value"
     :animation="150"
-    :component-data="{
-      class: 'fit',
-    }"
+    :component-data="props.targetProps"
   >
-    <template #item="{ element }">
-      <slot name="target-item" v-bind="element">
-        <div>{{ element }}</div>
-      </slot>
+    <template #item="slotProps">
+      <div class="target-item">
+        <slot name="target-item" v-bind="slotProps" />
+      </div>
     </template>
   </vue-draggable>
+
+  <slot name="separator" />
 
   <vue-draggable
     :model-value="props.options"
@@ -44,11 +46,12 @@ const pullFunction = () => {
     :animation="150"
     :group="{ name: 'a', pull: pullFunction }"
     :sort="false"
+    :component-data="props.sourceProps"
   >
-    <template #item="{ element }">
-      <slot name="source-item" v-bind="element">
-        <div>{{ element }}</div>
-      </slot>
+    <template #item="slotProps">
+      <div class="source-item">
+        <slot name="source-item" v-bind="slotProps" />
+      </div>
     </template>
   </vue-draggable>
 </template>
