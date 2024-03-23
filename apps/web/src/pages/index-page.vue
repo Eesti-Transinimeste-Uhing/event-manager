@@ -1,16 +1,20 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
+
 import NameField from 'components/form/name-field.vue'
 import AgeField from 'components/form/age-field.vue'
-import { ref } from 'vue'
+import GenderField from 'components/form/gender-field.vue'
 
 const name = ref('Brooke')
 const age = ref(25)
+const gender = ref('')
 </script>
 
 <template>
   <div>
     <name-field v-model="name" />
     <age-field v-model="age" />
+    <gender-field v-model="gender" />
   </div>
 
   <!-- <div class="row justify-between overflow-hidden">

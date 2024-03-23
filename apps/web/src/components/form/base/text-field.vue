@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import TextField from './base/text-field.vue'
-
 const props = defineProps<{
   modelValue: string
 }>()
@@ -11,10 +9,10 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <text-field
+  <q-input
     v-bind="$attrs"
-    label="Name"
+    borderless
     :model-value="props.modelValue"
     @update:model-value="(v) => emit('update:model-value', String(v))"
-  ></text-field>
+  ></q-input>
 </template>
