@@ -14,7 +14,7 @@ const gender = ref('')
   <div>
     <name-field v-model="name" />
     <age-field v-model="age" />
-    <gender-field v-model="gender" />
+    <gender-field v-model="gender" allow-other random-order />
   </div>
 
   <!-- <div class="row justify-between overflow-hidden">

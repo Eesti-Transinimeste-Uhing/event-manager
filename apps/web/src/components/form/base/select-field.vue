@@ -1,54 +1,114 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 
-import TextField from './text-field.vue'
-
-export type Option = {
-  label: string
-  value: string
-}
+export type Option =
+  | string
+  | {
+      label: string
+      value: string
+    }
 
 const props = defineProps<{
   modelValue: string
   options: Option[]
-  hasOther?: boolean
+  allowOther?: boolean
+  randomOrder?: boolean
 }>()
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: string): void
 }>()
 
+const appendOther = (options: Option[]): Option[] => {
+  if (!props.allowOther) {
+    return options
+  }
+
+  const otherOption =
+    typeof props.options[0] === 'string' ? 'Other' : { label: 'Other', value: 'other' }
+
+  return [...options, otherOption]
+}
+
 const options = computed(() => {
-  return props.hasOther ? [...props.options, { label: 'Other', value: 'other' }] : props.options
+  if (!props.randomOrder) {
+    return appendOther(props.options)
+  }
+
+  return appendOther(
+    [...props.options].sort(() => {
+      return Math.random() - 0.5
+    })
+  )
 })
 
-const otherValue = ref('')
+const touched = ref(false)
+
+const isOther = computed(() => {
+  if (!props.allowOther) {
+    return false
+  }
+
+  const isUnrecognised = !props.options.some((option) => {
+    if (typeof option === 'string') {
+      return option === props.modelValue
+    }
+
+    return option.value === props.modelValue
+  })
+
+  if (isUnrecognised && touched.value) {
+    return true
+  }
+
+  if (isUnrecognised && props.modelValue) {
+    return true
+  }
+
+  return false
+})
+
+const handleInput = (v: Option) => {
+  if (!touched.value) touched.value = true
+
+  const value = typeof v === 'string' ? v : v.value
+
+  if (value === 'other') {
+    emit('update:model-value', '')
+    return
+  }
+
+  emit('update:model-value', value)
+}
+
+const handleClear = () => {
+  const firstOption = props.options[0]
+
+  emit('update:model-value', typeof firstOption === 'string' ? firstOption : firstOption.value)
+}
 </script>
 
 <template>
   <q-select
+    v-if="!allowOther || !isOther"
     v-bind="$attrs"
     :model-value="props.modelValue"
     :options="options"
     borderless
     dropdown-icon="las la-caret-down"
     map-options
-    @update:model-value="(v) => emit('update:model-value', v.value)"
-  >
-    <template #option="{ opt, itemProps }">
-      <q-item
-        v-bind="itemProps"
-        v-if="opt.value === 'other' && props.modelValue === 'other'"
-        @click.stop.prevent="emit('update:model-value', 'other')"
-      >
-        <text-field v-model="otherValue" label="Custom gender" />
-      </q-item>
+    @update:model-value="(v) => handleInput(v)"
+  ></q-select>
 
-      <q-item v-else v-bind="itemProps" @click.stop.prevent="emit('update:model-value', opt.value)">
-        <q-item-section>
-          {{ opt.label }}
-        </q-item-section>
-      </q-item>
-    </template>
-  </q-select>
+  <q-input
+    v-else
+    v-bind="$attrs"
+    borderless
+    :model-value="props.modelValue"
+    label="Gender"
+    @update:model-value="(v) => v && handleInput(String(v))"
+    clearable
+    clear-icon="las la-times"
+    @clear="handleClear"
+  ></q-input>
 </template>
