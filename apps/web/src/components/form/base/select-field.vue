@@ -100,6 +100,7 @@ const handleClear = () => {
     @update:model-value="(v) => handleInput(v)"
     clear-icon="las la-times"
     no-error-icon
+    hide-bottom-space
   ></q-select>
 
   <q-input
@@ -113,5 +114,6 @@ const handleClear = () => {
     @clear="handleClear"
     clear-icon="las la-times"
     no-error-icon
+    hide-bottom-space
   ></q-input>
 </template>

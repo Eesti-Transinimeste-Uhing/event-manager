@@ -22,6 +22,13 @@ const pullFunction = () => {
 }
 </script>
 
+<style lang="scss" scoped>
+.source-item,
+.target-item {
+  cursor: grab;
+}
+</style>
+
 <template>
   <vue-draggable
     :model-value="props.modelValue"

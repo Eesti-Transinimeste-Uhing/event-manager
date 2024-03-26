@@ -16,5 +16,6 @@ const emit = defineEmits<{
     @update:model-value="(v) => emit('update:model-value', String(v))"
     clear-icon="las la-times"
     no-error-icon
+    hide-bottom-space
   ></q-input>
 </template>

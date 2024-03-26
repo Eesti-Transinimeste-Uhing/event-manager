@@ -35,6 +35,7 @@ const handleDecrement = () => {
     @update:model-value="handleInput"
     clear-icon="las la-times"
     no-error-icon
+    hide-bottom-space
   >
     <template v-slot:append>
       <q-btn-group flat class="rotate-90">
