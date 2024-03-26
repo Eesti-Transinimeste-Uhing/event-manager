@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ValidationRule } from 'quasar'
 import IntegerField from './base/integer-field.vue'
 
 const props = defineProps<{
@@ -12,6 +13,8 @@ const emit = defineEmits<{
 const handleInput = (v: number) => {
   emit('update:model-value', v)
 }
+
+const rules: ValidationRule[] = [(val) => (val > 0 && val < 100) || 'Must be between 0 and 100']
 </script>
 
 <template>
@@ -20,5 +23,6 @@ const handleInput = (v: number) => {
     label="Age"
     :model-value="props.modelValue"
     @update:model-value="handleInput"
+    :rules="rules"
   />
 </template>

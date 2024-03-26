@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import { ValidationRule } from 'quasar'
+
+import TextField from './base/text-field.vue'
+
 const props = defineProps<{
   modelValue: string
 }>()
@@ -6,15 +10,18 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'update:model-value', value: string): void
 }>()
+
+const rules: ValidationRule[] = [
+  (val, rules) => rules.email(val) || 'Please enter a valid email address',
+]
 </script>
 
 <template>
-  <q-input
+  <text-field
     v-bind="$attrs"
-    borderless
+    label="E-mail address"
     :model-value="props.modelValue"
     @update:model-value="(v) => emit('update:model-value', String(v))"
-    clear-icon="las la-times"
-    no-error-icon
-  ></q-input>
+    :rules="rules"
+  ></text-field>
 </template>

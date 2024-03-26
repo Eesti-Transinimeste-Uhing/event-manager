@@ -33,6 +33,8 @@ const handleDecrement = () => {
     v-bind="$attrs"
     :model-value="props.modelValue"
     @update:model-value="handleInput"
+    clear-icon="las la-times"
+    no-error-icon
   >
     <template v-slot:append>
       <q-btn-group flat class="rotate-90">

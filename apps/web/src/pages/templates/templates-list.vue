@@ -31,7 +31,7 @@ const itemsPerRow = computed(() => {
 const rowCount = computed(() => {
   if (isServer.value) return 4
 
-  return 5
+  return Math.floor((q.screen.height - 200) / 212)
 })
 
 const sortDir = ref<PaginationSortingOrder>(PaginationSortingOrder.Desc)

@@ -98,6 +98,8 @@ const handleClear = () => {
     dropdown-icon="las la-caret-down"
     map-options
     @update:model-value="(v) => handleInput(v)"
+    clear-icon="las la-times"
+    no-error-icon
   ></q-select>
 
   <q-input
@@ -108,7 +110,8 @@ const handleClear = () => {
     label="Gender"
     @update:model-value="(v) => v && handleInput(String(v))"
     clearable
-    clear-icon="las la-times"
     @clear="handleClear"
+    clear-icon="las la-times"
+    no-error-icon
   ></q-input>
 </template>
