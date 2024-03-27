@@ -1,3 +1,4 @@
+import { config } from 'src/config'
 import { RouteRecordRaw } from 'vue-router'
 
 export type RouteRecord = RouteRecordRaw & {
@@ -45,11 +46,30 @@ export const editTemplate: RouteRecord = {
   },
 }
 
+export const prototyping: RouteRecord = {
+  name: 'dev-prototyping',
+  path: '/dev-prototyping',
+  component: () => import('pages/dev-prototyping.vue'),
+  children: [],
+  meta: {
+    auth: 'any',
+    dark: true,
+    label: 'Prototyping',
+    icon: 'las la-code',
+  },
+}
+
+const indexRoutes: RouteRecord[] = [indexDashboard, templates, editTemplate]
+
+if (config.node.env === 'development') {
+  indexRoutes.push(prototyping)
+}
+
 export const index: RouteRecord = {
   name: 'index',
   path: '/',
   component: () => import('layouts/app-dashboard.vue'),
-  children: [indexDashboard, templates, editTemplate],
+  children: indexRoutes,
   meta: {
     auth: 'require',
     dark: true,
