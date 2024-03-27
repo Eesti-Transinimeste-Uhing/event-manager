@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { useQuery } from '@vue/apollo-composable'
-import { computed, ref } from 'vue'
+import { useMutation, useQuery } from '@vue/apollo-composable'
+import { Ref, computed, ref } from 'vue'
+import VueDraggable from 'vuedraggable'
 
 import { useRouteParam } from 'src/lib/use-route-param'
 import { graphql } from 'src/graphql/generated'
@@ -9,10 +10,11 @@ import backgroundXSBL from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM
 
 import TextEditor from 'src/components/text-editor/text-editor.vue'
 import SingleImageUploadField from 'src/components/form/single-image-upload-field.vue'
-import DndList from 'src/components/dnd-list/dnd-list.vue'
+// import DndList from 'src/components/dnd-list/dnd-list.vue'
+import FormField from 'src/components/form/form-field.vue'
+import DragHint from 'src/components/drag-hint.vue'
 
 import { FormFieldKind } from 'src/graphql/generated/graphql'
-import FormField from 'src/components/form/form-field.vue'
 
 const id = useRouteParam('id')
 
@@ -32,35 +34,91 @@ const query = useQuery(
   { prefetch: false }
 )
 
-// const mutation = useMutation(
-//   graphql(`
-//     mutation UpdateTemplate($where: UpdateTemplateWhereInput!, $data: UpdateTemplateDataInput!) {
-//       updateTemplate(where: $where, data: $data) {
-//         id
-//         name
-//         banner
-//         description
-//         fields
-//       }
-//     }
-//   `),
-//   {}
-// )
+const updateTemplate = useMutation(
+  graphql(`
+    mutation UpdateTemplate($where: UpdateTemplateWhereInput!, $data: UpdateTemplateDataInput!) {
+      updateTemplate(where: $where, data: $data) {
+        id
+        name
+        banner
+        description
+        fields
+      }
+    }
+  `)
+)
+
+const handleSave = async () => {
+  await updateTemplate.mutate({
+    where: {
+      id,
+    },
+    data: {
+      name: name.value,
+      description: description.value,
+      fields: fields.value.map((field) => field.value),
+    },
+  })
+}
 
 const template = computed(() => {
   return query.result.value?.template
 })
 
+const formFieldKinds: Ref<Array<{ value: FormFieldKind }>> = ref(
+  Object.values(FormFieldKind).map((kind) => ({ value: kind }))
+)
+
+const name = ref('')
+const description = ref('')
+const fields: Ref<Array<{ value: FormFieldKind }>> = ref([])
+
+query.onResult((result) => {
+  const template = result.data.template
+
+  if (!template) {
+    return
+  }
+
+  name.value = template.name
+  description.value = template.description
+  fields.value = template.fields.map((field) => ({ value: field }))
+  formFieldKinds.value = formFieldKinds.value.filter((kind) => {
+    return !fields.value.some((existingKind) => existingKind.value === kind.value)
+  })
+})
+
 const image = ref(null)
 
-const dndOptions = Object.values(FormFieldKind).map((option) => ({
-  value: option,
-  label: option,
-}))
+const draggingLeft = ref(false)
+const draggingRight = ref(false)
 </script>
+
+<style lang="scss" scoped>
+.source-item,
+.target-item {
+  :deep(.q-field__inner) {
+    cursor: grab;
+  }
+
+  cursor: grab;
+}
+</style>
 
 <template>
   <q-card flat>
+    <q-card-actions align="right">
+      <q-btn
+        flat
+        label="save"
+        color="primary"
+        :loading="updateTemplate.loading.value"
+        @click="handleSave"
+      />
+    </q-card-actions>
+
+    <q-separator />
+
     <q-card-section>
       <div v-if="query.loading && !template">
         <q-skeleton type="QInput" />
@@ -79,31 +137,51 @@ const dndOptions = Object.values(FormFieldKind).map((option) => ({
         </q-card>
 
         <q-card flat bordered class="q-mb-md">
-          <q-input borderless :model-value="template.name" label="Name" class="q-px-md" />
+          <q-input borderless v-model="name" label="Name" class="q-px-md" />
         </q-card>
 
-        <text-editor :model-value="template.description" class="q-mb-md" />
-
-        <code> Fields: {{ template.fields.join(', ') }} </code>
+        <text-editor v-model="description" class="q-mb-md" />
 
         <q-card flat class="row justify-between overflow-hidden">
-          <dnd-list
-            :model-value="template.fields"
-            :options="dndOptions"
-            :target-props="{ class: 'col' }"
-          >
-            <template #source-item="{ element }">
-              <q-card flat class="q-pa-sm q-ma-sm col">
-                <form-field :kind="element.value" disable />
-              </q-card>
-            </template>
+          <drag-hint :running="draggingLeft" side="right" class="col-8">
+            <vue-draggable
+              v-model="fields"
+              group="a"
+              item-key="value"
+              :animation="150"
+              :component-data="{ class: 'col fit' }"
+              @start="draggingRight = true"
+              @end="draggingRight = false"
+            >
+              <template #item="{ element }">
+                <div class="target-item">
+                  <q-card flat bordered class="q-px-md q-mb-sm">
+                    <form-field :kind="element.value" disable />
+                  </q-card>
+                </div>
+              </template>
+            </vue-draggable>
+          </drag-hint>
 
-            <template #target-item="{ element }">
-              <q-card flat class="q-pa-sm q-ma-sm col">
-                <form-field :kind="element.value" disable />
-              </q-card>
-            </template>
-          </dnd-list>
+          <drag-hint :running="draggingRight" side="left" class="col-4">
+            <vue-draggable
+              v-model="formFieldKinds"
+              item-key="value"
+              :animation="150"
+              group="a"
+              :sort="false"
+              @start="draggingLeft = true"
+              @end="draggingLeft = false"
+            >
+              <template #item="{ element }">
+                <div class="source-item col-4">
+                  <q-card flat bordered class="q-px-md q-mb-sm">
+                    <form-field :kind="element.value" disable />
+                  </q-card>
+                </div>
+              </template>
+            </vue-draggable>
+          </drag-hint>
         </q-card>
       </q-form>
     </q-card-section>

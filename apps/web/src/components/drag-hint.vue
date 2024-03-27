@@ -26,7 +26,7 @@ const animationIcon = computed(() => {
 </script>
 
 <template>
-  <div class="drag-hint fit" :class="{ open: props.running }">
+  <div class="drag-hint" :class="{ open: props.running, [props.side]: true }">
     <div class="wrapper fit row justify-center items-center">
       <div class="arrow-animation fit" :class="{ running: props.running, [props.side]: true }">
         <q-icon class="icon" :name="animationIcon" size="lg" />
@@ -143,9 +143,35 @@ $animation-duration: 2s;
       border: $outline-radius $marker-on-dark dashed;
     }
 
-    > .wrapper {
-      > .content {
-        margin-right: 38px;
+    &.left {
+      > .wrapper {
+        > .content {
+          margin-left: 38px;
+        }
+      }
+    }
+
+    &.right {
+      > .wrapper {
+        > .content {
+          margin-right: 38px;
+        }
+      }
+    }
+
+    &.top {
+      > .wrapper {
+        > .content {
+          margin-top: 38px;
+        }
+      }
+    }
+
+    &.bottom {
+      > .wrapper {
+        > .content {
+          margin-bottom: 38px;
+        }
       }
     }
   }

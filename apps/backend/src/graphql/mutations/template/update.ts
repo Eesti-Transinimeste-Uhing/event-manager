@@ -11,6 +11,7 @@ const UpdateTemplateWhereInput = inputObjectType({
 const UpdateTemplateDataInput = inputObjectType({
   name: 'UpdateTemplateDataInput',
   definition(t) {
+    t.string('name')
     t.string('description')
     t.list.field('fields', {
       type: 'FormFieldKind',
@@ -19,7 +20,7 @@ const UpdateTemplateDataInput = inputObjectType({
 })
 
 export const UpdateTemplate = mutationField((t) => {
-  t.field('updateTemplate', {
+  t.nullable.field('updateTemplate', {
     type: 'Template',
     args: {
       where: UpdateTemplateWhereInput.asArg(),

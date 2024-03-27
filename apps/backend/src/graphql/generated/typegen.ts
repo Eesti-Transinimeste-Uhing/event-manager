@@ -76,6 +76,7 @@ export interface NexusGenInputs {
     // input type
     description: string // String!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
+    name: string // String!
   }
   UpdateTemplateWhereInput: {
     // input type
@@ -148,7 +149,7 @@ export interface NexusGenFieldTypes {
     // field return type
     createTemplate: NexusGenRootTypes['Template'] // Template!
     submitForm: boolean // Boolean!
-    updateTemplate: NexusGenRootTypes['Template'] // Template!
+    updateTemplate: NexusGenRootTypes['Template'] | null // Template
   }
   PageInfo: {
     // field return type

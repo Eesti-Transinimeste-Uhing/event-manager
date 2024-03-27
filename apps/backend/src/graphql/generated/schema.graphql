@@ -21,7 +21,7 @@ enum FormFieldKind {
 type Mutation {
   createTemplate: Template!
   submitForm(input: SubmitFormInput!): Boolean!
-  updateTemplate(data: UpdateTemplateDataInput!, where: UpdateTemplateWhereInput!): Template!
+  updateTemplate(data: UpdateTemplateDataInput!, where: UpdateTemplateWhereInput!): Template
 }
 
 """
@@ -143,6 +143,7 @@ scalar URL
 input UpdateTemplateDataInput {
   description: String!
   fields: [FormFieldKind!]!
+  name: String!
 }
 
 input UpdateTemplateWhereInput {

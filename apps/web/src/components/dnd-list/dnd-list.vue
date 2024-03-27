@@ -15,6 +15,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: unknown[]): void
+  (event: 'drag:source'): void
+  (event: 'drag:target'): void
+  (event: 'drop:source'): void
+  (event: 'drop:target'): void
 }>()
 
 const pullFunction = () => {
@@ -37,6 +41,8 @@ const pullFunction = () => {
     item-key="value"
     :animation="150"
     :component-data="props.targetProps"
+    @start="emit('drag:target')"
+    @end="emit('drop:target')"
   >
     <template #item="slotProps">
       <div class="target-item">
@@ -54,6 +60,8 @@ const pullFunction = () => {
     :group="{ name: 'a', pull: pullFunction }"
     :sort="false"
     :component-data="props.sourceProps"
+    @start="emit('drag:source')"
+    @end="emit('drop:source')"
   >
     <template #item="slotProps">
       <div class="source-item">
