@@ -2,7 +2,7 @@
 import TextField from './base/text-field.vue'
 
 const props = defineProps<{
-  modelValue: string
+  modelValue?: string
 }>()
 
 const emit = defineEmits<{
@@ -14,7 +14,7 @@ const emit = defineEmits<{
   <text-field
     v-bind="$attrs"
     label="Name"
-    :model-value="props.modelValue"
+    :model-value="props.modelValue || ''"
     @update:model-value="(v) => emit('update:model-value', String(v))"
   ></text-field>
 </template>

@@ -2,7 +2,7 @@
 import SelectField, { Option } from './base/select-field.vue'
 
 const props = defineProps<{
-  modelValue: string
+  modelValue?: string
 }>()
 
 const emit = defineEmits<{
@@ -30,7 +30,7 @@ const options: Option[] = [
     v-bind="$attrs"
     label="Gender"
     :options="options"
-    :model-value="props.modelValue"
+    :model-value="props.modelValue || ''"
     has-other
     @update:model-value="(v) => emit('update:model-value', v)"
   ></select-field>

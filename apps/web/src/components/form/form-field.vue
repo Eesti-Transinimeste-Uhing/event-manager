@@ -7,6 +7,7 @@ import AgeField from './age-field.vue'
 import EmailField from './email-field.vue'
 import GenderField from './gender-field.vue'
 import NameField from './name-field.vue'
+import ConfirmEventField from './confirm-event-field.vue'
 
 const props = defineProps<{
   kind: FormFieldKind
@@ -29,6 +30,10 @@ switch (props.kind) {
 
   case FormFieldKind.PreferredName:
     fieldComponent = NameField
+    break
+
+  case FormFieldKind.ConfirmEvent:
+    fieldComponent = ConfirmEventField
     break
 
   default:

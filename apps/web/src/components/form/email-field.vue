@@ -4,7 +4,7 @@ import { ValidationRule } from 'quasar'
 import TextField from './base/text-field.vue'
 
 const props = defineProps<{
-  modelValue: string
+  modelValue?: string
 }>()
 
 const emit = defineEmits<{
@@ -20,7 +20,7 @@ const rules: ValidationRule[] = [
   <text-field
     v-bind="$attrs"
     label="E-mail address"
-    :model-value="props.modelValue"
+    :model-value="props.modelValue || ''"
     @update:model-value="(v) => emit('update:model-value', String(v))"
     :rules="rules"
   ></text-field>

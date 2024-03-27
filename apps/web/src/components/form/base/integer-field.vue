@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const props = defineProps<{
-  modelValue: number
+  modelValue: number | null
 }>()
 
 const emit = defineEmits<{
@@ -19,11 +19,11 @@ const handleInput = (v: string | number | null) => {
 }
 
 const handleIncrement = () => {
-  emit('update:model-value', props.modelValue + 1)
+  emit('update:model-value', (props.modelValue ?? 0) + 1)
 }
 
 const handleDecrement = () => {
-  emit('update:model-value', props.modelValue - 1)
+  emit('update:model-value', (props.modelValue ?? 0) - 1)
 }
 </script>
 

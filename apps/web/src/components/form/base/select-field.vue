@@ -9,7 +9,7 @@ export type Option =
     }
 
 const props = defineProps<{
-  modelValue: string
+  modelValue: string | null
   options: Option[]
   allowOther?: boolean
   randomOrder?: boolean

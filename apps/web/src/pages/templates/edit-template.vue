@@ -65,9 +65,7 @@ const template = computed(() => {
   return query.result.value?.template
 })
 
-const formFieldKinds: Ref<Array<{ value: FormFieldKind }>> = ref(
-  Object.values(FormFieldKind).map((kind) => ({ value: kind }))
-)
+const formFieldKinds: Ref<Array<{ value: FormFieldKind }>> = ref([])
 
 const name = ref('')
 const description = ref('')
@@ -83,9 +81,11 @@ query.onResult((result) => {
   name.value = template.name
   description.value = template.description
   fields.value = template.fields.map((field) => ({ value: field }))
-  formFieldKinds.value = formFieldKinds.value.filter((kind) => {
-    return !fields.value.some((existingKind) => existingKind.value === kind.value)
-  })
+  formFieldKinds.value = Object.values(FormFieldKind)
+    .filter((kind) => {
+      return !fields.value.some((existingKind) => existingKind.value === kind)
+    })
+    .map((kind) => ({ value: kind }))
 })
 
 const image = ref(null)
@@ -113,6 +113,7 @@ const draggingRight = ref(false)
         label="save"
         color="primary"
         :loading="updateTemplate.loading.value"
+        icon="las la-save"
         @click="handleSave"
       />
     </q-card-actions>

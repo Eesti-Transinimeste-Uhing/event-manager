@@ -41,7 +41,7 @@ export type Mutation = {
   __typename?: 'Mutation'
   createTemplate: Template
   submitForm: Scalars['Boolean']['output']
-  updateTemplate: Template
+  updateTemplate?: Maybe<Template>
 }
 
 export type MutationSubmitFormArgs = {
@@ -183,14 +183,14 @@ export type UpdateTemplateMutationVariables = Exact<{
 
 export type UpdateTemplateMutation = {
   __typename?: 'Mutation'
-  updateTemplate: {
+  updateTemplate?: {
     __typename?: 'Template'
     id: string
     name: string
     banner?: any | null
     description: string
     fields: Array<FormFieldKind>
-  }
+  } | null
 }
 
 export type TemplateListQueryVariables = Exact<{

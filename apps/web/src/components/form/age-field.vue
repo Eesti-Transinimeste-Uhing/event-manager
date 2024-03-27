@@ -3,7 +3,7 @@ import { ValidationRule } from 'quasar'
 import IntegerField from './base/integer-field.vue'
 
 const props = defineProps<{
-  modelValue: number
+  modelValue?: number
 }>()
 
 const emit = defineEmits<{
@@ -21,7 +21,7 @@ const rules: ValidationRule[] = [(val) => (val > 0 && val < 100) || 'Must be bet
   <integer-field
     v-bind="$attrs"
     label="Age"
-    :model-value="props.modelValue"
+    :model-value="props.modelValue ?? null"
     @update:model-value="handleInput"
     :rules="rules"
   />
