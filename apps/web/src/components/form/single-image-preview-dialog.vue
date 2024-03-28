@@ -7,11 +7,7 @@
     transition-show="jump-down"
   >
     <q-card class="dialog-card">
-      <div
-        class="image-wrapper"
-        :class="{ loading }"
-        :style="loading ? undefined : { width: `${size[0]}px`, height: `${size[1]}px` }"
-      >
+      <div class="image-wrapper" :style="{ width: `${size[0]}px`, height: `${size[1]}px` }">
         <q-img
           class="image"
           fit="contain"
@@ -44,7 +40,6 @@
 <script lang="ts" setup>
 import TooltipButton from 'components/tooltip-button.vue'
 import { useDialogPluginComponent, useQuasar } from 'quasar'
-import { useFilePreview } from 'src/hooks/use-file-preview'
 import { computed } from 'vue'
 
 const q = useQuasar()
@@ -52,26 +47,25 @@ const q = useQuasar()
 const props = defineProps<{
   label: string
   caption: string
-  previewFile: File | string
+  preview: string
+  width: number
+  height: number
+  ratio: number
 }>()
 
-const reactivePreviewFile = computed(() => props.previewFile)
-
-const { preview, ratio, dimensions, loading } = useFilePreview(reactivePreviewFile)
-
 const size = computed(() => {
-  let height = dimensions.value[1]
-  let width = dimensions.value[0]
+  let height = props.height
+  let width = props.width
 
   height = Math.min(height, q.screen.height - 100)
   width = Math.min(width, q.screen.width - 100)
 
   if (width < height) {
-    width = height * ratio.value
-    height = width / ratio.value
+    width = height * props.ratio
+    height = width / props.ratio
   } else {
-    width = height * ratio.value
-    height = width / ratio.value
+    width = height * props.ratio
+    height = width / props.ratio
   }
 
   return [width, height]
@@ -113,10 +107,5 @@ const handleHide = () => {
 
   display: flex;
   align-items: center;
-
-  &.loading {
-    width: 256px;
-    height: 256px;
-  }
 }
 </style>

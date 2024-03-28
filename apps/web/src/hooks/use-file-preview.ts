@@ -1,24 +1,31 @@
 import { ComputedRef, Ref, onMounted, ref, watch } from 'vue'
 
-export const useFilePreview = (
-  file: Ref<File | string | null> | ComputedRef<File | string | null>
-) => {
-  const preview = ref('')
-  const dimensions = ref([256, 256])
-  const ratio = ref(1)
-  const loading = ref(true)
+type ImgData = {
+  dimensions: [number, number]
+  ratio: number
+}
 
-  const generatePreview = () => {
-    if (!file.value) {
-      preview.value = ''
-      return
+const getImgData = (src: string): Promise<ImgData> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+
+    img.onload = () => {
+      return resolve({
+        dimensions: [img.width, img.height],
+        ratio: img.width / img.height,
+      })
     }
 
-    if (typeof file.value === 'string') {
-      preview.value = file.value
-      return
+    img.onerror = (event, source, linenum, colnum, error) => {
+      return reject(error)
     }
 
+    img.src = src
+  })
+}
+
+const getLocalFile = (value: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
     const fileReader = new FileReader()
 
     fileReader.onload = (event) => {
@@ -26,19 +33,51 @@ export const useFilePreview = (
         return
       }
 
-      const img = new Image()
-
-      img.onload = function () {
-        dimensions.value = [img.width, img.height]
-        ratio.value = img.width / img.height
-        loading.value = false
-      }
-
-      preview.value = event.target?.result ?? ''
-      img.src = preview.value
+      return resolve(event.target?.result)
     }
 
-    fileReader.readAsDataURL(file.value)
+    fileReader.onerror = (event) => {
+      return reject(event.target?.error)
+    }
+
+    fileReader.readAsDataURL(value)
+  })
+}
+
+const getNameFromUrl = (url: string) => {
+  return url.substring(url.lastIndexOf('/') + 1, url.length)
+}
+
+export const useFilePreview = (
+  file: Ref<File | string | null> | ComputedRef<File | string | null>
+) => {
+  const loading = ref(true)
+
+  const preview = ref('')
+  const dimensions = ref([256, 256])
+  const ratio = ref(1)
+  const size = ref(0)
+  const name = ref('')
+
+  const generatePreview = async () => {
+    if (!file.value) {
+      preview.value = ''
+      return
+    }
+
+    if (typeof file.value === 'string') {
+      name.value = getNameFromUrl(file.value)
+    } else {
+      name.value = file.value.name
+      size.value = file.value.size
+    }
+
+    const fileValue = typeof file.value === 'string' ? file.value : await getLocalFile(file.value)
+    const imgData = await getImgData(fileValue)
+
+    preview.value = fileValue
+    dimensions.value = imgData.dimensions
+    ratio.value = imgData.ratio
   }
 
   watch(file, generatePreview)
@@ -46,6 +85,8 @@ export const useFilePreview = (
   onMounted(generatePreview)
 
   return {
+    name,
+    size,
     loading,
     ratio,
     preview,

@@ -147,7 +147,10 @@ const { preview } = useFilePreview(banner)
             fit="cover"
           />
 
-          <single-image-upload-field v-model="bannerFile" />
+          <single-image-upload-field
+            :model-value="banner"
+            @update:model-value="(v) => (bannerFile = v)"
+          />
         </q-card>
 
         <q-card flat bordered class="q-mb-md">

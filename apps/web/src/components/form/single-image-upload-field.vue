@@ -7,7 +7,7 @@ import { computed } from 'vue'
 import bytes from 'bytes'
 
 const props = defineProps<{
-  modelValue: File | null
+  modelValue: File | string | null
 }>()
 
 const emit = defineEmits<{
@@ -16,27 +16,29 @@ const emit = defineEmits<{
 
 const q = useQuasar()
 
+const reactivePreviewFile = computed(() => props.modelValue)
+const { preview, name, size, dimensions, ratio } = useFilePreview(reactivePreviewFile)
+
 const handlePreviewClick = () => {
   q.dialog({
     component: SingleImagePreviewDialog,
     componentProps: {
-      label: props.modelValue?.name,
-      caption: props.modelValue?.size ? bytes(props.modelValue?.size) : '0 bytes',
-      previewFile: props.modelValue,
+      label: name.value,
+      caption: size.value ? bytes(size.value) : '0 bytes',
+      preview: preview.value,
+      width: dimensions.value[0],
+      height: dimensions.value[1],
+      ratio: ratio.value,
     },
   })
 }
-
-const reactivePreviewFile = computed(() => props.modelValue)
-
-const { preview } = useFilePreview(reactivePreviewFile)
 </script>
 
 <template>
   <div class="q-pl-md flex justify-between">
     <q-file
       class="col"
-      :model-value="props.modelValue"
+      :model-value="typeof props.modelValue === 'string' ? null : props.modelValue"
       borderless
       label="Select image"
       accept="image/*"
@@ -44,7 +46,7 @@ const { preview } = useFilePreview(reactivePreviewFile)
       @update:model-value="(v) => emit('update:model-value', v)"
     >
       <template v-slot:prepend>
-        <q-icon v-if="!props.modelValue" name="las la-file-image" />
+        <q-icon v-if="!preview" name="las la-file-image" />
 
         <tooltip-button v-else flat tooltip="Enlarge" round>
           <q-avatar>
