@@ -72,7 +72,7 @@ const description = ref('')
 const fields: Ref<Array<{ value: FormFieldKind }>> = ref([])
 
 query.onResult((result) => {
-  const template = result.data.template
+  const template = result.data?.template
 
   if (!template) {
     return

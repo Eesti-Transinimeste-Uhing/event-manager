@@ -1,8 +1,6 @@
 <template>
-  <router-view v-slot="{ Component }">
-    <transition name="card" mode="out-in">
-      <component :is="Component" />
-    </transition>
+  <router-view v-slot="{ Component, route }">
+    <component :is="Component" :key="route.fullPath" />
   </router-view>
 </template>
 

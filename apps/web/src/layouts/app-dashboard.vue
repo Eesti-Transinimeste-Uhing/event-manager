@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import NavigationMenu from 'components/navigation-menu.vue'
 import SiteLogo from 'components/site-logo.vue'
-import LogoutButton from 'src/components/logout-button.vue'
 
 import { useQuasar } from 'quasar'
 import { computed, ref } from 'vue'
@@ -62,8 +61,6 @@ const handleDrawerToggle = (value?: boolean) => {
           <site-logo class="site-logo q-mr-sm" />
           <span class="font-pragati">ETÜ Event Planner</span>
         </q-toolbar-title>
-
-        <logout-button />
       </q-toolbar>
     </q-header>
 
@@ -81,9 +78,9 @@ const handleDrawerToggle = (value?: boolean) => {
 
     <q-page-container class="fit">
       <q-page class="page-padding column fit q-pa-md">
-        <router-view v-slot="{ Component }">
+        <router-view v-slot="{ Component, route }">
           <transition name="card" mode="out-in">
-            <component :is="Component" />
+            <component :is="Component" :key="route.fullPath" />
           </transition>
         </router-view>
 
@@ -96,10 +93,6 @@ const handleDrawerToggle = (value?: boolean) => {
           </transition>
         </q-page-sticky>
       </q-page>
-
-      <q-page-scroller position="bottom">
-        <q-btn fab icon="keyboard_arrow_up" color="red" />
-      </q-page-scroller>
     </q-page-container>
   </q-layout>
 </template>
