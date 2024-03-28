@@ -5,6 +5,8 @@ import stream from 'node:stream/promises'
 
 import { config } from '../config'
 import * as imageUtils from '../lib/image-toolkit'
+import { downloadPicsumImage } from '../lib/picsum'
+import { ReadableStream } from 'stream/web'
 
 export class TemplateBannersStorage {
   public static getPath(templateId: string) {
@@ -30,13 +32,14 @@ export class TemplateBannersStorage {
 
   public async get(templateId: string) {
     if (!(await this.exists(templateId))) {
-      return null
+      const blob = await downloadPicsumImage(templateId, 1920, 1080)
+      await this.put(templateId, blob.stream())
     }
 
     return await fsp.readFile(TemplateBannersStorage.getPath(templateId))
   }
 
-  public async put(templateId: string, banner: ReadStream) {
+  public async put(templateId: string, banner: ReadStream | ReadableStream) {
     await this.delete(templateId)
 
     const writeStream = fs.createWriteStream(TemplateBannersStorage.getPath(templateId))
@@ -46,6 +49,10 @@ export class TemplateBannersStorage {
   }
 
   public async delete(templateId: string) {
+    if (!(await this.exists(templateId))) {
+      return
+    }
+
     await fsp.unlink(TemplateBannersStorage.getPath(templateId))
   }
 }
