@@ -15,6 +15,7 @@ import FormField from 'src/components/form/form-field.vue'
 import DragHint from 'src/components/drag-hint.vue'
 
 import { FormFieldKind } from 'src/graphql/generated/graphql'
+import { useFilePreview } from 'src/hooks/use-file-preview'
 
 const id = useRouteParam('id')
 
@@ -39,10 +40,6 @@ const updateTemplate = useMutation(
     mutation UpdateTemplate($where: UpdateTemplateWhereInput!, $data: UpdateTemplateDataInput!) {
       updateTemplate(where: $where, data: $data) {
         id
-        name
-        banner
-        description
-        fields
       }
     }
   `)
@@ -54,11 +51,14 @@ const handleSave = async () => {
       id,
     },
     data: {
+      banner: typeof banner.value === 'string' ? null : banner.value,
       name: name.value,
       description: description.value,
       fields: fields.value.map((field) => field.value),
     },
   })
+
+  await query.refetch()
 }
 
 const template = computed(() => {
@@ -67,9 +67,20 @@ const template = computed(() => {
 
 const formFieldKinds: Ref<Array<{ value: FormFieldKind }>> = ref([])
 
+const bannerFile = ref<File | null>(null)
+const bannerUrl = ref<string | null>(null)
+
+const banner = computed(() => {
+  if (bannerFile.value) {
+    return bannerFile.value
+  }
+
+  return bannerUrl.value
+})
+
 const name = ref('')
 const description = ref('')
-const fields: Ref<Array<{ value: FormFieldKind }>> = ref([])
+const fields = ref<Array<{ value: FormFieldKind }>>([])
 
 query.onResult((result) => {
   const template = result.data?.template
@@ -78,6 +89,8 @@ query.onResult((result) => {
     return
   }
 
+  bannerFile.value = null
+  bannerUrl.value = `${template.banner}?bust=${Date.now()}`
   name.value = template.name
   description.value = template.description
   fields.value = template.fields.map((field) => ({ value: field }))
@@ -88,10 +101,10 @@ query.onResult((result) => {
     .map((kind) => ({ value: kind }))
 })
 
-const image = ref(null)
-
 const draggingLeft = ref(false)
 const draggingRight = ref(false)
+
+const { preview } = useFilePreview(banner)
 </script>
 
 <style lang="scss" scoped>
@@ -109,7 +122,6 @@ const draggingRight = ref(false)
   <q-card flat>
     <q-card-actions align="right">
       <q-btn
-        flat
         label="save"
         color="primary"
         :loading="updateTemplate.loading.value"
@@ -128,13 +140,14 @@ const draggingRight = ref(false)
       <q-form v-else-if="template" class="column">
         <q-card flat bordered class="q-mb-md">
           <q-img
-            :src="template.banner || `https://picsum.photos/seed/${template.id}/1280/212.jpg`"
+            no-transition
+            :src="preview"
             :placeholder-src="backgroundXSBL"
             height="212px"
             fit="cover"
           />
 
-          <single-image-upload-field v-model="image" />
+          <single-image-upload-field v-model="bannerFile" />
         </q-card>
 
         <q-card flat bordered class="q-mb-md">

@@ -1,4 +1,4 @@
-import { getLevel, getNumber, getString } from './validators'
+import { getLevel, getNumber, getString, getWritablePath } from './validators'
 import { Config } from './types'
 
 const getConfig = (): Config => {
@@ -44,7 +44,7 @@ const getConfig = (): Config => {
       },
     },
     mounts: {
-      staticFiles: getString('STATIC_FILES_MOUNT', process.env.STATIC_FILES_MOUNT),
+      staticFiles: getWritablePath('STATIC_FILES_MOUNT', process.env.STATIC_FILES_MOUNT),
     },
   }
 }

@@ -1,13 +1,17 @@
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client/core'
 import { PersistentStorage, persistCache } from 'apollo3-cache-persist'
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import { get, set, del, clear, createStore, UseStore } from 'idb-keyval'
 
 import { config } from 'src/config'
 
-const httpLink = new HttpLink({
+const uploadLink = createUploadLink({
   uri: config.backend.graphqlUrl,
   credentials: 'include',
-})
+  headers: {
+    'apollo-require-preflight': 'true',
+  },
+}) as unknown as ApolloLink // L - I think this is for Apollo 2 but it seems to work with 3
 
 const cache = new InMemoryCache()
 
@@ -27,7 +31,7 @@ if (typeof window !== 'undefined') {
 
 export const apolloClient = new ApolloClient({
   cache,
-  link: httpLink,
+  link: uploadLink,
   defaultOptions: {
     query: {
       errorPolicy: 'ignore',

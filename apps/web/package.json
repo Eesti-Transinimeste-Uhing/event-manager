@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.9.7",
-    "@fastify/static": "^7.0.1",
     "@quasar/extras": "^1.16.9",
     "@tiptap/core": "^2.2.4",
     "@tiptap/extension-bold": "^2.2.4",
@@ -34,6 +33,7 @@
     "@vue/apollo-composable": "patch:@vue/apollo-composable@npm%3A4.0.2#~/.yarn/patches/@vue-apollo-composable-npm-4.0.2-b877f7f6b2.patch",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
+    "apollo-upload-client": "^18.0.1",
     "apollo3-cache-persist": "^0.14.1",
     "buffer": "^6.0.3",
     "bytes": "^3.1.2",
@@ -53,6 +53,7 @@
     "@graphql-codegen/client-preset": "^4.2.4",
     "@parcel/watcher": "^2.4.1",
     "@quasar/app-vite": "^1.8.0",
+    "@types/apollo-upload-client": "^18.0.0",
     "@types/bytes": "^3.1.4",
     "@types/node": "^20.11.1",
     "@types/passport-oauth2-refresh": "^1.1.4",

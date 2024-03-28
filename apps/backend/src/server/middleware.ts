@@ -11,16 +11,74 @@ import { discordStrategy } from './auth-strategies/discord'
 import { User } from '../entity/user'
 import { userController } from './static-context'
 
+import { ApolloServer } from '@apollo/server'
+import { processRequest } from 'graphql-upload-minimal'
+import fastifyApollo, { fastifyApolloDrainPlugin } from '@as-integrations/fastify'
+import { fastifyRequestContext } from '@fastify/request-context'
+
+import { schema } from '../graphql/schema'
+import { GraphqlContext, graphqlContextFunction } from '../graphql/context'
+import { log } from '../log'
+
 export const registerMiddleware = async (server: FastifyInstance) => {
+  log.debug('registering middleware')
+
+  /**
+   * GraphQL
+   */
+
+  await server.register(fastifyRequestContext, {
+    defaultStoreValues: {
+      isMultipart: false,
+    },
+  })
+
+  server.addContentTypeParser('multipart', (req, payload, done) => {
+    req.requestContext.set('isMultipart' as never, true as never)
+    done(null)
+  })
+
+  server.addHook('preValidation', async function (request, reply) {
+    if (!request.requestContext.get('isMultipart' as never)) {
+      return
+    }
+
+    request.body = await processRequest(request.raw, reply.raw, {
+      maxFileSize: 5_000_000, // 5 MB
+      maxFiles: 20,
+    })
+  })
+
+  const apollo = new ApolloServer<GraphqlContext>({
+    schema,
+    plugins: [fastifyApolloDrainPlugin(server)],
+  })
+
+  await apollo.start()
+  await server.register(fastifyApollo(apollo), {
+    context: graphqlContextFunction,
+  })
+
+  /**
+   * Security
+   */
+
   await server.register(helmet, {
     global: true,
     contentSecurityPolicy: false,
+    crossOriginResourcePolicy: {
+      policy: 'cross-origin',
+    },
   })
 
   await server.register(cors, {
     origin: config.web.corsOrigin,
     credentials: true,
   })
+
+  /**
+   * Authentication
+   */
 
   // register a serializer that stores the user object's id in the session ...
   passport.registerUserSerializer((user: User) => userController.serialise(user))

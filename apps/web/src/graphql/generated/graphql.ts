@@ -22,6 +22,8 @@ export type Scalars = {
   DateTime: { input: any; output: any }
   /** A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt. */
   URL: { input: any; output: any }
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: { input: any; output: any }
 }
 
 export type DiscordUser = {
@@ -109,7 +111,7 @@ export type SubmitFormInput = {
 
 export type Template = {
   __typename?: 'Template'
-  banner?: Maybe<Scalars['URL']['output']>
+  banner: Scalars['URL']['output']
   createdAt: Scalars['DateTime']['output']
   description: Scalars['String']['output']
   fields: Array<FormFieldKind>
@@ -135,6 +137,7 @@ export type TemplateEdge = {
 }
 
 export type UpdateTemplateDataInput = {
+  banner?: InputMaybe<Scalars['Upload']['input']>
   description: Scalars['String']['input']
   fields: Array<FormFieldKind>
   name: Scalars['String']['input']
@@ -170,7 +173,7 @@ export type EditTemplateQuery = {
     __typename?: 'Template'
     id: string
     name: string
-    banner?: any | null
+    banner: any
     description: string
     fields: Array<FormFieldKind>
   } | null
@@ -183,14 +186,7 @@ export type UpdateTemplateMutationVariables = Exact<{
 
 export type UpdateTemplateMutation = {
   __typename?: 'Mutation'
-  updateTemplate?: {
-    __typename?: 'Template'
-    id: string
-    name: string
-    banner?: any | null
-    description: string
-    fields: Array<FormFieldKind>
-  } | null
+  updateTemplate?: { __typename?: 'Template'; id: string } | null
 }
 
 export type TemplateListQueryVariables = Exact<{
@@ -221,7 +217,7 @@ export type TemplateListQuery = {
         id: string
         name: string
         updatedAt: any
-        banner?: any | null
+        banner: any
         description: string
         fields: Array<FormFieldKind>
       }
@@ -352,13 +348,7 @@ export const UpdateTemplateDocument = {
             ],
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'fields' } },
-              ],
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
             },
           },
         ],

@@ -1,5 +1,6 @@
 import { inputObjectType, mutationField } from 'nexus'
 import { templateController } from '../../../server/static-context'
+import { templateBanners } from '../../../storage'
 
 const UpdateTemplateWhereInput = inputObjectType({
   name: 'UpdateTemplateWhereInput',
@@ -11,6 +12,7 @@ const UpdateTemplateWhereInput = inputObjectType({
 const UpdateTemplateDataInput = inputObjectType({
   name: 'UpdateTemplateDataInput',
   definition(t) {
+    t.nullable.upload('banner')
     t.string('name')
     t.string('description')
     t.list.field('fields', {
@@ -26,8 +28,16 @@ export const UpdateTemplate = mutationField((t) => {
       where: UpdateTemplateWhereInput.asArg(),
       data: UpdateTemplateDataInput.asArg(),
     },
-    resolve(root, args, context) {
-      return templateController.update(args.where.id, args.data)
+    async resolve(root, args, context) {
+      const { banner, ...data } = args.data
+      const result = await templateController.update(args.where.id, data)
+
+      if (banner) {
+        const { createReadStream } = await banner
+        await templateBanners.put(args.where.id, createReadStream())
+      }
+
+      return result
     },
   })
 })

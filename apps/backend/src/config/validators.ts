@@ -1,4 +1,6 @@
 import * as Pino from 'pino'
+import path from 'node:path'
+import fs from 'node:fs'
 
 import { ConfigurationError } from './errors'
 
@@ -35,4 +37,30 @@ export const getNumber = (name: string, input?: string | null): number => {
   }
 
   return parsed
+}
+
+export const getAbsolutePath = (name: string, input?: string | null): string => {
+  const userPath = getString(name, input)
+
+  if (!path.isAbsolute(userPath)) {
+    throw new ConfigurationError(`Value for "${name}" must be an absolute path. Got "${userPath}"`)
+  }
+
+  return userPath
+}
+
+export const getWritablePath = (name: string, input?: string | null): string => {
+  const fullPath = path.resolve(getAbsolutePath(name, input))
+
+  try {
+    fs.accessSync(fullPath, fs.constants.R_OK | fs.constants.W_OK)
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new ConfigurationError(error, `Value for "${name}" must point to a writable location`)
+    } else {
+      throw new ConfigurationError(`Value for "${name}" must point to a writable location`)
+    }
+  }
+
+  return fullPath
 }

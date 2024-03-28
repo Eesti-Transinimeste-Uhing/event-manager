@@ -17,14 +17,8 @@ export const Template = objectType({
     t.dateTime('updatedAt')
     t.string('description')
     t.url('banner', {
-      nullable: true,
-      resolve(root) {
-        if (!root.bannerId) {
-          return null
-        }
-
-        return urlJoin(config.server.publicUrl, 'v1', 'static', 'banners', root.id, root.bannerId)
-      },
+      resolve: (root) =>
+        urlJoin(config.server.publicUrl, 'v1', 'static', 'template-banner', root.id),
     })
     t.list.field('fields', {
       type: 'FormFieldKind',

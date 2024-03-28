@@ -23,6 +23,13 @@ declare global {
       fieldName: FieldName,
       opts?: core.CommonInputFieldConfig<TypeName, FieldName>
     ): void // "DateTime";
+    /**
+     * The `Upload` scalar type represents a file upload.
+     */
+    upload<FieldName extends string>(
+      fieldName: FieldName,
+      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
+    ): void // "Upload";
   }
 }
 declare global {
@@ -41,6 +48,13 @@ declare global {
       fieldName: FieldName,
       ...opts: core.ScalarOutSpread<TypeName, FieldName>
     ): void // "DateTime";
+    /**
+     * The `Upload` scalar type represents a file upload.
+     */
+    upload<FieldName extends string>(
+      fieldName: FieldName,
+      ...opts: core.ScalarOutSpread<TypeName, FieldName>
+    ): void // "Upload";
     /**
      * Adds a Relay-style connection to the type, with numerous options for configuration
      *
@@ -74,6 +88,7 @@ export interface NexusGenInputs {
   }
   UpdateTemplateDataInput: {
     // input type
+    banner?: NexusGenScalars['Upload'] | null // Upload
     description: string // String!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
     name: string // String!
@@ -101,6 +116,7 @@ export interface NexusGenScalars {
   ID: string
   DateTime: any
   URL: any
+  Upload: any
 }
 
 export interface NexusGenObjects {
@@ -167,7 +183,7 @@ export interface NexusGenFieldTypes {
   }
   Template: {
     // field return type
-    banner: NexusGenScalars['URL'] | null // URL
+    banner: NexusGenScalars['URL'] // URL!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
     description: string // String!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!

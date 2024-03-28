@@ -1,10 +1,8 @@
-import * as Scalar from 'graphql-scalars'
-import { asNexusMethod } from 'nexus'
 import { DateTime } from 'luxon'
 
 import { GraphQLScalarType, Kind } from 'graphql'
 
-const DateTimeResolver = new GraphQLScalarType({
+export const DateTimeResolver = new GraphQLScalarType({
   name: 'DateTime',
 
   description: 'A DateTime value consumable with Luxon',
@@ -37,6 +35,3 @@ const DateTimeResolver = new GraphQLScalarType({
     return null
   },
 })
-
-export const Url = asNexusMethod(Scalar.GraphQLURL, 'url')
-export const DateTimeScalar = asNexusMethod(DateTimeResolver, 'dateTime')

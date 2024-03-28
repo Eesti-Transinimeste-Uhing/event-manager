@@ -39,14 +39,14 @@ export class TemplateController {
     return template
   }
 
-  public async update(id: string, dto: Omit<DeepPartial<Template>, 'id'>) {
+  public async update(id: string, data: Omit<DeepPartial<Template>, 'id'>) {
     try {
       if (!(await this.templates.existsBy({ id }))) {
         throw new EntityNotFoundError(`Template with ID "${id}" doesn't exist`)
       }
 
       await this.manager.transaction(async (manager) => {
-        await manager.update(Template, { id }, dto)
+        await manager.update(Template, { id }, data)
       })
 
       return this.templates.findOneBy({ id })
