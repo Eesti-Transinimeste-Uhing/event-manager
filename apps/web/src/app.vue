@@ -1,6 +1,8 @@
 <template>
   <router-view v-slot="{ Component, route }">
-    <component :is="Component" :key="route.fullPath" />
+    <transition name="page" mode="out-in">
+      <component :is="Component" :key="route.meta.layout" />
+    </transition>
   </router-view>
 </template>
 

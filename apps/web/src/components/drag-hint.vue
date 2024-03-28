@@ -114,9 +114,13 @@ $animation-duration: 2s;
 
 .drag-hint {
   position: relative;
+  min-height: 5rem;
+  height: 100%;
 
   &::before {
-    transition: border 0.3s linear;
+    transition-property: border;
+    transition-duration: 0.3s;
+    transition-timing-function: $in-out-bezier;
 
     content: '';
     width: 100%;
@@ -128,7 +132,11 @@ $animation-duration: 2s;
   }
 
   > .wrapper {
-    padding: $outline-radius;
+    transition-property: padding;
+    transition-duration: 0.3s;
+    transition-timing-function: $in-out-bezier;
+
+    padding: 0;
     position: relative;
 
     > .content {
@@ -145,6 +153,9 @@ $animation-duration: 2s;
 
     &.left {
       > .wrapper {
+        padding: 1rem;
+        padding-left: 0;
+
         > .content {
           margin-left: 38px;
         }
@@ -153,6 +164,9 @@ $animation-duration: 2s;
 
     &.right {
       > .wrapper {
+        padding: 1rem;
+        padding-right: 0;
+
         > .content {
           margin-right: 38px;
         }
@@ -161,6 +175,9 @@ $animation-duration: 2s;
 
     &.top {
       > .wrapper {
+        padding: 1rem;
+        padding-top: 0;
+
         > .content {
           margin-top: 38px;
         }
@@ -169,6 +186,9 @@ $animation-duration: 2s;
 
     &.bottom {
       > .wrapper {
+        padding: 1rem;
+        padding-bottom: 0;
+
         > .content {
           margin-bottom: 38px;
         }

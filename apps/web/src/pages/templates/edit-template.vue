@@ -143,46 +143,51 @@ const draggingRight = ref(false)
 
         <text-editor v-model="description" class="q-mb-md" />
 
-        <q-card flat class="row justify-between overflow-hidden">
-          <drag-hint :running="draggingLeft" side="right" class="col-8">
-            <vue-draggable
-              v-model="fields"
-              group="a"
-              item-key="value"
-              :animation="150"
-              :component-data="{ class: 'col fit' }"
-              @start="draggingRight = true"
-              @end="draggingRight = false"
-            >
-              <template #item="{ element }">
-                <div class="target-item">
-                  <q-card flat bordered class="q-px-md q-mb-sm">
-                    <form-field :kind="element.value" disable />
-                  </q-card>
-                </div>
-              </template>
-            </vue-draggable>
-          </drag-hint>
+        <q-card flat class="row q-col-gutter-sm justify-between overflow-hidden">
+          <div class="col-8">
+            <drag-hint :running="draggingLeft" side="right">
+              <vue-draggable
+                v-model="fields"
+                group="a"
+                item-key="value"
+                :animation="150"
+                :component-data="{ class: 'col fit' }"
+                @start="draggingRight = true"
+                @end="draggingRight = false"
+              >
+                <template #item="{ element }">
+                  <div class="target-item">
+                    <q-card flat bordered class="q-px-md q-mb-sm">
+                      <form-field :kind="element.value" disable />
+                    </q-card>
+                  </div>
+                </template>
+              </vue-draggable>
+            </drag-hint>
+          </div>
 
-          <drag-hint :running="draggingRight" side="left" class="col-4">
-            <vue-draggable
-              v-model="formFieldKinds"
-              item-key="value"
-              :animation="150"
-              group="a"
-              :sort="false"
-              @start="draggingLeft = true"
-              @end="draggingLeft = false"
-            >
-              <template #item="{ element }">
-                <div class="source-item col-4">
-                  <q-card flat bordered class="q-px-md q-mb-sm">
-                    <form-field :kind="element.value" disable />
-                  </q-card>
-                </div>
-              </template>
-            </vue-draggable>
-          </drag-hint>
+          <div class="col-4">
+            <drag-hint :running="draggingRight" side="left">
+              <vue-draggable
+                v-model="formFieldKinds"
+                item-key="value"
+                :animation="150"
+                group="a"
+                :sort="false"
+                :component-data="{ class: 'fit' }"
+                @start="draggingLeft = true"
+                @end="draggingLeft = false"
+              >
+                <template #item="{ element }">
+                  <div class="source-item col-4">
+                    <q-card flat bordered class="q-px-md q-mb-sm">
+                      <form-field :kind="element.value" disable />
+                    </q-card>
+                  </div>
+                </template>
+              </vue-draggable>
+            </drag-hint>
+          </div>
         </q-card>
       </q-form>
     </q-card-section>
