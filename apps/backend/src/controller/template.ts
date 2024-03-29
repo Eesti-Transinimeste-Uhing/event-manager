@@ -60,12 +60,4 @@ export class TemplateController {
       }
     }
   }
-
-  async serialise(template: Template) {
-    return template.id
-  }
-
-  async deserialise(id: string) {
-    return await this.templates.findOneBy({ id })
-  }
 }

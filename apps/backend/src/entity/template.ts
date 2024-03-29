@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm'
-import { TemplateBannersStorage } from '../storage/template-banners'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm'
+import { Form } from './form'
 
 export enum FormFieldKind {
   PreferredName,
@@ -44,4 +51,9 @@ export class Template {
     default: 0,
   })
   bannerOffset: number
+
+  @OneToMany(() => Form, (form) => form.template, {
+    lazy: true,
+  })
+  forms: Promise<Form[]> | Form[]
 }

@@ -6,6 +6,7 @@
 import type { GraphqlContext } from './../context'
 import type { User } from './../../entity/user'
 import type { Template } from './../../entity/template'
+import type { Form } from './../../entity/form'
 import type { core, connectionPluginCore } from 'nexus'
 declare global {
   interface NexusGenCustomInputMethods<TypeName extends string> {
@@ -72,6 +73,10 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CreateFormInput: {
+    // input type
+    templateId: string // ID!
+  }
   PaginationFilter: {
     // input type
     column: string // String!
@@ -125,6 +130,17 @@ export interface NexusGenObjects {
     // root type
     id: string // ID!
   }
+  Form: Form
+  FormConnection: {
+    // root type
+    edges: NexusGenRootTypes['FormEdge'][] // [FormEdge!]!
+    pageInfo: NexusGenRootTypes['PageInfo'] // PageInfo!
+  }
+  FormEdge: {
+    // root type
+    cursor: string // String!
+    node: NexusGenRootTypes['Form'] // Form!
+  }
   Mutation: {}
   PageInfo: {
     // root type
@@ -162,8 +178,26 @@ export interface NexusGenFieldTypes {
     // field return type
     id: string // ID!
   }
+  Form: {
+    // field return type
+    createdAt: NexusGenScalars['DateTime'] // DateTime!
+    id: string // ID!
+    template: NexusGenRootTypes['Template'] // Template!
+    updatedAt: NexusGenScalars['DateTime'] // DateTime!
+  }
+  FormConnection: {
+    // field return type
+    edges: NexusGenRootTypes['FormEdge'][] // [FormEdge!]!
+    pageInfo: NexusGenRootTypes['PageInfo'] // PageInfo!
+  }
+  FormEdge: {
+    // field return type
+    cursor: string // String!
+    node: NexusGenRootTypes['Form'] // Form!
+  }
   Mutation: {
     // field return type
+    createForm: NexusGenRootTypes['Form'] // Form!
     createTemplate: NexusGenRootTypes['Template'] // Template!
     submitForm: boolean // Boolean!
     updateTemplate: NexusGenRootTypes['Template'] | null // Template
@@ -178,6 +212,8 @@ export interface NexusGenFieldTypes {
   }
   Query: {
     // field return type
+    form: NexusGenRootTypes['Form'] | null // Form
+    forms: NexusGenRootTypes['FormConnection'] // FormConnection!
     template: NexusGenRootTypes['Template'] | null // Template
     templates: NexusGenRootTypes['TemplateConnection'] // TemplateConnection!
     viewer: NexusGenRootTypes['User'] | null // User
@@ -214,8 +250,26 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     id: 'ID'
   }
+  Form: {
+    // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    template: 'Template'
+    updatedAt: 'DateTime'
+  }
+  FormConnection: {
+    // field return type name
+    edges: 'FormEdge'
+    pageInfo: 'PageInfo'
+  }
+  FormEdge: {
+    // field return type name
+    cursor: 'String'
+    node: 'Form'
+  }
   Mutation: {
     // field return type name
+    createForm: 'Form'
     createTemplate: 'Template'
     submitForm: 'Boolean'
     updateTemplate: 'Template'
@@ -230,6 +284,8 @@ export interface NexusGenFieldTypeNames {
   }
   Query: {
     // field return type name
+    form: 'Form'
+    forms: 'FormConnection'
     template: 'Template'
     templates: 'TemplateConnection'
     viewer: 'User'
@@ -263,6 +319,10 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createForm: {
+      // args
+      input: NexusGenInputs['CreateFormInput'] // CreateFormInput!
+    }
     submitForm: {
       // args
       input: NexusGenInputs['SubmitFormInput'] // SubmitFormInput!
@@ -274,6 +334,19 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    form: {
+      // args
+      where: NexusGenInputs['WhereIdInput'] // WhereIdInput!
+    }
+    forms: {
+      // args
+      after?: string | null // String
+      before?: string | null // String
+      filter?: NexusGenInputs['PaginationFilter'][] | null // [PaginationFilter!]
+      first?: number | null // Int
+      last?: number | null // Int
+      sort?: NexusGenInputs['PaginationSorting'][] | null // [PaginationSorting!]
+    }
     template: {
       // args
       where: NexusGenInputs['WhereIdInput'] // WhereIdInput!
