@@ -16,6 +16,7 @@ export const Template = objectType({
     t.dateTime('createdAt')
     t.dateTime('updatedAt')
     t.string('description')
+    t.int('bannerOffset')
     t.url('banner', {
       async resolve(root) {
         return urlJoin(config.server.publicUrl, 'v1', 'static', 'template-banner', root.id)

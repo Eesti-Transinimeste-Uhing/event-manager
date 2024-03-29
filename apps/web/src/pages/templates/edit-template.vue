@@ -31,6 +31,7 @@ const query = useQuery(
         banner
         description
         fields
+        bannerOffset
       }
     }
   `),
@@ -57,6 +58,7 @@ const handleSave = async () => {
         id,
       },
       data: {
+        bannerOffset: topOffset.value,
         banner: typeof banner.value === 'string' ? null : banner.value,
         name: name.value,
         description: description.value,
@@ -109,6 +111,7 @@ query.onResult((result) => {
     return
   }
 
+  topOffset.value = template.bannerOffset
   bannerFile.value = null
   bannerUrl.value = `${template.banner}/${DateTime.fromISO(template.updatedAt).toUnixInteger()}`
   name.value = template.name

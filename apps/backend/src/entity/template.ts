@@ -38,4 +38,10 @@ export class Template {
 
   @Column('int', { array: true })
   fields: FormFieldKind[]
+
+  @Column('smallint', {
+    nullable: true,
+    default: 0,
+  })
+  bannerOffset: number
 }

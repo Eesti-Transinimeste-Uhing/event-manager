@@ -112,6 +112,7 @@ export type SubmitFormInput = {
 export type Template = {
   __typename?: 'Template'
   banner: Scalars['URL']['output']
+  bannerOffset: Scalars['Int']['output']
   createdAt: Scalars['DateTime']['output']
   description: Scalars['String']['output']
   fields: Array<FormFieldKind>
@@ -138,6 +139,7 @@ export type TemplateEdge = {
 
 export type UpdateTemplateDataInput = {
   banner?: InputMaybe<Scalars['Upload']['input']>
+  bannerOffset: Scalars['Int']['input']
   description: Scalars['String']['input']
   fields: Array<FormFieldKind>
   name: Scalars['String']['input']
@@ -177,6 +179,7 @@ export type EditTemplateQuery = {
     banner: any
     description: string
     fields: Array<FormFieldKind>
+    bannerOffset: number
   } | null
 }
 
@@ -289,6 +292,7 @@ export const EditTemplateDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'fields' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'bannerOffset' } },
               ],
             },
           },

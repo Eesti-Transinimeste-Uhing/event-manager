@@ -13,6 +13,7 @@ const UpdateTemplateDataInput = inputObjectType({
   name: 'UpdateTemplateDataInput',
   definition(t) {
     t.nullable.upload('banner')
+    t.int('bannerOffset')
     t.string('name')
     t.string('description')
     t.list.field('fields', {

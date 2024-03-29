@@ -89,6 +89,7 @@ export interface NexusGenInputs {
   UpdateTemplateDataInput: {
     // input type
     banner?: NexusGenScalars['Upload'] | null // Upload
+    bannerOffset: number // Int!
     description: string // String!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
     name: string // String!
@@ -184,6 +185,7 @@ export interface NexusGenFieldTypes {
   Template: {
     // field return type
     banner: NexusGenScalars['URL'] // URL!
+    bannerOffset: number // Int!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
     description: string // String!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
@@ -235,6 +237,7 @@ export interface NexusGenFieldTypeNames {
   Template: {
     // field return type name
     banner: 'URL'
+    bannerOffset: 'Int'
     createdAt: 'DateTime'
     description: 'String'
     fields: 'FormFieldKind'

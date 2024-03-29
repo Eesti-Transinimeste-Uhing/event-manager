@@ -15,7 +15,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
   '\n    query PostOauthViewer {\n      viewer {\n        id\n      }\n    }\n  ':
     types.PostOauthViewerDocument,
-  '\n    query EditTemplate($id: ID!) {\n      template(where: { id: $id }) {\n        id\n        updatedAt\n        name\n        banner\n        description\n        fields\n      }\n    }\n  ':
+  '\n    query EditTemplate($id: ID!) {\n      template(where: { id: $id }) {\n        id\n        updatedAt\n        name\n        banner\n        description\n        fields\n        bannerOffset\n      }\n    }\n  ':
     types.EditTemplateDocument,
   '\n    mutation UpdateTemplate($where: UpdateTemplateWhereInput!, $data: UpdateTemplateDataInput!) {\n      updateTemplate(where: $where, data: $data) {\n        id\n      }\n    }\n  ':
     types.UpdateTemplateDocument,
@@ -47,8 +47,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    query EditTemplate($id: ID!) {\n      template(where: { id: $id }) {\n        id\n        updatedAt\n        name\n        banner\n        description\n        fields\n      }\n    }\n  '
-): (typeof documents)['\n    query EditTemplate($id: ID!) {\n      template(where: { id: $id }) {\n        id\n        updatedAt\n        name\n        banner\n        description\n        fields\n      }\n    }\n  ']
+  source: '\n    query EditTemplate($id: ID!) {\n      template(where: { id: $id }) {\n        id\n        updatedAt\n        name\n        banner\n        description\n        fields\n        bannerOffset\n      }\n    }\n  '
+): (typeof documents)['\n    query EditTemplate($id: ID!) {\n      template(where: { id: $id }) {\n        id\n        updatedAt\n        name\n        banner\n        description\n        fields\n        bannerOffset\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -103,6 +103,7 @@ input SubmitFormInput {
 
 type Template {
   banner: URL!
+  bannerOffset: Int!
   createdAt: DateTime!
   description: String!
   fields: [FormFieldKind!]!
@@ -142,6 +143,7 @@ scalar URL
 
 input UpdateTemplateDataInput {
   banner: Upload
+  bannerOffset: Int!
   description: String!
   fields: [FormFieldKind!]!
   name: String!
