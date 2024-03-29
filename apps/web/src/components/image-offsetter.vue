@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useFilePreview } from 'src/hooks/use-file-preview'
 import { AspectRatio } from 'src/lib/aspect-ratios'
 import { computed, onMounted, ref } from 'vue'
 
@@ -39,9 +38,6 @@ const imageUrl = computed(() => {
   return `url(${props.src})`
 })
 
-const reactiveSrc = computed(() => props.src)
-const { dimensions } = useFilePreview(reactiveSrc)
-
 const dragTarget = ref<HTMLElement>()
 const dragging = ref(false)
 
@@ -57,10 +53,6 @@ const dragOffset = computed<[number, number]>(() => {
     props.modelValue[0] + dragCoords.value[0] - dragStart.value[0],
     props.modelValue[1] + dragCoords.value[1] - dragStart.value[1],
   ]
-})
-
-const top = computed(() => {
-  return `${dragOffset.value[1]}px`
 })
 
 onMounted(() => {
@@ -88,14 +80,14 @@ onMounted(() => {
   }
 })
 
-const parentHeight = ref(0)
+const parentSize = ref({ width: 0, height: 0 })
 
-const handleResize = ({ height }: { height: number; width: number }) => {
-  parentHeight.value = height
+const handleResize = (size: { height: number; width: number }) => {
+  parentSize.value = size
 }
 
 const topWithOffset = computed(() => {
-  return `${dragOffset.value[1] - parentHeight.value / (props.aspectRatio / dragOffset.value[1])}px`
+  return `${(dragOffset.value[1] + parentSize.value.height / (props.aspectRatio / dragOffset.value[1])) / 250}px`
 })
 </script>
 

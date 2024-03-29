@@ -39,8 +39,9 @@ const handleHintUnhover = () => {
 
 <style lang="scss" scoped>
 .dialog-card {
-  overflow: hidden;
-  max-width: 100%;
+  width: 100%;
+  max-height: 90vh !important;
+  max-width: 1920px !important;
 }
 
 .image-wrapper {
@@ -66,7 +67,7 @@ const handleHintUnhover = () => {
     full-width
   >
     <q-card class="dialog-card">
-      <div class="image-wrapper fit">
+      <div class="image-wrapper">
         <image-offsetter
           class="fit"
           :src="preview"
@@ -123,7 +124,7 @@ const handleHintUnhover = () => {
             @mouseover="handleHintHover(AspectRatio.widescreen)"
             @mouseleave="handleHintUnhover"
           >
-            ETÜE
+            Web registration form
           </q-chip>
         </q-item>
 
@@ -151,7 +152,7 @@ const handleHintUnhover = () => {
 
       <q-card-section>
         <div class="row">
-          <div class="text-subtitle1 column justify-center q-mr-md">
+          <div class="text-subtitle1 column q-mr-md">
             <q-icon color="primary" size="md" name="las la-info" />
           </div>
 
