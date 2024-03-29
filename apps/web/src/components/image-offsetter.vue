@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useFilePreview } from 'src/hooks/use-file-preview'
 import { AspectRatio } from 'src/lib/aspect-ratios'
 import { computed, onMounted, ref } from 'vue'
 
@@ -37,6 +38,9 @@ const emit = defineEmits<{
 const imageUrl = computed(() => {
   return `url(${props.src})`
 })
+
+const reactiveSrc = computed(() => props.src)
+const { dimensions } = useFilePreview(reactiveSrc)
 
 const dragTarget = ref<HTMLElement>()
 const dragging = ref(false)
@@ -83,6 +87,16 @@ onMounted(() => {
     dragCoords.value = [event.offsetX, event.offsetY]
   }
 })
+
+const parentHeight = ref(0)
+
+const handleResize = ({ height }: { height: number; width: number }) => {
+  parentHeight.value = height
+}
+
+const topWithOffset = computed(() => {
+  return `${dragOffset.value[1] - parentHeight.value / (props.aspectRatio / dragOffset.value[1])}px`
+})
 </script>
 
 <style lang="scss" scoped>
@@ -90,7 +104,6 @@ onMounted(() => {
   position: relative;
   max-height: 100%;
   max-width: 100%;
-  overflow: hidden;
   user-select: none;
   aspect-ratio: v-bind(aspectRatio);
 }
@@ -107,7 +120,7 @@ onMounted(() => {
   background-image: v-bind(imageUrl);
   background-size: 100% auto;
   background-repeat: no-repeat;
-  background-position: center v-bind(top);
+  background-position: center v-bind(topWithOffset);
   text-anchor: start;
 }
 
@@ -185,6 +198,8 @@ $stripes: linear-gradient(
 
 <template>
   <div class="drag-root bg-stripe">
+    <q-resize-observer @resize="handleResize" />
+
     <div class="image-display drag-target" ref="dragTarget">
       <div
         class="fit marker-root"
