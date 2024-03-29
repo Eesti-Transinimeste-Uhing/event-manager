@@ -1,96 +1,30 @@
-<template>
-  <q-dialog
-    ref="dialogRef"
-    @hide="handleHide"
-    backdrop-filter="blur(4px)"
-    transition-hide="jump-up"
-    transition-show="jump-down"
-  >
-    <q-card class="dialog-card">
-      <div class="image-wrapper" :style="{ width: `${size[0]}px`, height: `${size[1]}px` }">
-        <q-img
-          class="image"
-          fit="contain"
-          :src="preview"
-          :width="`${size[0]}px`"
-          :height="`${size[1]}px`"
-          no-transition
-          no-spinner
-        />
-      </div>
-
-      <q-item>
-        <q-item-section>
-          <q-item-label> {{ props.label }} </q-item-label>
-          <q-item-label caption> {{ props.caption }} </q-item-label>
-        </q-item-section>
-      </q-item>
-
-      <tooltip-button
-        icon="las la-times"
-        tooltip="Dismiss"
-        flat
-        color="red"
-        round
-        class="q-ma-sm absolute-top-right"
-        @click="emit('hide')"
-      />
-    </q-card>
-  </q-dialog>
-</template>
-
 <script lang="ts" setup>
-import TooltipButton from 'components/tooltip-button.vue'
-import { useDialogPluginComponent, useQuasar } from 'quasar'
-import { computed } from 'vue'
+import { ref } from 'vue'
+import ImageOffsetter from 'components/image-offsetter.vue'
 
-const q = useQuasar()
+import { AspectRatio } from 'src/lib/aspect-ratios'
 
 const props = defineProps<{
   label: string
-  caption: string
+  caption: string | null
   preview: string
   width: number
   height: number
   ratio: number
+  modelValue: number
+  open: boolean
 }>()
 
-const size = computed(() => {
-  let height = props.height
-  let width = props.width
+const originalModelValue = ref(props.modelValue)
 
-  height = Math.min(height, q.screen.height - 100)
-  width = Math.min(width, q.screen.width - 100)
-
-  if (width < height) {
-    width = height * props.ratio
-    height = width / props.ratio
-  } else {
-    width = height * props.ratio
-    height = width / props.ratio
-  }
-
-  return [width, height]
-})
-
-const emit = defineEmits([
-  // REQUIRED; need to specify some events that your
-  // component will emit through useDialogPluginComponent()
-  ...useDialogPluginComponent.emits,
-])
-
-const { dialogRef, onDialogHide, onDialogCancel } = useDialogPluginComponent()
-// dialogRef      - Vue ref to be applied to QDialog
-// onDialogHide   - Function to be used as handler for @hide on QDialog
-// onDialogOK     - Function to call to settle dialog with "ok" outcome
-//                    example: onDialogOK() - no payload
-//                    example: onDialogOK({ /*...*/ }) - with payload
-// onDialogCancel - Function to call to settle dialog with "cancel" outcome
-
-const handleHide = () => {
-  onDialogCancel()
-  onDialogHide()
+const handleReset = () => {
+  emit('update:model-value', originalModelValue.value)
 }
+
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'update:model-value', value: number): void
+}>()
 </script>
 
 <style lang="scss" scoped>
@@ -111,3 +45,60 @@ const handleHide = () => {
   align-items: center;
 }
 </style>
+
+<template>
+  <q-dialog
+    :model-value="props.open"
+    @hide="emit('close')"
+    backdrop-filter="blur(4px)"
+    transition-hide="jump-up"
+    transition-show="jump-down"
+    full-width
+  >
+    <q-card class="dialog-card">
+      <div class="image-wrapper fit">
+        <image-offsetter
+          class="fit"
+          :src="preview"
+          @update:model-value="(v) => emit('update:model-value', v[1])"
+          :model-value="[0, props.modelValue]"
+          :aspect-ratio="AspectRatio.widescreen"
+          show-guides
+          :hinted-ratios="[
+            AspectRatio.discordEvent,
+            AspectRatio.facebookCover,
+            AspectRatio.facebookEvent,
+          ]"
+        />
+      </div>
+
+      <q-card-actions align="between">
+        <q-item>
+          <q-item-section>
+            <q-item-label> {{ props.label }} </q-item-label>
+            <q-item-label caption v-if="props.caption"> {{ props.caption }} </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item>
+          <q-btn
+            icon="las la-times"
+            label="Reset"
+            flat
+            color="red"
+            class="q-ma-sm"
+            @click="handleReset"
+          />
+
+          <q-btn
+            icon="las la-check"
+            label="Close"
+            color="primary"
+            class="q-ma-sm"
+            @click="emit('close')"
+          />
+        </q-item>
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+</template>

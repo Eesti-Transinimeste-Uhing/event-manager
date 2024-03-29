@@ -2,6 +2,8 @@
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import { Ref, computed, ref } from 'vue'
 import VueDraggable from 'vuedraggable'
+import { DateTime } from 'luxon'
+import bytes from 'bytes'
 
 import { useRouteParam } from 'src/lib/use-route-param'
 import { graphql } from 'src/graphql/generated'
@@ -10,14 +12,11 @@ import TextEditor from 'src/components/text-editor/text-editor.vue'
 import SingleImageUploadField from 'src/components/form/single-image-upload-field.vue'
 import FormField from 'src/components/form/form-field.vue'
 import DragHint from 'src/components/drag-hint.vue'
-import ImageOffsetter from 'src/components/image-offsetter.vue'
 
 import { FormFieldKind } from 'src/graphql/generated/graphql'
 import { useFilePreview } from 'src/hooks/use-file-preview'
-import { DateTime } from 'luxon'
-import { AspectRatio } from 'src/lib/aspect-ratios'
-import { useQuasar } from 'quasar'
 import TooltipButton from 'src/components/tooltip-button.vue'
+import SingleImagePreviewDialog from 'src/components/form/single-image-preview-dialog.vue'
 
 const id = useRouteParam('id')
 
@@ -81,6 +80,7 @@ const banner = computed(() => {
   return bannerUrl.value
 })
 
+const topOffset = ref(0)
 const name = ref('')
 const description = ref('')
 const fields = ref<Array<{ value: FormFieldKind }>>([])
@@ -107,21 +107,9 @@ query.onResult((result) => {
 const draggingLeft = ref(false)
 const draggingRight = ref(false)
 
-const { preview } = useFilePreview(banner)
-
-const top = ref(0)
-
-const handleMove = (pos: [number, number]) => {
-  top.value = pos[1]
-}
-
-const q = useQuasar()
+const { preview, size, dimensions, ratio } = useFilePreview(banner)
 
 const adjustOpen = ref(false)
-
-const handleAdjustToggle = () => {
-  adjustOpen.value = !adjustOpen.value
-}
 </script>
 
 <style lang="scss" scoped>
@@ -151,6 +139,18 @@ const handleAdjustToggle = () => {
 
 <template>
   <q-card flat>
+    <single-image-preview-dialog
+      :open="adjustOpen"
+      @close="adjustOpen = false"
+      v-model="topOffset"
+      :label="name"
+      :caption="size ? bytes(size) : null"
+      :preview="preview"
+      :width="dimensions[0]"
+      :height="dimensions[1]"
+      :ratio="ratio"
+    />
+
     <q-card-actions align="right">
       <q-btn
         label="save"
@@ -170,36 +170,23 @@ const handleAdjustToggle = () => {
 
       <q-form v-else-if="template" class="column">
         <q-card flat bordered class="q-mb-md">
-          <q-slide-transition>
-            <div
-              v-if="adjustOpen"
-              :style="{
-                width: `${q.screen.lt.md ? q.screen.width - 100 : q.screen.width - 320}px`,
-              }"
-            >
-              <image-offsetter
-                :src="preview"
-                @update:model-value="(v) => handleMove(v)"
-                :model-value="[0, top]"
-                :aspect-ratio="AspectRatio.widescreen"
-                show-guides
-              />
-            </div>
-          </q-slide-transition>
-
           <single-image-upload-field
             :model-value="banner"
             @update:model-value="(v) => (bannerFile = v)"
           >
-            <template #append>
-              <tooltip-button
-                flat
-                icon="las la-expand"
-                tooltip="Adjust position"
-                round
-                class="q-mr-sm"
-                @click="handleAdjustToggle"
-              />
+            <template #prepend>
+              <tooltip-button flat tooltip="Enlarge" round>
+                <q-avatar>
+                  <q-img
+                    :ratio="1"
+                    height="40px"
+                    width="40px"
+                    fit="contain"
+                    :src="preview"
+                    @click="adjustOpen = true"
+                  />
+                </q-avatar>
+              </tooltip-button>
             </template>
           </single-image-upload-field>
         </q-card>

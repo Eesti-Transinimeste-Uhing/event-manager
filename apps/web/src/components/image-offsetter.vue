@@ -1,19 +1,29 @@
 <script lang="ts" setup>
+import { AspectRatio } from 'src/lib/aspect-ratios'
 import { computed, onMounted, ref } from 'vue'
 
 const props = withDefaults(
   defineProps<{
     src: string
     modelValue: [number, number]
-    disabled?: boolean
-    animated?: boolean
     aspectRatio?: number
     showGuides?: boolean
+    hintedRatios: AspectRatio[]
   }>(),
   {
     aspectRatio: 1,
   }
 )
+
+const shownHintedRatios = computed(() => {
+  const value = [...props.hintedRatios]
+
+  value.sort((a, b) => {
+    return b - a
+  })
+
+  return value
+})
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: [number, number]): void
@@ -52,109 +62,80 @@ onMounted(() => {
   }
 
   dragTarget.value.onmousedown = (event) => {
-    if (props.disabled) return
-
     dragStart.value = [event.offsetX, event.offsetY]
     dragging.value = true
   }
 
   dragTarget.value.onmouseup = () => {
-    if (props.disabled) return
-
     emit('update:model-value', dragOffset.value)
     dragging.value = false
   }
 
   dragTarget.value.onmouseleave = () => {
-    if (props.disabled) return
-
     emit('update:model-value', dragOffset.value)
     dragging.value = false
   }
 
   dragTarget.value.onmousemove = (event) => {
-    if (props.disabled) return
-
     dragCoords.value = [event.offsetX, event.offsetY]
   }
 })
 </script>
 
-<template>
-  <div class="drag-root bg-stripe">
-    <div
-      class="fit image-display drag-target"
-      ref="dragTarget"
-      :class="{ animated: props.animated }"
-    >
-      <div class="fit marker-root bg-stripe" :class="{ show: props.showGuides }">
-        <div class="border-marker fb-cover"></div>
-        <div class="border-marker discord-event"></div>
-        <div class="border-marker fb-event"></div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <style lang="scss" scoped>
 .drag-root {
   position: relative;
-  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  user-select: none;
   aspect-ratio: v-bind(aspectRatio);
 }
 
 .drag-target {
-  position: absolute;
-  top: 0;
-  left: 0;
-
   &:not(.disabled) {
     cursor: move;
   }
 }
 
 .image-display {
+  height: 100%;
+
   background-image: v-bind(imageUrl);
-  background-size: contain;
+  background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: center v-bind(top);
-
-  &.animated {
-    transition-property: background;
-    transition-duration: 0.2s;
-    transition-timing-function: $in-out-bezier;
-  }
 }
 
+$stripes: linear-gradient(
+  135deg,
+  rgba(20, 20, 20, 1) 10%,
+  rgba(40, 40, 40, 1) 10%,
+  rgba(40, 40, 40, 1) 20%,
+  rgba(20, 20, 20, 1) 20%,
+  rgba(20, 20, 20, 1) 30%,
+  rgba(40, 40, 40, 1) 30%,
+  rgba(40, 40, 40, 1) 40%,
+  rgba(20, 20, 20, 1) 40%,
+  rgba(20, 20, 20, 1) 50%,
+  rgba(40, 40, 40, 1) 50%,
+  rgba(40, 40, 40, 1) 60%,
+  rgba(20, 20, 20, 1) 60%,
+  rgba(20, 20, 20, 1) 70%,
+  rgba(40, 40, 40, 1) 70%,
+  rgba(40, 40, 40, 1) 80%,
+  rgba(20, 20, 20, 1) 80%,
+  rgba(20, 20, 20, 1) 90%,
+  rgba(40, 40, 40, 1) 90%,
+  rgba(40, 40, 40, 1) 100%,
+  rgba(20, 20, 20, 1) 100%
+);
+
 .bg-stripe {
-  background: linear-gradient(
-    135deg,
-    rgba(20, 20, 20, 1) 10%,
-    rgba(40, 40, 40, 1) 10%,
-    rgba(40, 40, 40, 1) 20%,
-    rgba(20, 20, 20, 1) 20%,
-    rgba(20, 20, 20, 1) 30%,
-    rgba(40, 40, 40, 1) 30%,
-    rgba(40, 40, 40, 1) 40%,
-    rgba(20, 20, 20, 1) 40%,
-    rgba(20, 20, 20, 1) 50%,
-    rgba(40, 40, 40, 1) 50%,
-    rgba(40, 40, 40, 1) 60%,
-    rgba(20, 20, 20, 1) 60%,
-    rgba(20, 20, 20, 1) 70%,
-    rgba(40, 40, 40, 1) 70%,
-    rgba(40, 40, 40, 1) 80%,
-    rgba(20, 20, 20, 1) 80%,
-    rgba(20, 20, 20, 1) 90%,
-    rgba(40, 40, 40, 1) 90%,
-    rgba(40, 40, 40, 1) 100%,
-    rgba(20, 20, 20, 1) 100%
-  );
+  background: $stripes;
 }
 
 .marker-root {
-  mix-blend-mode: hard-light;
-
   transition-property: opacity;
   transition-duration: 0.3s;
   transition-timing-function: linear;
@@ -167,28 +148,37 @@ onMounted(() => {
 }
 
 .border-marker {
-  border: 2px $dark dashed;
   position: absolute;
-  width: 100%;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
 
-  transition-property: width, height;
-  transition-duration: 0.2s;
-  transition-timing-function: $in-out-bezier;
-
-  background-color: gray;
-
-  &.fb-event {
-    aspect-ratio: calc(548 / 203);
+  &:not(.alternate) {
+    border-left: 2px black dashed;
+    border-right: 2px black dashed;
+    height: 100%;
   }
 
-  &.fb-cover {
-    aspect-ratio: calc(1920 / 1005);
-  }
-
-  &.discord-event {
-    aspect-ratio: calc(440 / 180);
+  &.alternate {
+    border-top: 2px black dashed;
+    border-bottom: 2px black dashed;
+    width: 100%;
   }
 }
 </style>
+
+<template>
+  <div class="drag-root bg-stripe">
+    <div class="image-display drag-target" ref="dragTarget">
+      <div class="fit marker-root" :class="{ show: props.showGuides }">
+        <div
+          v-for="ratio in shownHintedRatios"
+          :key="ratio"
+          :style="{ aspectRatio: ratio }"
+          :class="{ alternate: ratio > props.aspectRatio }"
+          class="border-marker"
+        ></div>
+      </div>
+    </div>
+  </div>
+</template>

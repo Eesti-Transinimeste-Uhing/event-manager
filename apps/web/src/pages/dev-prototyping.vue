@@ -12,9 +12,8 @@ const handleMove = (pos: [number, number]) => {
 </script>
 
 <style lang="scss" scoped>
-.offsetter-section {
+.card {
   height: 500px;
-  width: 100%;
 }
 </style>
 
@@ -26,13 +25,14 @@ const handleMove = (pos: [number, number]) => {
 
     <q-separator />
 
-    <q-card-section class="flex offsetter-section">
+    <q-card-section class="card">
       <image-offsetter
         src="http://localhost:3000/v1/static/template-banner/5dbe876f-a9b2-498e-a28f-cc192c141b1d"
         @update:model-value="(v) => handleMove(v)"
         :model-value="[0, top]"
         :aspect-ratio="AspectRatio.widescreen"
         show-guides
+        :hinted-ratios="Object.values(AspectRatio)"
       />
     </q-card-section>
   </q-card>
