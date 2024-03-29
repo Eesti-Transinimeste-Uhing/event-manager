@@ -26,9 +26,37 @@ export type Scalars = {
   Upload: { input: any; output: any }
 }
 
+export type CreateFormInput = {
+  templateId: Scalars['ID']['input']
+}
+
 export type DiscordUser = {
   __typename?: 'DiscordUser'
   id: Scalars['ID']['output']
+}
+
+export type Form = {
+  __typename?: 'Form'
+  createdAt: Scalars['DateTime']['output']
+  id: Scalars['ID']['output']
+  template: Template
+  updatedAt: Scalars['DateTime']['output']
+}
+
+export type FormConnection = {
+  __typename?: 'FormConnection'
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges: Array<FormEdge>
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo
+}
+
+export type FormEdge = {
+  __typename?: 'FormEdge'
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String']['output']
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node: Form
 }
 
 export enum FormFieldKind {
@@ -41,9 +69,14 @@ export enum FormFieldKind {
 
 export type Mutation = {
   __typename?: 'Mutation'
+  createForm: Form
   createTemplate: Template
   submitForm: Scalars['Boolean']['output']
   updateTemplate?: Maybe<Template>
+}
+
+export type MutationCreateFormArgs = {
+  input: CreateFormInput
 }
 
 export type MutationSubmitFormArgs = {
@@ -87,9 +120,24 @@ export enum PaginationSortingOrder {
 
 export type Query = {
   __typename?: 'Query'
+  form?: Maybe<Form>
+  forms: FormConnection
   template?: Maybe<Template>
   templates: TemplateConnection
   viewer?: Maybe<User>
+}
+
+export type QueryFormArgs = {
+  where: WhereIdInput
+}
+
+export type QueryFormsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  filter?: InputMaybe<Array<PaginationFilter>>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  sort?: InputMaybe<Array<PaginationSorting>>
 }
 
 export type QueryTemplateArgs = {

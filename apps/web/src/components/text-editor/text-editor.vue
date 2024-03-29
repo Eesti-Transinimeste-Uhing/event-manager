@@ -101,6 +101,9 @@ onBeforeUnmount(() => {
         @underline="editor?.chain().focus().toggleUnderline().run()"
         @undo="editor?.chain().focus().undo().run()"
         @redo="editor?.chain().focus().redo().run()"
+        :bold="editor?.isActive('bold') ?? false"
+        :underline="editor?.isActive('underline') ?? false"
+        :italic="editor?.isActive('italic') ?? false"
         :can-undo="editor?.can().undo() ?? false"
         :can-redo="editor?.can().redo() ?? false"
       />

@@ -4,6 +4,10 @@ import TooltipButton from 'components/tooltip-button.vue'
 const props = defineProps<{
   canUndo: boolean
   canRedo: boolean
+
+  bold: boolean
+  italic: boolean
+  underline: boolean
 }>()
 
 const emit = defineEmits<{
@@ -37,14 +41,29 @@ const emit = defineEmits<{
 
     <q-separator vertical />
 
-    <tooltip-button flat square icon="las la-bold" tooltip="Bold" @click="emit('bold')" />
-    <tooltip-button flat square icon="las la-italic" tooltip="Italic" @click="emit('italic')" />
+    <tooltip-button
+      flat
+      square
+      icon="las la-bold"
+      tooltip="Bold"
+      @click="emit('bold')"
+      :color="bold ? 'primary' : 'white'"
+    />
+    <tooltip-button
+      flat
+      square
+      icon="las la-italic"
+      tooltip="Italic"
+      @click="emit('italic')"
+      :color="italic ? 'primary' : 'white'"
+    />
     <tooltip-button
       flat
       square
       icon="las la-underline"
       tooltip="Underline"
       @click="emit('underline')"
+      :color="underline ? 'primary' : 'white'"
     />
 
     <q-separator vertical />
