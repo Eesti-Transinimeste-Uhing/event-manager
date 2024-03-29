@@ -96,9 +96,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .drag-root {
-  top: 0;
   position: relative;
-  max-height: 100%;
+  height: 100%;
   aspect-ratio: v-bind(aspectRatio);
 }
 
@@ -113,10 +112,6 @@ onMounted(() => {
 }
 
 .image-display {
-  position: absolute;
-  left: 0;
-  top: 0;
-
   background-image: v-bind(imageUrl);
   background-size: cover;
   background-repeat: no-repeat;
@@ -156,7 +151,6 @@ onMounted(() => {
 }
 
 .marker-root {
-  position: relative;
   mix-blend-mode: hard-light;
 
   transition-property: opacity;
@@ -171,12 +165,15 @@ onMounted(() => {
 }
 
 .border-marker {
-  border: 2px red solid;
+  border: 2px $dark dashed;
   position: absolute;
   width: 100%;
-  left: 0;
   top: 50%;
   transform: translateY(-50%);
+
+  transition-property: width, height;
+  transition-duration: 0.2s;
+  transition-timing-function: $in-out-bezier;
 
   background-color: gray;
 

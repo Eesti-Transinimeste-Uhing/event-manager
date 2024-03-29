@@ -1,5 +1,7 @@
 export const AspectRatio = {
   square: 1 / 1,
+  widescreen: 16 / 9,
+  fullscreen: 4 / 3,
   discordEvent: 440 / 180,
   facebookCover: 1920 / 1005,
   facebookEvent: 548 / 203,

@@ -12,12 +12,9 @@ const handleMove = (pos: [number, number]) => {
 </script>
 
 <style lang="scss" scoped>
-.offsetter-wrapper {
+.offsetter-section {
   height: 500px;
-}
-
-.displays {
-  height: 200px;
+  width: 100%;
 }
 </style>
 
@@ -29,57 +26,14 @@ const handleMove = (pos: [number, number]) => {
 
     <q-separator />
 
-    <q-card-section class="offsetter-wrapper row q-col-gutter-md">
-      <div class="col-6">
-        <q-card bordered flat>
-          <image-offsetter
-            src="http://localhost:3000/v1/static/template-banner/5dbe876f-a9b2-498e-a28f-cc192c141b1d"
-            @update:model-value="handleMove"
-            :model-value="[0, top]"
-            :aspect-ratio="AspectRatio.square"
-            show-guides
-          />
-        </q-card>
-      </div>
-
-      <div class="col-6 column q-col-gutter-y-md">
-        <div class="col-4">
-          <q-card bordered flat>
-            <image-offsetter
-              src="http://localhost:3000/v1/static/template-banner/5dbe876f-a9b2-498e-a28f-cc192c141b1d"
-              :model-value="[0, top]"
-              :aspect-ratio="AspectRatio.discordEvent"
-              disabled
-              animated
-            />
-          </q-card>
-        </div>
-
-        <div class="col-4">
-          <q-card bordered flat>
-            <image-offsetter
-              src="http://localhost:3000/v1/static/template-banner/5dbe876f-a9b2-498e-a28f-cc192c141b1d"
-              :model-value="[0, top]"
-              :aspect-ratio="AspectRatio.facebookCover"
-              disabled
-              animated
-            />
-          </q-card>
-        </div>
-
-        <div class="col-4">
-          <q-card bordered flat>
-            <image-offsetter
-              class="col-3"
-              src="http://localhost:3000/v1/static/template-banner/5dbe876f-a9b2-498e-a28f-cc192c141b1d"
-              :model-value="[0, top]"
-              :aspect-ratio="AspectRatio.facebookEvent"
-              disabled
-              animated
-            />
-          </q-card>
-        </div>
-      </div>
+    <q-card-section class="flex offsetter-section">
+      <image-offsetter
+        src="http://localhost:3000/v1/static/template-banner/5dbe876f-a9b2-498e-a28f-cc192c141b1d"
+        @update:model-value="(v) => handleMove(v)"
+        :model-value="[0, top]"
+        :aspect-ratio="AspectRatio.widescreen"
+        show-guides
+      />
     </q-card-section>
   </q-card>
 </template>
