@@ -156,10 +156,15 @@ const handleHintUnhover = () => {
           </div>
 
           <div class="col text-subtitle2">
-            For the best results, select an image that at least is 1920x1080 pixels in size. If
-            larger, make sure its aspect ratio is at least 16:9. If your image is larger, you can
-            use this interface to adjust its position until you're happy with the results. Hover
-            over the chips on the left to check how your banner will look on different platforms.
+            For the best results, select an image that at least is 1920x1080 pixels in size, or its
+            aspect ratio is at least 16:9.
+            <br />
+            If your image is larger, you can use this interface to adjust its position until you're
+            happy with the results. Hover over the chips on the left to check how your banner will
+            look on different platforms.
+            <br />
+            Align so that no moving animation is visible behind the image. Areas with visible
+            animated background will be black when the form is sent out.
           </div>
         </div>
       </q-card-section>

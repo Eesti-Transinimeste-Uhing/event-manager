@@ -56,9 +56,7 @@ const dragOffset = computed<[number, number]>(() => {
 })
 
 const top = computed(() => {
-  const value = dragOffset.value[1]
-
-  return `${value}px`
+  return `${dragOffset.value[1]}px`
 })
 
 onMounted(() => {
@@ -110,29 +108,21 @@ onMounted(() => {
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: center v-bind(top);
+  text-anchor: start;
 }
 
+$gradient-dark: #141414;
+$gradient-light: $dark;
+
 $stripes: linear-gradient(
-  135deg,
-  rgba(20, 20, 20, 1) 100px,
-  rgba(40, 40, 40, 1) 100px,
-  rgba(40, 40, 40, 1) 200px,
-  rgba(20, 20, 20, 1) 200px,
-  rgba(20, 20, 20, 1) 300px,
-  rgba(40, 40, 40, 1) 300px,
-  rgba(40, 40, 40, 1) 400px,
-  rgba(20, 20, 20, 1) 400px,
-  rgba(20, 20, 20, 1) 500px,
-  rgba(40, 40, 40, 1) 500px,
-  rgba(40, 40, 40, 1) 600px,
-  rgba(20, 20, 20, 1) 600px,
-  rgba(20, 20, 20, 1) 700px,
-  rgba(40, 40, 40, 1) 700px,
-  rgba(40, 40, 40, 1) 800px,
-  rgba(20, 20, 20, 1) 800px,
-  rgba(20, 20, 20, 1) 900px,
-  rgba(40, 40, 40, 1) 900px,
-  rgba(40, 40, 40, 1) 1000px
+  45deg,
+  $gradient-dark 25%,
+  $gradient-light 25%,
+  $gradient-light 50%,
+  $gradient-dark 50%,
+  $gradient-dark 75%,
+  $gradient-light 75%,
+  $gradient-light 100%
 );
 
 @keyframes bg-move {
@@ -141,16 +131,17 @@ $stripes: linear-gradient(
   }
 
   100% {
-    background-position: 567px 0;
+    background-position: 300px 0;
   }
 }
 
 .bg-stripe {
   background: $stripes;
-  background-size: 567px;
+  background-size: 300px 300px;
+  background-repeat: repeat;
 
   animation-name: bg-move;
-  animation-duration: 10s;
+  animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-play-state: running;
