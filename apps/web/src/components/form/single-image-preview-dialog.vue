@@ -25,6 +25,16 @@ const emit = defineEmits<{
   (event: 'close'): void
   (event: 'update:model-value', value: number): void
 }>()
+
+const aspectHint = ref<AspectRatio | undefined>()
+
+const handleHintHover = (aspect: AspectRatio) => {
+  aspectHint.value = aspect
+}
+
+const handleHintUnhover = () => {
+  aspectHint.value = undefined
+}
 </script>
 
 <style lang="scss" scoped>
@@ -64,20 +74,57 @@ const emit = defineEmits<{
           :model-value="[0, props.modelValue]"
           :aspect-ratio="AspectRatio.widescreen"
           show-guides
+          :highlight-ratio="aspectHint"
           :hinted-ratios="[
             AspectRatio.discordEvent,
             AspectRatio.facebookCover,
             AspectRatio.facebookEvent,
+            AspectRatio.widescreen,
           ]"
         />
       </div>
 
       <q-card-actions align="between">
         <q-item>
-          <q-item-section>
-            <q-item-label> {{ props.label }} </q-item-label>
-            <q-item-label caption v-if="props.caption"> {{ props.caption }} </q-item-label>
-          </q-item-section>
+          <q-chip
+            outline
+            text-color="primary non-selectable"
+            icon="lab la-discord"
+            @mouseover="handleHintHover(AspectRatio.discordEvent)"
+            @mouseleave="handleHintUnhover"
+          >
+            Discord
+          </q-chip>
+
+          <q-chip
+            outline
+            text-color="primary non-selectable"
+            icon="lab la-facebook"
+            @mouseover="handleHintHover(AspectRatio.facebookEvent)"
+            @mouseleave="handleHintUnhover"
+          >
+            Facebook event
+          </q-chip>
+
+          <q-chip
+            outline
+            text-color="primary non-selectable"
+            icon="lab la-facebook"
+            @mouseover="handleHintHover(AspectRatio.facebookCover)"
+            @mouseleave="handleHintUnhover"
+          >
+            Facebook cover
+          </q-chip>
+
+          <q-chip
+            outline
+            text-color="primary non-selectable"
+            icon="las la-globe"
+            @mouseover="handleHintHover(AspectRatio.widescreen)"
+            @mouseleave="handleHintUnhover"
+          >
+            ETÜE
+          </q-chip>
         </q-item>
 
         <q-item>
@@ -99,6 +146,23 @@ const emit = defineEmits<{
           />
         </q-item>
       </q-card-actions>
+
+      <q-separator />
+
+      <q-card-section>
+        <div class="row">
+          <div class="text-subtitle1 column justify-center q-mr-md">
+            <q-icon color="primary" size="md" name="las la-info" />
+          </div>
+
+          <div class="col text-subtitle2">
+            For the best results, select an image that at least is 1920x1080 pixels in size. If
+            larger, make sure its aspect ratio is at least 16:9. If your image is larger, you can
+            use this interface to adjust its position until you're happy with the results. Hover
+            over the chips on the left to check how your banner will look on different platforms.
+          </div>
+        </div>
+      </q-card-section>
     </q-card>
   </q-dialog>
 </template>

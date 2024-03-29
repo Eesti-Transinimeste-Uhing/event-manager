@@ -9,6 +9,7 @@ const props = withDefaults(
     aspectRatio?: number
     showGuides?: boolean
     hintedRatios: AspectRatio[]
+    highlightRatio?: AspectRatio
   }>(),
   {
     aspectRatio: 1,
@@ -16,6 +17,10 @@ const props = withDefaults(
 )
 
 const shownHintedRatios = computed(() => {
+  if (props.highlightRatio) {
+    return [props.highlightRatio]
+  }
+
   const value = [...props.hintedRatios]
 
   value.sort((a, b) => {
@@ -109,37 +114,57 @@ onMounted(() => {
 
 $stripes: linear-gradient(
   135deg,
-  rgba(20, 20, 20, 1) 10%,
-  rgba(40, 40, 40, 1) 10%,
-  rgba(40, 40, 40, 1) 20%,
-  rgba(20, 20, 20, 1) 20%,
-  rgba(20, 20, 20, 1) 30%,
-  rgba(40, 40, 40, 1) 30%,
-  rgba(40, 40, 40, 1) 40%,
-  rgba(20, 20, 20, 1) 40%,
-  rgba(20, 20, 20, 1) 50%,
-  rgba(40, 40, 40, 1) 50%,
-  rgba(40, 40, 40, 1) 60%,
-  rgba(20, 20, 20, 1) 60%,
-  rgba(20, 20, 20, 1) 70%,
-  rgba(40, 40, 40, 1) 70%,
-  rgba(40, 40, 40, 1) 80%,
-  rgba(20, 20, 20, 1) 80%,
-  rgba(20, 20, 20, 1) 90%,
-  rgba(40, 40, 40, 1) 90%,
-  rgba(40, 40, 40, 1) 100%,
-  rgba(20, 20, 20, 1) 100%
+  rgba(20, 20, 20, 1) 100px,
+  rgba(40, 40, 40, 1) 100px,
+  rgba(40, 40, 40, 1) 200px,
+  rgba(20, 20, 20, 1) 200px,
+  rgba(20, 20, 20, 1) 300px,
+  rgba(40, 40, 40, 1) 300px,
+  rgba(40, 40, 40, 1) 400px,
+  rgba(20, 20, 20, 1) 400px,
+  rgba(20, 20, 20, 1) 500px,
+  rgba(40, 40, 40, 1) 500px,
+  rgba(40, 40, 40, 1) 600px,
+  rgba(20, 20, 20, 1) 600px,
+  rgba(20, 20, 20, 1) 700px,
+  rgba(40, 40, 40, 1) 700px,
+  rgba(40, 40, 40, 1) 800px,
+  rgba(20, 20, 20, 1) 800px,
+  rgba(20, 20, 20, 1) 900px,
+  rgba(40, 40, 40, 1) 900px,
+  rgba(40, 40, 40, 1) 1000px
 );
+
+@keyframes bg-move {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 567px 0;
+  }
+}
 
 .bg-stripe {
   background: $stripes;
+  background-size: 567px;
+
+  animation-name: bg-move;
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+}
+
+.hole {
+  background-color: grey;
+}
+
+.hard-light {
+  mix-blend-mode: hard-light;
 }
 
 .marker-root {
-  transition-property: opacity;
-  transition-duration: 0.3s;
-  transition-timing-function: linear;
-
   opacity: 0;
 
   &.show {
@@ -170,12 +195,18 @@ $stripes: linear-gradient(
 <template>
   <div class="drag-root bg-stripe">
     <div class="image-display drag-target" ref="dragTarget">
-      <div class="fit marker-root" :class="{ show: props.showGuides }">
+      <div
+        class="fit marker-root"
+        :class="{
+          show: props.showGuides,
+          'show bg-stripe hard-light': shownHintedRatios.length === 1,
+        }"
+      >
         <div
           v-for="ratio in shownHintedRatios"
           :key="ratio"
           :style="{ aspectRatio: ratio }"
-          :class="{ alternate: ratio > props.aspectRatio }"
+          :class="{ alternate: ratio >= props.aspectRatio, hole: shownHintedRatios.length === 1 }"
           class="border-marker"
         ></div>
       </div>
