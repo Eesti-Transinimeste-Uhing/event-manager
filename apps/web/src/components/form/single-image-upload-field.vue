@@ -61,9 +61,14 @@ const handlePreviewClick = () => {
           </q-avatar>
         </tooltip-button>
       </template>
+
+      <template #append>
+        <slot name="append" />
+      </template>
     </q-file>
 
     <tooltip-button
+      v-if="typeof props.modelValue !== 'string' && props.modelValue"
       flat
       circle
       color="red"

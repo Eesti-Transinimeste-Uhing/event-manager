@@ -172,6 +172,7 @@ export type EditTemplateQuery = {
   template?: {
     __typename?: 'Template'
     id: string
+    updatedAt: any
     name: string
     banner: any
     description: string
@@ -212,15 +213,7 @@ export type TemplateListQuery = {
     }
     edges: Array<{
       __typename?: 'TemplateEdge'
-      node: {
-        __typename?: 'Template'
-        id: string
-        name: string
-        updatedAt: any
-        banner: any
-        description: string
-        fields: Array<FormFieldKind>
-      }
+      node: { __typename?: 'Template'; id: string; name: string; updatedAt: any; banner: any }
     }>
   }
 }
@@ -291,6 +284,7 @@ export const EditTemplateDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
@@ -478,8 +472,6 @@ export const TemplateListDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'fields' } },
                           ],
                         },
                       },

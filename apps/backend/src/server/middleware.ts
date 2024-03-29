@@ -43,10 +43,14 @@ export const registerMiddleware = async (server: FastifyInstance) => {
       return
     }
 
-    request.body = await processRequest(request.raw, reply.raw, {
-      maxFileSize: 5_000_000, // 5 MB
-      maxFiles: 20,
-    })
+    try {
+      request.body = await processRequest(request.raw, reply.raw, {
+        maxFileSize: 5_000_000, // 5 MB
+        maxFiles: 20,
+      })
+    } catch (error) {
+      reply.status(400).send('400 Invalid Request')
+    }
   })
 
   const apollo = new ApolloServer<GraphqlContext>({

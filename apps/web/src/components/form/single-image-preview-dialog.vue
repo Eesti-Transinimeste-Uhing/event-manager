@@ -14,6 +14,8 @@
           :src="preview"
           :width="`${size[0]}px`"
           :height="`${size[1]}px`"
+          no-transition
+          no-spinner
         />
       </div>
 

@@ -6,16 +6,18 @@ import VueDraggable from 'vuedraggable'
 import { useRouteParam } from 'src/lib/use-route-param'
 import { graphql } from 'src/graphql/generated'
 
-import backgroundXSBL from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM-unsplash-xsbl.jpg?base64'
-
 import TextEditor from 'src/components/text-editor/text-editor.vue'
 import SingleImageUploadField from 'src/components/form/single-image-upload-field.vue'
-// import DndList from 'src/components/dnd-list/dnd-list.vue'
 import FormField from 'src/components/form/form-field.vue'
 import DragHint from 'src/components/drag-hint.vue'
+import ImageOffsetter from 'src/components/image-offsetter.vue'
 
 import { FormFieldKind } from 'src/graphql/generated/graphql'
 import { useFilePreview } from 'src/hooks/use-file-preview'
+import { DateTime } from 'luxon'
+import { AspectRatio } from 'src/lib/aspect-ratios'
+import { useQuasar } from 'quasar'
+import TooltipButton from 'src/components/tooltip-button.vue'
 
 const id = useRouteParam('id')
 
@@ -24,6 +26,7 @@ const query = useQuery(
     query EditTemplate($id: ID!) {
       template(where: { id: $id }) {
         id
+        updatedAt
         name
         banner
         description
@@ -90,7 +93,7 @@ query.onResult((result) => {
   }
 
   bannerFile.value = null
-  bannerUrl.value = `${template.banner}?bust=${Date.now()}`
+  bannerUrl.value = `${template.banner}/${DateTime.fromISO(template.updatedAt).toUnixInteger()}`
   name.value = template.name
   description.value = template.description
   fields.value = template.fields.map((field) => ({ value: field }))
@@ -105,6 +108,20 @@ const draggingLeft = ref(false)
 const draggingRight = ref(false)
 
 const { preview } = useFilePreview(banner)
+
+const top = ref(0)
+
+const handleMove = (pos: [number, number]) => {
+  top.value = pos[1]
+}
+
+const q = useQuasar()
+
+const adjustOpen = ref(false)
+
+const handleAdjustToggle = () => {
+  adjustOpen.value = !adjustOpen.value
+}
 </script>
 
 <style lang="scss" scoped>
@@ -115,6 +132,20 @@ const { preview } = useFilePreview(banner)
   }
 
   cursor: grab;
+}
+
+.adjuster-wrapper {
+  transition-property: opacity, height;
+  transition-duration: 0.2s;
+  transition-timing-function: $in-out-bezier;
+
+  opacity: 0;
+  height: 500px;
+
+  &.open {
+    opacity: 1;
+    height: 500px;
+  }
 }
 </style>
 
@@ -139,18 +170,38 @@ const { preview } = useFilePreview(banner)
 
       <q-form v-else-if="template" class="column">
         <q-card flat bordered class="q-mb-md">
-          <q-img
-            no-transition
-            :src="preview"
-            :placeholder-src="backgroundXSBL"
-            height="212px"
-            fit="cover"
-          />
+          <q-slide-transition>
+            <div
+              v-if="adjustOpen"
+              :style="{
+                width: `${q.screen.lt.md ? q.screen.width - 100 : q.screen.width - 320}px`,
+              }"
+            >
+              <image-offsetter
+                :src="preview"
+                @update:model-value="(v) => handleMove(v)"
+                :model-value="[0, top]"
+                :aspect-ratio="AspectRatio.widescreen"
+                show-guides
+              />
+            </div>
+          </q-slide-transition>
 
           <single-image-upload-field
             :model-value="banner"
             @update:model-value="(v) => (bannerFile = v)"
-          />
+          >
+            <template #append>
+              <tooltip-button
+                flat
+                icon="las la-expand"
+                tooltip="Adjust position"
+                round
+                class="q-mr-sm"
+                @click="handleAdjustToggle"
+              />
+            </template>
+          </single-image-upload-field>
         </q-card>
 
         <q-card flat bordered class="q-mb-md">

@@ -110,8 +110,6 @@ const { error, refetch, result, loading } = useQuery(
             name
             updatedAt
             banner
-            description
-            fields
           }
         }
       }

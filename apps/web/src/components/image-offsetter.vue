@@ -82,15 +82,17 @@ onMounted(() => {
 
 <template>
   <div class="drag-root bg-stripe">
-    <div class="fit image-display" :class="{ animated: props.animated }">
+    <div
+      class="fit image-display drag-target"
+      ref="dragTarget"
+      :class="{ animated: props.animated }"
+    >
       <div class="fit marker-root bg-stripe" :class="{ show: props.showGuides }">
         <div class="border-marker fb-cover"></div>
         <div class="border-marker discord-event"></div>
         <div class="border-marker fb-event"></div>
       </div>
     </div>
-
-    <div class="drag-target fit" :class="{ disabled: props.disabled }" ref="dragTarget"></div>
   </div>
 </template>
 
@@ -113,9 +115,9 @@ onMounted(() => {
 
 .image-display {
   background-image: v-bind(imageUrl);
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: 0 v-bind(top);
+  background-position: center v-bind(top);
 
   &.animated {
     transition-property: background;
