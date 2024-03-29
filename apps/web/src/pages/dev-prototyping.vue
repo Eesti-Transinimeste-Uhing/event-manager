@@ -1,39 +1,9 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-
-import ImageOffsetter from 'components/image-offsetter.vue'
-import { AspectRatio } from 'src/lib/aspect-ratios'
-
-const top = ref(0)
-
-const handleMove = (pos: [number, number]) => {
-  top.value = pos[1]
-}
+import SnackBar from 'src/components/snack-bar.vue'
 </script>
 
-<style lang="scss" scoped>
-.card {
-  height: 500px;
-}
-</style>
+<style lang="scss" scoped></style>
 
 <template>
-  <q-card flat bordered>
-    <q-card-section>
-      <code>{{ top }}</code>
-    </q-card-section>
-
-    <q-separator />
-
-    <q-card-section class="card">
-      <image-offsetter
-        src="http://localhost:3000/v1/static/template-banner/5dbe876f-a9b2-498e-a28f-cc192c141b1d"
-        @update:model-value="(v) => handleMove(v)"
-        :model-value="[0, top]"
-        :aspect-ratio="AspectRatio.widescreen"
-        show-guides
-        :hinted-ratios="Object.values(AspectRatio)"
-      />
-    </q-card-section>
-  </q-card>
+  <snack-bar :lines="['asd', 'qwe']" type="error" />
 </template>

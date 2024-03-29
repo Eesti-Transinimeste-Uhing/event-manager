@@ -103,6 +103,28 @@ a {
   }
 }
 
+.notification {
+  &-enter-active,
+  &-leave-active {
+    transition-duration: 0.2s;
+    transition-property: transform;
+    transform-origin: center center;
+  }
+
+  &-enter-active {
+    transition-timing-function: $in-bezier;
+  }
+
+  &-leave-active {
+    transition-timing-function: $out-bezier;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: translateY(10rem);
+  }
+}
+
 .list {
   &-move {
     transition-duration: 0.2s;

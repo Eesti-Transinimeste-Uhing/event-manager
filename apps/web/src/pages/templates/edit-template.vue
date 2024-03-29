@@ -17,6 +17,7 @@ import { FormFieldKind } from 'src/graphql/generated/graphql'
 import { useFilePreview } from 'src/hooks/use-file-preview'
 import TooltipButton from 'src/components/tooltip-button.vue'
 import SingleImagePreviewDialog from 'src/components/form/single-image-preview-dialog.vue'
+import { useNotificationsStore } from 'src/stores/notifications'
 
 const id = useRouteParam('id')
 
@@ -47,20 +48,36 @@ const updateTemplate = useMutation(
   `)
 )
 
-const handleSave = async () => {
-  await updateTemplate.mutate({
-    where: {
-      id,
-    },
-    data: {
-      banner: typeof banner.value === 'string' ? null : banner.value,
-      name: name.value,
-      description: description.value,
-      fields: fields.value.map((field) => field.value),
-    },
-  })
+const notifications = useNotificationsStore()
 
-  await query.refetch()
+const handleSave = async () => {
+  try {
+    await updateTemplate.mutate({
+      where: {
+        id,
+      },
+      data: {
+        banner: typeof banner.value === 'string' ? null : banner.value,
+        name: name.value,
+        description: description.value,
+        fields: fields.value.map((field) => field.value),
+      },
+    })
+
+    notifications.enqueue({
+      lines: ['Saved!'],
+      type: 'success',
+    })
+
+    await query.refetch()
+  } catch (error) {
+    if (error instanceof Error) {
+      notifications.enqueue({
+        lines: ['Cannot save', error.message],
+        type: 'error',
+      })
+    }
+  }
 }
 
 const template = computed(() => {
