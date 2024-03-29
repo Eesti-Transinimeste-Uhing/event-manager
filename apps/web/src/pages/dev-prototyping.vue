@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import SnackBar from 'src/components/snack-bar.vue'
+import EmptyContent from 'src/components/empty-content.vue'
 </script>
 
 <style lang="scss" scoped></style>
 
 <template>
-  <snack-bar :lines="['asd', 'qwe']" type="error" />
+  <empty-content />
 </template>

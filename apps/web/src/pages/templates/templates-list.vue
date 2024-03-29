@@ -2,18 +2,18 @@
 import { useQuery } from '@vue/apollo-composable'
 import { useQuasar } from 'quasar'
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 import backgroundXSBL from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM-unsplash-xsbl.jpg?base64'
 import { graphql } from 'src/graphql/generated'
+import { TemplateListQueryVariables, PaginationSortingOrder } from 'src/graphql/generated/graphql'
 
 import { editTemplate } from 'src/router/routes'
-import { useRouter } from 'vue-router'
 import { useIsServer } from 'src/hooks/is-server'
 
-import DateTime from 'src/components/date-time.vue'
-import TooltipButton from 'src/components/tooltip-button.vue'
-import { TemplateListQueryVariables } from 'src/graphql/generated/graphql'
-import { PaginationSortingOrder } from 'src/graphql/generated/graphql'
+import DateTime from 'components/date-time.vue'
+import TooltipButton from 'components/tooltip-button.vue'
+import EmptyContent from 'components/empty-content.vue'
 
 const { isServer } = useIsServer()
 
@@ -196,9 +196,13 @@ const handlePreviousPage = () => {
       </q-banner>
     </div>
 
-    <div v-else-if="error">
-      {{ error }}
-    </div>
+    <empty-content
+      v-else-if="error"
+      icon="las la-times"
+      title="Network error"
+      :content="error.message"
+      icon-colour="red"
+    />
 
     <div class="col column" v-else>
       <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">

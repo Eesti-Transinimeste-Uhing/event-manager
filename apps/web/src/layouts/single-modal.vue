@@ -14,6 +14,7 @@ import backgroundXSBL from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM
           no-spinner
           fit="cover"
           height="100%"
+          no-transition
         />
         <div class="fit backdrop" />
       </div>
