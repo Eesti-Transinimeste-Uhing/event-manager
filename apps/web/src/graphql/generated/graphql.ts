@@ -310,6 +310,13 @@ export type TemplateListQuery = {
   }
 }
 
+export type CreateTemplateMutationVariables = Exact<{ [key: string]: never }>
+
+export type CreateTemplateMutation = {
+  __typename?: 'Mutation'
+  createTemplate: { __typename?: 'Template'; id: string }
+}
+
 export const PostOauthViewerDocument = {
   kind: 'Document',
   definitions: [
@@ -727,3 +734,26 @@ export const TemplateListDocument = {
     },
   ],
 } as unknown as DocumentNode<TemplateListQuery, TemplateListQueryVariables>
+export const CreateTemplateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateTemplate' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createTemplate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateTemplateMutation, CreateTemplateMutationVariables>

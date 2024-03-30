@@ -39,9 +39,7 @@ const handleHintUnhover = () => {
 
 <style lang="scss" scoped>
 .dialog-card {
-  width: 100%;
-  max-height: 90vh !important;
-  max-width: 1920px !important;
+  max-width: 1200px !important;
 }
 
 .image-wrapper {

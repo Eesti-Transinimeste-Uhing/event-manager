@@ -5,6 +5,7 @@ import { DeepPartial } from 'typeorm'
 import { EntityNotFoundError } from '../errors/entity-not-found'
 import { EntityFetchingError } from '../errors/entity-fetching-error'
 import { PaginationArgs } from 'nexus/dist/plugins/connectionPlugin'
+import { templateBanners } from '../storage'
 
 export class TemplateController {
   private manager = AppDataSource.createEntityManager()
@@ -35,6 +36,8 @@ export class TemplateController {
     await this.manager.transaction(async (manager) => {
       await manager.save(template)
     })
+
+    await templateBanners.get(template.id)
 
     return template
   }

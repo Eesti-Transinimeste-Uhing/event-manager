@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useQuery } from '@vue/apollo-composable'
+import { useQuery, useMutation } from '@vue/apollo-composable'
 import { useQuasar } from 'quasar'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -119,6 +119,16 @@ const { error, refetch, result, loading } = useQuery(
   { prefetch: false, fetchPolicy: 'no-cache' }
 )
 
+const mutation = useMutation(
+  graphql(`
+    mutation CreateTemplate {
+      createTemplate {
+        id
+      }
+    }
+  `)
+)
+
 const q = useQuasar()
 
 const colClass = computed(() => {
@@ -148,6 +158,17 @@ const handlePreviousPage = () => {
     after: null,
     before: result.value?.templates.pageInfo.startCursor,
   }
+}
+
+const handleCreateNewClick = async () => {
+  const result = await mutation.mutate()
+
+  router.push({
+    name: templateEdit.name,
+    params: {
+      id: result?.data?.createTemplate.id,
+    },
+  })
 }
 </script>
 
@@ -212,6 +233,16 @@ const handlePreviousPage = () => {
           color="secondary"
           flat
           round
+          icon="las la-plus"
+          tooltip="Create new"
+          :loading="mutation.loading.value"
+          @click="handleCreateNewClick"
+        />
+
+        <tooltip-button
+          color="secondary"
+          flat
+          round
           :icon="
             sortDir === PaginationSortingOrder.Desc
               ? 'las la-sort-amount-down'
@@ -241,9 +272,7 @@ const handlePreviousPage = () => {
             <router-link :to="createEditPath(edge.node.id)">
               <q-card v-ripple flat>
                 <q-img
-                  :src="
-                    edge.node.banner || `https://picsum.photos/seed/${edge.node.id}/360/203.jpg`
-                  "
+                  :src="edge.node.banner"
                   :placeholder-src="backgroundXSBL"
                   height="212px"
                   fit="cover"
