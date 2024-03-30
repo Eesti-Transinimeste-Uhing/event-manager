@@ -34,7 +34,7 @@ export const templates: RouteRecord = {
   },
 }
 
-export const editTemplate: RouteRecord = {
+export const templateEdit: RouteRecord = {
   name: 'template-edit',
   path: '/template/:id/edit',
   component: () => import('pages/templates/edit-template.vue'),
@@ -43,6 +43,18 @@ export const editTemplate: RouteRecord = {
     dark: true,
     icon: 'las la-edit',
     label: 'Edit template',
+  },
+}
+
+export const forms: RouteRecord = {
+  name: 'forms',
+  path: '/form/list',
+  component: () => import('pages/forms/forms-list.vue'),
+  meta: {
+    auth: 'require',
+    dark: true,
+    icon: 'las la-file-alt',
+    label: 'Forms',
   },
 }
 
@@ -59,7 +71,7 @@ export const prototyping: RouteRecord = {
   },
 }
 
-const indexRoutes: RouteRecord[] = [indexDashboard, templates, editTemplate]
+const indexRoutes: RouteRecord[] = [indexDashboard, templates, templateEdit, forms]
 
 if (config.node.env === 'development') {
   indexRoutes.push(prototyping)

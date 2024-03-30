@@ -8,7 +8,7 @@ import backgroundXSBL from 'src/assets/background/jiroe-matia-rengel-b9kh72kOcdM
 import { graphql } from 'src/graphql/generated'
 import { TemplateListQueryVariables, PaginationSortingOrder } from 'src/graphql/generated/graphql'
 
-import { editTemplate } from 'src/router/routes'
+import { templateEdit } from 'src/router/routes'
 import { useIsServer } from 'src/hooks/is-server'
 
 import DateTime from 'components/date-time.vue'
@@ -129,7 +129,7 @@ const router = useRouter()
 
 const createEditPath = (id: string) => {
   return router.resolve({
-    name: editTemplate.name,
+    name: templateEdit.name,
     params: {
       id,
     },
@@ -161,134 +161,132 @@ const handlePreviousPage = () => {
 </style>
 
 <template>
-  <transition name="card" mode="out-in">
-    <div v-if="(loading && !result) || isServer" class="column">
-      <q-banner inline-actions rounded class="text-white q-mb-md">
-        <q-skeleton type="rect" height="30px" />
-      </q-banner>
+  <div v-if="(loading && !result) || isServer" class="column">
+    <q-banner inline-actions rounded class="text-white q-mb-md">
+      <q-skeleton type="rect" height="30px" />
+    </q-banner>
 
+    <div class="row q-col-gutter-md">
+      <div :class="colClass" v-for="index in 15" :key="index">
+        <q-card flat>
+          <q-skeleton height="150px" square />
+
+          <q-card-section>
+            <q-item dense>
+              <q-item-section>
+                <q-item-label>
+                  <q-skeleton type="text" />
+                </q-item-label>
+                <q-item-label caption>
+                  <q-skeleton type="text" />
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
+
+    <q-banner inline-actions rounded class="text-white q-mt-md">
+      <template v-slot:action>
+        <q-skeleton type="circle" class="q-ml-sm" />
+        <q-skeleton type="circle" class="q-ml-sm" />
+      </template>
+    </q-banner>
+  </div>
+
+  <empty-content
+    v-else-if="error"
+    icon="las la-times"
+    title="Network error"
+    :content="error.message"
+    icon-colour="red"
+  />
+
+  <div class="col column" v-else>
+    <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">
+      <q-input borderless :debounce="300" v-model="filterText" label="Search..." />
+
+      <template v-slot:action>
+        <tooltip-button
+          color="secondary"
+          flat
+          round
+          :icon="
+            sortDir === PaginationSortingOrder.Desc
+              ? 'las la-sort-amount-down'
+              : 'las la-sort-amount-up'
+          "
+          tooltip="Sort"
+          :loading="loading"
+          @click="toggleSortDir"
+        />
+
+        <tooltip-button
+          color="secondary"
+          flat
+          round
+          icon="las la-sync"
+          tooltip="Refresh"
+          :loading="loading"
+          @click="refetch"
+        />
+      </template>
+    </q-banner>
+
+    <div class="results-container column col" v-if="result">
       <div class="row q-col-gutter-md">
-        <div :class="colClass" v-for="index in 15" :key="index">
-          <q-card flat>
-            <q-skeleton height="150px" square />
-
-            <q-card-section>
-              <q-item dense>
-                <q-item-section>
-                  <q-item-label>
-                    <q-skeleton type="text" />
-                  </q-item-label>
-                  <q-item-label caption>
-                    <q-skeleton type="text" />
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-card-section>
-          </q-card>
-        </div>
+        <transition-group name="list">
+          <div :class="colClass" v-for="edge of result.templates.edges" :key="edge.node.id">
+            <router-link :to="createEditPath(edge.node.id)">
+              <q-card v-ripple flat>
+                <q-img
+                  :src="
+                    edge.node.banner || `https://picsum.photos/seed/${edge.node.id}/360/203.jpg`
+                  "
+                  :placeholder-src="backgroundXSBL"
+                  height="212px"
+                  fit="cover"
+                >
+                  <div class="absolute-bottom template-name row items-center justify-between">
+                    <span class="text-h6">{{ edge.node.name || 'Unnamed template' }}</span>
+                    <span class="text-subtitle2">
+                      <date-time :model-value="edge.node.updatedAt" />
+                    </span>
+                  </div>
+                </q-img>
+              </q-card>
+            </router-link>
+          </div>
+        </transition-group>
       </div>
-
-      <q-banner inline-actions rounded class="text-white q-mt-md">
-        <template v-slot:action>
-          <q-skeleton type="circle" class="q-ml-sm" />
-          <q-skeleton type="circle" class="q-ml-sm" />
-        </template>
-      </q-banner>
     </div>
 
-    <empty-content
-      v-else-if="error"
-      icon="las la-times"
-      title="Network error"
-      :content="error.message"
-      icon-colour="red"
-    />
+    <q-banner inline-actions rounded class="text-white q-mt-md">
+      <span v-if="result"> Total: {{ result.templates.pageInfo.totalCount }} </span>
 
-    <div class="col column" v-else>
-      <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">
-        <q-input borderless :debounce="300" v-model="filterText" label="Search..." />
-
-        <template v-slot:action>
-          <tooltip-button
-            color="secondary"
-            flat
-            round
-            :icon="
-              sortDir === PaginationSortingOrder.Desc
-                ? 'las la-sort-amount-down'
-                : 'las la-sort-amount-up'
-            "
-            tooltip="Sort"
-            :loading="loading"
-            @click="toggleSortDir"
-          />
-
-          <tooltip-button
-            color="secondary"
-            flat
-            round
-            icon="las la-sync"
-            tooltip="Refresh"
-            :loading="loading"
-            @click="refetch"
-          />
-        </template>
-      </q-banner>
-
-      <div class="results-container column col" v-if="result">
-        <div class="row q-col-gutter-md">
-          <transition-group name="list">
-            <div :class="colClass" v-for="edge of result.templates.edges" :key="edge.node.id">
-              <router-link :to="createEditPath(edge.node.id)">
-                <q-card v-ripple flat>
-                  <q-img
-                    :src="
-                      edge.node.banner || `https://picsum.photos/seed/${edge.node.id}/360/203.jpg`
-                    "
-                    :placeholder-src="backgroundXSBL"
-                    height="212px"
-                    fit="cover"
-                  >
-                    <div class="absolute-bottom template-name row items-center justify-between">
-                      <span class="text-h6">{{ edge.node.name || 'Unnamed template' }}</span>
-                      <span class="text-subtitle2">
-                        <date-time :model-value="edge.node.updatedAt" />
-                      </span>
-                    </div>
-                  </q-img>
-                </q-card>
-              </router-link>
-            </div>
-          </transition-group>
-        </div>
-      </div>
-
-      <q-banner inline-actions rounded class="text-white q-mt-md">
-        <span v-if="result"> Total: {{ result.templates.pageInfo.totalCount }} </span>
-
-        <template v-if="result" v-slot:action>
-          <tooltip-button
-            :disabled="!result.templates.pageInfo.hasPreviousPage"
-            round
-            color="secondary"
-            flat
-            icon="las la-angle-left"
-            tooltip="Previous page"
-            :loading="loading"
-            @click="handlePreviousPage"
-          />
-          <tooltip-button
-            :disabled="!result.templates.pageInfo.hasNextPage"
-            round
-            color="secondary"
-            flat
-            icon="las la-angle-right"
-            tooltip="Next page"
-            :loading="loading"
-            @click="handleNextPage"
-          />
-        </template>
-      </q-banner>
-    </div>
-  </transition>
+      <template v-if="result" v-slot:action>
+        <tooltip-button
+          :disabled="!result.templates.pageInfo.hasPreviousPage"
+          round
+          color="secondary"
+          flat
+          icon="las la-angle-left"
+          tooltip="Previous page"
+          :loading="loading"
+          @click="handlePreviousPage"
+        />
+        <tooltip-button
+          :disabled="!result.templates.pageInfo.hasNextPage"
+          round
+          color="secondary"
+          flat
+          icon="las la-angle-right"
+          tooltip="Next page"
+          :loading="loading"
+          @click="handleNextPage"
+        />
+      </template>
+    </q-banner>
+  </div>
 </template>

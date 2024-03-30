@@ -9,6 +9,7 @@ export const Form = objectType({
   },
   definition(t) {
     t.id('id')
+    t.string('name')
     t.dateTime('createdAt')
     t.dateTime('updatedAt')
     t.field('template', {

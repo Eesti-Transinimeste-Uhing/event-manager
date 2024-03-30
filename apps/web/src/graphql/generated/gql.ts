@@ -15,6 +15,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
   '\n    query PostOauthViewer {\n      viewer {\n        id\n      }\n    }\n  ':
     types.PostOauthViewerDocument,
+  '\n    query FormList(\n      $first: Int\n      $last: Int\n      $after: String\n      $before: String\n      $filter: [PaginationFilter!]\n      $sort: [PaginationSorting!]\n    ) {\n      forms(\n        first: $first\n        last: $last\n        after: $after\n        before: $before\n        filter: $filter\n        sort: $sort\n      ) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          node {\n            id\n            createdAt\n            updatedAt\n            template {\n              id\n              name\n              banner\n              bannerOffset\n            }\n          }\n        }\n      }\n    }\n  ':
+    types.FormListDocument,
   '\n    query EditTemplate($id: ID!) {\n      template(where: { id: $id }) {\n        id\n        updatedAt\n        name\n        banner\n        description\n        fields\n        bannerOffset\n      }\n    }\n  ':
     types.EditTemplateDocument,
   '\n    mutation UpdateTemplate($where: UpdateTemplateWhereInput!, $data: UpdateTemplateDataInput!) {\n      updateTemplate(where: $where, data: $data) {\n        id\n      }\n    }\n  ':
@@ -43,6 +45,12 @@ export function graphql(source: string): unknown
 export function graphql(
   source: '\n    query PostOauthViewer {\n      viewer {\n        id\n      }\n    }\n  '
 ): (typeof documents)['\n    query PostOauthViewer {\n      viewer {\n        id\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query FormList(\n      $first: Int\n      $last: Int\n      $after: String\n      $before: String\n      $filter: [PaginationFilter!]\n      $sort: [PaginationSorting!]\n    ) {\n      forms(\n        first: $first\n        last: $last\n        after: $after\n        before: $before\n        filter: $filter\n        sort: $sort\n      ) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          node {\n            id\n            createdAt\n            updatedAt\n            template {\n              id\n              name\n              banner\n              bannerOffset\n            }\n          }\n        }\n      }\n    }\n  '
+): (typeof documents)['\n    query FormList(\n      $first: Int\n      $last: Int\n      $after: String\n      $before: String\n      $filter: [PaginationFilter!]\n      $sort: [PaginationSorting!]\n    ) {\n      forms(\n        first: $first\n        last: $last\n        after: $after\n        before: $before\n        filter: $filter\n        sort: $sort\n      ) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          node {\n            id\n            createdAt\n            updatedAt\n            template {\n              id\n              name\n              banner\n              bannerOffset\n            }\n          }\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

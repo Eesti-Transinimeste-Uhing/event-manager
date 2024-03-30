@@ -182,6 +182,7 @@ export interface NexusGenFieldTypes {
     // field return type
     createdAt: NexusGenScalars['DateTime'] // DateTime!
     id: string // ID!
+    name: string // String!
     template: NexusGenRootTypes['Template'] // Template!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
@@ -254,6 +255,7 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     createdAt: 'DateTime'
     id: 'ID'
+    name: 'String'
     template: 'Template'
     updatedAt: 'DateTime'
   }

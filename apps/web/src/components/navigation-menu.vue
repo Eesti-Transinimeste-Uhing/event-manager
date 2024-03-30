@@ -2,7 +2,7 @@
 import { config } from 'src/config'
 import * as route from 'src/router/routes'
 
-const routes = [route.indexDashboard, route.templates]
+const routes = [route.indexDashboard, route.templates, route.forms]
 </script>
 
 <style lang="scss" scoped>

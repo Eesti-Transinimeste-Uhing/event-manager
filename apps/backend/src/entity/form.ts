@@ -23,6 +23,11 @@ export class Form {
   })
   updatedAt: Date
 
+  @Column('varchar', {
+    nullable: true,
+  })
+  name: string
+
   @ManyToOne(() => Template, (template) => template.forms, {
     lazy: true,
   })

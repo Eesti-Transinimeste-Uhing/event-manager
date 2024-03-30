@@ -17,6 +17,7 @@ type DiscordUser {
 type Form {
   createdAt: DateTime!
   id: ID!
+  name: String!
   template: Template!
   updatedAt: DateTime!
 }
