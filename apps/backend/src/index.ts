@@ -8,6 +8,8 @@ import { AppDataSource } from './data-source'
 const main = async () => {
   log.debug(`connecting to database`)
   await AppDataSource.initialize()
+
+  log.debug('creating server')
   const server = await createServer()
 
   log.debug('starting server')
