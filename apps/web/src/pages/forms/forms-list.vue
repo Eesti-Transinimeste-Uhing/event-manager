@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { QTableColumn } from 'quasar'
+// import { useRouter } from 'vue-router'
+import { useMutation } from '@vue/apollo-composable'
 
 import { graphql } from 'src/graphql/generated'
 import { FormListQuery, PaginationSortingOrder } from 'src/graphql/generated/graphql'
@@ -7,7 +9,6 @@ import EmptyContent from 'src/components/empty-content.vue'
 import { useCursorPagination } from 'src/hooks/use-cursor-pagination'
 import DateTime from 'src/components/date-time.vue'
 import TooltipButton from 'src/components/tooltip-button.vue'
-
 import TableSkeleton from 'components/skeletons/table-skeleton.vue'
 
 const {
@@ -96,6 +97,28 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
     },
   },
 ]
+
+const mutation = useMutation(
+  graphql(`
+    mutation CreateForm($input: CreateFormInput!) {
+      createForm(input: $input) {
+        id
+      }
+    }
+  `)
+)
+
+// const router = useRouter()
+
+const handleCreateNewClick = async () => {
+  // const result = await mutation.mutate()
+  // router.push({
+  //   name: '',
+  //   params: {
+  //     id: result?.data?.createTemplate.id,
+  //   },
+  // })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -110,6 +133,16 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
       <q-input borderless :debounce="300" v-model="filterText" label="Search..." />
 
       <template v-slot:action>
+        <tooltip-button
+          color="secondary"
+          flat
+          round
+          icon="las la-plus"
+          tooltip="Create new"
+          :loading="mutation.loading.value"
+          @click="handleCreateNewClick"
+        />
+
         <tooltip-button
           color="secondary"
           flat

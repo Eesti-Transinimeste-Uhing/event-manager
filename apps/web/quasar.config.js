@@ -35,6 +35,7 @@ module.exports = configure(function (/* ctx */) {
     boot: [
       { path: 'buffer.ts', server: false },
       { path: 'apollo.ts', server: false },
+      { path: 'click-outside.ts' },
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css

@@ -214,34 +214,6 @@ export type PostOauthViewerQuery = {
   viewer?: { __typename?: 'User'; id: string } | null
 }
 
-export type SearchTemplatesQueryVariables = Exact<{
-  filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
-  first?: InputMaybe<Scalars['Int']['input']>
-  after?: InputMaybe<Scalars['String']['input']>
-  before?: InputMaybe<Scalars['String']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
-}>
-
-export type SearchTemplatesQuery = {
-  __typename?: 'Query'
-  templates: {
-    __typename?: 'TemplateConnection'
-    pageInfo: {
-      __typename?: 'PageInfo'
-      endCursor?: string | null
-      startCursor?: string | null
-      hasNextPage?: boolean | null
-      hasPreviousPage?: boolean | null
-      totalCount?: number | null
-    }
-    edges: Array<{
-      __typename?: 'TemplateEdge'
-      node: { __typename?: 'Template'; id: string; name: string }
-    }>
-  }
-}
-
 export type FormListQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
@@ -280,6 +252,15 @@ export type FormListQuery = {
       }
     }>
   }
+}
+
+export type CreateFormMutationVariables = Exact<{
+  input: CreateFormInput
+}>
+
+export type CreateFormMutation = {
+  __typename?: 'Mutation'
+  createForm: { __typename?: 'Form'; id: string }
 }
 
 export type EditTemplateQueryVariables = Exact<{
@@ -368,140 +349,6 @@ export const PostOauthViewerDocument = {
     },
   ],
 } as unknown as DocumentNode<PostOauthViewerQuery, PostOauthViewerQueryVariables>
-export const SearchTemplatesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'SearchTemplates' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
-          type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'templates' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'filter' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'first' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'after' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'before' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'last' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'sort' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'pageInfo' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<SearchTemplatesQuery, SearchTemplatesQueryVariables>
 export const FormListDocument = {
   kind: 'Document',
   definitions: [
@@ -650,6 +497,46 @@ export const FormListDocument = {
     },
   ],
 } as unknown as DocumentNode<FormListQuery, FormListQueryVariables>
+export const CreateFormDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateForm' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateFormInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createForm' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateFormMutation, CreateFormMutationVariables>
 export const EditTemplateDocument = {
   kind: 'Document',
   definitions: [

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import SelectField, { Option } from './base/select-field.vue'
+import SelectField, { SelectOption } from './base/select-field.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -14,7 +14,7 @@ const emit = defineEmits<{
   (event: 'update:model-value', value: boolean): void
 }>()
 
-const options: Option[] = [
+const options: SelectOption[] = [
   {
     label: 'Yes',
     value: 'yes',

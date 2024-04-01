@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 
-export type Option =
+export type SelectOption =
   | string
   | {
       label: string
@@ -10,7 +10,7 @@ export type Option =
 
 const props = defineProps<{
   modelValue: string | null
-  options: Option[]
+  options: SelectOption[]
   allowOther?: boolean
   randomOrder?: boolean
 }>()
@@ -19,7 +19,7 @@ const emit = defineEmits<{
   (event: 'update:model-value', value: string): void
 }>()
 
-const appendOther = (options: Option[]): Option[] => {
+const appendOther = (options: SelectOption[]): SelectOption[] => {
   if (!props.allowOther) {
     return options
   }
@@ -68,7 +68,7 @@ const isOther = computed(() => {
   return false
 })
 
-const handleInput = (v: Option) => {
+const handleInput = (v: SelectOption) => {
   if (!touched.value) touched.value = true
 
   const value = typeof v === 'string' ? v : v.value
