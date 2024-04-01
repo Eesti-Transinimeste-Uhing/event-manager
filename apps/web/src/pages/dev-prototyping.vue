@@ -1,73 +1,60 @@
 <script lang="ts" setup>
-// import { graphql } from 'src/graphql/generated'
-// import { useCursorPagination } from 'src/hooks/use-cursor-pagination'
-// import { computed, ref } from 'vue'
+import { computed, ref } from 'vue'
 
-// const { result, filterText, loading } = useCursorPagination(
-//   'templates',
-//   graphql(`
-//     query SearchTemplates(
-//       $filter: [PaginationFilter!]
-//       $first: Int
-//       $after: String
-//       $before: String
-//       $last: Int
-//       $sort: [PaginationSorting!]
-//     ) {
-//       templates(
-//         filter: $filter
-//         first: $first
-//         after: $after
-//         before: $before
-//         last: $last
-//         sort: $sort
-//       ) {
-//         pageInfo {
-//           endCursor
-//           startCursor
-//           hasNextPage
-//           hasPreviousPage
-//           totalCount
-//         }
-//         edges {
-//           node {
-//             id
-//             name
-//           }
-//         }
-//       }
-//     }
-//   `),
-//   {
-//     defaultFilterColumns: ['name'],
-//     defaultSortColumns: ['name'],
-//   }
-// )
-
-// const model = ref(null)
-
-// const options = computed(() => {
-//   return (
-//     result.value?.templates.edges.map((edge) => ({
-//       value: edge.node.id,
-//       label: edge.node.name,
-//     })) ?? []
-//   )
-// })
+import { graphql } from 'src/graphql/generated'
+import { useCursorPagination } from 'src/hooks/use-cursor-pagination'
 
 import ButtonSelect from 'components/button-select.vue'
-import { SelectOption } from 'src/components/form/base/select-field.vue'
 
-const options: SelectOption[] = [
+const { result, filterText, loading } = useCursorPagination(
+  'templates',
+  graphql(`
+    query SearchTemplates(
+      $filter: [PaginationFilter!]
+      $first: Int
+      $after: String
+      $before: String
+      $last: Int
+      $sort: [PaginationSorting!]
+    ) {
+      templates(
+        filter: $filter
+        first: $first
+        after: $after
+        before: $before
+        last: $last
+        sort: $sort
+      ) {
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
+          hasPreviousPage
+          totalCount
+        }
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
+  `),
   {
-    label: 'Asd',
-    value: 'asd',
-  },
-  {
-    label: 'Qwe',
-    value: 'qwe',
-  },
-]
+    defaultFilterColumns: ['name'],
+    defaultSortColumns: ['name'],
+  }
+)
+
+const options = computed(() => {
+  return (
+    result.value?.templates.edges.map((edge) => ({
+      value: edge.node.id,
+      label: edge.node.name,
+    })) ?? []
+  )
+})
 </script>
 
 <style lang="scss" scoped></style>
@@ -93,5 +80,29 @@ const options: SelectOption[] = [
     </template>
   </q-select> -->
 
-  <button-select :model-value="null" :options="options" color="primary" />
+  <div>
+    <button-select
+      :model-value="null"
+      :options="options"
+      color="primary"
+      round
+      icon="las la-times"
+      position="bottom-right"
+    >
+      <template #prepend>
+        <q-input
+          class="fit q-px-md"
+          borderless
+          v-model="filterText"
+          clear-icon="las la-times"
+          no-error-icon
+          hide-bottom-space
+          label="Search..."
+          :debounce="300"
+        ></q-input>
+
+        <q-linear-progress indeterminate />
+      </template>
+    </button-select>
+  </div>
 </template>

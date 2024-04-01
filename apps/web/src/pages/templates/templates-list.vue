@@ -233,16 +233,6 @@ const handleCreateNewClick = async () => {
           color="secondary"
           flat
           round
-          icon="las la-plus"
-          tooltip="Create new"
-          :loading="mutation.loading.value"
-          @click="handleCreateNewClick"
-        />
-
-        <tooltip-button
-          color="secondary"
-          flat
-          round
           :icon="
             sortDir === PaginationSortingOrder.Desc
               ? 'las la-sort-amount-down'
@@ -261,6 +251,16 @@ const handleCreateNewClick = async () => {
           tooltip="Refresh"
           :loading="loading"
           @click="refetch"
+        />
+
+        <tooltip-button
+          color="secondary"
+          round
+          icon="las la-plus"
+          tooltip="Create new"
+          :loading="mutation.loading.value"
+          @click="handleCreateNewClick"
+          class="q-ml-sm"
         />
       </template>
     </q-banner>

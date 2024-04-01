@@ -45,6 +45,7 @@ const handleOptionClick = (option: SelectOption) => {
 <style lang="scss" scoped>
 .morph-card {
   width: 350px;
+  z-index: 2000;
 }
 
 .morph-wrapper {
@@ -55,20 +56,21 @@ const handleOptionClick = (option: SelectOption) => {
 <template>
   <div class="morph-wrapper" v-click-outside="() => setMorphState('button')">
     <q-btn
-      v-morph:button:mygroup:300.tween="morphGroupModel"
+      v-morph:button:mygroup:200.resize="morphGroupModel"
       :class="props.class"
-      class="morph-component"
       @click.stop="handleNextMorph"
       v-bind="$attrs"
     />
 
     <q-no-ssr>
       <q-card
-        v-morph:card:mygroup:300.tween="morphGroupModel"
+        v-morph:card:mygroup:200.resize="morphGroupModel"
         class="morph-card text-no-wrap absolute"
         :class="props.class"
       >
         <q-list>
+          <slot name="prepend" />
+
           <q-item
             clickable
             v-for="option of displayOptions"

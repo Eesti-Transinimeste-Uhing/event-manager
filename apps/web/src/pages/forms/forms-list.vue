@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import { QTableColumn } from 'quasar'
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useMutation } from '@vue/apollo-composable'
+import { computed } from 'vue'
+import { QTableColumn } from 'quasar'
+
+import ButtonSelect from 'components/button-select.vue'
 
 import { graphql } from 'src/graphql/generated'
 import { FormListQuery, PaginationSortingOrder } from 'src/graphql/generated/graphql'
@@ -10,6 +13,8 @@ import { useCursorPagination } from 'src/hooks/use-cursor-pagination'
 import DateTime from 'src/components/date-time.vue'
 import TooltipButton from 'src/components/tooltip-button.vue'
 import TableSkeleton from 'components/skeletons/table-skeleton.vue'
+import { useNotificationsStore } from 'src/stores/notifications'
+import { formEdit } from 'src/router/routes'
 
 const {
   loading,
@@ -108,17 +113,93 @@ const mutation = useMutation(
   `)
 )
 
-// const router = useRouter()
+const router = useRouter()
+const notifications = useNotificationsStore()
 
-const handleCreateNewClick = async () => {
-  // const result = await mutation.mutate()
-  // router.push({
-  //   name: '',
-  //   params: {
-  //     id: result?.data?.createTemplate.id,
-  //   },
-  // })
+const handleCreateNew = async (templateId: string) => {
+  try {
+    const result = await mutation.mutate({
+      input: {
+        templateId,
+      },
+    })
+
+    if (result?.errors) {
+      notifications.enqueue({
+        type: 'error',
+        lines: ["Couldn't create", result.errors.map((error) => error.message).join('\n')],
+      })
+    }
+
+    router.push({
+      name: formEdit.name,
+      params: {
+        id: result?.data?.createForm.id,
+      },
+    })
+  } catch (error) {
+    if (error instanceof Error) {
+      notifications.enqueue({
+        type: 'error',
+        lines: ["Couldn't create", error.message],
+      })
+    }
+  }
 }
+
+const {
+  result: templatesResult,
+  filterText: templatesFilter,
+  loading: templatesLoading,
+} = useCursorPagination(
+  'templates',
+  graphql(`
+    query SearchTemplates(
+      $filter: [PaginationFilter!]
+      $first: Int
+      $after: String
+      $before: String
+      $last: Int
+      $sort: [PaginationSorting!]
+    ) {
+      templates(
+        filter: $filter
+        first: $first
+        after: $after
+        before: $before
+        last: $last
+        sort: $sort
+      ) {
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
+          hasPreviousPage
+          totalCount
+        }
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
+  `),
+  {
+    defaultFilterColumns: ['name'],
+    defaultSortColumns: ['name'],
+  }
+)
+
+const options = computed(() => {
+  return (
+    templatesResult.value?.templates.edges.map((edge) => ({
+      value: edge.node.id,
+      label: edge.node.name,
+    })) ?? []
+  )
+})
 </script>
 
 <style lang="scss" scoped>
@@ -133,16 +214,6 @@ const handleCreateNewClick = async () => {
       <q-input borderless :debounce="300" v-model="filterText" label="Search..." />
 
       <template v-slot:action>
-        <tooltip-button
-          color="secondary"
-          flat
-          round
-          icon="las la-plus"
-          tooltip="Create new"
-          :loading="mutation.loading.value"
-          @click="handleCreateNewClick"
-        />
-
         <tooltip-button
           color="secondary"
           flat
@@ -166,6 +237,34 @@ const handleCreateNewClick = async () => {
           :loading="loading"
           @click="refetch"
         />
+
+        <button-select
+          :model-value="null"
+          :options="options"
+          color="secondary"
+          round
+          icon="las la-plus"
+          class="q-ml-sm"
+          @update:model-value="(selected) => handleCreateNew(selected)"
+          :loading="mutation.loading.value"
+        >
+          <template #prepend>
+            <q-input
+              class="fit q-px-md"
+              borderless
+              v-model="templatesFilter"
+              clear-icon="las la-times"
+              no-error-icon
+              hide-bottom-space
+              label="Search..."
+              :debounce="300"
+            ></q-input>
+
+            <q-linear-progress v-if="templatesLoading" indeterminate />
+
+            <q-separator v-else />
+          </template>
+        </button-select>
       </template>
     </q-banner>
 
