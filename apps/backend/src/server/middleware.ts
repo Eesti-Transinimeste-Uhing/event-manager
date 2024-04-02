@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify'
+import { applyMiddleware } from 'graphql-middleware'
 
 import passport from '@fastify/passport'
 import fastifySecureSession from '@fastify/secure-session'
@@ -19,6 +20,7 @@ import { fastifyRequestContext } from '@fastify/request-context'
 import { schema } from '../graphql/schema'
 import { GraphqlContext, graphqlContextFunction } from '../graphql/context'
 import { log } from '../log'
+import { permissions } from '../graphql/permissions'
 
 export const registerMiddleware = async (server: FastifyInstance) => {
   log.debug('registering middleware')
@@ -54,7 +56,7 @@ export const registerMiddleware = async (server: FastifyInstance) => {
   })
 
   const apollo = new ApolloServer<GraphqlContext>({
-    schema,
+    schema: applyMiddleware(schema, permissions),
     plugins: [fastifyApolloDrainPlugin(server)],
   })
 

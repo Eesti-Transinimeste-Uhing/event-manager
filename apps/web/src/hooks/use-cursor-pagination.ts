@@ -132,12 +132,21 @@ export const useCursorPagination = <
   const notifications = useNotificationsStore()
 
   const handleRefetch = async () => {
-    await query.refetch()
+    try {
+      await query.refetch()
 
-    notifications.enqueue({
-      lines: ['Refreshed!'],
-      type: 'success',
-    })
+      notifications.enqueue({
+        lines: ['Refreshed!'],
+        type: 'success',
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        notifications.enqueue({
+          type: 'error',
+          lines: ['Could not refresh', error.message],
+        })
+      }
+    }
   }
 
   return {
