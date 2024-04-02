@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { DateTime } from 'luxon'
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -46,6 +46,35 @@ const dt = computed(() => {
 
   return null
 })
+
+const timer = ref<NodeJS.Timeout | null>(null)
+const now = ref(DateTime.utc())
+
+onMounted(() => {
+  if (!dt.value) {
+    return
+  }
+
+  const diff = now.value.diff(dt.value).as('minutes')
+
+  if (diff >= 60) {
+    return
+  }
+
+  const timerInterval = diff < 1 ? 1000 : 60_000
+
+  timer.value = setInterval(() => {
+    now.value = DateTime.utc()
+  }, timerInterval)
+})
+
+onBeforeUnmount(() => {
+  if (!timer.value) {
+    return
+  }
+
+  clearInterval(timer.value)
+})
 </script>
 
 <template>
@@ -54,7 +83,7 @@ const dt = computed(() => {
       {{ dt.toLocaleString(DateTime.DATETIME_FULL) }}
     </q-tooltip>
 
-    {{ dt.toRelative() }}
+    {{ dt.toRelative({ base: now }) }}
   </span>
 
   <span v-else>Invalid date</span>

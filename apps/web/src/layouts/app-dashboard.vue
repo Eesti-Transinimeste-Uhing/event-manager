@@ -3,6 +3,8 @@ import NavigationMenu from 'components/navigation-menu.vue'
 import SiteLogo from 'components/site-logo.vue'
 import BreadCrumbs from 'components/bread-crumbs.vue'
 
+import IndexPage from 'src/pages/index-page.vue'
+
 import { useQuasar } from 'quasar'
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -80,7 +82,7 @@ const handleDrawerToggle = (value?: boolean) => {
     <q-page-container class="fit">
       <q-page class="page-padding column fit q-pa-md">
         <router-view v-slot="{ Component }">
-          <component :is="Component" :key="route.name" />
+          <component :is="Component ?? IndexPage" :key="route.name" />
         </router-view>
 
         <q-page-sticky position="top" expand class="bg-dark text-secondary">

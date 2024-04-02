@@ -6,7 +6,7 @@ import {
   createWebHistory,
 } from 'vue-router'
 
-import { routes, RouteRecord, authLogin, authFailure, indexDashboard, index } from './routes'
+import { routes, RouteRecord, authLogin, authFailure, dashboard } from './routes'
 import { apolloClient } from 'src/graphql/apollo/client'
 import { gql } from '@apollo/client/core'
 import { nextTick } from 'vue'
@@ -39,12 +39,6 @@ export default route(() => {
 
   router.beforeResolve(async (_to) => {
     const to = _to as unknown as RouteRecord
-
-    // Special handling for '/' because routing can't always match if the layout
-    // and its main child have the same URL
-    if (to.name === index.name) {
-      return indexDashboard
-    }
 
     if (to.meta.auth === 'any') {
       return
@@ -81,7 +75,7 @@ export default route(() => {
       }
 
       if (to.meta.auth === 'forbid' && data.viewer) {
-        return router.push(indexDashboard)
+        return router.push(dashboard)
       }
     })
 

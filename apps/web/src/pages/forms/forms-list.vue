@@ -89,6 +89,7 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
     name: 'createdAt',
     label: 'Created',
     align: 'left',
+    style: 'width: 250px;',
     field(row) {
       return row.node.createdAt
     },
@@ -97,6 +98,7 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
     name: 'updatedAt',
     label: 'Updated',
     align: 'left',
+    style: 'width: 250px;',
     field(row) {
       return row.node.updatedAt
     },
@@ -297,10 +299,17 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
         virtual-scroll
         v-model:pagination="pagination"
         :rows-per-page-options="[0]"
-        hide-header
         hide-bottom
         @row-click="handleRowClick"
       >
+        <template #header="props">
+          <q-tr :props="props">
+            <q-th v-for="col in props.cols" :key="col.name" :props="props">
+              <span class="text-weight-bolder">{{ col.label }}</span>
+            </q-th>
+          </q-tr>
+        </template>
+
         <template #body-cell-createdAt="props">
           <q-td :props="props">
             <date-time :model-value="props.value" />

@@ -13,19 +13,6 @@ export type RouteRecord = RouteRecordRaw & {
   meta: Meta
 }
 
-export const indexDashboard: RouteRecord = {
-  name: 'dashboard',
-  path: '/dashboard',
-  component: () => import('pages/index-page.vue'),
-  meta: {
-    auth: 'require',
-    dark: true,
-    label: 'Dashboard',
-    icon: 'las la-pager',
-    path: [],
-  },
-}
-
 export const templates: RouteRecord = {
   name: 'template-list',
   path: '/template/list',
@@ -78,14 +65,7 @@ export const formEdit: RouteRecord = {
   },
 }
 
-const indexRoutes: RouteRecord[] = [
-  indexDashboard,
-  templates,
-  forms,
-  formEdit,
-  templates,
-  templateEdit,
-]
+const indexRoutes: RouteRecord[] = [templates, forms, formEdit, templates, templateEdit]
 
 export const prototyping: RouteRecord = {
   name: 'dev-prototyping',
@@ -105,16 +85,16 @@ if (config.node.env === 'development') {
   indexRoutes.push(prototyping)
 }
 
-export const index: RouteRecord = {
-  name: 'index',
+export const dashboard: RouteRecord = {
+  name: 'dashboard',
   path: '/',
   component: () => import('layouts/app-dashboard.vue'),
   children: indexRoutes,
   meta: {
     auth: 'require',
     dark: true,
-    label: 'Home',
-    icon: 'las la-home',
+    label: 'Dashboard',
+    icon: 'las la-pager',
     path: [],
   },
 }
@@ -186,7 +166,7 @@ export const catchAll: RouteRecord = {
 }
 
 export const routes: RouteRecord[] = [
-  index,
+  dashboard,
   auth,
 
   // Always leave this as last one,

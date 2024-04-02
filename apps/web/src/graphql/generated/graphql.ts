@@ -72,7 +72,10 @@ export type Mutation = {
   __typename?: 'Mutation'
   createForm: Form
   createTemplate: Template
+  removeForm: Scalars['Boolean']['output']
+  removeTemplate: Scalars['Boolean']['output']
   submitForm: Scalars['Boolean']['output']
+  updateForm?: Maybe<Form>
   updateTemplate?: Maybe<Template>
 }
 
@@ -80,8 +83,21 @@ export type MutationCreateFormArgs = {
   input: CreateFormInput
 }
 
+export type MutationRemoveFormArgs = {
+  input: RemoveFormInput
+}
+
+export type MutationRemoveTemplateArgs = {
+  input: RemoveTemplateInput
+}
+
 export type MutationSubmitFormArgs = {
   input: SubmitFormInput
+}
+
+export type MutationUpdateFormArgs = {
+  data: UpdateFormDataInput
+  where: UpdateFormWhereInput
 }
 
 export type MutationUpdateTemplateArgs = {
@@ -154,6 +170,14 @@ export type QueryTemplatesArgs = {
   sort?: InputMaybe<Array<PaginationSorting>>
 }
 
+export type RemoveFormInput = {
+  id: Scalars['ID']['input']
+}
+
+export type RemoveTemplateInput = {
+  id: Scalars['ID']['input']
+}
+
 export type SubmitFormInput = {
   id: Scalars['ID']['input']
 }
@@ -184,6 +208,15 @@ export type TemplateEdge = {
   cursor: Scalars['String']['output']
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
   node: Template
+}
+
+export type UpdateFormDataInput = {
+  name: Scalars['String']['input']
+  templateId: Scalars['ID']['input']
+}
+
+export type UpdateFormWhereInput = {
+  id: Scalars['ID']['input']
 }
 
 export type UpdateTemplateDataInput = {

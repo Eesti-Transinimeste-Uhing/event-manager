@@ -2,13 +2,23 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { index } from 'src/router/routes'
+import { dashboard } from 'src/router/routes'
 import { RouteRecord } from 'src/router/routes'
 
 const route = useRoute()
 
 const parts = computed<RouteRecord[]>(() => {
-  return [index, ...(route.meta.path as RouteRecord[]), route as unknown as RouteRecord]
+  const result: RouteRecord[] = []
+
+  if (dashboard.name !== route.name) {
+    result.push(dashboard as unknown as RouteRecord)
+  }
+
+  result.push(...(route.meta.path as RouteRecord[]))
+
+  result.push(route as unknown as RouteRecord)
+
+  return result
 })
 </script>
 

@@ -3,7 +3,7 @@ import { onBeforeUnmount, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuery } from '@vue/apollo-composable'
 import { graphql } from 'src/graphql/generated'
-import { authFailure, indexDashboard } from 'src/router/routes'
+import { authFailure, dashboard } from 'src/router/routes'
 
 const router = useRouter()
 
@@ -60,7 +60,7 @@ onResult(async (result) => {
     })
   }
 
-  await router.push(indexDashboard)
+  await router.push(dashboard)
 })
 </script>
 

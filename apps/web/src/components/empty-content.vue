@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { index } from 'src/router/routes'
+import { dashboard } from 'src/router/routes'
 import { useRouter } from 'vue-router'
 
 const props = withDefaults(
@@ -48,7 +48,7 @@ const router = useRouter()
       <div class="row q-mt-lg">
         <q-btn-group>
           <q-btn color="primary" label="Reload" icon="las la-redo-alt" href="" />
-          <q-btn color="primary" label="Home" icon="las la-home" :to="index" />
+          <q-btn color="primary" label="Home" icon="las la-home" :to="dashboard" />
           <q-btn color="primary" label="Go back" icon="las la-undo" @click="router.back()" />
         </q-btn-group>
       </div>
