@@ -158,6 +158,21 @@ const adjustOpen = ref(false)
 </style>
 
 <template>
+  <div class="column">
+    <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">
+      <template v-slot:action>
+        <q-btn
+          round
+          color="secondary"
+          :loading="updateTemplate.loading.value"
+          icon="las la-save"
+          @click="handleSave"
+          class="q-ml-sm"
+        />
+      </template>
+    </q-banner>
+  </div>
+
   <q-card flat>
     <single-image-preview-dialog
       :open="adjustOpen"
@@ -170,18 +185,6 @@ const adjustOpen = ref(false)
       :height="dimensions[1]"
       :ratio="ratio"
     />
-
-    <q-card-actions align="right">
-      <q-btn
-        label="save"
-        color="primary"
-        :loading="updateTemplate.loading.value"
-        icon="las la-save"
-        @click="handleSave"
-      />
-    </q-card-actions>
-
-    <q-separator />
 
     <q-card-section>
       <div v-if="query.loading && !template">

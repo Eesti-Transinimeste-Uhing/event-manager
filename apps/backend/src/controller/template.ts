@@ -28,6 +28,14 @@ export class TemplateController {
     return await this.templates.paginate(args)
   }
 
+  public async softRemove(id: string) {
+    await this.manager.transaction(async (manager) => {
+      await manager.softRemove(Template, { id })
+    })
+
+    return true
+  }
+
   public async createNew() {
     const template = this.templates.create({
       fields: [],

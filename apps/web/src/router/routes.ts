@@ -1,13 +1,16 @@
 import { config } from 'src/config'
 import { RouteRecordRaw } from 'vue-router'
 
+type Meta = {
+  auth: 'require' | 'forbid' | 'any'
+  dark: boolean
+  label: string
+  icon: string
+  path: RouteRecord[]
+}
+
 export type RouteRecord = RouteRecordRaw & {
-  meta: {
-    auth: 'require' | 'forbid' | 'any'
-    dark: boolean
-    label: string
-    icon: string
-  }
+  meta: Meta
 }
 
 export const indexDashboard: RouteRecord = {
@@ -19,6 +22,7 @@ export const indexDashboard: RouteRecord = {
     dark: true,
     label: 'Dashboard',
     icon: 'las la-pager',
+    path: [],
   },
 }
 
@@ -31,6 +35,7 @@ export const templates: RouteRecord = {
     dark: true,
     icon: 'las la-file',
     label: 'Templates',
+    path: [],
   },
 }
 
@@ -43,6 +48,7 @@ export const templateEdit: RouteRecord = {
     dark: true,
     icon: 'las la-edit',
     label: 'Edit template',
+    path: [templates],
   },
 }
 
@@ -55,6 +61,7 @@ export const forms: RouteRecord = {
     dark: true,
     icon: 'las la-file-alt',
     label: 'Forms',
+    path: [],
   },
 }
 
@@ -67,8 +74,18 @@ export const formEdit: RouteRecord = {
     dark: true,
     icon: 'las la-edit',
     label: 'Edit form',
+    path: [forms],
   },
 }
+
+const indexRoutes: RouteRecord[] = [
+  indexDashboard,
+  templates,
+  forms,
+  formEdit,
+  templates,
+  templateEdit,
+]
 
 export const prototyping: RouteRecord = {
   name: 'dev-prototyping',
@@ -80,10 +97,9 @@ export const prototyping: RouteRecord = {
     dark: true,
     label: 'Prototyping',
     icon: 'las la-code',
+    path: [],
   },
 }
-
-const indexRoutes: RouteRecord[] = [indexDashboard, templates, templateEdit, forms, formEdit]
 
 if (config.node.env === 'development') {
   indexRoutes.push(prototyping)
@@ -97,8 +113,9 @@ export const index: RouteRecord = {
   meta: {
     auth: 'require',
     dark: true,
-    label: 'Index',
-    icon: 'las la-pager',
+    label: 'Home',
+    icon: 'las la-home',
+    path: [],
   },
 }
 
@@ -111,6 +128,7 @@ export const authLogin: RouteRecord = {
     dark: false,
     label: 'Log in',
     icon: 'las la-user',
+    path: [],
   },
 }
 
@@ -123,6 +141,7 @@ export const authSuccess: RouteRecord = {
     dark: false,
     label: 'Discord success callback',
     icon: 'lab la-discord',
+    path: [],
   },
 }
 
@@ -135,6 +154,7 @@ export const authFailure: RouteRecord = {
     dark: false,
     label: 'Discord failure callback',
     icon: 'lab la-discord',
+    path: [],
   },
 }
 
@@ -148,6 +168,7 @@ export const auth: RouteRecord = {
     dark: false,
     label: 'Authentication',
     icon: 'las la-user',
+    path: [],
   },
 }
 
@@ -160,6 +181,7 @@ export const catchAll: RouteRecord = {
     dark: true,
     label: 'Not Found',
     icon: 'las la-question-circle',
+    path: [],
   },
 }
 

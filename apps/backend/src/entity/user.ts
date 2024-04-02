@@ -1,15 +1,31 @@
-import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn } from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  UpdateDateColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm'
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: 'timestamp with time zone',
+  })
   createdAt: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    type: 'timestamp with time zone',
+  })
   updatedAt: Date
+
+  @DeleteDateColumn({
+    type: 'timestamp with time zone',
+  })
+  deletedAt: Date
 
   @Column()
   discordId: string

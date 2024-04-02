@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  DeleteDateColumn,
 } from 'typeorm'
 import { Form } from './form'
 
@@ -30,6 +31,11 @@ export class Template {
     type: 'timestamp with time zone',
   })
   updatedAt: Date
+
+  @DeleteDateColumn({
+    type: 'timestamp with time zone',
+  })
+  deletedAt: Date
 
   @Column('varchar', {
     length: 32,

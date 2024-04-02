@@ -14,8 +14,8 @@ export const CreateForm = mutationField((t) => {
     args: {
       input: CreateFormInput.asArg(),
     },
-    resolve(root, args, context) {
-      return formController.createNew(args.input.templateId)
+    async resolve(root, args, context) {
+      return await formController.createNew(args.input.templateId)
     },
   })
 })

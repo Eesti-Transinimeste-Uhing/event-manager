@@ -87,7 +87,24 @@ export interface NexusGenInputs {
     order: NexusGenEnums['PaginationSortingOrder'] // PaginationSortingOrder!
     sort: string // String!
   }
+  RemoveFormInput: {
+    // input type
+    id: string // ID!
+  }
+  RemoveTemplateInput: {
+    // input type
+    id: string // ID!
+  }
   SubmitFormInput: {
+    // input type
+    id: string // ID!
+  }
+  UpdateFormDataInput: {
+    // input type
+    name: string // String!
+    templateId: string // ID!
+  }
+  UpdateFormWhereInput: {
     // input type
     id: string // ID!
   }
@@ -200,7 +217,10 @@ export interface NexusGenFieldTypes {
     // field return type
     createForm: NexusGenRootTypes['Form'] // Form!
     createTemplate: NexusGenRootTypes['Template'] // Template!
+    removeForm: boolean // Boolean!
+    removeTemplate: boolean // Boolean!
     submitForm: boolean // Boolean!
+    updateForm: NexusGenRootTypes['Form'] | null // Form
     updateTemplate: NexusGenRootTypes['Template'] | null // Template
   }
   PageInfo: {
@@ -273,7 +293,10 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     createForm: 'Form'
     createTemplate: 'Template'
+    removeForm: 'Boolean'
+    removeTemplate: 'Boolean'
     submitForm: 'Boolean'
+    updateForm: 'Form'
     updateTemplate: 'Template'
   }
   PageInfo: {
@@ -325,9 +348,22 @@ export interface NexusGenArgTypes {
       // args
       input: NexusGenInputs['CreateFormInput'] // CreateFormInput!
     }
+    removeForm: {
+      // args
+      input: NexusGenInputs['RemoveFormInput'] // RemoveFormInput!
+    }
+    removeTemplate: {
+      // args
+      input: NexusGenInputs['RemoveTemplateInput'] // RemoveTemplateInput!
+    }
     submitForm: {
       // args
       input: NexusGenInputs['SubmitFormInput'] // SubmitFormInput!
+    }
+    updateForm: {
+      // args
+      data: NexusGenInputs['UpdateFormDataInput'] // UpdateFormDataInput!
+      where: NexusGenInputs['UpdateFormWhereInput'] // UpdateFormWhereInput!
     }
     updateTemplate: {
       // args

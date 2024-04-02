@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import NavigationMenu from 'components/navigation-menu.vue'
 import SiteLogo from 'components/site-logo.vue'
+import BreadCrumbs from 'components/bread-crumbs.vue'
 
 import { useQuasar } from 'quasar'
 import { computed, ref } from 'vue'
@@ -82,13 +83,10 @@ const handleDrawerToggle = (value?: boolean) => {
           <component :is="Component" :key="route.name" />
         </router-view>
 
-        <q-page-sticky position="top" expand class="bg-secondary text-white">
-          <transition name="slide" mode="out-in">
-            <q-toolbar :key="route.fullPath">
-              <q-icon flat round size="md" :name="String(route.meta.icon)" />
-              <q-toolbar-title>{{ route.meta.label }}</q-toolbar-title>
-            </q-toolbar>
-          </transition>
+        <q-page-sticky position="top" expand class="bg-dark text-secondary">
+          <q-toolbar>
+            <bread-crumbs />
+          </q-toolbar>
         </q-page-sticky>
       </q-page>
     </q-page-container>

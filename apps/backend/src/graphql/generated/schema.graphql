@@ -57,7 +57,10 @@ enum FormFieldKind {
 type Mutation {
   createForm(input: CreateFormInput!): Form!
   createTemplate: Template!
+  removeForm(input: RemoveFormInput!): Boolean!
+  removeTemplate(input: RemoveTemplateInput!): Boolean!
   submitForm(input: SubmitFormInput!): Boolean!
+  updateForm(data: UpdateFormDataInput!, where: UpdateFormWhereInput!): Form
   updateTemplate(data: UpdateTemplateDataInput!, where: UpdateTemplateWhereInput!): Template
 }
 
@@ -158,6 +161,14 @@ type Query {
   viewer: User
 }
 
+input RemoveFormInput {
+  id: ID!
+}
+
+input RemoveTemplateInput {
+  id: ID!
+}
+
 input SubmitFormInput {
   id: ID!
 }
@@ -201,6 +212,15 @@ type TemplateEdge {
 A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
 """
 scalar URL
+
+input UpdateFormDataInput {
+  name: String!
+  templateId: ID!
+}
+
+input UpdateFormWhereInput {
+  id: ID!
+}
 
 input UpdateTemplateDataInput {
   banner: Upload
