@@ -10,6 +10,12 @@ export class UserController {
 
   private users = this.manager.withRepository(UserRepository)
 
+  async getByDiscordId(discordId: string) {
+    return await this.users.findOneBy({
+      discordId,
+    })
+  }
+
   async refreshDiscordAccessToken(user: User) {
     try {
       const { accessToken, refreshToken, expiresIn } = await refreshDiscordAccessToken(

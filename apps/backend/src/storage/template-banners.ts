@@ -1,58 +1,38 @@
-import fs, { ReadStream } from 'node:fs'
-import fsp from 'node:fs/promises'
-import path from 'node:path'
+import { ReadStream } from 'node:fs'
 import stream from 'node:stream/promises'
 
-import { config } from '../config'
+import { Storage } from '../lib/storage'
+
 import * as imageUtils from '../lib/image-toolkit'
 import { downloadPicsumImage } from '../lib/picsum'
 import { ReadableStream } from 'stream/web'
 
-export class TemplateBannersStorage {
-  public static getPath(templateId: string) {
-    return path.join(TemplateBannersStorage.path, templateId)
-  }
-
-  private static path = path.join(config.mounts.staticFiles, 'template-banners')
-
+export class TemplateBannersStorage extends Storage {
   constructor() {
-    if (!fs.existsSync(TemplateBannersStorage.path)) {
-      fs.mkdirSync(TemplateBannersStorage.path, { recursive: true })
-    }
+    super('template-banners')
   }
 
-  public async exists(templateId): Promise<boolean> {
-    try {
-      await fsp.access(TemplateBannersStorage.getPath(templateId), fs.constants.R_OK)
-      return true
-    } catch {
-      return false
-    }
+  public override exists = (id: string) => {
+    return this.existsFile(id)
   }
 
-  public async get(templateId: string) {
-    if (!(await this.exists(templateId))) {
+  public override get = async (templateId: string) => {
+    if (!(await this.existsFile(templateId))) {
       const blob = await downloadPicsumImage(templateId, 1920, 1080)
-      await this.put(templateId, blob.stream())
+      await this.putFile(templateId, blob.stream())
     }
 
-    return await fsp.readFile(TemplateBannersStorage.getPath(templateId))
+    return await this.getFile(templateId)
   }
 
-  public async put(templateId: string, banner: ReadStream | ReadableStream) {
-    await this.delete(templateId)
-
-    const writeStream = fs.createWriteStream(TemplateBannersStorage.getPath(templateId))
+  public override put = async (templateId: string, banner: ReadStream | ReadableStream) => {
+    const writeStream = await this.createWriteStream(templateId)
     const jpegStream = imageUtils.toJpeg()
 
     await stream.pipeline(banner, jpegStream, writeStream)
   }
 
-  public async delete(templateId: string) {
-    if (!(await this.exists(templateId))) {
-      return
-    }
-
-    await fsp.unlink(TemplateBannersStorage.getPath(templateId))
+  public override delete = async (templateId: string) => {
+    await this.deleteFile(templateId)
   }
 }

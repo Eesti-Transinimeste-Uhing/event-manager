@@ -5,7 +5,7 @@ import { templateController } from '../../../static-context'
 
 type Params = { templateId: string }
 
-export const staticFiles: FastifyPluginCallback = async (server, opts, done) => {
+export const templateBannersRoute: FastifyPluginCallback = async (server, opts, done) => {
   server.get<{ Params: Params }>(
     '/static/template-banner/:templateId/:cachebust?',
     async (req, reply) => {
@@ -21,7 +21,7 @@ export const staticFiles: FastifyPluginCallback = async (server, opts, done) => 
         return reply.code(404).send('404 Not Found')
       }
 
-      return reply.header('content-type', 'image/png').send(banner)
+      return reply.header('content-type', 'image/jpeg').send(banner)
     }
   )
 }

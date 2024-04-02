@@ -32,7 +32,12 @@ export type CreateFormInput = {
 
 export type DiscordUser = {
   __typename?: 'DiscordUser'
+  avatar: Scalars['URL']['output']
+  banner_color: Scalars['String']['output']
+  global_name: Scalars['String']['output']
   id: Scalars['ID']['output']
+  locale: Scalars['String']['output']
+  username: Scalars['String']['output']
 }
 
 export type Form = {
@@ -233,11 +238,23 @@ export type UpdateTemplateWhereInput = {
 
 export type User = {
   __typename?: 'User'
+  discord: DiscordUser
   id: Scalars['ID']['output']
 }
 
 export type WhereIdInput = {
   id: Scalars['ID']['input']
+}
+
+export type AccountMenuViewerQueryVariables = Exact<{ [key: string]: never }>
+
+export type AccountMenuViewerQuery = {
+  __typename?: 'Query'
+  viewer?: {
+    __typename?: 'User'
+    id: string
+    discord: { __typename?: 'DiscordUser'; id: string; avatar: any; name: string }
+  } | null
 }
 
 export type PostOauthViewerQueryVariables = Exact<{ [key: string]: never }>
@@ -387,6 +404,47 @@ export type CreateTemplateMutation = {
   createTemplate: { __typename?: 'Template'; id: string }
 }
 
+export const AccountMenuViewerDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountMenuViewer' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'viewer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'discord' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        alias: { kind: 'Name', value: 'name' },
+                        name: { kind: 'Name', value: 'global_name' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'avatar' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AccountMenuViewerQuery, AccountMenuViewerQueryVariables>
 export const PostOauthViewerDocument = {
   kind: 'Document',
   definitions: [

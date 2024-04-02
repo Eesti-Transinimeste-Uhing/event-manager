@@ -1,5 +1,8 @@
 import { objectType } from 'nexus'
 import path from 'node:path'
+import { discordAvatars } from '../../storage'
+import urlJoin from '../../lib/url-join'
+import { config } from '../../config'
 
 export const DiscordUser = objectType({
   name: 'DiscordUser',
@@ -14,8 +17,12 @@ export const DiscordUser = objectType({
     t.string('banner_color')
     t.string('locale')
     t.url('avatar', {
-      resolve(root) {
-        return `https://cdn.discordapp.com/avatars/${root.id}/${root.avatar}`
+      async resolve(root) {
+        if (!(await discordAvatars.exists(root.id))) {
+          await discordAvatars.get(root.id, root.avatar)
+        }
+
+        return urlJoin(config.server.publicUrl, 'v1', 'static', 'discord-avatar', root.id)
       },
     })
   },

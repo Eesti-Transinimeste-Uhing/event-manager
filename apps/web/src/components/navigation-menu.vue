@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { config } from 'src/config'
 import * as route from 'src/router/routes'
 
 const routes = [route.dashboard, route.templates, route.forms]
@@ -21,12 +20,5 @@ const routes = [route.dashboard, route.templates, route.forms]
         <q-item-section>{{ route.meta.label }}</q-item-section>
       </q-item>
     </div>
-
-    <q-item v-ripple clickable :href="config.backend.logoutUrl">
-      <q-item-section avatar>
-        <q-icon name="las la-sign-out-alt" />
-      </q-item-section>
-      <q-item-section>Log out</q-item-section>
-    </q-item>
   </q-list>
 </template>

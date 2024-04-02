@@ -256,7 +256,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
           round
           icon="las la-plus"
           class="q-ml-sm"
-          @update:model-value="(selected) => handleCreateNew(selected)"
+          @update:model-value="(selected: string) => handleCreateNew(selected)"
           :loading="mutation.loading.value"
         >
           <template #prepend>

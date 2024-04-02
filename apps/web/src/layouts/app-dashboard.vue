@@ -2,6 +2,7 @@
 import NavigationMenu from 'components/navigation-menu.vue'
 import SiteLogo from 'components/site-logo.vue'
 import BreadCrumbs from 'components/bread-crumbs.vue'
+import AccountMenu from 'components/account-menu.vue'
 
 import IndexPage from 'src/pages/index-page.vue'
 
@@ -64,6 +65,8 @@ const handleDrawerToggle = (value?: boolean) => {
           <site-logo class="site-logo q-mr-sm" />
           <span class="font-pragati">ETÜ Event Planner</span>
         </q-toolbar-title>
+
+        <account-menu />
       </q-toolbar>
     </q-header>
 
