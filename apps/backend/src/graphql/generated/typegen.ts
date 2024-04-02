@@ -4,6 +4,7 @@
  */
 
 import type { GraphqlContext } from './../context'
+import type { DiscordOauthInfo } from './../../lib/discord-me'
 import type { User } from './../../entity/user'
 import type { Template } from './../../entity/template'
 import type { Form } from './../../entity/form'
@@ -143,10 +144,7 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  DiscordUser: {
-    // root type
-    id: string // ID!
-  }
+  DiscordUser: DiscordOauthInfo
   Form: Form
   FormConnection: {
     // root type
@@ -193,7 +191,12 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnu
 export interface NexusGenFieldTypes {
   DiscordUser: {
     // field return type
+    avatar: NexusGenScalars['URL'] // URL!
+    banner_color: string // String!
+    global_name: string // String!
     id: string // ID!
+    locale: string // String!
+    username: string // String!
   }
   Form: {
     // field return type
@@ -262,6 +265,7 @@ export interface NexusGenFieldTypes {
   }
   User: {
     // field return type
+    discord: NexusGenRootTypes['DiscordUser'] // DiscordUser!
     id: string // ID!
   }
 }
@@ -269,7 +273,12 @@ export interface NexusGenFieldTypes {
 export interface NexusGenFieldTypeNames {
   DiscordUser: {
     // field return type name
+    avatar: 'URL'
+    banner_color: 'String'
+    global_name: 'String'
     id: 'ID'
+    locale: 'String'
+    username: 'String'
   }
   Form: {
     // field return type name
@@ -338,6 +347,7 @@ export interface NexusGenFieldTypeNames {
   }
   User: {
     // field return type name
+    discord: 'DiscordUser'
     id: 'ID'
   }
 }

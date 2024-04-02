@@ -1,5 +1,6 @@
 import { queryField } from 'nexus'
 import { userController } from '../../server/static-context'
+import { fetchDiscordMe } from '../../lib/discord-me'
 
 export const ViewerQuery = queryField((t) => {
   t.nullable.field('viewer', {

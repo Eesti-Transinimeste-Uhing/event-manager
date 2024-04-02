@@ -4,6 +4,7 @@ import { NexusGenFieldTypes } from '../generated/typegen'
 
 import { isPublisher } from './is-publisher'
 import { isAuthenticated } from './is-authenticated'
+import { isOwnDiscordProfile } from './is-own-discord-profile'
 
 export type GraphQLRules<RootType> = {
   [key in keyof RootType]:
@@ -31,7 +32,7 @@ const rules: Partial<GraphQLRules<NexusGenFieldTypes>> = {
     submitForm: allow,
   },
 
-  DiscordUser: allow,
+  DiscordUser: and(isAuthenticated, isOwnDiscordProfile),
   Form: allow,
   FormConnection: allow,
   FormEdge: allow,

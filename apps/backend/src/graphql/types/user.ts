@@ -1,5 +1,6 @@
 import { objectType } from 'nexus'
 import path from 'node:path'
+import { fetchDiscordMe } from '../../lib/discord-me'
 
 export const User = objectType({
   name: 'User',
@@ -9,5 +10,11 @@ export const User = objectType({
   },
   definition(t) {
     t.id('id')
+    t.field('discord', {
+      type: 'DiscordUser',
+      resolve(root) {
+        return fetchDiscordMe(root.accessToken)
+      },
+    })
   },
 })

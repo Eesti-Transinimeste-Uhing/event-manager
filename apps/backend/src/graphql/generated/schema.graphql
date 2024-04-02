@@ -11,7 +11,12 @@ A DateTime value consumable with Luxon
 scalar DateTime
 
 type DiscordUser {
+  avatar: URL!
+  banner_color: String!
+  global_name: String!
   id: ID!
+  locale: String!
+  username: String!
 }
 
 type Form {
@@ -240,6 +245,7 @@ The `Upload` scalar type represents a file upload.
 scalar Upload
 
 type User {
+  discord: DiscordUser!
   id: ID!
 }
 
