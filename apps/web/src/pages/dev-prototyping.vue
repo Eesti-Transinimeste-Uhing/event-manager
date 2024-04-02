@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 import { graphql } from 'src/graphql/generated'
 import { useCursorPagination } from 'src/hooks/use-cursor-pagination'
 
 import ButtonSelect from 'components/button-select.vue'
 
-const { result, filterText, loading } = useCursorPagination(
+const { result, filterText } = useCursorPagination(
   'templates',
   graphql(`
     query SearchTemplates(

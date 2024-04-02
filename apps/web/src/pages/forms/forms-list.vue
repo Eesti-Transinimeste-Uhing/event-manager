@@ -7,7 +7,7 @@ import { QTableColumn } from 'quasar'
 import ButtonSelect from 'components/button-select.vue'
 
 import { graphql } from 'src/graphql/generated'
-import { FormListQuery, PaginationSortingOrder } from 'src/graphql/generated/graphql'
+import { FormEdge, FormListQuery, PaginationSortingOrder } from 'src/graphql/generated/graphql'
 import EmptyContent from 'src/components/empty-content.vue'
 import { useCursorPagination } from 'src/hooks/use-cursor-pagination'
 import DateTime from 'src/components/date-time.vue'
@@ -200,6 +200,15 @@ const options = computed(() => {
     })) ?? []
   )
 })
+
+const handleRowClick = (evt: Event, row: FormEdge) => {
+  return router.push({
+    name: formEdit.name,
+    params: {
+      id: row.node.id,
+    },
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -256,7 +265,7 @@ const options = computed(() => {
               clear-icon="las la-times"
               no-error-icon
               hide-bottom-space
-              label="Search..."
+              label="Search templates..."
               :debounce="300"
             ></q-input>
 
@@ -268,7 +277,7 @@ const options = computed(() => {
       </template>
     </q-banner>
 
-    <table-skeleton v-if="loading && !result" />
+    <table-skeleton v-if="loading && !result" class="col" />
 
     <empty-content
       v-else-if="error"
@@ -278,9 +287,10 @@ const options = computed(() => {
       icon-colour="red"
     />
 
-    <div class="table-wrapper col" v-else-if="result">
+    <div class="col" v-else-if="result">
       <q-table
         flat
+        class="fit"
         :rows="result.forms.edges"
         :columns="columns"
         row-key="index"
@@ -289,6 +299,7 @@ const options = computed(() => {
         :rows-per-page-options="[0]"
         hide-header
         hide-bottom
+        @row-click="handleRowClick"
       >
         <template #body-cell-createdAt="props">
           <q-td :props="props">
