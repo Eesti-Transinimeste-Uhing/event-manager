@@ -1,4 +1,6 @@
 import { Server, ServerCredentials } from '@grpc/grpc-js'
+
+import { Client } from '../../discord/client'
 import { UsersService } from './services/users'
 
 import { log } from '../../log'
@@ -22,10 +24,10 @@ const startServer = (server: Server) => {
 }
 
 export class ProtoServer extends Server {
-  constructor() {
+  constructor(private client: Client) {
     super()
 
-    this.addService(UsersService.definition, new UsersService())
+    this.addService(UsersService.definition, new UsersService(this.client))
   }
 
   listen() {

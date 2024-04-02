@@ -16,6 +16,16 @@ export const getString = (name: string, input?: string | null): string => {
   return input
 }
 
+export const getStringArray = (name: string, input?: string | null): string[] => {
+  if (!input) {
+    return []
+  }
+
+  const checkedInput = getString(name, input)
+
+  return checkedInput.split(',').map((value) => value.trim())
+}
+
 export const getLevel = (name: string, input?: string | null): Pino.Level => {
   const checkedInput = getString(name, input)
 

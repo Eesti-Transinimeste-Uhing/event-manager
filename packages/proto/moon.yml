@@ -6,6 +6,7 @@ tasks:
   generate:
     options:
       runFromWorkspaceRoot: true
+      cache: false
     command:
       - node_modules/.bin/grpc_tools_node_protoc
       - --ts_out=packages/proto/src

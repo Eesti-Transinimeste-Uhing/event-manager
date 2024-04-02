@@ -5,7 +5,16 @@ export type Config = {
     env: 'production' | 'development'
   }
   discord: {
+    guildId: string
     token: string
+    role: {
+      publisher: string
+      editor: string
+      admin: string
+    }
+    user: {
+      owners: string[]
+    }
   }
   log: {
     level: Pino.Level

@@ -1,8 +1,5 @@
 import 'reflect-metadata'
 
-import { UserFilter } from '@etu/events-proto'
-import { usersClient } from './proto/clients/discord-bot'
-
 import { config } from './config'
 import { log } from './log'
 import { createServer } from './server'
@@ -28,11 +25,6 @@ const main = async () => {
       port: config.server.port,
     },
     'server listening'
-  )
-
-  console.log(
-    'I AM ADMIN:',
-    (await usersClient.isAdmin(new UserFilter({ id: '230783458459385856' }))).result
   )
 }
 

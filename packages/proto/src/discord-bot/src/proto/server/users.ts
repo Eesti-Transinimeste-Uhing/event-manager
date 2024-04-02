@@ -5,6 +5,12 @@
  * git: https://github.com/thesayyn/protoc-gen-ts */
 import * as pb_1 from "google-protobuf";
 import * as grpc_1 from "@grpc/grpc-js";
+export enum UserRole {
+    Owner = 0,
+    Admin = 1,
+    Editor = 2,
+    Publisher = 3
+}
 export class UserFilter extends pb_1.Message {
     #one_of_decls: number[][] = [];
     constructor(data?: any[] | {
@@ -72,40 +78,40 @@ export class UserFilter extends pb_1.Message {
         return UserFilter.deserialize(bytes);
     }
 }
-export class BooleanReturn extends pb_1.Message {
+export class UserRolesResult extends pb_1.Message {
     #one_of_decls: number[][] = [];
     constructor(data?: any[] | {
-        result?: boolean;
+        roles?: UserRole[];
     }) {
         super();
-        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+        pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [1], this.#one_of_decls);
         if (!Array.isArray(data) && typeof data == "object") {
-            if ("result" in data && data.result != undefined) {
-                this.result = data.result;
+            if ("roles" in data && data.roles != undefined) {
+                this.roles = data.roles;
             }
         }
     }
-    get result() {
-        return pb_1.Message.getFieldWithDefault(this, 1, false) as boolean;
+    get roles() {
+        return pb_1.Message.getFieldWithDefault(this, 1, []) as UserRole[];
     }
-    set result(value: boolean) {
+    set roles(value: UserRole[]) {
         pb_1.Message.setField(this, 1, value);
     }
     static fromObject(data: {
-        result?: boolean;
-    }): BooleanReturn {
-        const message = new BooleanReturn({});
-        if (data.result != null) {
-            message.result = data.result;
+        roles?: UserRole[];
+    }): UserRolesResult {
+        const message = new UserRolesResult({});
+        if (data.roles != null) {
+            message.roles = data.roles;
         }
         return message;
     }
     toObject() {
         const data: {
-            result?: boolean;
+            roles?: UserRole[];
         } = {};
-        if (this.result != null) {
-            data.result = this.result;
+        if (this.roles != null) {
+            data.roles = this.roles;
         }
         return data;
     }
@@ -113,19 +119,19 @@ export class BooleanReturn extends pb_1.Message {
     serialize(w: pb_1.BinaryWriter): void;
     serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
         const writer = w || new pb_1.BinaryWriter();
-        if (this.result != false)
-            writer.writeBool(1, this.result);
+        if (this.roles.length)
+            writer.writePackedEnum(1, this.roles);
         if (!w)
             return writer.getResultBuffer();
     }
-    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): BooleanReturn {
-        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new BooleanReturn();
+    static deserialize(bytes: Uint8Array | pb_1.BinaryReader): UserRolesResult {
+        const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new UserRolesResult();
         while (reader.nextField()) {
             if (reader.isEndGroup())
                 break;
             switch (reader.getFieldNumber()) {
                 case 1:
-                    message.result = reader.readBool();
+                    message.roles = reader.readPackedEnum();
                     break;
                 default: reader.skipField();
             }
@@ -135,8 +141,8 @@ export class BooleanReturn extends pb_1.Message {
     serializeBinary(): Uint8Array {
         return this.serialize();
     }
-    static deserializeBinary(bytes: Uint8Array): BooleanReturn {
-        return BooleanReturn.deserialize(bytes);
+    static deserializeBinary(bytes: Uint8Array): UserRolesResult {
+        return UserRolesResult.deserialize(bytes);
     }
 }
 interface GrpcUnaryServiceInterface<P, R> {
@@ -165,72 +171,28 @@ interface GrpcPromiseServiceInterface<P, R> {
 }
 export abstract class UnimplementedUsersService {
     static definition = {
-        isVolunteer: {
-            path: "/Users/isVolunteer",
+        getUserRoles: {
+            path: "/Users/getUserRoles",
             requestStream: false,
             responseStream: false,
             requestSerialize: (message: UserFilter) => Buffer.from(message.serialize()),
             requestDeserialize: (bytes: Buffer) => UserFilter.deserialize(new Uint8Array(bytes)),
-            responseSerialize: (message: BooleanReturn) => Buffer.from(message.serialize()),
-            responseDeserialize: (bytes: Buffer) => BooleanReturn.deserialize(new Uint8Array(bytes))
-        },
-        isEditor: {
-            path: "/Users/isEditor",
-            requestStream: false,
-            responseStream: false,
-            requestSerialize: (message: UserFilter) => Buffer.from(message.serialize()),
-            requestDeserialize: (bytes: Buffer) => UserFilter.deserialize(new Uint8Array(bytes)),
-            responseSerialize: (message: BooleanReturn) => Buffer.from(message.serialize()),
-            responseDeserialize: (bytes: Buffer) => BooleanReturn.deserialize(new Uint8Array(bytes))
-        },
-        isAdmin: {
-            path: "/Users/isAdmin",
-            requestStream: false,
-            responseStream: false,
-            requestSerialize: (message: UserFilter) => Buffer.from(message.serialize()),
-            requestDeserialize: (bytes: Buffer) => UserFilter.deserialize(new Uint8Array(bytes)),
-            responseSerialize: (message: BooleanReturn) => Buffer.from(message.serialize()),
-            responseDeserialize: (bytes: Buffer) => BooleanReturn.deserialize(new Uint8Array(bytes))
+            responseSerialize: (message: UserRolesResult) => Buffer.from(message.serialize()),
+            responseDeserialize: (bytes: Buffer) => UserRolesResult.deserialize(new Uint8Array(bytes))
         }
     };
     [method: string]: grpc_1.UntypedHandleCall;
-    abstract isVolunteer(call: grpc_1.ServerUnaryCall<UserFilter, BooleanReturn>, callback: grpc_1.sendUnaryData<BooleanReturn>): void;
-    abstract isEditor(call: grpc_1.ServerUnaryCall<UserFilter, BooleanReturn>, callback: grpc_1.sendUnaryData<BooleanReturn>): void;
-    abstract isAdmin(call: grpc_1.ServerUnaryCall<UserFilter, BooleanReturn>, callback: grpc_1.sendUnaryData<BooleanReturn>): void;
+    abstract getUserRoles(call: grpc_1.ServerUnaryCall<UserFilter, UserRolesResult>, callback: grpc_1.sendUnaryData<UserRolesResult>): void;
 }
 export class UsersClient extends grpc_1.makeGenericClientConstructor(UnimplementedUsersService.definition, "Users", {}) {
     constructor(address: string, credentials: grpc_1.ChannelCredentials, options?: Partial<grpc_1.ChannelOptions>) {
         super(address, credentials, options);
     }
-    isVolunteer: GrpcPromiseServiceInterface<UserFilter, BooleanReturn> = (message: UserFilter, metadata?: grpc_1.Metadata | grpc_1.CallOptions, options?: grpc_1.CallOptions): Promise<BooleanReturn> => { if (!metadata) {
+    getUserRoles: GrpcPromiseServiceInterface<UserFilter, UserRolesResult> = (message: UserFilter, metadata?: grpc_1.Metadata | grpc_1.CallOptions, options?: grpc_1.CallOptions): Promise<UserRolesResult> => { if (!metadata) {
         metadata = new grpc_1.Metadata;
     } if (!options) {
         options = {};
-    } return new Promise((resolve, reject) => super.isVolunteer(message, metadata, options, (error: grpc_1.ServiceError, response: BooleanReturn) => {
-        if (error) {
-            reject(error);
-        }
-        else {
-            resolve(response);
-        }
-    })); };
-    isEditor: GrpcPromiseServiceInterface<UserFilter, BooleanReturn> = (message: UserFilter, metadata?: grpc_1.Metadata | grpc_1.CallOptions, options?: grpc_1.CallOptions): Promise<BooleanReturn> => { if (!metadata) {
-        metadata = new grpc_1.Metadata;
-    } if (!options) {
-        options = {};
-    } return new Promise((resolve, reject) => super.isEditor(message, metadata, options, (error: grpc_1.ServiceError, response: BooleanReturn) => {
-        if (error) {
-            reject(error);
-        }
-        else {
-            resolve(response);
-        }
-    })); };
-    isAdmin: GrpcPromiseServiceInterface<UserFilter, BooleanReturn> = (message: UserFilter, metadata?: grpc_1.Metadata | grpc_1.CallOptions, options?: grpc_1.CallOptions): Promise<BooleanReturn> => { if (!metadata) {
-        metadata = new grpc_1.Metadata;
-    } if (!options) {
-        options = {};
-    } return new Promise((resolve, reject) => super.isAdmin(message, metadata, options, (error: grpc_1.ServiceError, response: BooleanReturn) => {
+    } return new Promise((resolve, reject) => super.getUserRoles(message, metadata, options, (error: grpc_1.ServiceError, response: UserRolesResult) => {
         if (error) {
             reject(error);
         }

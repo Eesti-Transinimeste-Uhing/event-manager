@@ -1,15 +1,20 @@
 syntax = "proto3";
 
 service Users {
-  rpc isVolunteer (UserFilter) returns (BooleanReturn);
-  rpc isEditor (UserFilter) returns (BooleanReturn);
-  rpc isAdmin (UserFilter) returns (BooleanReturn);
+  rpc getUserRoles (UserFilter) returns (UserRolesResult);
+}
+
+enum UserRole {
+  Owner = 0;
+  Admin = 1;
+  Editor = 2;
+  Publisher = 3;
 }
 
 message UserFilter {
   string id = 1;
 }
 
-message BooleanReturn {
-  bool result = 1;
+message UserRolesResult {
+  repeated UserRole roles = 1;
 }
