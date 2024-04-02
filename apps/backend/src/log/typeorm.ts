@@ -6,14 +6,22 @@ export class PinoLogger extends AbstractLogger {
     super()
   }
 
+  override logQuery(query: string, parameters?: any[] | undefined): void {
+    this.pino.trace(parameters, query)
+  }
+
+  override logMigration(message: string, queryRunner?: QueryRunner | undefined): void {
+    this.pino.trace(message)
+  }
+
+  override logQueryError(error: string, query: string, parameters?: any[] | undefined): void {
+    this.pino.error({ query, parameters }, error)
+  }
+
   /**
    * Write log to specific output.
    */
-  protected writeLog(
-    level: LogLevel,
-    logMessage: LogMessage | LogMessage[],
-    queryRunner?: QueryRunner
-  ) {
+  override writeLog(level: LogLevel, logMessage: LogMessage | LogMessage[]) {
     const messages = this.prepareLogMessages(logMessage, {
       highlightSql: false,
     })
