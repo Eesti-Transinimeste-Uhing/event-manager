@@ -4,6 +4,7 @@ import { GatewayIntentBits } from 'discord.js'
 import { config } from './config'
 import { log } from './log'
 import { PinoLogger } from './log/sapphire'
+import { ProtoServer } from './proto/server'
 
 const client = new SapphireClient({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
@@ -14,8 +15,14 @@ const client = new SapphireClient({
 })
 
 const main = async () => {
+  log.debug('starting proto server')
+  const rpcServer = new ProtoServer()
+  await rpcServer.listen()
+
+  log.debug('logging into Discord')
   await client.login(config.discord.token)
-  log.info('Bot started')
+
+  log.info('bot started')
 }
 
 main().catch(console.error)

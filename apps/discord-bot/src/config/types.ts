@@ -10,4 +10,10 @@ export type Config = {
   log: {
     level: Pino.Level
   }
+  rpc: {
+    server: {
+      host: string
+      port: number
+    }
+  }
 }

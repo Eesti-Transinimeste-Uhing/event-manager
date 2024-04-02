@@ -38,4 +38,12 @@ export type Config = {
   mounts: {
     staticFiles: string
   }
+  rpc: {
+    clients: {
+      discordBot: {
+        host: string
+        port: number
+      }
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { getLevel, getString } from './validators'
+import { getLevel, getNumber, getString } from './validators'
 import { Config } from './types'
 
 const getConfig = (): Config => {
@@ -11,6 +11,12 @@ const getConfig = (): Config => {
     },
     node: {
       env: process.env.NODE_ENV === 'development' ? 'development' : 'production',
+    },
+    rpc: {
+      server: {
+        host: getString('RPC_SERVER_HOST', process.env.RPC_SERVER_HOST),
+        port: getNumber('RPC_SERVER_PORT', process.env.RPC_SERVER_PORT),
+      },
     },
   }
 }

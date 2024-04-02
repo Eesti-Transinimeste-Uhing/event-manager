@@ -25,3 +25,14 @@ export const getLevel = (name: string, input?: string | null): Pino.Level => {
 
   return checkedInput
 }
+
+export const getNumber = (name: string, input?: string | null): number => {
+  const checkedInput = getString(name, input)
+  const parsed = Number.parseFloat(checkedInput)
+
+  if (Number.isNaN(parsed)) {
+    throw new ConfigurationError(`${name} must be a number, got "${checkedInput}"`)
+  }
+
+  return parsed
+}

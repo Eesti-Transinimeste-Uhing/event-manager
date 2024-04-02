@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service Users {
+  rpc isVolunteer (UserFilter) returns (BooleanReturn);
+  rpc isEditor (UserFilter) returns (BooleanReturn);
+  rpc isAdmin (UserFilter) returns (BooleanReturn);
+}
+
+message UserFilter {
+  string id = 1;
+}
+
+message BooleanReturn {
+  bool result = 1;
+}
