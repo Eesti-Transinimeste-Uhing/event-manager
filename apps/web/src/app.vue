@@ -8,7 +8,7 @@ defineOptions({
 
 <template>
   <router-view v-slot="{ Component, route }">
-    <transition name="page" mode="out-in">
+    <transition name="card" mode="out-in">
       <component :is="Component" :key="route.meta.layout" />
     </transition>
   </router-view>

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { useQuasar } from 'quasar'
-import { onBeforeUnmount, onMounted } from 'vue'
+import { onBeforeMount, onUnmounted } from 'vue'
 
 const q = useQuasar()
 
-onMounted(() => {
+onBeforeMount(() => {
   q.dark.set(false)
 })
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
   q.dark.set(true)
 })
 </script>
