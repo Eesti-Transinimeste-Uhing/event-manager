@@ -21,7 +21,6 @@ const {
   previousPage,
   sortDir,
   toggleSortDir,
-  filterText,
   refetch,
 } = useCursorPagination(
   'formSubmissions',
@@ -56,9 +55,12 @@ const {
             form {
               id
               name
+              template {
+                id
+                name
+              }
             }
             data {
-              label
               name
               value
             }
@@ -86,7 +88,7 @@ const columns = computed<Column[]>(() => {
 
       const column: Column = {
         name: item.name,
-        label: item.label,
+        label: item.name,
         align: 'left',
         field() {
           return item.value
@@ -105,6 +107,15 @@ const columns = computed<Column[]>(() => {
       style: 'width: 250px;',
       field(row) {
         return row.node.form.name
+      },
+    },
+    {
+      name: 'template',
+      label: 'Template',
+      align: 'left',
+      style: 'width: 250px;',
+      field(row) {
+        return row.node.form.template.name
       },
     },
     ...dynamicColumns,
@@ -134,8 +145,6 @@ const handleRowClick = () => {
 <template>
   <div class="forms-list column justify-between">
     <q-banner inline-actions rounded class="q-mb-md q-py-none">
-      <q-input borderless :debounce="300" v-model="filterText" label="Search..." />
-
       <template v-slot:action>
         <tooltip-button
           color="secondary"

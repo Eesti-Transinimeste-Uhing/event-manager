@@ -2,7 +2,6 @@
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import { Ref, computed, ref } from 'vue'
 import VueDraggable from 'vuedraggable'
-import { DateTime } from 'luxon'
 import bytes from 'bytes'
 
 import { useRouteParam } from 'src/lib/use-route-param'
@@ -114,7 +113,7 @@ onResult((result) => {
 
   topOffset.value = template.bannerOffset
   bannerFile.value = null
-  bannerUrl.value = `${template.banner}/${DateTime.fromISO(template.updatedAt).toUnixInteger()}`
+  bannerUrl.value = template.banner
   name.value = template.name
   description.value = template.description
   fields.value = template.fields.map((field) => ({ value: field }))

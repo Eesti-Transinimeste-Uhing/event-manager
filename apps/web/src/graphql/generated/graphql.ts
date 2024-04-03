@@ -93,9 +93,8 @@ export type FormSubmissionConnection = {
 
 export type FormSubmissionData = {
   __typename?: 'FormSubmissionData'
-  label: Scalars['String']['output']
   name: Scalars['String']['output']
-  value: Scalars['String']['output']
+  value?: Maybe<Scalars['String']['output']>
 }
 
 export type FormSubmissionEdge = {
@@ -228,9 +227,8 @@ export type RemoveTemplateInput = {
 }
 
 export type SubmitFormDataInput = {
-  label: Scalars['String']['input']
   name: Scalars['String']['input']
-  value: Scalars['String']['input']
+  value?: InputMaybe<Scalars['String']['input']>
 }
 
 export type SubmitFormInput = {
@@ -448,6 +446,13 @@ export type FormSubmitQuery = {
   } | null
 }
 
+export type SubmitFormMutationVariables = Exact<{
+  where: SubmitFormWhereInput
+  data: Array<SubmitFormDataInput> | SubmitFormDataInput
+}>
+
+export type SubmitFormMutation = { __typename?: 'Mutation'; submitForm: boolean }
+
 export type FormSubmissionListQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
@@ -475,13 +480,13 @@ export type FormSubmissionListQuery = {
         __typename?: 'FormSubmission'
         id: string
         createdAt: any
-        form: { __typename?: 'Form'; id: string; name?: string | null }
-        data: Array<{
-          __typename?: 'FormSubmissionData'
-          label: string
-          name: string
-          value: string
-        }>
+        form: {
+          __typename?: 'Form'
+          id: string
+          name?: string | null
+          template: { __typename?: 'Template'; id: string; name: string }
+        }
+        data: Array<{ __typename?: 'FormSubmissionData'; name: string; value?: string | null }>
       }
     }>
   }
@@ -1121,6 +1126,61 @@ export const FormSubmitDocument = {
     },
   ],
 } as unknown as DocumentNode<FormSubmitQuery, FormSubmitQueryVariables>
+export const SubmitFormDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'SubmitForm' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'SubmitFormWhereInput' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'ListType',
+              type: {
+                kind: 'NonNullType',
+                type: { kind: 'NamedType', name: { kind: 'Name', value: 'SubmitFormDataInput' } },
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'submitForm' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SubmitFormMutation, SubmitFormMutationVariables>
 export const FormSubmissionListDocument = {
   kind: 'Document',
   definitions: [
@@ -1249,6 +1309,17 @@ export const FormSubmissionListDocument = {
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'template' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                        { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                      ],
+                                    },
+                                  },
                                 ],
                               },
                             },
@@ -1258,7 +1329,6 @@ export const FormSubmissionListDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
-                                  { kind: 'Field', name: { kind: 'Name', value: 'label' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'value' } },
                                 ],

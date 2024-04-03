@@ -3,6 +3,7 @@ import path from 'node:path'
 
 import urlJoin from '../../lib/url-join'
 import { config } from '../../config'
+import { DateTime } from 'luxon'
 
 export const Template = objectType({
   name: 'Template',
@@ -19,7 +20,14 @@ export const Template = objectType({
     t.int('bannerOffset')
     t.url('banner', {
       async resolve(root) {
-        return urlJoin(config.server.publicUrl, 'v1', 'static', 'template-banner', root.id)
+        return urlJoin(
+          config.server.publicUrl,
+          'v1',
+          'static',
+          'template-banner',
+          root.id,
+          DateTime.fromJSDate(root.updatedAt).toUnixInteger().toString()
+        )
       },
     })
     t.list.field('fields', {

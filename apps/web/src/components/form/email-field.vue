@@ -12,7 +12,7 @@ const emit = defineEmits<{
 }>()
 
 const rules: ValidationRule[] = [
-  (val, rules) => rules.email(val) || 'Please enter a valid email address',
+  (val, rules) => (val ? rules.email(val) || 'Please enter a valid email address' : true),
 ]
 </script>
 

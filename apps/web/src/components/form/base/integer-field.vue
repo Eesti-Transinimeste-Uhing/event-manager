@@ -4,12 +4,12 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (event: 'update:model-value', value: number): void
+  (event: 'update:model-value', value: number | null): void
 }>()
 
 const handleInput = (v: string | number | null) => {
   if (!v) {
-    emit('update:model-value', 0)
+    emit('update:model-value', null)
     return
   }
 

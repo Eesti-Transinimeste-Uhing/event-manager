@@ -79,9 +79,8 @@ type FormSubmissionConnection {
 }
 
 type FormSubmissionData {
-  label: String!
   name: String!
-  value: String!
+  value: String
 }
 
 type FormSubmissionEdge {
@@ -241,9 +240,8 @@ input RemoveTemplateInput {
 }
 
 input SubmitFormDataInput {
-  label: String!
   name: String!
-  value: String!
+  value: String
 }
 
 input SubmitFormInput {

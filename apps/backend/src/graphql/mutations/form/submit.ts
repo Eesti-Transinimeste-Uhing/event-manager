@@ -13,9 +13,8 @@ const SubmitFormWhereInput = inputObjectType({
 const SubmitFormDataInput = inputObjectType({
   name: 'SubmitFormDataInput',
   definition(t) {
-    t.string('label')
     t.string('name')
-    t.string('value')
+    t.nullable.string('value')
   },
 })
 
@@ -28,7 +27,7 @@ export const SubmitForm = mutationField((t) => {
     async resolve(root, args, context) {
       await formController.submit(
         args.where.id,
-        context.user ? context.user.id : hash(context.request.ip),
+        hash(context.user ? context.user.id : context.request.ip),
         args.data
       )
 

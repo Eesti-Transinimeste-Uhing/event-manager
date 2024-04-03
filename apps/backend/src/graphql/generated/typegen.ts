@@ -113,9 +113,8 @@ export interface NexusGenInputs {
   }
   SubmitFormDataInput: {
     // input type
-    label: string // String!
     name: string // String!
-    value: string // String!
+    value?: string | null // String
   }
   SubmitFormInput: {
     // input type
@@ -190,9 +189,8 @@ export interface NexusGenObjects {
   }
   FormSubmissionData: {
     // root type
-    label: string // String!
     name: string // String!
-    value: string // String!
+    value?: string | null // String
   }
   FormSubmissionEdge: {
     // root type
@@ -273,9 +271,8 @@ export interface NexusGenFieldTypes {
   }
   FormSubmissionData: {
     // field return type
-    label: string // String!
     name: string // String!
-    value: string // String!
+    value: string | null // String
   }
   FormSubmissionEdge: {
     // field return type
@@ -380,7 +377,6 @@ export interface NexusGenFieldTypeNames {
   }
   FormSubmissionData: {
     // field return type name
-    label: 'String'
     name: 'String'
     value: 'String'
   }

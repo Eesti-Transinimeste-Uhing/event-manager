@@ -10,7 +10,6 @@ import {
 import { Form } from './form'
 
 export type FormSubmissionData = Array<{
-  label: string
   name: string
   value: string | number | boolean
 }>

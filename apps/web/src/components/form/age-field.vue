@@ -3,14 +3,14 @@ import { ValidationRule } from 'quasar'
 import IntegerField from './base/integer-field.vue'
 
 const props = defineProps<{
-  modelValue?: number
+  modelValue?: number | null
 }>()
 
 const emit = defineEmits<{
-  (event: 'update:model-value', value: number): void
+  (event: 'update:model-value', value: number | null): void
 }>()
 
-const handleInput = (v: number) => {
+const handleInput = (v: number | null) => {
   emit('update:model-value', v)
 }
 

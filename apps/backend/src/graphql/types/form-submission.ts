@@ -4,9 +4,8 @@ import path from 'node:path'
 export const FormSubmissionData = objectType({
   name: 'FormSubmissionData',
   definition(t) {
-    t.string('label')
     t.string('name')
-    t.string('value')
+    t.nullable.string('value')
   },
 })
 
