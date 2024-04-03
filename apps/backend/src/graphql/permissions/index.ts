@@ -1,6 +1,9 @@
 import { allow, and, deny, or, shield } from 'graphql-shield'
-import { IRules, ShieldRule } from 'graphql-shield/typings/types'
+import { ShieldRule } from 'graphql-shield/typings/types'
 import { NexusGenFieldTypes } from '../generated/typegen'
+
+import { wrapError } from '../../lib/error-wrapping'
+import { UnauthorisedError } from '../../lib/errors'
 
 import { isAuthenticated } from './is-authenticated'
 import { isOwnDiscordProfile } from './is-own-discord-profile'
@@ -8,7 +11,6 @@ import { isAdmin } from './is-admin'
 import { isPublisher } from './is-publisher'
 import { isEditor } from './is-editor'
 import { isOwner } from './is-owner'
-import { wrapError } from '../../lib/error-wrapping'
 
 export type GraphQLRules<RootType> = {
   [key in keyof RootType]:
@@ -26,6 +28,7 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
       template: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
       templates: and(isAuthenticated, or(isOwner, isAdmin, isEditor, isPublisher)),
       viewer: allow,
+      formSubmissions: and(isAuthenticated, or(isOwner, isAdmin)),
     },
     Mutation: {
       createForm: and(isAuthenticated, or(isOwner, isAdmin, isEditor, isPublisher)),
@@ -46,10 +49,14 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
     TemplateConnection: allow,
     TemplateEdge: allow,
     User: allow,
+    FormSubmissionConnection: allow,
+    FormSubmissionEdge: allow,
+    FormSubmission: allow,
+    FormSubmissionData: allow,
   },
   {
     fallbackError(thrownThing) {
-      return wrapError(thrownThing)
+      return wrapError(thrownThing) ?? new UnauthorisedError()
     },
     fallbackRule: deny,
   }

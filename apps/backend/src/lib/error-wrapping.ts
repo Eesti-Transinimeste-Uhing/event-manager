@@ -1,13 +1,10 @@
 import { QueryFailedError, EntityNotFoundError as TypeormEntityNotFoundError } from 'typeorm'
 import VError from 'verror'
-
-import { FormAlreadySubmittedError } from './errors/form-already-submitted'
-import { EntityFetchingError } from './errors/entity-fetching-error'
-import { EntityNotFoundError } from './errors/entity-not-found'
+import { EntityFetchingError, EntityNotFoundError, FormAlreadySubmittedError } from './errors'
 
 const appErrors = [FormAlreadySubmittedError, EntityFetchingError, EntityNotFoundError]
 
-export const wrapError = (error: unknown) => {
+export const wrapError = (error: unknown): Error | null => {
   for (const errorType of appErrors) {
     if (error instanceof errorType) {
       return error
@@ -28,5 +25,5 @@ export const wrapError = (error: unknown) => {
     return new VError(error, 'Unknown error')
   }
 
-  return new VError(`Unknown value thrown: "${String(error)}"`)
+  return null
 }

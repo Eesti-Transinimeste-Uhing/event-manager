@@ -22,7 +22,7 @@ type DiscordUser {
 type Form {
   createdAt: DateTime!
   id: ID!
-  name: String!
+  name: String
   template: Template!
   updatedAt: DateTime!
 }
@@ -57,6 +57,43 @@ enum FormFieldKind {
   Email
   Gender
   PreferredName
+}
+
+type FormSubmission {
+  createdAt: DateTime!
+  data: [FormSubmissionData!]!
+  form: Form!
+  id: ID!
+}
+
+type FormSubmissionConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [FormSubmissionEdge!]!
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+}
+
+type FormSubmissionData {
+  label: String!
+  name: String!
+  value: String!
+}
+
+type FormSubmissionEdge {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor
+  """
+  cursor: String!
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Node
+  """
+  node: FormSubmission!
 }
 
 """
@@ -122,6 +159,29 @@ enum PaginationSortingOrder {
 
 type Query {
   form(where: WhereIdInput!): Form
+  formSubmissions(
+    """
+    Returns the elements in the list that come after the specified cursor
+    """
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor
+    """
+    before: String
+    filter: [PaginationFilter!]
+
+    """
+    Returns the first n elements from the list.
+    """
+    first: Int
+
+    """
+    Returns the last n elements from the list.
+    """
+    last: Int
+    sort: [PaginationSorting!]
+  ): FormSubmissionConnection!
   forms(
     """
     Returns the elements in the list that come after the specified cursor
@@ -236,7 +296,6 @@ scalar URL
 
 input UpdateFormDataInput {
   name: String!
-  templateId: ID!
 }
 
 input UpdateFormWhereInput {

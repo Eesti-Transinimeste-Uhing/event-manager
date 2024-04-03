@@ -46,7 +46,7 @@ export type Form = {
   __typename?: 'Form'
   createdAt: Scalars['DateTime']['output']
   id: Scalars['ID']['output']
-  name: Scalars['String']['output']
+  name?: Maybe<Scalars['String']['output']>
   template: Template
   updatedAt: Scalars['DateTime']['output']
 }
@@ -73,6 +73,37 @@ export enum FormFieldKind {
   Email = 'Email',
   Gender = 'Gender',
   PreferredName = 'PreferredName',
+}
+
+export type FormSubmission = {
+  __typename?: 'FormSubmission'
+  createdAt: Scalars['DateTime']['output']
+  data: Array<FormSubmissionData>
+  form: Form
+  id: Scalars['ID']['output']
+}
+
+export type FormSubmissionConnection = {
+  __typename?: 'FormSubmissionConnection'
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges: Array<FormSubmissionEdge>
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo
+}
+
+export type FormSubmissionData = {
+  __typename?: 'FormSubmissionData'
+  label: Scalars['String']['output']
+  name: Scalars['String']['output']
+  value: Scalars['String']['output']
+}
+
+export type FormSubmissionEdge = {
+  __typename?: 'FormSubmissionEdge'
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String']['output']
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node: FormSubmission
 }
 
 export type Mutation = {
@@ -146,6 +177,7 @@ export enum PaginationSortingOrder {
 export type Query = {
   __typename?: 'Query'
   form?: Maybe<Form>
+  formSubmissions: FormSubmissionConnection
   forms: FormConnection
   template?: Maybe<Template>
   templates: TemplateConnection
@@ -154,6 +186,15 @@ export type Query = {
 
 export type QueryFormArgs = {
   where: WhereIdInput
+}
+
+export type QueryFormSubmissionsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  filter?: InputMaybe<Array<PaginationFilter>>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  sort?: InputMaybe<Array<PaginationSorting>>
 }
 
 export type QueryFormsArgs = {
@@ -230,7 +271,6 @@ export type TemplateEdge = {
 
 export type UpdateFormDataInput = {
   name: Scalars['String']['input']
-  templateId: Scalars['ID']['input']
 }
 
 export type UpdateFormWhereInput = {
@@ -313,6 +353,30 @@ export type SearchTemplatesQuery = {
   }
 }
 
+export type UpdateFormMutationVariables = Exact<{
+  where: UpdateFormWhereInput
+  data: UpdateFormDataInput
+}>
+
+export type UpdateFormMutation = {
+  __typename?: 'Mutation'
+  updateForm?: { __typename?: 'Form'; id: string } | null
+}
+
+export type EditFormQueryVariables = Exact<{
+  where: WhereIdInput
+}>
+
+export type EditFormQuery = {
+  __typename?: 'Query'
+  form?: {
+    __typename?: 'Form'
+    id: string
+    name?: string | null
+    template: { __typename?: 'Template'; id: string }
+  } | null
+}
+
 export type FormListQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
@@ -341,6 +405,7 @@ export type FormListQuery = {
         id: string
         createdAt: any
         updatedAt: any
+        name?: string | null
         template: {
           __typename?: 'Template'
           id: string
@@ -360,6 +425,45 @@ export type CreateFormMutationVariables = Exact<{
 export type CreateFormMutation = {
   __typename?: 'Mutation'
   createForm: { __typename?: 'Form'; id: string }
+}
+
+export type FormSubmissionListQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
+  sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
+}>
+
+export type FormSubmissionListQuery = {
+  __typename?: 'Query'
+  formSubmissions: {
+    __typename?: 'FormSubmissionConnection'
+    pageInfo: {
+      __typename?: 'PageInfo'
+      totalCount?: number | null
+      hasNextPage?: boolean | null
+      hasPreviousPage?: boolean | null
+      endCursor?: string | null
+      startCursor?: string | null
+    }
+    edges: Array<{
+      __typename?: 'FormSubmissionEdge'
+      node: {
+        __typename?: 'FormSubmission'
+        id: string
+        createdAt: any
+        form: { __typename?: 'Form'; id: string; name?: string | null }
+        data: Array<{
+          __typename?: 'FormSubmissionData'
+          label: string
+          name: string
+          value: string
+        }>
+      }
+    }>
+  }
 }
 
 export type EditTemplateQueryVariables = Exact<{
@@ -623,6 +727,110 @@ export const SearchTemplatesDocument = {
     },
   ],
 } as unknown as DocumentNode<SearchTemplatesQuery, SearchTemplatesQueryVariables>
+export const UpdateFormDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateForm' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UpdateFormWhereInput' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UpdateFormDataInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateForm' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<UpdateFormMutation, UpdateFormMutationVariables>
+export const EditFormDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EditForm' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'WhereIdInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'form' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'template' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EditFormQuery, EditFormQueryVariables>
 export const FormListDocument = {
   kind: 'Document',
   definitions: [
@@ -744,6 +952,7 @@ export const FormListDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'template' },
@@ -811,6 +1020,163 @@ export const CreateFormDocument = {
     },
   ],
 } as unknown as DocumentNode<CreateFormMutation, CreateFormMutationVariables>
+export const FormSubmissionListDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'FormSubmissionList' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'formSubmissions' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'form' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'data' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<FormSubmissionListQuery, FormSubmissionListQueryVariables>
 export const EditTemplateDocument = {
   kind: 'Document',
   definitions: [

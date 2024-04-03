@@ -2,10 +2,9 @@ import { AppDataSource } from '../data-source'
 import { TemplateRepository } from '../repository/template'
 import { Template } from '../entity/template'
 import { DeepPartial } from 'typeorm'
-import { EntityNotFoundError } from '../lib/errors/entity-not-found'
-import { EntityFetchingError } from '../lib/errors/entity-fetching-error'
 import { PaginationArgs } from 'nexus/dist/plugins/connectionPlugin'
 import { templateBanners } from '../storage'
+import { EntityFetchingError, EntityNotFoundError } from '../lib/errors'
 
 export class TemplateController {
   private manager = AppDataSource.createEntityManager()
@@ -53,7 +52,7 @@ export class TemplateController {
   public async update(id: string, data: Omit<DeepPartial<Template>, 'id'>) {
     try {
       if (!(await this.templates.existsBy({ id }))) {
-        throw new EntityNotFoundError(`Template with ID "${id}" doesn't exist`)
+        throw new EntityNotFoundError(null, `Template with ID "${id}" doesn't exist`)
       }
 
       await this.manager.transaction(async (manager) => {
@@ -66,6 +65,7 @@ export class TemplateController {
         throw new EntityFetchingError(error, 'Fetching template for update')
       } else {
         throw new EntityFetchingError(
+          null,
           `Thrown while fetching template for update: "${String(error)}"`
         )
       }

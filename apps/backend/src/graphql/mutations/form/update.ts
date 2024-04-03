@@ -11,7 +11,6 @@ const UpdateFormWhereInput = inputObjectType({
 const UpdateFormDataInput = inputObjectType({
   name: 'UpdateFormDataInput',
   definition(t) {
-    t.id('templateId')
     t.string('name')
   },
 })

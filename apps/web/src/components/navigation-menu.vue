@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import * as route from 'src/router/routes'
 
-const routes = [route.dashboard, route.templates, route.forms]
+const routes = [route.dashboard, route.templates, route.forms, route.submissionList]
 </script>
 
 <style lang="scss" scoped>

@@ -59,6 +59,7 @@ const {
             id
             createdAt
             updatedAt
+            name
             template {
               id
               name
@@ -78,6 +79,14 @@ const {
 
 const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
   {
+    name: 'name',
+    label: 'Name',
+    align: 'left',
+    field(row) {
+      return row.node.name
+    },
+  },
+  {
     name: 'templateName',
     label: 'Template',
     align: 'left',
@@ -89,7 +98,7 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
     name: 'createdAt',
     label: 'Created',
     align: 'left',
-    style: 'width: 250px;',
+    style: 'width: 150px;',
     field(row) {
       return row.node.createdAt
     },
@@ -98,7 +107,7 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
     name: 'updatedAt',
     label: 'Updated',
     align: 'left',
-    style: 'width: 250px;',
+    style: 'width: 150px;',
     field(row) {
       return row.node.updatedAt
     },

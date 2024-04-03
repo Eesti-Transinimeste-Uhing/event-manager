@@ -8,6 +8,7 @@ import type { DiscordOauthInfo } from './../../lib/discord-me'
 import type { User } from './../../entity/user'
 import type { Template } from './../../entity/template'
 import type { Form } from './../../entity/form'
+import type { FormSubmission } from './../../entity/form-submission'
 import type { core, connectionPluginCore } from 'nexus'
 declare global {
   interface NexusGenCustomInputMethods<TypeName extends string> {
@@ -127,7 +128,6 @@ export interface NexusGenInputs {
   UpdateFormDataInput: {
     // input type
     name: string // String!
-    templateId: string // ID!
   }
   UpdateFormWhereInput: {
     // input type
@@ -182,6 +182,23 @@ export interface NexusGenObjects {
     cursor: string // String!
     node: NexusGenRootTypes['Form'] // Form!
   }
+  FormSubmission: FormSubmission
+  FormSubmissionConnection: {
+    // root type
+    edges: NexusGenRootTypes['FormSubmissionEdge'][] // [FormSubmissionEdge!]!
+    pageInfo: NexusGenRootTypes['PageInfo'] // PageInfo!
+  }
+  FormSubmissionData: {
+    // root type
+    label: string // String!
+    name: string // String!
+    value: string // String!
+  }
+  FormSubmissionEdge: {
+    // root type
+    cursor: string // String!
+    node: NexusGenRootTypes['FormSubmission'] // FormSubmission!
+  }
   Mutation: {}
   PageInfo: {
     // root type
@@ -228,7 +245,7 @@ export interface NexusGenFieldTypes {
     // field return type
     createdAt: NexusGenScalars['DateTime'] // DateTime!
     id: string // ID!
-    name: string // String!
+    name: string | null // String
     template: NexusGenRootTypes['Template'] // Template!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
@@ -241,6 +258,29 @@ export interface NexusGenFieldTypes {
     // field return type
     cursor: string // String!
     node: NexusGenRootTypes['Form'] // Form!
+  }
+  FormSubmission: {
+    // field return type
+    createdAt: NexusGenScalars['DateTime'] // DateTime!
+    data: NexusGenRootTypes['FormSubmissionData'][] // [FormSubmissionData!]!
+    form: NexusGenRootTypes['Form'] // Form!
+    id: string // ID!
+  }
+  FormSubmissionConnection: {
+    // field return type
+    edges: NexusGenRootTypes['FormSubmissionEdge'][] // [FormSubmissionEdge!]!
+    pageInfo: NexusGenRootTypes['PageInfo'] // PageInfo!
+  }
+  FormSubmissionData: {
+    // field return type
+    label: string // String!
+    name: string // String!
+    value: string // String!
+  }
+  FormSubmissionEdge: {
+    // field return type
+    cursor: string // String!
+    node: NexusGenRootTypes['FormSubmission'] // FormSubmission!
   }
   Mutation: {
     // field return type
@@ -263,6 +303,7 @@ export interface NexusGenFieldTypes {
   Query: {
     // field return type
     form: NexusGenRootTypes['Form'] | null // Form
+    formSubmissions: NexusGenRootTypes['FormSubmissionConnection'] // FormSubmissionConnection!
     forms: NexusGenRootTypes['FormConnection'] // FormConnection!
     template: NexusGenRootTypes['Template'] | null // Template
     templates: NexusGenRootTypes['TemplateConnection'] // TemplateConnection!
@@ -325,6 +366,29 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'Form'
   }
+  FormSubmission: {
+    // field return type name
+    createdAt: 'DateTime'
+    data: 'FormSubmissionData'
+    form: 'Form'
+    id: 'ID'
+  }
+  FormSubmissionConnection: {
+    // field return type name
+    edges: 'FormSubmissionEdge'
+    pageInfo: 'PageInfo'
+  }
+  FormSubmissionData: {
+    // field return type name
+    label: 'String'
+    name: 'String'
+    value: 'String'
+  }
+  FormSubmissionEdge: {
+    // field return type name
+    cursor: 'String'
+    node: 'FormSubmission'
+  }
   Mutation: {
     // field return type name
     createForm: 'Form'
@@ -346,6 +410,7 @@ export interface NexusGenFieldTypeNames {
   Query: {
     // field return type name
     form: 'Form'
+    formSubmissions: 'FormSubmissionConnection'
     forms: 'FormConnection'
     template: 'Template'
     templates: 'TemplateConnection'
@@ -414,6 +479,15 @@ export interface NexusGenArgTypes {
     form: {
       // args
       where: NexusGenInputs['WhereIdInput'] // WhereIdInput!
+    }
+    formSubmissions: {
+      // args
+      after?: string | null // String
+      before?: string | null // String
+      filter?: NexusGenInputs['PaginationFilter'][] | null // [PaginationFilter!]
+      first?: number | null // Int
+      last?: number | null // Int
+      sort?: NexusGenInputs['PaginationSorting'][] | null // [PaginationSorting!]
     }
     forms: {
       // args

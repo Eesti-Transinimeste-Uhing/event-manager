@@ -65,7 +65,27 @@ export const formEdit: RouteRecord = {
   },
 }
 
-const indexRoutes: RouteRecord[] = [templates, forms, formEdit, templates, templateEdit]
+export const submissionList: RouteRecord = {
+  name: 'submission-list',
+  path: '/submission/list',
+  component: () => import('pages/submissions/submissions-list.vue'),
+  meta: {
+    auth: 'require',
+    dark: true,
+    icon: 'las la-stream',
+    label: 'Submissions',
+    path: [],
+  },
+}
+
+const indexRoutes: RouteRecord[] = [
+  templates,
+  forms,
+  formEdit,
+  templates,
+  templateEdit,
+  submissionList,
+]
 
 export const prototyping: RouteRecord = {
   name: 'dev-prototyping',

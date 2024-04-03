@@ -3,7 +3,7 @@ import { AppDataSource } from '../data-source'
 import { Form } from '../entity/form'
 import { FormRepository } from '../repository/form'
 import { PaginationArgs } from 'nexus/dist/plugins/connectionPlugin'
-import { EntityNotFoundError } from '../lib/errors/entity-not-found'
+import { EntityNotFoundError } from '../lib/errors'
 import { FormSubmissionData } from '../entity/form-submission'
 import { FormSubmissionRepository } from '../repository/form-submission'
 
@@ -28,6 +28,10 @@ export class FormController {
 
   public async paginate(args: PaginationArgs) {
     return await this.forms.paginate(args)
+  }
+
+  public async paginateSubmissions(args: PaginationArgs) {
+    return await this.submissions.paginate(args)
   }
 
   public async softRemove(id: string) {
@@ -68,7 +72,7 @@ export class FormController {
 
   public async update(id: string, data: Omit<DeepPartial<Form>, 'id'>) {
     if (!(await this.forms.existsBy({ id }))) {
-      throw new EntityNotFoundError(`Template with ID "${id}" doesn't exist`)
+      throw new EntityNotFoundError(null, `Form with ID "${id}" doesn't exist`)
     }
 
     await this.manager.transaction(async (manager) => {

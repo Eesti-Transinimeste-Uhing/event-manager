@@ -200,7 +200,7 @@ const adjustOpen = ref(false)
         <q-skeleton type="QInput" />
       </div>
 
-      <q-form v-else-if="template" class="column">
+      <q-form v-else-if="template" class="column" @submit.prevent="handleSave">
         <q-card flat bordered class="q-mb-md">
           <single-image-upload-field
             :model-value="banner"
