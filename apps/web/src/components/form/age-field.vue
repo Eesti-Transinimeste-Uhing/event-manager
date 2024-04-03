@@ -14,7 +14,9 @@ const handleInput = (v: number) => {
   emit('update:model-value', v)
 }
 
-const rules: ValidationRule[] = [(val) => (val > 0 && val < 100) || 'Must be between 0 and 100']
+const rules: ValidationRule[] = [
+  (val) => (typeof val === 'number' ? (val > 0 && val < 100) || 'Must be between 0 and 100' : true),
+]
 </script>
 
 <template>

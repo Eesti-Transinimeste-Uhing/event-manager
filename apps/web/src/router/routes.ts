@@ -174,7 +174,7 @@ export const authFailure: RouteRecord = {
 export const auth: RouteRecord = {
   name: 'auth',
   path: '/auth',
-  component: () => import('layouts/single-modal.vue'),
+  component: () => import('layouts/public-layout.vue'),
   children: [authLogin, authSuccess, authFailure],
   meta: {
     auth: 'forbid',

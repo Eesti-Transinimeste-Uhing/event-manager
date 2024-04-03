@@ -39,8 +39,20 @@ const handleDecrement = () => {
   >
     <template v-slot:append>
       <q-btn-group flat class="rotate-90">
-        <q-btn size="small" icon="las la-caret-left" class="q-pa-none" @click="handleIncrement" />
-        <q-btn size="small" icon="las la-caret-right" class="q-pa-none" @click="handleDecrement" />
+        <q-btn
+          size="small"
+          style="width: 21px"
+          icon="las la-caret-left"
+          class="q-pa-none"
+          @click="handleIncrement"
+        />
+        <q-btn
+          style="width: 21px"
+          size="small"
+          icon="las la-caret-right"
+          class="q-pa-none"
+          @click="handleDecrement"
+        />
       </q-btn-group>
     </template>
   </q-input>

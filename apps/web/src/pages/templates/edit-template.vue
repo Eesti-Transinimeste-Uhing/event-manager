@@ -203,7 +203,7 @@ const adjustOpen = ref(false)
           <q-card flat bordered class="q-mb-md">
             <single-image-upload-field
               :model-value="banner"
-              @update:model-value="(v) => (bannerFile = v)"
+              @update:model-value="(v: File | null) => (bannerFile = v)"
             >
               <template #prepend>
                 <tooltip-button flat tooltip="Enlarge" round>

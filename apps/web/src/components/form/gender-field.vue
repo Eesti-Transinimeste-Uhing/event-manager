@@ -6,7 +6,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (event: 'update:model-value', value: string): void
+  (event: 'update:model-value', value: string | null): void
 }>()
 
 const options: SelectOption[] = [
