@@ -434,6 +434,20 @@ export type CreateFormMutation = {
   createForm: { __typename?: 'Form'; id: string }
 }
 
+export type FormSubmitQueryVariables = Exact<{
+  where: WhereIdInput
+}>
+
+export type FormSubmitQuery = {
+  __typename?: 'Query'
+  form?: {
+    __typename?: 'Form'
+    id: string
+    name?: string | null
+    template: { __typename?: 'Template'; id: string; fields: Array<FormFieldKind> }
+  } | null
+}
+
 export type FormSubmissionListQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
@@ -1053,6 +1067,60 @@ export const CreateFormDocument = {
     },
   ],
 } as unknown as DocumentNode<CreateFormMutation, CreateFormMutationVariables>
+export const FormSubmitDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'FormSubmit' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'WhereIdInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'form' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'template' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'fields' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<FormSubmitQuery, FormSubmitQueryVariables>
 export const FormSubmissionListDocument = {
   kind: 'Document',
   definitions: [
