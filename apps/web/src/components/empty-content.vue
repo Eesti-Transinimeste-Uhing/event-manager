@@ -39,9 +39,9 @@ const router = useRouter()
     <div class="empty-content column items-center justify-center">
       <q-icon :name="props.icon" class="main-icon" :color="props.iconColour" />
 
-      <h2>{{ props.title }}</h2>
+      <h2 class="q-mb-md">{{ props.title }}</h2>
 
-      <div v-if="props.content" class="text-body1">
+      <div v-if="props.content" class="text-body1 q-mb-md">
         {{ props.content }}
       </div>
 

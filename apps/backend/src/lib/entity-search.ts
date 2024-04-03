@@ -8,7 +8,5 @@ export const addColumnFilter = <Entity extends ObjectLiteral>(
 ) => {
   const escapedColumn = qb.escape(column)
 
-  return qb
-    .orWhere(`"${qb.alias}".${escapedColumn} ILIKE '%' || :query || '%'`, { query })
-    .addOrderBy(`LEVENSHTEIN("${qb.alias}".${escapedColumn}, :query))`, orderDirection)
+  return qb.andWhere(`"${qb.alias}".${escapedColumn} ILIKE '%' || :query || '%'`, { query })
 }

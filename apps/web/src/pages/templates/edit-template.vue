@@ -213,7 +213,7 @@ const adjustOpen = ref(false)
                     :ratio="1"
                     height="40px"
                     width="40px"
-                    fit="contain"
+                    fit="cover"
                     :src="preview"
                     @click="adjustOpen = true"
                   />

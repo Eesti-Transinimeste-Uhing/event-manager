@@ -65,6 +65,19 @@ export const formEdit: RouteRecord = {
   },
 }
 
+export const formSubmit: RouteRecord = {
+  name: 'form-submit',
+  path: '/form/:id/submit',
+  component: () => import('pages/forms/submit-form.vue'),
+  meta: {
+    auth: 'any',
+    dark: false,
+    icon: 'las la-edit',
+    label: 'Submit form',
+    path: [],
+  },
+}
+
 export const submissionList: RouteRecord = {
   name: 'submission-list',
   path: '/submission/list',
@@ -172,6 +185,20 @@ export const auth: RouteRecord = {
   },
 }
 
+export const publicRoute: RouteRecord = {
+  name: 'public',
+  path: '/public',
+  component: () => import('layouts/public-layout.vue'),
+  children: [formSubmit],
+  meta: {
+    auth: 'any',
+    dark: false,
+    label: 'Public',
+    icon: 'las la-globe',
+    path: [],
+  },
+}
+
 export const catchAll: RouteRecord = {
   name: 'catchAll',
   path: '/:catchAll(.*)*',
@@ -188,6 +215,7 @@ export const catchAll: RouteRecord = {
 export const routes: RouteRecord[] = [
   dashboard,
   auth,
+  publicRoute,
 
   // Always leave this as last one,
   // but you can also remove it
