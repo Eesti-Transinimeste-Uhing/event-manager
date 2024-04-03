@@ -105,27 +105,27 @@ const handleSave = async () => {
         />
       </template>
     </q-banner>
+
+    <empty-content
+      v-if="error"
+      :content="error.message"
+      title="Network error"
+      icon="las la-times"
+      icon-colour="red"
+    />
+
+    <q-card flat>
+      <q-card-section>
+        <div v-if="loading && !result">
+          <q-skeleton type="QInput" />
+        </div>
+
+        <q-form v-else-if="result" class="column" @submit.prevent="handleSave">
+          <q-card flat bordered class="q-mb-md">
+            <q-input borderless v-model="name" label="Name" class="q-px-md" />
+          </q-card>
+        </q-form>
+      </q-card-section>
+    </q-card>
   </div>
-
-  <empty-content
-    v-if="error"
-    :content="error.message"
-    title="Network error"
-    icon="las la-times"
-    icon-colour="red"
-  />
-
-  <q-card flat>
-    <q-card-section>
-      <div v-if="loading && !result">
-        <q-skeleton type="QInput" />
-      </div>
-
-      <q-form v-else-if="result" class="column" @submit.prevent="handleSave">
-        <q-card flat bordered class="q-mb-md">
-          <q-input borderless v-model="name" label="Name" class="q-px-md" />
-        </q-card>
-      </q-form>
-    </q-card-section>
-  </q-card>
 </template>

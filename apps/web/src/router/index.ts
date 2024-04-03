@@ -6,7 +6,8 @@ import {
   createWebHistory,
 } from 'vue-router'
 
-import { routes } from './routes'
+import { RouteRecord, routes } from './routes'
+import { Dark } from 'quasar'
 
 /*
  * If not building with SSR mode, you can
@@ -32,6 +33,16 @@ export default route(() => {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
+  })
+
+  if (typeof window === 'undefined') {
+    return router
+  }
+
+  router.afterEach((to) => {
+    setTimeout(() => {
+      Dark.set((to as unknown as RouteRecord).meta.dark)
+    }, 0)
   })
 
   return router

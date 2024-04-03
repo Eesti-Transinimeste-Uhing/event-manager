@@ -172,110 +172,110 @@ const adjustOpen = ref(false)
         />
       </template>
     </q-banner>
-  </div>
 
-  <empty-content
-    v-if="error"
-    :content="error.message"
-    title="Network error"
-    icon="las la-times"
-    icon-colour="red"
-  />
-
-  <q-card flat>
-    <single-image-preview-dialog
-      :open="adjustOpen"
-      @close="adjustOpen = false"
-      v-model="topOffset"
-      :label="name"
-      :caption="size ? bytes(size) : null"
-      :preview="preview"
-      :width="dimensions[0]"
-      :height="dimensions[1]"
-      :ratio="ratio"
+    <empty-content
+      v-if="error"
+      :content="error.message"
+      title="Network error"
+      icon="las la-times"
+      icon-colour="red"
     />
 
-    <q-card-section>
-      <div v-if="loading && !template">
-        <q-skeleton type="QInput" />
-      </div>
+    <q-card flat>
+      <single-image-preview-dialog
+        :open="adjustOpen"
+        @close="adjustOpen = false"
+        v-model="topOffset"
+        :label="name"
+        :caption="size ? bytes(size) : null"
+        :preview="preview"
+        :width="dimensions[0]"
+        :height="dimensions[1]"
+        :ratio="ratio"
+      />
 
-      <q-form v-else-if="template" class="column" @submit.prevent="handleSave">
-        <q-card flat bordered class="q-mb-md">
-          <single-image-upload-field
-            :model-value="banner"
-            @update:model-value="(v) => (bannerFile = v)"
-          >
-            <template #prepend>
-              <tooltip-button flat tooltip="Enlarge" round>
-                <q-avatar>
-                  <q-img
-                    :ratio="1"
-                    height="40px"
-                    width="40px"
-                    fit="cover"
-                    :src="preview"
-                    @click="adjustOpen = true"
-                  />
-                </q-avatar>
-              </tooltip-button>
-            </template>
-          </single-image-upload-field>
-        </q-card>
+      <q-card-section>
+        <div v-if="loading && !template">
+          <q-skeleton type="QInput" />
+        </div>
 
-        <q-card flat bordered class="q-mb-md">
-          <q-input borderless v-model="name" label="Name" class="q-px-md" />
-        </q-card>
+        <q-form v-else-if="template" class="column" @submit.prevent="handleSave">
+          <q-card flat bordered class="q-mb-md">
+            <single-image-upload-field
+              :model-value="banner"
+              @update:model-value="(v) => (bannerFile = v)"
+            >
+              <template #prepend>
+                <tooltip-button flat tooltip="Enlarge" round>
+                  <q-avatar>
+                    <q-img
+                      :ratio="1"
+                      height="40px"
+                      width="40px"
+                      fit="cover"
+                      :src="preview"
+                      @click="adjustOpen = true"
+                    />
+                  </q-avatar>
+                </tooltip-button>
+              </template>
+            </single-image-upload-field>
+          </q-card>
 
-        <text-editor v-model="description" class="q-mb-md" />
+          <q-card flat bordered class="q-mb-md">
+            <q-input borderless v-model="name" label="Name" class="q-px-md" />
+          </q-card>
 
-        <q-card flat class="row q-col-gutter-sm justify-between overflow-hidden">
-          <div class="col-8">
-            <drag-hint :running="draggingLeft" side="right">
-              <vue-draggable
-                v-model="fields"
-                group="a"
-                item-key="value"
-                :animation="150"
-                :component-data="{ class: 'col fit' }"
-                @start="draggingRight = true"
-                @end="draggingRight = false"
-              >
-                <template #item="{ element }">
-                  <div class="target-item">
-                    <q-card flat bordered class="q-px-md q-mb-sm">
-                      <form-field :kind="element.value" disable />
-                    </q-card>
-                  </div>
-                </template>
-              </vue-draggable>
-            </drag-hint>
-          </div>
+          <text-editor v-model="description" class="q-mb-md" />
 
-          <div class="col-4">
-            <drag-hint :running="draggingRight" side="left">
-              <vue-draggable
-                v-model="formFieldKinds"
-                item-key="value"
-                :animation="150"
-                group="a"
-                :sort="false"
-                :component-data="{ class: 'fit' }"
-                @start="draggingLeft = true"
-                @end="draggingLeft = false"
-              >
-                <template #item="{ element }">
-                  <div class="source-item col-4">
-                    <q-card flat bordered class="q-px-md q-mb-sm">
-                      <form-field :kind="element.value" disable />
-                    </q-card>
-                  </div>
-                </template>
-              </vue-draggable>
-            </drag-hint>
-          </div>
-        </q-card>
-      </q-form>
-    </q-card-section>
-  </q-card>
+          <q-card flat class="row q-col-gutter-sm justify-between overflow-hidden">
+            <div class="col-8">
+              <drag-hint :running="draggingLeft" side="right">
+                <vue-draggable
+                  v-model="fields"
+                  group="a"
+                  item-key="value"
+                  :animation="150"
+                  :component-data="{ class: 'col fit' }"
+                  @start="draggingRight = true"
+                  @end="draggingRight = false"
+                >
+                  <template #item="{ element }">
+                    <div class="target-item">
+                      <q-card flat bordered class="q-px-md q-mb-sm">
+                        <form-field :kind="element.value" disable />
+                      </q-card>
+                    </div>
+                  </template>
+                </vue-draggable>
+              </drag-hint>
+            </div>
+
+            <div class="col-4">
+              <drag-hint :running="draggingRight" side="left">
+                <vue-draggable
+                  v-model="formFieldKinds"
+                  item-key="value"
+                  :animation="150"
+                  group="a"
+                  :sort="false"
+                  :component-data="{ class: 'fit' }"
+                  @start="draggingLeft = true"
+                  @end="draggingLeft = false"
+                >
+                  <template #item="{ element }">
+                    <div class="source-item col-4">
+                      <q-card flat bordered class="q-px-md q-mb-sm">
+                        <form-field :kind="element.value" disable />
+                      </q-card>
+                    </div>
+                  </template>
+                </vue-draggable>
+              </drag-hint>
+            </div>
+          </q-card>
+        </q-form>
+      </q-card-section>
+    </q-card>
+  </div>
 </template>

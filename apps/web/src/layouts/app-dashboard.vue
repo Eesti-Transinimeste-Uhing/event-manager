@@ -85,7 +85,9 @@ const handleDrawerToggle = (value?: boolean) => {
     <q-page-container class="fit">
       <q-page class="page-padding column fit q-pa-md">
         <router-view v-slot="{ Component }">
-          <component :is="Component ?? IndexPage" :key="route.name" />
+          <transition name="card" mode="out-in">
+            <component :is="Component ?? IndexPage" :key="route.name" />
+          </transition>
         </router-view>
 
         <q-page-sticky position="top" expand class="bg-dark text-secondary">

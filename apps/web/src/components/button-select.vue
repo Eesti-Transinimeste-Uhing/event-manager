@@ -46,6 +46,7 @@ const handleOptionClick = (option: SelectOption) => {
 .morph-card {
   width: 350px;
   z-index: 2000;
+  top: 2rem;
 }
 
 .morph-wrapper {

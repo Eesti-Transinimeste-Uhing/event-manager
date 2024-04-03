@@ -318,6 +318,13 @@ export type AccountMenuViewerQuery = {
   } | null
 }
 
+export type PublicLayoutViewerQueryVariables = Exact<{ [key: string]: never }>
+
+export type PublicLayoutViewerQuery = {
+  __typename?: 'Query'
+  viewer?: { __typename?: 'User'; id: string; roles: Array<UserRole> } | null
+}
+
 export type PostOauthViewerQueryVariables = Exact<{ [key: string]: never }>
 
 export type PostOauthViewerQuery = {
@@ -570,6 +577,32 @@ export const AccountMenuViewerDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountMenuViewerQuery, AccountMenuViewerQueryVariables>
+export const PublicLayoutViewerDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'PublicLayoutViewer' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'viewer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'roles' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PublicLayoutViewerQuery, PublicLayoutViewerQueryVariables>
 export const PostOauthViewerDocument = {
   kind: 'Document',
   definitions: [

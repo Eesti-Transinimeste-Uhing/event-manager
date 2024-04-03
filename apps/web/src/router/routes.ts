@@ -74,7 +74,7 @@ export const formSubmit: RouteRecord = {
     dark: false,
     icon: 'las la-edit',
     label: 'Submit form',
-    path: [],
+    path: [forms],
   },
 }
 

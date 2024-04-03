@@ -15,6 +15,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
   '\n    query AccountMenuViewer {\n      viewer {\n        id\n        discord {\n          id\n          name: global_name\n          avatar\n        }\n      }\n    }\n  ':
     types.AccountMenuViewerDocument,
+  '\n    query PublicLayoutViewer {\n      viewer {\n        id\n        roles\n      }\n    }\n  ':
+    types.PublicLayoutViewerDocument,
   '\n    query PostOauthViewer {\n      viewer {\n        id\n      }\n    }\n  ':
     types.PostOauthViewerDocument,
   '\n    query SearchTemplates(\n      $filter: [PaginationFilter!]\n      $first: Int\n      $after: String\n      $before: String\n      $last: Int\n      $sort: [PaginationSorting!]\n    ) {\n      templates(\n        filter: $filter\n        first: $first\n        after: $after\n        before: $before\n        last: $last\n        sort: $sort\n      ) {\n        pageInfo {\n          endCursor\n          startCursor\n          hasNextPage\n          hasPreviousPage\n          totalCount\n        }\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  ':
@@ -59,6 +61,12 @@ export function graphql(source: string): unknown
 export function graphql(
   source: '\n    query AccountMenuViewer {\n      viewer {\n        id\n        discord {\n          id\n          name: global_name\n          avatar\n        }\n      }\n    }\n  '
 ): (typeof documents)['\n    query AccountMenuViewer {\n      viewer {\n        id\n        discord {\n          id\n          name: global_name\n          avatar\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query PublicLayoutViewer {\n      viewer {\n        id\n        roles\n      }\n    }\n  '
+): (typeof documents)['\n    query PublicLayoutViewer {\n      viewer {\n        id\n        roles\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

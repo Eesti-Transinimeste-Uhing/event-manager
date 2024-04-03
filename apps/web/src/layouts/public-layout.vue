@@ -1,32 +1,62 @@
 <script lang="ts" setup>
-import { useQuasar } from 'quasar'
-import { onBeforeMount, onUnmounted } from 'vue'
+import { useQuery } from '@vue/apollo-composable'
+import AccountMenu from 'src/components/account-menu.vue'
+import BreadCrumbs from 'src/components/bread-crumbs.vue'
+import SiteLogo from 'src/components/site-logo.vue'
+import { graphql } from 'src/graphql/generated'
 
-const q = useQuasar()
-
-onBeforeMount(() => {
-  q.dark.set(false)
-})
-
-onUnmounted(() => {
-  q.dark.set(true)
-})
+const { result, loading, error } = useQuery(
+  graphql(`
+    query PublicLayoutViewer {
+      viewer {
+        id
+        roles
+      }
+    }
+  `),
+  {},
+  { prefetch: false }
+)
 </script>
+
+<style lang="scss" scoped>
+.site-logo {
+  height: 25px;
+}
+</style>
 
 <template>
   <q-layout view="lHh lpr lff" class="layout-root">
     <q-page-container class="fit">
-      <div class="fit absolute">
-        <div class="fit backdrop" />
-      </div>
+      <q-page class="page-padding column fit q-pa-md">
+        <router-view v-slot="{ Component, route }">
+          <transition name="card" mode="out-in">
+            <component :is="Component" :key="route.path" />
+          </transition>
+        </router-view>
 
-      <router-view v-slot="{ Component, route }">
-        <transition name="card" mode="out-in">
-          <div class="fit absolute" :key="route.path">
-            <component :is="Component" />
-          </div>
-        </transition>
-      </router-view>
+        <q-slide-transition>
+          <q-page-sticky
+            v-if="!loading && result?.viewer && result.viewer.roles.length > 0 && !error"
+            position="top"
+            expand
+            class="bg-dark text-secondary"
+          >
+            <q-toolbar>
+              <q-toolbar-title class="flex items-center">
+                <site-logo class="site-logo q-mr-sm" />
+                <span class="font-pragati">ETÜ Event Planner</span>
+
+                <q-separator vertical class="q-mx-md" dark />
+
+                <bread-crumbs class="text-body2" />
+              </q-toolbar-title>
+
+              <account-menu />
+            </q-toolbar>
+          </q-page-sticky>
+        </q-slide-transition>
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>
