@@ -1,6 +1,13 @@
-import { objectType } from 'nexus'
+import { enumType, objectType } from 'nexus'
 import path from 'node:path'
+import { UserRole } from '@etu/events-proto'
+
 import { fetchDiscordMe } from '../../lib/discord-me'
+
+export const UserRoleEnum = enumType({
+  name: 'UserRole',
+  members: UserRole,
+})
 
 export const User = objectType({
   name: 'User',
@@ -14,6 +21,16 @@ export const User = objectType({
       type: 'DiscordUser',
       resolve(root) {
         return fetchDiscordMe(root.accessToken)
+      },
+    })
+    t.list.field('roles', {
+      type: 'UserRole',
+      resolve(root, args, context) {
+        if (root.id === context.user?.id) {
+          return context.roles
+        }
+
+        return []
       },
     })
   },

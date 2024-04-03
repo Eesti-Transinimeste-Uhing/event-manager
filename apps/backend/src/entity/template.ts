@@ -17,7 +17,7 @@ export enum FormFieldKind {
   ConfirmEvent,
 }
 
-@Entity()
+@Entity({ name: 'template' })
 export class Template {
   @PrimaryGeneratedColumn('uuid')
   id: string

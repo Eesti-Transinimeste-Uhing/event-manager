@@ -32,6 +32,13 @@ declare global {
       fieldName: FieldName,
       opts?: core.CommonInputFieldConfig<TypeName, FieldName>
     ): void // "Upload";
+    /**
+     * The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+     */
+    jsonObject<FieldName extends string>(
+      fieldName: FieldName,
+      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
+    ): void // "JSONObject";
   }
 }
 declare global {
@@ -57,6 +64,13 @@ declare global {
       fieldName: FieldName,
       ...opts: core.ScalarOutSpread<TypeName, FieldName>
     ): void // "Upload";
+    /**
+     * The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+     */
+    jsonObject<FieldName extends string>(
+      fieldName: FieldName,
+      ...opts: core.ScalarOutSpread<TypeName, FieldName>
+    ): void // "JSONObject";
     /**
      * Adds a Relay-style connection to the type, with numerous options for configuration
      *
@@ -96,7 +110,17 @@ export interface NexusGenInputs {
     // input type
     id: string // ID!
   }
+  SubmitFormDataInput: {
+    // input type
+    label: string // String!
+    name: string // String!
+    value: string // String!
+  }
   SubmitFormInput: {
+    // input type
+    id: string // ID!
+  }
+  SubmitFormWhereInput: {
     // input type
     id: string // ID!
   }
@@ -130,6 +154,7 @@ export interface NexusGenInputs {
 export interface NexusGenEnums {
   FormFieldKind: 2 | 4 | 1 | 3 | 0
   PaginationSortingOrder: 'ASC' | 'DESC'
+  UserRole: 1 | 2 | 0 | 3
 }
 
 export interface NexusGenScalars {
@@ -139,6 +164,7 @@ export interface NexusGenScalars {
   Boolean: boolean
   ID: string
   DateTime: any
+  JSONObject: any
   URL: any
   Upload: any
 }
@@ -267,6 +293,7 @@ export interface NexusGenFieldTypes {
     // field return type
     discord: NexusGenRootTypes['DiscordUser'] // DiscordUser!
     id: string // ID!
+    roles: NexusGenEnums['UserRole'][] // [UserRole!]!
   }
 }
 
@@ -349,6 +376,7 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     discord: 'DiscordUser'
     id: 'ID'
+    roles: 'UserRole'
   }
 }
 
@@ -368,7 +396,8 @@ export interface NexusGenArgTypes {
     }
     submitForm: {
       // args
-      input: NexusGenInputs['SubmitFormInput'] // SubmitFormInput!
+      data: NexusGenInputs['SubmitFormDataInput'][] // [SubmitFormDataInput!]!
+      where: NexusGenInputs['SubmitFormWhereInput'] // SubmitFormWhereInput!
     }
     updateForm: {
       // args

@@ -26,7 +26,11 @@ if (typeof window !== 'undefined') {
     removeItem: (key: string) => del(key, store),
   }
 
-  persistCache({ cache, storage })
+  persistCache({
+    cache,
+    storage,
+    debounce: 300,
+  })
 }
 
 export const apolloClient = new ApolloClient({

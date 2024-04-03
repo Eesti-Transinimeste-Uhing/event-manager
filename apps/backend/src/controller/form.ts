@@ -3,13 +3,16 @@ import { AppDataSource } from '../data-source'
 import { Form } from '../entity/form'
 import { FormRepository } from '../repository/form'
 import { PaginationArgs } from 'nexus/dist/plugins/connectionPlugin'
-import { EntityNotFoundError } from '../errors/entity-not-found'
-import { EntityFetchingError } from '../errors/entity-fetching-error'
+import { EntityNotFoundError } from '../lib/errors/entity-not-found'
+import { FormSubmissionData } from '../entity/form-submission'
+import { FormSubmissionRepository } from '../repository/form-submission'
 
 export class FormController {
   private manager = AppDataSource.createEntityManager()
 
   private forms = this.manager.withRepository(FormRepository)
+
+  private submissions = this.manager.withRepository(FormSubmissionRepository)
 
   public async count() {
     return await this.forms.count()
@@ -35,6 +38,20 @@ export class FormController {
     return true
   }
 
+  public async submit(id: string, sourceHash: string, data: FormSubmissionData) {
+    const submission = this.submissions.create({
+      form: {
+        id,
+      },
+      data,
+      sourceHash,
+    })
+
+    await this.manager.transaction(async (manager) => {
+      await manager.save(submission)
+    })
+  }
+
   public async createNew(templateId: string) {
     const form = this.forms.create({
       template: {
@@ -50,24 +67,14 @@ export class FormController {
   }
 
   public async update(id: string, data: Omit<DeepPartial<Form>, 'id'>) {
-    try {
-      if (!(await this.forms.existsBy({ id }))) {
-        throw new EntityNotFoundError(`Template with ID "${id}" doesn't exist`)
-      }
-
-      await this.manager.transaction(async (manager) => {
-        await manager.update(Form, { id }, data)
-      })
-
-      return this.forms.findOneBy({ id })
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new EntityFetchingError(error, 'Fetching template for update')
-      } else {
-        throw new EntityFetchingError(
-          `Thrown while fetching template for update: "${String(error)}"`
-        )
-      }
+    if (!(await this.forms.existsBy({ id }))) {
+      throw new EntityNotFoundError(`Template with ID "${id}" doesn't exist`)
     }
+
+    await this.manager.transaction(async (manager) => {
+      await manager.update(Form, { id }, data)
+    })
+
+    return this.forms.findOneBy({ id })
   }
 }

@@ -20,6 +20,8 @@ export type Scalars = {
   Float: { input: number; output: number }
   /** A DateTime value consumable with Luxon */
   DateTime: { input: any; output: any }
+  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSONObject: { input: any; output: any }
   /** A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt. */
   URL: { input: any; output: any }
   /** The `Upload` scalar type represents a file upload. */
@@ -97,7 +99,8 @@ export type MutationRemoveTemplateArgs = {
 }
 
 export type MutationSubmitFormArgs = {
-  input: SubmitFormInput
+  data: Array<SubmitFormDataInput>
+  where: SubmitFormWhereInput
 }
 
 export type MutationUpdateFormArgs = {
@@ -183,7 +186,17 @@ export type RemoveTemplateInput = {
   id: Scalars['ID']['input']
 }
 
+export type SubmitFormDataInput = {
+  label: Scalars['String']['input']
+  name: Scalars['String']['input']
+  value: Scalars['String']['input']
+}
+
 export type SubmitFormInput = {
+  id: Scalars['ID']['input']
+}
+
+export type SubmitFormWhereInput = {
   id: Scalars['ID']['input']
 }
 
@@ -240,6 +253,14 @@ export type User = {
   __typename?: 'User'
   discord: DiscordUser
   id: Scalars['ID']['output']
+  roles: Array<UserRole>
+}
+
+export enum UserRole {
+  Admin = 'Admin',
+  Editor = 'Editor',
+  Owner = 'Owner',
+  Publisher = 'Publisher',
 }
 
 export type WhereIdInput = {

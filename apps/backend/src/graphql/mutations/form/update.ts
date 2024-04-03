@@ -1,6 +1,5 @@
 import { inputObjectType, mutationField } from 'nexus'
-import { formController, templateController } from '../../../server/static-context'
-import { templateBanners } from '../../../storage'
+import { formController } from '../../../server/static-context'
 
 const UpdateFormWhereInput = inputObjectType({
   name: 'UpdateFormWhereInput',

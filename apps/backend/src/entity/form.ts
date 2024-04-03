@@ -6,10 +6,12 @@ import {
   UpdateDateColumn,
   ManyToOne,
   DeleteDateColumn,
+  OneToMany,
 } from 'typeorm'
 import { Template } from './template'
+import { FormSubmission } from './form-submission'
 
-@Entity()
+@Entity({ name: 'form' })
 export class Form {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -38,4 +40,9 @@ export class Form {
     lazy: true,
   })
   template: Promise<Template> | Template
+
+  @OneToMany(() => FormSubmission, (submission) => submission.form, {
+    lazy: true,
+  })
+  submissions: Promise<FormSubmission[]> | FormSubmission[]
 }

@@ -1,4 +1,4 @@
-import { SapphireClient } from '@sapphire/framework'
+import { Events, SapphireClient } from '@sapphire/framework'
 import { GatewayIntentBits, Guild } from 'discord.js'
 
 import { PinoLogger } from '../log/sapphire'

@@ -14,6 +14,7 @@ import { useIsServer } from 'src/hooks/is-server'
 import DateTime from 'components/date-time.vue'
 import TooltipButton from 'components/tooltip-button.vue'
 import EmptyContent from 'components/empty-content.vue'
+import { useNotificationsStore } from 'src/stores/notifications'
 
 const { isServer } = useIsServer()
 
@@ -160,15 +161,26 @@ const handlePreviousPage = () => {
   }
 }
 
-const handleCreateNewClick = async () => {
-  const result = await mutation.mutate()
+const notifications = useNotificationsStore()
 
-  router.push({
-    name: templateEdit.name,
-    params: {
-      id: result?.data?.createTemplate.id,
-    },
-  })
+const handleCreateNewClick = async () => {
+  try {
+    const result = await mutation.mutate()
+
+    await router.push({
+      name: templateEdit.name,
+      params: {
+        id: result?.data?.createTemplate.id,
+      },
+    })
+  } catch (error) {
+    if (error instanceof Error) {
+      notifications.enqueue({
+        type: 'error',
+        lines: ['Cannot create new template', error.message],
+      })
+    }
+  }
 }
 </script>
 

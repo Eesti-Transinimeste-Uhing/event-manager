@@ -12,6 +12,7 @@ import TextEditor from 'src/components/text-editor/text-editor.vue'
 import SingleImageUploadField from 'src/components/form/single-image-upload-field.vue'
 import FormField from 'src/components/form/form-field.vue'
 import DragHint from 'src/components/drag-hint.vue'
+import EmptyContent from 'src/components/empty-content.vue'
 
 import { FormFieldKind } from 'src/graphql/generated/graphql'
 import { useFilePreview } from 'src/hooks/use-file-preview'
@@ -21,7 +22,7 @@ import { useNotificationsStore } from 'src/stores/notifications'
 
 const id = useRouteParam('id')
 
-const query = useQuery(
+const { result, loading, error, refetch, onResult } = useQuery(
   graphql(`
     query EditTemplate($id: ID!) {
       template(where: { id: $id }) {
@@ -71,7 +72,7 @@ const handleSave = async () => {
       type: 'success',
     })
 
-    await query.refetch()
+    await refetch()
   } catch (error) {
     if (error instanceof Error) {
       notifications.enqueue({
@@ -83,7 +84,7 @@ const handleSave = async () => {
 }
 
 const template = computed(() => {
-  return query.result.value?.template
+  return result.value?.template
 })
 
 const formFieldKinds: Ref<Array<{ value: FormFieldKind }>> = ref([])
@@ -104,7 +105,7 @@ const name = ref('')
 const description = ref('')
 const fields = ref<Array<{ value: FormFieldKind }>>([])
 
-query.onResult((result) => {
+onResult((result) => {
   const template = result.data?.template
 
   if (!template) {
@@ -173,6 +174,14 @@ const adjustOpen = ref(false)
     </q-banner>
   </div>
 
+  <empty-content
+    v-if="error"
+    :content="error.message"
+    title="Network error"
+    icon="las la-times"
+    icon-colour="red"
+  />
+
   <q-card flat>
     <single-image-preview-dialog
       :open="adjustOpen"
@@ -187,7 +196,7 @@ const adjustOpen = ref(false)
     />
 
     <q-card-section>
-      <div v-if="query.loading && !template">
+      <div v-if="loading && !template">
         <q-skeleton type="QInput" />
       </div>
 

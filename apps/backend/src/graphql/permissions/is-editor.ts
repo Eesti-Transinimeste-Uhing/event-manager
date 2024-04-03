@@ -1,5 +1,6 @@
 import { rule } from 'graphql-shield'
 import { GraphqlContext } from '../context'
+import { UserRole } from '@etu/events-proto'
 
 export const isEditor = rule({ cache: 'contextual' })(async (
   parent,
@@ -7,5 +8,5 @@ export const isEditor = rule({ cache: 'contextual' })(async (
   ctx: GraphqlContext,
   info
 ) => {
-  return ctx.roles.editor
+  return ctx.roles.includes(UserRole.Editor)
 })
