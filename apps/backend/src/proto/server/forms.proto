@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+service Forms {
+  rpc getForm (ObjectFilter) returns (Form);
+  rpc submitForm (FormSubmission) returns (FormSubmissionResult);
+}
+
+message ObjectFilter {
+  string id = 1;
+}
+
+message FormSubmissionData {
+  string name = 1;
+  optional string value = 2;
+}
+
+message FormSubmission {
+  ObjectFilter where = 1;
+  repeated FormSubmissionData data = 2;
+  string sourceHash = 3;
+}
+
+message FormSubmissionResult {
+  bool accepted = 1;
+}
+
+message Form {
+  string id = 1;
+  string banner = 2;
+  string description = 3;
+  string name = 4;
+  Template template = 5;
+}
+
+enum FormFieldKind {
+  Age = 0;
+  ConfirmEvent = 1;
+  Email = 2;
+  Gender = 3;
+  PreferredName = 4;
+}
+
+message Template {
+  string id = 1;
+  repeated FormFieldKind fields = 2;
+}

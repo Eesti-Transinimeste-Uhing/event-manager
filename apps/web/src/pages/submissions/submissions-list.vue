@@ -90,8 +90,10 @@ const columns = computed<Column[]>(() => {
         name: item.name,
         label: item.name,
         align: 'left',
-        field() {
-          return item.value
+        field(row) {
+          return row.node.data.find(
+            (data) => String(data.name).toLowerCase() === String(item.name).toLowerCase()
+          )?.value
         },
       }
 

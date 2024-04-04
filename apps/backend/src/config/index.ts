@@ -48,6 +48,10 @@ const getConfig = (): Config => {
       staticFiles: getWritablePath('STATIC_FILES_MOUNT', process.env.STATIC_FILES_MOUNT),
     },
     rpc: {
+      server: {
+        host: getString('RPC_SERVER_HOST', process.env.RPC_SERVER_HOST),
+        port: getNumber('RPC_SERVER_PORT', process.env.RPC_SERVER_PORT),
+      },
       clients: {
         discordBot: {
           host: getString('RPC_CLIENTS_DISCORD_BOT_HOST', process.env.RPC_CLIENTS_DISCORD_BOT_HOST),

@@ -9,7 +9,7 @@
     "moon": "../../node_modules/.bin/moon"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.10.5",
+    "@grpc/grpc-js": "^1.10.6",
     "google-protobuf": "^3.21.2",
     "grpc-tools": "^1.12.4"
   },

@@ -1,5 +1,5 @@
 import { Events, SapphireClient } from '@sapphire/framework'
-import { GatewayIntentBits, Guild } from 'discord.js'
+import { GatewayDispatchEvents, GatewayIntentBits, Guild, REST, Routes } from 'discord.js'
 
 import { PinoLogger } from '../log/sapphire'
 import { log } from '../log'
@@ -24,8 +24,10 @@ export class Client extends SapphireClient {
   public guild: Guild
 
   public async init() {
-    await this.login(config.discord.token)
+    const rest = new REST().setToken(config.discord.token)
+    await rest.put(Routes.applicationCommands(config.discord.clientId), { body: [] })
 
+    await this.login(config.discord.token)
     const guild = this.guilds.cache.find((g) => g.id === config.discord.guildId)
 
     if (!guild) {

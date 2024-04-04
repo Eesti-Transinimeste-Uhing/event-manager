@@ -44,7 +44,9 @@ export type DiscordUser = {
 
 export type Form = {
   __typename?: 'Form'
+  banner: Scalars['URL']['output']
   createdAt: Scalars['DateTime']['output']
+  description: Scalars['String']['output']
   id: Scalars['ID']['output']
   name?: Maybe<Scalars['String']['output']>
   template: Template
@@ -442,7 +444,12 @@ export type FormSubmitQuery = {
     __typename?: 'Form'
     id: string
     name?: string | null
-    template: { __typename?: 'Template'; id: string; fields: Array<FormFieldKind> }
+    template: {
+      __typename?: 'Template'
+      id: string
+      fields: Array<FormFieldKind>
+      description: string
+    }
   } | null
 }
 
@@ -1115,6 +1122,7 @@ export const FormSubmitDocument = {
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'fields' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                     ],
                   },
                 },

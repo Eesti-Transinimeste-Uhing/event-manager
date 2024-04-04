@@ -6,6 +6,7 @@ export type Config = {
   }
   discord: {
     guildId: string
+    clientId: string
     token: string
     role: {
       publisher: string
@@ -23,6 +24,12 @@ export type Config = {
     server: {
       host: string
       port: number
+    }
+    clients: {
+      backend: {
+        host: string
+        port: number
+      }
     }
   }
 }

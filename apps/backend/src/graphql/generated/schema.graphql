@@ -20,7 +20,9 @@ type DiscordUser {
 }
 
 type Form {
+  banner: URL!
   createdAt: DateTime!
+  description: String!
   id: ID!
   name: String
   template: Template!

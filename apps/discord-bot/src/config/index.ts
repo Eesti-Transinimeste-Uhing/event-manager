@@ -5,6 +5,7 @@ const getConfig = (): Config => {
   return {
     discord: {
       guildId: getString('DISCORD_GUILD_ID', process.env.DISCORD_GUILD_ID),
+      clientId: getString('DISCORD_CLIENT_ID', process.env.DISCORD_CLIENT_ID),
       token: getString('DISCORD_TOKEN', process.env.DISCORD_TOKEN),
       role: {
         admin: getString('DISCORD_ROLE_ID_ADMIN', process.env.DISCORD_ROLE_ID_ADMIN),
@@ -25,6 +26,12 @@ const getConfig = (): Config => {
       server: {
         host: getString('RPC_SERVER_HOST', process.env.RPC_SERVER_HOST),
         port: getNumber('RPC_SERVER_PORT', process.env.RPC_SERVER_PORT),
+      },
+      clients: {
+        backend: {
+          host: getString('RPC_CLIENTS_BACKEND_HOST', process.env.RPC_CLIENTS_BACKEND_HOST),
+          port: getNumber('RPC_CLIENTS_BACKEND_PORT', process.env.RPC_CLIENTS_BACKEND_PORT),
+        },
       },
     },
   }

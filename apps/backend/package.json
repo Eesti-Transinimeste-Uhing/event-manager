@@ -13,9 +13,10 @@
     "@fastify/passport": "^2.4.0",
     "@fastify/request-context": "^5.1.0",
     "@fastify/secure-session": "^7.1.0",
-    "@grpc/grpc-js": "^1.10.5",
+    "@grpc/grpc-js": "^1.10.6",
     "discord.js": "^14.14.1",
     "fastify": "^4.26.2",
+    "google-protobuf": "^3.21.2",
     "graphql": "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch",
     "graphql-middleware": "^6.1.35",
     "graphql-relay": "^0.10.0",
@@ -34,6 +35,7 @@
     "verror": "^1.10.1"
   },
   "devDependencies": {
+    "@types/google-protobuf": "^3.15.12",
     "@types/luxon": "^3.4.2",
     "@types/node": "20.11.1",
     "@types/passport-discord": "^0.1.13",

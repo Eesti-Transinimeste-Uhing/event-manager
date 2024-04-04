@@ -29,7 +29,7 @@ const documents = {
     types.FormListDocument,
   '\n    mutation CreateForm($input: CreateFormInput!) {\n      createForm(input: $input) {\n        id\n      }\n    }\n  ':
     types.CreateFormDocument,
-  '\n    query FormSubmit($where: WhereIdInput!) {\n      form(where: $where) {\n        id\n        name\n        template {\n          id\n          fields\n        }\n      }\n    }\n  ':
+  '\n    query FormSubmit($where: WhereIdInput!) {\n      form(where: $where) {\n        id\n        name\n        template {\n          id\n          fields\n          description\n        }\n      }\n    }\n  ':
     types.FormSubmitDocument,
   '\n    mutation SubmitForm($where: SubmitFormWhereInput!, $data: [SubmitFormDataInput!]!) {\n      submitForm(where: $where, data: $data)\n    }\n  ':
     types.SubmitFormDocument,
@@ -111,8 +111,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    query FormSubmit($where: WhereIdInput!) {\n      form(where: $where) {\n        id\n        name\n        template {\n          id\n          fields\n        }\n      }\n    }\n  '
-): (typeof documents)['\n    query FormSubmit($where: WhereIdInput!) {\n      form(where: $where) {\n        id\n        name\n        template {\n          id\n          fields\n        }\n      }\n    }\n  ']
+  source: '\n    query FormSubmit($where: WhereIdInput!) {\n      form(where: $where) {\n        id\n        name\n        template {\n          id\n          fields\n          description\n        }\n      }\n    }\n  '
+): (typeof documents)['\n    query FormSubmit($where: WhereIdInput!) {\n      form(where: $where) {\n        id\n        name\n        template {\n          id\n          fields\n          description\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

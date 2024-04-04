@@ -10,7 +10,9 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@moonrepo/cli": "^1.22.8"
+    "@moonrepo/cli": "^1.22.8",
+    "grpc-tools": "^1.12.4",
+    "protoc-gen-ts": "^0.8.7"
   },
   "engines": {
     "node": "20.11.1"

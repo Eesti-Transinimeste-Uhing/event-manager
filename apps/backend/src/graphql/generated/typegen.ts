@@ -151,7 +151,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  FormFieldKind: 2 | 4 | 1 | 3 | 0
+  FormFieldKind: 0 | 1 | 2 | 3 | 4
   PaginationSortingOrder: 'ASC' | 'DESC'
   UserRole: 1 | 2 | 0 | 3
 }
@@ -241,7 +241,9 @@ export interface NexusGenFieldTypes {
   }
   Form: {
     // field return type
+    banner: NexusGenScalars['URL'] // URL!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
+    description: string // String!
     id: string // ID!
     name: string | null // String
     template: NexusGenRootTypes['Template'] // Template!
@@ -347,7 +349,9 @@ export interface NexusGenFieldTypeNames {
   }
   Form: {
     // field return type name
+    banner: 'URL'
     createdAt: 'DateTime'
+    description: 'String'
     id: 'ID'
     name: 'String'
     template: 'Template'

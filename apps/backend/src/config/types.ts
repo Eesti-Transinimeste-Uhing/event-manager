@@ -40,6 +40,10 @@ export type Config = {
     staticFiles: string
   }
   rpc: {
+    server: {
+      host: string
+      port: number
+    }
     clients: {
       discordBot: {
         host: string

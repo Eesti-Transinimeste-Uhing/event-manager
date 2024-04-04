@@ -9,11 +9,10 @@
     "moon": "../../node_modules/.bin/moon"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.10.5",
+    "@grpc/grpc-js": "^1.10.6",
     "@sapphire/framework": "^5.0.7",
     "discord.js": "14.x",
     "google-protobuf": "^3.21.2",
-    "grpc-tools": "^1.12.4",
     "pino": "^8.19.0",
     "verror": "^1.10.1"
   },
@@ -22,7 +21,6 @@
     "@types/node": "20.11.1",
     "@types/verror": "^1.10.10",
     "pino-pretty": "^10.3.1",
-    "protoc-gen-ts": "^0.8.7",
     "ts-node-dev": "^2.0.0",
     "tsconfig-moon": "^1.3.0",
     "typescript": "^5.4.2"

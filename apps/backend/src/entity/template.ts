@@ -8,14 +8,7 @@ import {
   DeleteDateColumn,
 } from 'typeorm'
 import { Form } from './form'
-
-export enum FormFieldKind {
-  PreferredName,
-  Email,
-  Age,
-  Gender,
-  ConfirmEvent,
-}
+import { FormFieldKind } from '@etu/events-proto'
 
 @Entity({ name: 'template' })
 export class Template {
