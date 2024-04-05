@@ -6,6 +6,7 @@ import { Storage } from '../lib/storage'
 import * as imageUtils from '../lib/image-toolkit'
 import { downloadPicsumImage } from '../lib/picsum'
 import { ReadableStream } from 'stream/web'
+import { templateController } from '../server/static-context'
 
 export class TemplateBannersStorage extends Storage {
   constructor() {
@@ -23,6 +24,13 @@ export class TemplateBannersStorage extends Storage {
     }
 
     return await this.getFile(templateId)
+  }
+
+  public cropAndGet = async (templateId: string) => {
+    const readStream = await this.get(templateId)
+    const template = await templateController.getById(templateId)
+
+    // TODO
   }
 
   public override put = async (templateId: string, banner: ReadStream | ReadableStream) => {
