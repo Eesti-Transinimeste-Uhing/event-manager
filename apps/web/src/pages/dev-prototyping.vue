@@ -5,6 +5,7 @@ import { graphql } from 'src/graphql/generated'
 import { useCursorPagination } from 'src/hooks/use-cursor-pagination'
 
 import ButtonSelect from 'components/button-select.vue'
+import { SelectOption } from 'src/components/form/base/select-field.vue'
 
 const { result, filterText } = useCursorPagination(
   'templates',
@@ -47,7 +48,7 @@ const { result, filterText } = useCursorPagination(
   }
 )
 
-const options = computed(() => {
+const options = computed<SelectOption[]>(() => {
   return (
     result.value?.templates.edges.map((edge) => ({
       value: edge.node.id,
@@ -88,6 +89,7 @@ const options = computed(() => {
       round
       icon="las la-times"
       position="bottom-right"
+      tooltip="something"
     >
       <template #prepend>
         <q-input

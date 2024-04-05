@@ -121,7 +121,7 @@ const handlePreviewClick = () => {
 
         <q-btn
           round
-          color="secondary"
+          color="primary"
           :loading="updateForm.loading.value"
           icon="las la-save"
           @click="handleSave"

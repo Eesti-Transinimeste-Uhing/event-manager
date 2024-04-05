@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+import { useEditor, EditorContent, JSONContent, generateHTML, Extensions } from '@tiptap/vue-3'
 import { onBeforeUnmount, watch } from 'vue'
 
 import Document from '@tiptap/extension-document'
@@ -19,40 +19,54 @@ import Underline from '@tiptap/extension-underline'
 import History from '@tiptap/extension-history'
 
 import EditorToolbar from './editor-toolbar.vue'
+import { TemplateVariableId, TemplateVariableNode } from './extensions/template-variable'
 
 const props = defineProps<{
-  modelValue: string
+  modelValue: JSONContent | null
 }>()
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', value: string): void
+  (event: 'update:modelValue', value: JSONContent): void
 }>()
+
+const extensions: Extensions = [
+  Document,
+  Paragraph,
+  Text,
+  OrderedList,
+  BulletList,
+  ListItem,
+  HorizontalRule,
+  Heading,
+  HardBreak,
+  Bold,
+  Italic,
+  Underline,
+  History,
+  TemplateVariableNode,
+]
 
 const editor = useEditor({
   content: props.modelValue,
-  extensions: [
-    Document,
-    Paragraph,
-    Text,
-    OrderedList,
-    BulletList,
-    ListItem,
-    HorizontalRule,
-    Heading,
-    HardBreak,
-    Bold,
-    Italic,
-    Underline,
-    History,
-  ],
+  extensions,
   onUpdate() {
     if (!editor.value) {
       return
     }
 
-    emit('update:modelValue', editor.value.getHTML())
+    emit('update:modelValue', editor.value.getJSON())
   },
 })
+
+const handleTemplateVariable = (id: keyof typeof TemplateVariableId) => {
+  if (!editor.value) return
+
+  editor.value
+    .chain()
+    .focus()
+    .insertContent({ type: TemplateVariableNode.name, attrs: { id } })
+    .run()
+}
 
 watch(
   () => props.modelValue,
@@ -61,7 +75,7 @@ watch(
       return
     }
 
-    if (editor.value.getHTML() === value) {
+    if (value && editor.value.getHTML() === generateHTML(value, extensions)) {
       return
     }
 
@@ -101,6 +115,7 @@ onBeforeUnmount(() => {
         @underline="editor?.chain().focus().toggleUnderline().run()"
         @undo="editor?.chain().focus().undo().run()"
         @redo="editor?.chain().focus().redo().run()"
+        @template-variable="handleTemplateVariable"
         :bold="editor?.isActive('bold') ?? false"
         :underline="editor?.isActive('underline') ?? false"
         :italic="editor?.isActive('italic') ?? false"

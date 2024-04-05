@@ -259,6 +259,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
         />
 
         <button-select
+          tooltip="Create new"
           :model-value="null"
           :options="options"
           color="secondary"
@@ -267,6 +268,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
           class="q-ml-sm"
           @update:model-value="(selected: string) => handleCreateNew(selected)"
           :loading="mutation.loading.value"
+          position="right"
         >
           <template #prepend>
             <q-input

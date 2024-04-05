@@ -9,6 +9,7 @@ import {
 } from 'typeorm'
 import { Form } from './form'
 import { FormFieldKind } from '@etu/events-proto'
+import { JSONContent } from '@tiptap/core'
 
 @Entity({ name: 'template' })
 export class Template {
@@ -36,11 +37,10 @@ export class Template {
   })
   name: string
 
-  @Column('varchar', {
+  @Column('jsonb', {
     nullable: true,
-    default: '',
   })
-  description: string
+  description: JSONContent
 
   @Column('int', { array: true })
   fields: FormFieldKind[]

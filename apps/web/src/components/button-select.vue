@@ -1,13 +1,30 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { SelectOption } from './form/base/select-field.vue'
+import TooltipButton from './tooltip-button.vue'
 
-const props = defineProps<{
-  modelValue: string | null
-  options: SelectOption[]
-  class?: string
-  persistent?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: string | null
+    options: SelectOption[]
+    class?: string
+    persistent?: boolean
+    tooltip: string
+    position?:
+      | 'center'
+      | 'top-left'
+      | 'top-right'
+      | 'bottom-left'
+      | 'bottom-right'
+      | 'top'
+      | 'bottom'
+      | 'left'
+      | 'right'
+  }>(),
+  {
+    position: 'center',
+  }
+)
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: string): void
@@ -46,28 +63,42 @@ const handleOptionClick = (option: SelectOption) => {
 .morph-card {
   width: 350px;
   z-index: 2000;
-  top: 2rem;
+  height: fit-content;
 }
 
 .morph-wrapper {
-  display: contents;
+  height: 42px;
+  width: 42px;
+
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.tooltip-button {
+  height: 100%;
 }
 </style>
 
 <template>
-  <div class="morph-wrapper" v-click-outside="() => setMorphState('button')">
-    <q-btn
-      v-morph:button:mygroup:200.resize="morphGroupModel"
-      :class="props.class"
-      @click.stop="handleNextMorph"
+  <div
+    class="relative-position morph-wrapper"
+    :class="props.class"
+    v-click-outside="() => setMorphState('button')"
+  >
+    <tooltip-button
+      v-morph:button:mygroup:200="morphGroupModel"
+      class="absolute-top-left tooltip-button"
+      @click="handleNextMorph"
+      :tooltip="props.tooltip"
       v-bind="$attrs"
+      size="md"
     />
 
     <q-no-ssr>
       <q-card
-        v-morph:card:mygroup:200.resize="morphGroupModel"
-        class="morph-card text-no-wrap absolute"
-        :class="props.class"
+        v-morph:card:mygroup:200="morphGroupModel"
+        class="morph-card text-no-wrap"
+        :class="`absolute-${props.position}`"
       >
         <q-list>
           <slot name="prepend" />

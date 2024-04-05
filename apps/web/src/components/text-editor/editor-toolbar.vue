@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import TooltipButton from 'components/tooltip-button.vue'
+import ButtonSelect from '../button-select.vue'
+import { TemplateVariableId } from './extensions/template-variable'
+import { computed } from 'vue'
 
 const props = defineProps<{
   canUndo: boolean
@@ -17,11 +20,22 @@ const emit = defineEmits<{
 
   (event: 'undo'): void
   (event: 'redo'): void
+
+  (event: 'template-variable', id: keyof typeof TemplateVariableId): void
 }>()
+
+const templateVariableOptions = computed(() =>
+  Object.entries(TemplateVariableId).map(([key, value]) => {
+    return {
+      label: value,
+      value: key,
+    }
+  })
+)
 </script>
 
 <template>
-  <div class="flex justify-start items-center">
+  <div class="flex justify-start items-center relative-position">
     <tooltip-button
       flat
       square
@@ -67,5 +81,18 @@ const emit = defineEmits<{
     />
 
     <q-separator vertical />
+
+    <button-select
+      :model-value="null"
+      :options="templateVariableOptions"
+      flat
+      square
+      icon="las la-code"
+      tooltip="Insert variable"
+      position="center"
+      @update:model-value="
+        (v: string) => emit('template-variable', v as keyof typeof TemplateVariableId)
+      "
+    />
   </div>
 </template>

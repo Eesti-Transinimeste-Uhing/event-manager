@@ -258,7 +258,7 @@ type Template {
   banner: URL!
   bannerOffset: Int!
   createdAt: DateTime!
-  description: String!
+  description: JSONObject
   fields: [FormFieldKind!]!
   id: ID!
   name: String!
@@ -305,7 +305,7 @@ input UpdateFormWhereInput {
 input UpdateTemplateDataInput {
   banner: Upload
   bannerOffset: Int!
-  description: String!
+  description: JSONObject
   fields: [FormFieldKind!]!
   name: String!
 }

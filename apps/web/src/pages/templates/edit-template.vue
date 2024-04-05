@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@vue/apollo-composable'
 import { Ref, computed, ref } from 'vue'
 import VueDraggable from 'vuedraggable'
 import bytes from 'bytes'
+import { JSONContent } from '@tiptap/core'
 
 import { useRouteParam } from 'src/lib/use-route-param'
 import { graphql } from 'src/graphql/generated'
@@ -101,7 +102,7 @@ const banner = computed(() => {
 
 const topOffset = ref(0)
 const name = ref('')
-const description = ref('')
+const description = ref<JSONContent | null>(null)
 const fields = ref<Array<{ value: FormFieldKind }>>([])
 
 onResult((result) => {
@@ -163,7 +164,7 @@ const adjustOpen = ref(false)
       <template v-slot:action>
         <q-btn
           round
-          color="secondary"
+          color="primary"
           :loading="updateTemplate.loading.value"
           icon="las la-save"
           @click="handleSave"

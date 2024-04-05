@@ -136,7 +136,7 @@ export interface NexusGenInputs {
     // input type
     banner?: NexusGenScalars['Upload'] | null // Upload
     bannerOffset: number // Int!
-    description: string // String!
+    description?: NexusGenScalars['JSONObject'] | null // JSONObject
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
     name: string // String!
   }
@@ -313,7 +313,7 @@ export interface NexusGenFieldTypes {
     banner: NexusGenScalars['URL'] // URL!
     bannerOffset: number // Int!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
-    description: string // String!
+    description: NexusGenScalars['JSONObject'] | null // JSONObject
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
     id: string // ID!
     name: string // String!
@@ -421,7 +421,7 @@ export interface NexusGenFieldTypeNames {
     banner: 'URL'
     bannerOffset: 'Int'
     createdAt: 'DateTime'
-    description: 'String'
+    description: 'JSONObject'
     fields: 'FormFieldKind'
     id: 'ID'
     name: 'String'

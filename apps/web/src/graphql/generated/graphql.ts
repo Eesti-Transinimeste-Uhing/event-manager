@@ -246,7 +246,7 @@ export type Template = {
   banner: Scalars['URL']['output']
   bannerOffset: Scalars['Int']['output']
   createdAt: Scalars['DateTime']['output']
-  description: Scalars['String']['output']
+  description?: Maybe<Scalars['JSONObject']['output']>
   fields: Array<FormFieldKind>
   id: Scalars['ID']['output']
   name: Scalars['String']['output']
@@ -280,7 +280,7 @@ export type UpdateFormWhereInput = {
 export type UpdateTemplateDataInput = {
   banner?: InputMaybe<Scalars['Upload']['input']>
   bannerOffset: Scalars['Int']['input']
-  description: Scalars['String']['input']
+  description?: InputMaybe<Scalars['JSONObject']['input']>
   fields: Array<FormFieldKind>
   name: Scalars['String']['input']
 }
@@ -448,7 +448,7 @@ export type FormSubmitQuery = {
       __typename?: 'Template'
       id: string
       fields: Array<FormFieldKind>
-      description: string
+      description?: any | null
     }
   } | null
 }
@@ -511,7 +511,7 @@ export type EditTemplateQuery = {
     updatedAt: any
     name: string
     banner: any
-    description: string
+    description?: any | null
     fields: Array<FormFieldKind>
     bannerOffset: number
   } | null

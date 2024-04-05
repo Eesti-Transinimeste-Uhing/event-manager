@@ -16,7 +16,7 @@ export const Template = objectType({
     t.string('name')
     t.dateTime('createdAt')
     t.dateTime('updatedAt')
-    t.string('description')
+    t.nullable.jsonObject('description')
     t.int('bannerOffset')
     t.url('banner', {
       async resolve(root) {

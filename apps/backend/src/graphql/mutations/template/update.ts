@@ -15,7 +15,7 @@ const UpdateTemplateDataInput = inputObjectType({
     t.nullable.upload('banner')
     t.int('bannerOffset')
     t.string('name')
-    t.string('description')
+    t.nullable.jsonObject('description')
     t.list.field('fields', {
       type: 'FormFieldKind',
     })
