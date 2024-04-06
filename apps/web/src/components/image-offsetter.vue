@@ -17,29 +17,25 @@ const props = withDefaults(
   }
 )
 
-// const shownHintedRatios = computed(() => {
-//   if (props.highlightRatio) {
-//     return [props.highlightRatio]
-//   }
+const shownHintedRatios = computed(() => {
+  if (props.highlightRatio) {
+    return [props.highlightRatio]
+  }
 
-//   const value = [...props.hintedRatios]
+  const value = [...props.hintedRatios]
 
-//   value.sort((a, b) => {
-//     return b - a
-//   })
+  value.sort((a, b) => {
+    return b - a
+  })
 
-//   return value
-// })
+  return value
+})
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: [number, number]): void
 }>()
 
 const canvas = ref<HTMLCanvasElement | null>(null)
-
-// const imageUrl = computed(() => {
-//   return `url(${props.src})`
-// })
 
 const dragTarget = ref<HTMLElement>()
 const dragging = ref(false)
@@ -52,9 +48,12 @@ const dragOffset = computed<[number, number]>(() => {
     return props.modelValue
   }
 
+  const x = props.modelValue[0] + dragCoords.value[0] - dragStart.value[0]
+  const y = props.modelValue[1] + dragCoords.value[1] - dragStart.value[1]
+
   return [
-    props.modelValue[0] + dragCoords.value[0] - dragStart.value[0],
-    props.modelValue[1] + dragCoords.value[1] - dragStart.value[1],
+    Math.max(Math.min(x, 0), dimensions.value[0] * -1),
+    Math.max(Math.min(y, 0), dimensions.value[1] * -1),
   ]
 })
 
@@ -86,15 +85,6 @@ onMounted(() => {
 const reactiveSrc = computed(() => props.src)
 const { image, dimensions } = useFilePreview(reactiveSrc)
 
-const sliderX = ref(0)
-const sliderY = ref(0)
-
-// const parentSize = ref({ width: 0, height: 0 })
-
-// const handleResize = (size: { height: number; width: number }) => {
-//   parentSize.value = size
-// }
-
 const ctx = computed(() => {
   return canvas.value?.getContext('2d')
 })
@@ -118,11 +108,11 @@ const scaledSize = computed(() => {
 })
 
 const sliderYPct = computed(() => {
-  return sliderY.value / dimensions.value[1]
+  return dragOffset.value[1] / dimensions.value[1]
 })
 
 const sliderXPct = computed(() => {
-  return sliderX.value / dimensions.value[0]
+  return dragOffset.value[0] / dimensions.value[0]
 })
 
 const rafRequest = ref<number | null>(null)
@@ -132,19 +122,13 @@ const drawCroppedImage = () => {
     return
   }
 
-  const offsetX = sliderX.value * scaleFactor.value - canvasSize.value[0] * sliderXPct.value
-  const offsetY = sliderY.value * scaleFactor.value - canvasSize.value[1] * sliderYPct.value
+  const offsetX = dragOffset.value[0] * scaleFactor.value - canvasSize.value[0] * sliderXPct.value
+  const offsetY = dragOffset.value[1] * scaleFactor.value - canvasSize.value[1] * sliderYPct.value
 
   canvas.value.width = canvasSize.value[0]
   canvas.value.height = canvasSize.value[1]
 
-  ctx.value.drawImage(
-    image.value,
-    offsetX * -1,
-    offsetY * -1,
-    scaledSize.value[0],
-    scaledSize.value[1]
-  )
+  ctx.value.drawImage(image.value, offsetX, offsetY, scaledSize.value[0], scaledSize.value[1])
 
   rafRequest.value = null
 }
@@ -162,9 +146,7 @@ const scheduleDraw = () => {
 }
 
 watch(image, scheduleDraw)
-watch(sliderY, scheduleDraw)
-watch(sliderX, scheduleDraw)
-// watch(parentSize, drawCroppedImage)
+watch(dragOffset, scheduleDraw)
 </script>
 
 <style lang="scss" scoped>
@@ -180,22 +162,16 @@ watch(sliderX, scheduleDraw)
   &:not(.disabled) {
     cursor: move;
   }
+
+  &.no-cursor {
+    cursor: none;
+  }
 }
 
 canvas {
   width: 100%;
   height: 100%;
 }
-
-// .image-display {
-//   height: 100%;
-
-//   background-image: v-bind(imageUrl);
-//   background-size: 100% auto;
-//   background-repeat: no-repeat;
-//   background-position: center v-bind(topWithOffset);
-//   text-anchor: start;
-// }
 
 $gradient-dark: #141414;
 $gradient-light: $dark;
@@ -273,7 +249,7 @@ $stripes: linear-gradient(
   <div class="drag-root">
     <canvas ref="canvas" class="image-display"></canvas>
 
-    <!-- <div class="drag-target" ref="dragTarget">
+    <div class="drag-target" :class="{ 'no-cursor': dragging }" ref="dragTarget">
       <div
         class="fit marker-root"
         :class="{
@@ -289,11 +265,6 @@ $stripes: linear-gradient(
           class="border-marker"
         ></div>
       </div>
-    </div> -->
+    </div>
   </div>
-
-  <q-slider v-model="sliderY" :min="0" :max="dimensions[1]" color="green" vertical label-always />
-  {{ sliderYPct }}
-
-  <q-slider v-model="sliderX" :min="0" :max="dimensions[0]" color="green" label-always />
 </template>
