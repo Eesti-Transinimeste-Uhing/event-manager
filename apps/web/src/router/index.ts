@@ -6,8 +6,10 @@ import {
   createWebHistory,
 } from 'vue-router'
 
-import { RouteRecord, routes } from './routes'
+import { RouteRecord, authLogin, routes } from './routes'
 import { Dark } from 'quasar'
+import { apolloClient } from 'src/graphql/apollo/client'
+import { gql } from '@apollo/client/core'
 
 /*
  * If not building with SSR mode, you can
@@ -39,9 +41,28 @@ export default route(() => {
     return router
   }
 
-  router.afterEach((to) => {
+  router.afterEach((to, from) => {
     setTimeout(() => {
       Dark.set((to as unknown as RouteRecord).meta.dark)
+    }, 0)
+
+    if (typeof window === 'undefined' || (to as unknown as RouteRecord).meta.auth !== 'require')
+      return
+
+    const result = apolloClient.readQuery({
+      query: gql`
+        query AuthRouteGuard {
+          viewer {
+            id
+          }
+        }
+      `,
+    })
+
+    if (result?.viewer) return
+
+    setTimeout(() => {
+      router.push({ name: authLogin.name })
     }, 0)
   })
 

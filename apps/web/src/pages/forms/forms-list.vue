@@ -262,7 +262,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
           tooltip="Create new"
           :model-value="null"
           :options="options"
-          color="secondary"
+          color="primary"
           round
           icon="las la-plus"
           class="q-ml-sm"

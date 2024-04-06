@@ -266,7 +266,7 @@ const handleCreateNewClick = async () => {
         />
 
         <tooltip-button
-          color="secondary"
+          color="primary"
           round
           icon="las la-plus"
           tooltip="Create new"
