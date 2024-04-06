@@ -57,29 +57,32 @@ const dragOffset = computed<[number, number]>(() => {
   ]
 })
 
+const handleMousedown = (event: MouseEvent) => {
+  dragStart.value = [event.offsetX, event.offsetY]
+  dragging.value = true
+}
+
+const handleMouseup = () => {
+  emit('update:model-value', dragOffset.value)
+  dragging.value = false
+}
+
+const handleMousemove = (event: MouseEvent) => {
+  dragCoords.value = [event.offsetX, event.offsetY]
+}
+
 onMounted(() => {
   if (!dragTarget.value) {
     return
   }
 
-  dragTarget.value.onmousedown = (event) => {
-    dragStart.value = [event.offsetX, event.offsetY]
-    dragging.value = true
-  }
+  dragTarget.value.addEventListener('mousedown', handleMousedown)
 
-  dragTarget.value.onmouseup = () => {
-    emit('update:model-value', dragOffset.value)
-    dragging.value = false
-  }
+  dragTarget.value.addEventListener('mouseup', handleMouseup)
 
-  dragTarget.value.onmouseleave = () => {
-    emit('update:model-value', dragOffset.value)
-    dragging.value = false
-  }
+  dragTarget.value.addEventListener('mouseleave', handleMouseup)
 
-  dragTarget.value.onmousemove = (event) => {
-    dragCoords.value = [event.offsetX, event.offsetY]
-  }
+  dragTarget.value.addEventListener('mousemove', handleMousemove)
 })
 
 const reactiveSrc = computed(() => props.src)
@@ -89,10 +92,13 @@ const ctx = computed(() => {
   return canvas.value?.getContext('2d')
 })
 
+// Will always be a canvas that has 1920px width and whatever height needed for
+// the aspect ratio to stay true
 const canvasSize = computed(() => {
-  return [1920, 1080]
+  return [1920, 1920 / props.aspectRatio]
 })
 
+// Shows how we need to scale the image to fit the canvas
 const scaleFactor = computed(() => {
   if (!image.value) return 1
 
@@ -107,14 +113,12 @@ const scaledSize = computed(() => {
   return [image.value.width * scaleFactor.value, image.value.height * scaleFactor.value]
 })
 
-const sliderYPct = computed(() => {
-  return dragOffset.value[1] / dimensions.value[1]
+// 0-1 number that shows how scrolled down we are. 0 is top, 1 is bottom
+const sliderPct = computed(() => {
+  return [dragOffset.value[0] / dimensions.value[0], dragOffset.value[1] / dimensions.value[1]]
 })
 
-const sliderXPct = computed(() => {
-  return dragOffset.value[0] / dimensions.value[0]
-})
-
+// The ID of the pending animation frame, if any
 const rafRequest = ref<number | null>(null)
 
 const drawCroppedImage = () => {
@@ -122,8 +126,9 @@ const drawCroppedImage = () => {
     return
   }
 
-  const offsetX = dragOffset.value[0] * scaleFactor.value - canvasSize.value[0] * sliderXPct.value
-  const offsetY = dragOffset.value[1] * scaleFactor.value - canvasSize.value[1] * sliderYPct.value
+  // TODO: remove the pct bias from this and bake it into the dragOffset above.
+  const offsetX = dragOffset.value[0] * scaleFactor.value - canvasSize.value[0] * sliderPct.value[0]
+  const offsetY = dragOffset.value[1] * scaleFactor.value - canvasSize.value[1] * sliderPct.value[1]
 
   canvas.value.width = canvasSize.value[0]
   canvas.value.height = canvasSize.value[1]
@@ -140,6 +145,7 @@ onBeforeUnmount(() => {
 })
 
 const scheduleDraw = () => {
+  // If we have a frame pending, we won't ask again
   if (rafRequest.value) return
 
   rafRequest.value = requestAnimationFrame(drawCroppedImage)
@@ -151,7 +157,6 @@ watch(dragOffset, scheduleDraw)
 
 <style lang="scss" scoped>
 .drag-root {
-  position: relative;
   max-height: 100%;
   max-width: 100%;
   user-select: none;
@@ -162,15 +167,6 @@ watch(dragOffset, scheduleDraw)
   &:not(.disabled) {
     cursor: move;
   }
-
-  &.no-cursor {
-    cursor: none;
-  }
-}
-
-canvas {
-  width: 100%;
-  height: 100%;
 }
 
 $gradient-dark: #141414;
@@ -217,14 +213,6 @@ $stripes: linear-gradient(
   mix-blend-mode: hard-light;
 }
 
-.marker-root {
-  opacity: 0;
-
-  &.show {
-    opacity: 1;
-  }
-}
-
 .border-marker {
   position: absolute;
   top: 50%;
@@ -246,12 +234,16 @@ $stripes: linear-gradient(
 </style>
 
 <template>
-  <div class="drag-root">
-    <canvas ref="canvas" class="image-display"></canvas>
+  <div class="drag-root relative-position">
+    <canvas ref="canvas" class="absolute-top-left fit"></canvas>
 
-    <div class="drag-target" :class="{ 'no-cursor': dragging }" ref="dragTarget">
+    <div
+      class="drag-target absolute-top-left fit"
+      :class="{ 'cursor-none': dragging }"
+      ref="dragTarget"
+    >
       <div
-        class="fit marker-root"
+        class="fit"
         :class="{
           show: props.showGuides,
           'show bg-stripe hard-light': shownHintedRatios.length === 1,
