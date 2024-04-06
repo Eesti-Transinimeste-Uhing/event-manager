@@ -32,15 +32,8 @@ export class FormsService extends UnimplementedFormsService {
       const result = new Form({
         id: form.id,
         name: form.name,
-        banner: urlJoin(
-          config.server.publicUrl,
-          'v1',
-          'static',
-          'template-banner',
-          template.id,
-          DateTime.fromJSDate(form.updatedAt).toUnixInteger().toString()
-        ),
-        description: template.description,
+        banner: form.bannerUrl,
+        description: JSON.stringify(template.description),
         template: new Template({
           id: template.id,
           fields: template.fields,

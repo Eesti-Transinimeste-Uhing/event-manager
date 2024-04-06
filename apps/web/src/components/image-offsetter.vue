@@ -24,6 +24,8 @@ const shownHintedRatios = computed(() => {
 
   const value = [...props.hintedRatios]
 
+  // Sort by ratio size, because in the DOM the smaller ones need to be in front
+  // of the larger ones
   value.sort((a, b) => {
     return b - a
   })
@@ -52,8 +54,8 @@ const dragOffset = computed<[number, number]>(() => {
   const y = props.modelValue[1] + dragCoords.value[1] - dragStart.value[1]
 
   return [
-    Math.max(Math.min(x, 0), dimensions.value[0] * -1),
-    Math.max(Math.min(y, 0), dimensions.value[1] * -1),
+    Math.max(Math.min(x, 0), (dimensions.value[0] - canvasSize.value[0] / scaleFactor.value) * -1),
+    Math.max(Math.min(y, 0), (dimensions.value[1] - canvasSize.value[1] / scaleFactor.value) * -1),
   ]
 })
 
@@ -77,12 +79,20 @@ onMounted(() => {
   }
 
   dragTarget.value.addEventListener('mousedown', handleMousedown)
-
   dragTarget.value.addEventListener('mouseup', handleMouseup)
-
   dragTarget.value.addEventListener('mouseleave', handleMouseup)
-
   dragTarget.value.addEventListener('mousemove', handleMousemove)
+})
+
+onBeforeUnmount(() => {
+  if (!dragTarget.value) {
+    return
+  }
+
+  dragTarget.value.removeEventListener('mousedown', handleMousedown)
+  dragTarget.value.removeEventListener('mouseup', handleMouseup)
+  dragTarget.value.removeEventListener('mouseleave', handleMouseup)
+  dragTarget.value.removeEventListener('mousemove', handleMousemove)
 })
 
 const reactiveSrc = computed(() => props.src)
@@ -113,27 +123,28 @@ const scaledSize = computed(() => {
   return [image.value.width * scaleFactor.value, image.value.height * scaleFactor.value]
 })
 
-// 0-1 number that shows how scrolled down we are. 0 is top, 1 is bottom
-const sliderPct = computed(() => {
-  return [dragOffset.value[0] / dimensions.value[0], dragOffset.value[1] / dimensions.value[1]]
-})
-
 // The ID of the pending animation frame, if any
 const rafRequest = ref<number | null>(null)
+
+const offset = computed<[number, number]>(() => {
+  return [dragOffset.value[0] * scaleFactor.value, dragOffset.value[1] * scaleFactor.value]
+})
 
 const drawCroppedImage = () => {
   if (!canvas.value || !ctx.value || !image.value) {
     return
   }
 
-  // TODO: remove the pct bias from this and bake it into the dragOffset above.
-  const offsetX = dragOffset.value[0] * scaleFactor.value - canvasSize.value[0] * sliderPct.value[0]
-  const offsetY = dragOffset.value[1] * scaleFactor.value - canvasSize.value[1] * sliderPct.value[1]
-
   canvas.value.width = canvasSize.value[0]
   canvas.value.height = canvasSize.value[1]
 
-  ctx.value.drawImage(image.value, offsetX, offsetY, scaledSize.value[0], scaledSize.value[1])
+  ctx.value.drawImage(
+    image.value,
+    offset.value[0],
+    offset.value[1],
+    scaledSize.value[0],
+    scaledSize.value[1]
+  )
 
   rafRequest.value = null
 }
@@ -156,19 +167,6 @@ watch(dragOffset, scheduleDraw)
 </script>
 
 <style lang="scss" scoped>
-.drag-root {
-  max-height: 100%;
-  max-width: 100%;
-  user-select: none;
-  aspect-ratio: v-bind(aspectRatio);
-}
-
-.drag-target {
-  &:not(.disabled) {
-    cursor: move;
-  }
-}
-
 $gradient-dark: #141414;
 $gradient-light: $dark;
 
@@ -203,6 +201,19 @@ $stripes: linear-gradient(
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-play-state: running;
+}
+
+.drag-root {
+  max-height: 100%;
+  max-width: 100%;
+  user-select: none;
+  aspect-ratio: v-bind(aspectRatio);
+}
+
+.drag-target {
+  &:not(.disabled) {
+    cursor: move;
+  }
 }
 
 .hole {

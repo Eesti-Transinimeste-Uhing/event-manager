@@ -1,10 +1,6 @@
 import { objectType } from 'nexus'
 import path from 'node:path'
 
-import urlJoin from '../../lib/url-join'
-import { config } from '../../config'
-import { DateTime } from 'luxon'
-
 export const Template = objectType({
   name: 'Template',
   sourceType: {
@@ -19,15 +15,8 @@ export const Template = objectType({
     t.nullable.jsonObject('description')
     t.int('bannerOffset')
     t.url('banner', {
-      async resolve(root) {
-        return urlJoin(
-          config.server.publicUrl,
-          'v1',
-          'static',
-          'template-banner',
-          root.id,
-          DateTime.fromJSDate(root.updatedAt).toUnixInteger().toString()
-        )
+      resolve(root) {
+        return root.bannerUrl
       },
     })
     t.list.field('fields', {

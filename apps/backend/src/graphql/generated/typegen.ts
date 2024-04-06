@@ -243,7 +243,7 @@ export interface NexusGenFieldTypes {
     // field return type
     banner: NexusGenScalars['URL'] // URL!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
-    description: string // String!
+    description: NexusGenScalars['JSONObject'] // JSONObject!
     id: string // ID!
     name: string | null // String
     template: NexusGenRootTypes['Template'] // Template!
@@ -351,7 +351,7 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     banner: 'URL'
     createdAt: 'DateTime'
-    description: 'String'
+    description: 'JSONObject'
     id: 'ID'
     name: 'String'
     template: 'Template'

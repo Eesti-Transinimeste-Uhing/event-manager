@@ -10,6 +10,9 @@ import {
 } from 'typeorm'
 import { Template } from './template'
 import { FormSubmission } from './form-submission'
+import urlJoin from '../lib/url-join'
+import { config } from '../config'
+import { DateTime } from 'luxon'
 
 @Entity({ name: 'form' })
 export class Form {
@@ -35,6 +38,17 @@ export class Form {
     nullable: true,
   })
   name: string
+
+  get bannerUrl() {
+    return urlJoin(
+      config.server.publicUrl,
+      'v1',
+      'static',
+      'form-banner',
+      this.id,
+      DateTime.fromJSDate(this.updatedAt).toUnixInteger().toString()
+    )
+  }
 
   @ManyToOne(() => Template, (template) => template.forms, {
     lazy: true,

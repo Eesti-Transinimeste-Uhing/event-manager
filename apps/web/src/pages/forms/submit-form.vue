@@ -21,6 +21,7 @@ const { result, loading, error } = useQuery(
       form(where: $where) {
         id
         name
+        banner
         template {
           id
           fields
@@ -171,6 +172,10 @@ const cardBackground = computed(() => {
               </div>
             </q-toolbar>
 
+            <q-img :src="result.form.banner" />
+          </q-card>
+
+          <q-card flat class="form-card bg-glass">
             <q-card-section>
               <div class="text-h2">{{ result.form.name }}</div>
             </q-card-section>
@@ -178,7 +183,9 @@ const cardBackground = computed(() => {
             <q-separator class="q-mb-md" />
 
             <q-card-section class="q-pt-none">
-              <div v-html="result.form.template.description"></div>
+              <div>
+                {{ result.form.template.description }}
+              </div>
             </q-card-section>
           </q-card>
 

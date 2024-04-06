@@ -46,7 +46,7 @@ export type Form = {
   __typename?: 'Form'
   banner: Scalars['URL']['output']
   createdAt: Scalars['DateTime']['output']
-  description: Scalars['String']['output']
+  description: Scalars['JSONObject']['output']
   id: Scalars['ID']['output']
   name?: Maybe<Scalars['String']['output']>
   template: Template
@@ -444,6 +444,7 @@ export type FormSubmitQuery = {
     __typename?: 'Form'
     id: string
     name?: string | null
+    banner: any
     template: {
       __typename?: 'Template'
       id: string
@@ -1114,6 +1115,7 @@ export const FormSubmitDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'template' },
