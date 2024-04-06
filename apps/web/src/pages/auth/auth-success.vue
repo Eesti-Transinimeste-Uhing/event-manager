@@ -16,7 +16,7 @@ const { onResult, onError } = useQuery(
     }
   `),
   {},
-  { prefetch: false, fetchPolicy: 'cache-first' }
+  { prefetch: false, fetchPolicy: 'network-only' }
 )
 
 onError((error) => {

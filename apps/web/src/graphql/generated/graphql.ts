@@ -46,6 +46,7 @@ export type Form = {
   __typename?: 'Form'
   banner: Scalars['URL']['output']
   createdAt: Scalars['DateTime']['output']
+  /** @deprecated This field is only planned, it responds with JSON instead of HTML/Text */
   description: Scalars['JSONObject']['output']
   id: Scalars['ID']['output']
   name?: Maybe<Scalars['String']['output']>

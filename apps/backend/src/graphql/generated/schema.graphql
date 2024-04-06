@@ -23,6 +23,7 @@ type Form {
   banner: URL!
   createdAt: DateTime!
   description: JSONObject!
+    @deprecated(reason: "This field is only planned, it responds with JSON instead of HTML/Text")
   id: ID!
   name: String
   template: Template!

@@ -18,6 +18,7 @@ export const Form = objectType({
       },
     })
     t.jsonObject('description', {
+      deprecation: 'This field is only planned, it responds with JSON instead of HTML/Text',
       async resolve(root) {
         return (await root.template).description
       },
