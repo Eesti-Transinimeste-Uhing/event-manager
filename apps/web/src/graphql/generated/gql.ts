@@ -19,8 +19,6 @@ const documents = {
     types.PublicLayoutViewerDocument,
   '\n    query PostOauthViewer {\n      viewer {\n        id\n      }\n    }\n  ':
     types.PostOauthViewerDocument,
-  '\n    query SearchTemplates(\n      $filter: [PaginationFilter!]\n      $first: Int\n      $after: String\n      $before: String\n      $last: Int\n      $sort: [PaginationSorting!]\n    ) {\n      templates(\n        filter: $filter\n        first: $first\n        after: $after\n        before: $before\n        last: $last\n        sort: $sort\n      ) {\n        pageInfo {\n          endCursor\n          startCursor\n          hasNextPage\n          hasPreviousPage\n          totalCount\n        }\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  ':
-    types.SearchTemplatesDocument,
   '\n    mutation UpdateForm($where: UpdateFormWhereInput!, $data: UpdateFormDataInput!) {\n      updateForm(where: $where, data: $data) {\n        id\n      }\n    }\n  ':
     types.UpdateFormDocument,
   '\n    query EditForm($where: WhereIdInput!) {\n      form(where: $where) {\n        id\n        name\n        template {\n          id\n        }\n      }\n    }\n  ':
@@ -29,6 +27,8 @@ const documents = {
     types.FormListDocument,
   '\n    mutation CreateForm($input: CreateFormInput!) {\n      createForm(input: $input) {\n        id\n      }\n    }\n  ':
     types.CreateFormDocument,
+  '\n    query SearchTemplates(\n      $filter: [PaginationFilter!]\n      $first: Int\n      $after: String\n      $before: String\n      $last: Int\n      $sort: [PaginationSorting!]\n    ) {\n      templates(\n        filter: $filter\n        first: $first\n        after: $after\n        before: $before\n        last: $last\n        sort: $sort\n      ) {\n        pageInfo {\n          endCursor\n          startCursor\n          hasNextPage\n          hasPreviousPage\n          totalCount\n        }\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  ':
+    types.SearchTemplatesDocument,
   '\n    query FormSubmit($where: WhereIdInput!) {\n      form(where: $where) {\n        id\n        name\n        template {\n          id\n          fields\n          description\n        }\n      }\n    }\n  ':
     types.FormSubmitDocument,
   '\n    mutation SubmitForm($where: SubmitFormWhereInput!, $data: [SubmitFormDataInput!]!) {\n      submitForm(where: $where, data: $data)\n    }\n  ':
@@ -81,12 +81,6 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    query SearchTemplates(\n      $filter: [PaginationFilter!]\n      $first: Int\n      $after: String\n      $before: String\n      $last: Int\n      $sort: [PaginationSorting!]\n    ) {\n      templates(\n        filter: $filter\n        first: $first\n        after: $after\n        before: $before\n        last: $last\n        sort: $sort\n      ) {\n        pageInfo {\n          endCursor\n          startCursor\n          hasNextPage\n          hasPreviousPage\n          totalCount\n        }\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  '
-): (typeof documents)['\n    query SearchTemplates(\n      $filter: [PaginationFilter!]\n      $first: Int\n      $after: String\n      $before: String\n      $last: Int\n      $sort: [PaginationSorting!]\n    ) {\n      templates(\n        filter: $filter\n        first: $first\n        after: $after\n        before: $before\n        last: $last\n        sort: $sort\n      ) {\n        pageInfo {\n          endCursor\n          startCursor\n          hasNextPage\n          hasPreviousPage\n          totalCount\n        }\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  ']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
   source: '\n    mutation UpdateForm($where: UpdateFormWhereInput!, $data: UpdateFormDataInput!) {\n      updateForm(where: $where, data: $data) {\n        id\n      }\n    }\n  '
 ): (typeof documents)['\n    mutation UpdateForm($where: UpdateFormWhereInput!, $data: UpdateFormDataInput!) {\n      updateForm(where: $where, data: $data) {\n        id\n      }\n    }\n  ']
 /**
@@ -107,6 +101,12 @@ export function graphql(
 export function graphql(
   source: '\n    mutation CreateForm($input: CreateFormInput!) {\n      createForm(input: $input) {\n        id\n      }\n    }\n  '
 ): (typeof documents)['\n    mutation CreateForm($input: CreateFormInput!) {\n      createForm(input: $input) {\n        id\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query SearchTemplates(\n      $filter: [PaginationFilter!]\n      $first: Int\n      $after: String\n      $before: String\n      $last: Int\n      $sort: [PaginationSorting!]\n    ) {\n      templates(\n        filter: $filter\n        first: $first\n        after: $after\n        before: $before\n        last: $last\n        sort: $sort\n      ) {\n        pageInfo {\n          endCursor\n          startCursor\n          hasNextPage\n          hasPreviousPage\n          totalCount\n        }\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  '
+): (typeof documents)['\n    query SearchTemplates(\n      $filter: [PaginationFilter!]\n      $first: Int\n      $after: String\n      $before: String\n      $last: Int\n      $sort: [PaginationSorting!]\n    ) {\n      templates(\n        filter: $filter\n        first: $first\n        after: $after\n        before: $before\n        last: $last\n        sort: $sort\n      ) {\n        pageInfo {\n          endCursor\n          startCursor\n          hasNextPage\n          hasPreviousPage\n          totalCount\n        }\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

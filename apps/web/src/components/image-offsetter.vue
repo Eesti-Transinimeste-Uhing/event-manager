@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import { useFilePreview } from 'src/hooks/use-file-preview'
 import { AspectRatio } from 'src/lib/aspect-ratios'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -16,27 +17,29 @@ const props = withDefaults(
   }
 )
 
-const shownHintedRatios = computed(() => {
-  if (props.highlightRatio) {
-    return [props.highlightRatio]
-  }
+// const shownHintedRatios = computed(() => {
+//   if (props.highlightRatio) {
+//     return [props.highlightRatio]
+//   }
 
-  const value = [...props.hintedRatios]
+//   const value = [...props.hintedRatios]
 
-  value.sort((a, b) => {
-    return b - a
-  })
+//   value.sort((a, b) => {
+//     return b - a
+//   })
 
-  return value
-})
+//   return value
+// })
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: [number, number]): void
 }>()
 
-const imageUrl = computed(() => {
-  return `url(${props.src})`
-})
+const canvas = ref<HTMLCanvasElement | null>(null)
+
+// const imageUrl = computed(() => {
+//   return `url(${props.src})`
+// })
 
 const dragTarget = ref<HTMLElement>()
 const dragging = ref(false)
@@ -80,15 +83,88 @@ onMounted(() => {
   }
 })
 
-const parentSize = ref({ width: 0, height: 0 })
+const reactiveSrc = computed(() => props.src)
+const { image, dimensions } = useFilePreview(reactiveSrc)
 
-const handleResize = (size: { height: number; width: number }) => {
-  parentSize.value = size
+const sliderX = ref(0)
+const sliderY = ref(0)
+
+// const parentSize = ref({ width: 0, height: 0 })
+
+// const handleResize = (size: { height: number; width: number }) => {
+//   parentSize.value = size
+// }
+
+const ctx = computed(() => {
+  return canvas.value?.getContext('2d')
+})
+
+const canvasSize = computed(() => {
+  return [1920, 1080]
+})
+
+const scaleFactor = computed(() => {
+  if (!image.value) return 1
+
+  return Math.max(canvasSize.value[0] / image.value.width, canvasSize.value[1] / image.value.height)
+})
+
+const scaledSize = computed(() => {
+  if (!image.value) {
+    return [canvasSize.value[0], canvasSize.value[1]]
+  }
+
+  return [image.value.width * scaleFactor.value, image.value.height * scaleFactor.value]
+})
+
+const sliderYPct = computed(() => {
+  return sliderY.value / dimensions.value[1]
+})
+
+const sliderXPct = computed(() => {
+  return sliderX.value / dimensions.value[0]
+})
+
+const rafRequest = ref<number | null>(null)
+
+const drawCroppedImage = () => {
+  if (!canvas.value || !ctx.value || !image.value) {
+    return
+  }
+
+  const offsetX = sliderX.value * scaleFactor.value - canvasSize.value[0] * sliderXPct.value
+  const offsetY = sliderY.value * scaleFactor.value - canvasSize.value[1] * sliderYPct.value
+
+  canvas.value.width = canvasSize.value[0]
+  canvas.value.height = canvasSize.value[1]
+
+  ctx.value.drawImage(
+    image.value,
+    offsetX * -1,
+    offsetY * -1,
+    scaledSize.value[0],
+    scaledSize.value[1]
+  )
+
+  rafRequest.value = null
 }
 
-const topWithOffset = computed(() => {
-  return `${(dragOffset.value[1] + parentSize.value.height / (props.aspectRatio / dragOffset.value[1])) / 250}px`
+onBeforeUnmount(() => {
+  if (!rafRequest.value) return
+
+  cancelAnimationFrame(rafRequest.value)
 })
+
+const scheduleDraw = () => {
+  if (rafRequest.value) return
+
+  rafRequest.value = requestAnimationFrame(drawCroppedImage)
+}
+
+watch(image, scheduleDraw)
+watch(sliderY, scheduleDraw)
+watch(sliderX, scheduleDraw)
+// watch(parentSize, drawCroppedImage)
 </script>
 
 <style lang="scss" scoped>
@@ -106,15 +182,20 @@ const topWithOffset = computed(() => {
   }
 }
 
-.image-display {
+canvas {
+  width: 100%;
   height: 100%;
-
-  background-image: v-bind(imageUrl);
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  background-position: center v-bind(topWithOffset);
-  text-anchor: start;
 }
+
+// .image-display {
+//   height: 100%;
+
+//   background-image: v-bind(imageUrl);
+//   background-size: 100% auto;
+//   background-repeat: no-repeat;
+//   background-position: center v-bind(topWithOffset);
+//   text-anchor: start;
+// }
 
 $gradient-dark: #141414;
 $gradient-light: $dark;
@@ -189,10 +270,10 @@ $stripes: linear-gradient(
 </style>
 
 <template>
-  <div class="drag-root bg-stripe">
-    <q-resize-observer @resize="handleResize" />
+  <div class="drag-root">
+    <canvas ref="canvas" class="image-display"></canvas>
 
-    <div class="image-display drag-target" ref="dragTarget">
+    <!-- <div class="drag-target" ref="dragTarget">
       <div
         class="fit marker-root"
         :class="{
@@ -208,6 +289,11 @@ $stripes: linear-gradient(
           class="border-marker"
         ></div>
       </div>
-    </div>
+    </div> -->
   </div>
+
+  <q-slider v-model="sliderY" :min="0" :max="dimensions[1]" color="green" vertical label-always />
+  {{ sliderYPct }}
+
+  <q-slider v-model="sliderX" :min="0" :max="dimensions[0]" color="green" label-always />
 </template>

@@ -3,6 +3,7 @@ import { ComputedRef, Ref, onMounted, ref, watch } from 'vue'
 type ImgData = {
   dimensions: [number, number]
   ratio: number
+  image: HTMLImageElement
 }
 
 const getImgData = (src: string): Promise<ImgData> => {
@@ -13,6 +14,7 @@ const getImgData = (src: string): Promise<ImgData> => {
       return resolve({
         dimensions: [img.width, img.height],
         ratio: img.width / img.height,
+        image: img,
       })
     }
 
@@ -58,6 +60,7 @@ export const useFilePreview = (
   const ratio = ref(1)
   const size = ref(0)
   const name = ref('')
+  const image = ref<HTMLImageElement | null>(null)
 
   const generatePreview = async () => {
     if (!file.value) {
@@ -78,6 +81,7 @@ export const useFilePreview = (
     preview.value = fileValue
     dimensions.value = imgData.dimensions
     ratio.value = imgData.ratio
+    image.value = imgData.image
   }
 
   watch(file, generatePreview)
@@ -91,5 +95,6 @@ export const useFilePreview = (
     ratio,
     preview,
     dimensions,
+    image,
   }
 }

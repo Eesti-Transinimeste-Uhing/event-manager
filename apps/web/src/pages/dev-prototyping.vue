@@ -1,110 +1,32 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { ref } from 'vue'
 
-import { graphql } from 'src/graphql/generated'
-import { useCursorPagination } from 'src/hooks/use-cursor-pagination'
+import ImageOffsetter from 'src/components/image-offsetter.vue'
+import { AspectRatio } from 'src/lib/aspect-ratios'
 
-import ButtonSelect from 'components/button-select.vue'
-import { SelectOption } from 'src/components/form/base/select-field.vue'
-
-const { result, filterText } = useCursorPagination(
-  'templates',
-  graphql(`
-    query SearchTemplates(
-      $filter: [PaginationFilter!]
-      $first: Int
-      $after: String
-      $before: String
-      $last: Int
-      $sort: [PaginationSorting!]
-    ) {
-      templates(
-        filter: $filter
-        first: $first
-        after: $after
-        before: $before
-        last: $last
-        sort: $sort
-      ) {
-        pageInfo {
-          endCursor
-          startCursor
-          hasNextPage
-          hasPreviousPage
-          totalCount
-        }
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-    }
-  `),
-  {
-    defaultFilterColumns: ['name'],
-    defaultSortColumns: ['name'],
-  }
-)
-
-const options = computed<SelectOption[]>(() => {
-  return (
-    result.value?.templates.edges.map((edge) => ({
-      value: edge.node.id,
-      label: edge.node.name,
-    })) ?? []
-  )
-})
+const model = ref<[number, number]>([0, 0])
 </script>
 
 <style lang="scss" scoped></style>
 
 <template>
-  <!-- <q-select
-    borderless
-    v-model="model"
-    use-input
-    hide-selected
-    fill-input
-    label="Lazy filter"
-    :options="options"
-    @input-value="(v) => (filterText = v)"
-    :input-debounce="300"
-    :loading="loading"
-    dropdown-icon="las la-caret-down"
-  >
-    <template v-slot:no-option>
-      <q-item>
-        <q-item-section class="text-grey"> No results </q-item-section>
-      </q-item>
-    </template>
-  </q-select> -->
+  <div class="column wrap">
+    <div class="col">
+      <image-offsetter
+        src="https://images.unsplash.com/photo-1516035645781-9f126e774e9e?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        @update:model-value="(v) => (model = [model[0], v[1]])"
+        :model-value="model"
+        :aspect-ratio="AspectRatio.widescreen"
+        show-guides
+        :hinted-ratios="[
+          AspectRatio.discordEvent,
+          AspectRatio.facebookCover,
+          AspectRatio.facebookEvent,
+          AspectRatio.widescreen,
+        ]"
+      />
+    </div>
 
-  <div>
-    <button-select
-      :model-value="null"
-      :options="options"
-      color="primary"
-      round
-      icon="las la-times"
-      position="bottom-right"
-      tooltip="something"
-    >
-      <template #prepend>
-        <q-input
-          class="fit q-px-md"
-          borderless
-          v-model="filterText"
-          clear-icon="las la-times"
-          no-error-icon
-          hide-bottom-space
-          label="Search..."
-          :debounce="300"
-        ></q-input>
-
-        <q-linear-progress indeterminate />
-      </template>
-    </button-select>
+    <code class="col">{{ model }}</code>
   </div>
 </template>
