@@ -41,7 +41,7 @@ export default route(() => {
     return router
   }
 
-  router.afterEach((to, from) => {
+  router.afterEach((to) => {
     setTimeout(() => {
       Dark.set((to as unknown as RouteRecord).meta.dark)
     }, 0)
