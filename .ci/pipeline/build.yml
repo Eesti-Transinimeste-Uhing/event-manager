@@ -1,0 +1,22 @@
+# Generated with concourse-ts at 07:33:26 on 08/04/2024
+#
+# jobs: 1
+# groups: 0
+# resource_types: 0
+# resources: 0
+# var_sources: 0
+
+jobs:
+  - name: quasar-build
+    plan:
+      - task: say-hello_task
+        config:
+          image_resource:
+            source:
+              repository: alpine
+              tag: latest
+            type: example
+          run:
+            path: echo
+            args:
+              - Hi

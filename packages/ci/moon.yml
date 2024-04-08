@@ -1,0 +1,12 @@
+project:
+  name: 'ci'
+  description: 'Continuous integration config'
+
+tasks:
+  compile:
+    options:
+      runFromWorkspaceRoot: true
+      cache: false
+    command:
+      - ./packages/ci/node_modules/.bin/ts-node
+      - ./packages/ci/compile.ts

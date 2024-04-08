@@ -1,0 +1,17 @@
+{
+  "name": "@etu/events-ci",
+  "packageManager": "yarn@4.1.1",
+  "scripts": {
+    "moon": "../../node_modules/.bin/moon"
+  },
+  "devDependencies": {
+    "@decentm/concourse-ts": "^0.17.4",
+    "@decentm/concourse-ts-fluent": "^0.0.2",
+    "@decentm/concourse-ts-resource-git": "^0.2.1",
+    "@decentm/concourse-ts-resource-registry-image": "^0.2.2",
+    "@types/node": "20.11.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-moon": "^1.3.0",
+    "typescript": "^5.4.2"
+  }
+}
