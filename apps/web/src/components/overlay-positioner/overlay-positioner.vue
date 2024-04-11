@@ -89,6 +89,7 @@ const aspectRatio = computed(() => {
 <style lang="scss" scoped>
 .drag-root {
   aspect-ratio: v-bind(aspectRatio);
+  overflow: hidden;
 }
 
 .drag-item {
@@ -112,7 +113,7 @@ const aspectRatio = computed(() => {
       >
         <q-resize-observer @resize="(s) => handleItemResize(index, s)" />
 
-        <slot :name="`item-${index}`" />
+        <slot :name="`item-${index}`" :position="props.modelValue[index]" :dragging="dragging" />
       </div>
     </transition-group>
   </div>

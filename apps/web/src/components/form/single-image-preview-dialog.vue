@@ -59,6 +59,16 @@ const overlayPositions = ref<[number, number][]>([
   align-items: center;
 }
 
+.outline-dashed {
+  outline: 2px $dark dashed;
+  border-radius: $border-radius;
+}
+
+.bg-glass {
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(2px);
+}
+
 .overlay {
   &-wrapper {
     width: 100%;
@@ -66,13 +76,6 @@ const overlayPositions = ref<[number, number][]>([
 
     display: flex;
     align-items: center;
-  }
-
-  &-item {
-    outline: 2px $dark dashed;
-    border-radius: $border-radius;
-    background-color: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(2px);
   }
 }
 </style>
@@ -191,15 +194,52 @@ const overlayPositions = ref<[number, number][]>([
               :size="[1920, 1080]"
               v-model="overlayPositions"
             >
-              <template #item-0>
-                <div class="overlay-item date q-pa-md text-h1 text-dark font-inter">
+              <template #item-0="{ position, dragging }">
+                <div class="outline-dashed bg-glass q-pa-md text-h1 text-dark font-inter">
                   <span>22.03</span>
                   <br />
                   <span>18:00</span>
                 </div>
+
+                <transition name="card" mode="out-in">
+                  <div class="q-mt-sm outline-dashed bg-glass text-dark q-px-sm" v-if="!dragging">
+                    x: {{ Math.floor(position[0]) }} y: {{ Math.floor(position[1]) }}
+                  </div>
+                </transition>
+              </template>
+
+              <template #item-1="{ position, dragging }">
+                <div
+                  class="outline-dashed bg-glass q-pa-md text-h2 text-dark text-center font-inter"
+                >
+                  <span>Lorem Ipsum on lihtsalt proovitekst</span>
+                  <br />
+                  <span>mida kasutatakse printimis- ja ladumistööstuses</span>
+                </div>
+
+                <transition name="card" mode="out-in">
+                  <div class="q-mt-sm outline-dashed bg-glass text-dark q-px-sm" v-if="!dragging">
+                    x: {{ Math.floor(position[0]) }} y: {{ Math.floor(position[1]) }}
+                  </div>
+                </transition>
               </template>
             </overlay-positioner>
           </div>
+
+          <q-separator />
+
+          <q-card-section>
+            <div class="row">
+              <div class="text-subtitle1 column q-mr-md">
+                <q-icon color="primary" size="md" name="las la-info" />
+              </div>
+
+              <div class="col text-subtitle2">
+                In the posted image, the dashed border and white background will not appear, it only
+                shows up here to help you place the items precisely.
+              </div>
+            </div>
+          </q-card-section>
         </q-tab-panel>
       </q-tab-panels>
 
