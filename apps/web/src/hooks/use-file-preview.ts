@@ -63,8 +63,11 @@ export const useFilePreview = (
   const image = ref<HTMLImageElement | null>(null)
 
   const generatePreview = async () => {
+    loading.value = true
+
     if (!file.value) {
       preview.value = ''
+      loading.value = false
       return
     }
 
@@ -82,6 +85,8 @@ export const useFilePreview = (
     dimensions.value = imgData.dimensions
     ratio.value = imgData.ratio
     image.value = imgData.image
+
+    loading.value = false
   }
 
   watch(file, generatePreview)

@@ -7,12 +7,14 @@ import { JSONContent } from '@tiptap/core'
 
 import { useRouteParam } from 'src/lib/use-route-param'
 import { graphql } from 'src/graphql/generated'
+import { AspectRatio } from 'src/lib/aspect-ratios'
 
 import TextEditor from 'src/components/text-editor/text-editor.vue'
 import SingleImageUploadField from 'src/components/form/single-image-upload-field.vue'
 import FormField from 'src/components/form/form-field.vue'
 import DragHint from 'src/components/drag-hint.vue'
 import EmptyContent from 'src/components/empty-content.vue'
+import ImageOffsetter from 'src/components/image-offsetter.vue'
 
 import { FormFieldKind } from 'src/graphql/generated/graphql'
 import { useFilePreview } from 'src/hooks/use-file-preview'
@@ -143,18 +145,12 @@ const adjustOpen = ref(false)
   cursor: grab;
 }
 
-.adjuster-wrapper {
-  transition-property: opacity, height;
-  transition-duration: 0.2s;
-  transition-timing-function: $in-out-bezier;
+.positioner-wrapper {
+  width: 100%;
+  position: relative;
 
-  opacity: 0;
-  height: 500px;
-
-  &.open {
-    opacity: 1;
-    height: 500px;
-  }
+  display: flex;
+  align-items: center;
 }
 </style>
 
@@ -200,7 +196,18 @@ const adjustOpen = ref(false)
         </div>
 
         <q-form v-else-if="template" class="column" @submit.prevent="handleSave">
-          <q-card flat bordered class="q-mb-md">
+          <q-card flat bordered class="q-mb-md column">
+            <image-offsetter
+              style="height: 512px"
+              :src="preview"
+              @update:model-value="() => null"
+              :model-value="[0, topOffset]"
+              :aspect-ratio="AspectRatio.widescreen"
+              show-guides
+              :hinted-ratios="[]"
+              readonly
+            />
+
             <single-image-upload-field
               :model-value="banner"
               @update:model-value="(v: File | null) => (bannerFile = v)"

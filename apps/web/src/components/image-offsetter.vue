@@ -11,6 +11,7 @@ const props = withDefaults(
     showGuides?: boolean
     hintedRatios: AspectRatio[]
     highlightRatio?: AspectRatio
+    readonly?: boolean
   }>(),
   {
     aspectRatio: 1,
@@ -46,7 +47,7 @@ const dragStart = ref<[number, number]>([0, 0])
 const dragCoords = ref<[number, number]>([0, 0])
 
 const dragOffset = computed<[number, number]>(() => {
-  if (!dragging.value) {
+  if (!dragging.value || props.readonly) {
     return props.modelValue
   }
 
@@ -60,16 +61,22 @@ const dragOffset = computed<[number, number]>(() => {
 })
 
 const handleMousedown = (event: MouseEvent) => {
+  if (props.readonly) return
+
   dragStart.value = [event.offsetX, event.offsetY]
   dragging.value = true
 }
 
 const handleMouseup = () => {
+  if (props.readonly) return
+
   emit('update:model-value', dragOffset.value)
   dragging.value = false
 }
 
 const handleMousemove = (event: MouseEvent) => {
+  if (props.readonly) return
+
   dragCoords.value = [event.offsetX, event.offsetY]
 }
 
@@ -131,6 +138,8 @@ const offset = computed<[number, number]>(() => {
 })
 
 const drawCroppedImage = () => {
+  rafRequest.value = null
+
   if (!canvas.value || !ctx.value || !image.value) {
     return
   }
@@ -145,8 +154,6 @@ const drawCroppedImage = () => {
     scaledSize.value[0],
     scaledSize.value[1]
   )
-
-  rafRequest.value = null
 }
 
 onBeforeUnmount(() => {
@@ -211,7 +218,7 @@ $stripes: linear-gradient(
 }
 
 .drag-target {
-  &:not(.disabled) {
+  &:not(.disabled):not(.readonly) {
     cursor: move;
   }
 }
@@ -250,7 +257,7 @@ $stripes: linear-gradient(
 
     <div
       class="drag-target absolute-top-left fit"
-      :class="{ 'cursor-none': dragging }"
+      :class="{ 'cursor-none': dragging, readonly: props.readonly }"
       ref="dragTarget"
     >
       <div
