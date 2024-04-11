@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import SelectField, { SelectOption } from './base/select-field.vue'
+import SelectField from './base/select-field.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -14,13 +14,13 @@ const emit = defineEmits<{
   (event: 'update:model-value', value: boolean): void
 }>()
 
-const options: SelectOption[] = [
+const options = [
   {
-    label: 'Yes',
+    label: 'yes',
     value: 'yes',
   },
   {
-    label: 'No',
+    label: 'no',
     value: 'no',
   },
 ]
@@ -29,8 +29,8 @@ const options: SelectOption[] = [
 <template>
   <select-field
     v-bind="$attrs"
-    label="Are you coming to the event?"
-    :options="options"
+    :label="$t('are-you-coming-to-the-event')"
+    :options="options.map(({ label, value }) => ({ value, label: $t(label) }))"
     :model-value="typeof props.modelValue === 'boolean' ? (props.modelValue ? 'yes' : 'no') : null"
     @update:model-value="(v) => emit('update:model-value', v === 'yes' ? true : false)"
   ></select-field>

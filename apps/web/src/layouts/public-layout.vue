@@ -2,6 +2,8 @@
 import { useQuasar } from 'quasar'
 import { computed } from 'vue'
 
+import LanguageSelector from 'src/components/language-selector.vue'
+
 import perlinDark from 'assets/background/perlin-dark.jpg'
 import StickyToolbar from 'components/sticky-toolbar.vue'
 
@@ -36,6 +38,10 @@ const gradientColour3 = computed(() => {
           </div>
         </transition>
       </router-view>
+
+      <q-card class="row justify-end">
+        <language-selector />
+      </q-card>
 
       <sticky-toolbar />
     </q-page-container>

@@ -35,6 +35,7 @@ module.exports = configure(function (/* ctx */) {
     boot: [
       { path: 'buffer.ts', server: false },
       { path: 'apollo.ts', server: false },
+      { path: 'i18n.ts' },
       { path: 'click-outside.ts' },
     ],
 

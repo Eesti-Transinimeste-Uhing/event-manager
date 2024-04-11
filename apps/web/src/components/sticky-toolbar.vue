@@ -46,7 +46,7 @@ const morphState = ref<'bar' | 'button'>('button')
     <q-toolbar>
       <q-toolbar-title class="flex items-center">
         <site-logo class="site-logo q-mr-sm" />
-        <span class="font-pragati">ETÜ Event Planner</span>
+        <span class="font-pragati">{{ $t('site-label') }}</span>
 
         <q-separator vertical class="q-mx-md" dark />
 
@@ -56,7 +56,7 @@ const morphState = ref<'bar' | 'button'>('button')
       <account-menu />
 
       <tooltip-button
-        tooltip="Collapse staff toolbar"
+        :tooltip="$t('collapse-staff-toolbar')"
         position="bottom left"
         round
         flat
@@ -77,7 +77,7 @@ const morphState = ref<'bar' | 'button'>('button')
       v-morph:button:toolbar:300="morphState"
     >
       <tooltip-button
-        tooltip="Expand staff toolbar"
+        :tooltip="$t('expand-staff-toolbar')"
         position="bottom left"
         round
         color="secondary"

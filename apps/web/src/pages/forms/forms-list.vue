@@ -15,6 +15,7 @@ import TooltipButton from 'src/components/tooltip-button.vue'
 import TableSkeleton from 'components/skeletons/table-skeleton.vue'
 import { useNotificationsStore } from 'src/stores/notifications'
 import { formEdit } from 'src/router/routes'
+import { useI18n } from 'src/hooks/use-i18n'
 
 const {
   loading,
@@ -77,10 +78,12 @@ const {
   }
 )
 
+const { t } = useI18n()
+
 const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
   {
     name: 'name',
-    label: 'Name',
+    label: 'name',
     align: 'left',
     field(row) {
       return row.node.name
@@ -88,7 +91,7 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
   },
   {
     name: 'templateName',
-    label: 'Template',
+    label: 'template',
     align: 'left',
     field(row) {
       return row.node.template.name
@@ -96,7 +99,7 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
   },
   {
     name: 'createdAt',
-    label: 'Created',
+    label: 'created',
     align: 'left',
     style: 'width: 150px;',
     field(row) {
@@ -105,7 +108,7 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
   },
   {
     name: 'updatedAt',
-    label: 'Updated',
+    label: 'updated',
     align: 'left',
     style: 'width: 150px;',
     field(row) {
@@ -138,7 +141,7 @@ const handleCreateNew = async (templateId: string) => {
     if (result?.errors) {
       notifications.enqueue({
         type: 'error',
-        lines: ["Couldn't create", result.errors.map((error) => error.message).join('\n')],
+        lines: [t('couldnt-create'), result.errors.map((error) => error.message).join('\n')],
       })
     }
 
@@ -152,7 +155,7 @@ const handleCreateNew = async (templateId: string) => {
     if (error instanceof Error) {
       notifications.enqueue({
         type: 'error',
-        lines: ["Couldn't create", error.message],
+        lines: [t('couldnt-create'), error.message],
       })
     }
   }
@@ -231,7 +234,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
 <template>
   <div class="forms-list column justify-between">
     <q-banner inline-actions rounded class="q-mb-md q-py-none">
-      <q-input borderless :debounce="300" v-model="filterText" label="Search..." />
+      <q-input borderless :debounce="300" v-model="filterText" :label="$t('search-ellipsis')" />
 
       <template v-slot:action>
         <tooltip-button
@@ -253,13 +256,13 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
           flat
           round
           icon="las la-sync"
-          tooltip="Refresh"
+          :tooltip="$t('refresh')"
           :loading="loading"
           @click="refetch"
         />
 
         <button-select
-          tooltip="Create new"
+          :tooltip="$t('create-new')"
           :model-value="null"
           :options="options"
           color="primary"
@@ -278,7 +281,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
               clear-icon="las la-times"
               no-error-icon
               hide-bottom-space
-              label="Search templates..."
+              :label="$t('search-templates-ellipsis')"
               :debounce="300"
             ></q-input>
 
@@ -295,7 +298,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
     <empty-content
       v-else-if="error"
       :content="error.message"
-      title="Network error"
+      :title="$t('network-error')"
       icon="las la-times"
       icon-colour="red"
     />
@@ -316,7 +319,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
         <template #header="props">
           <q-tr :props="props">
             <q-th v-for="col in props.cols" :key="col.name" :props="props">
-              <span class="text-weight-bolder">{{ col.label }}</span>
+              <span class="text-weight-bolder">{{ $t(col.label) }}</span>
             </q-th>
           </q-tr>
         </template>
@@ -345,7 +348,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
           color="secondary"
           flat
           icon="las la-angle-left"
-          tooltip="Previous page"
+          :tooltip="t('previous-page')"
           :loading="loading"
           @click="previousPage"
         />
@@ -355,7 +358,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
           color="secondary"
           flat
           icon="las la-angle-right"
-          tooltip="Next page"
+          :tooltip="t('next-page')"
           :loading="loading"
           @click="nextPage"
         />

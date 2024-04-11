@@ -91,8 +91,8 @@ const overlayPositions = ref<[number, number][]>([
   >
     <q-card class="dialog-card">
       <q-tabs v-model="tab" align="justify">
-        <q-tab name="offsetter" label="Offsetter" />
-        <q-tab name="overlay" label="Overlay" />
+        <q-tab name="offsetter" :label="$t('offsetter')" />
+        <q-tab name="overlay" :label="$t('overlay')" />
       </q-tabs>
 
       <q-tab-panels v-model="tab" animated>
@@ -124,7 +124,7 @@ const overlayPositions = ref<[number, number][]>([
                 @mouseover="handleHintHover(AspectRatio.discordEvent)"
                 @mouseleave="handleHintUnhover"
               >
-                Discord
+                {{ $t('discord') }}
               </q-chip>
 
               <q-chip
@@ -134,7 +134,7 @@ const overlayPositions = ref<[number, number][]>([
                 @mouseover="handleHintHover(AspectRatio.facebookEvent)"
                 @mouseleave="handleHintUnhover"
               >
-                Facebook event
+                {{ $t('facebook-event') }}
               </q-chip>
 
               <q-chip
@@ -144,7 +144,7 @@ const overlayPositions = ref<[number, number][]>([
                 @mouseover="handleHintHover(AspectRatio.facebookCover)"
                 @mouseleave="handleHintUnhover"
               >
-                Facebook cover
+                {{ $t('facebook-cover') }}
               </q-chip>
 
               <q-chip
@@ -154,7 +154,7 @@ const overlayPositions = ref<[number, number][]>([
                 @mouseover="handleHintHover(AspectRatio.widescreen)"
                 @mouseleave="handleHintUnhover"
               >
-                Web registration form
+                {{ $t('web-registration-form') }}
               </q-chip>
             </q-item>
           </q-card-actions>
@@ -168,12 +168,7 @@ const overlayPositions = ref<[number, number][]>([
               </div>
 
               <div class="col text-subtitle2">
-                For the best results, select an image that at least is 1920x1080 pixels in size, or
-                its aspect ratio is at least 16:9.
-                <br />
-                If your image is larger, you can use this interface to adjust its position until
-                you're happy with the results. Hover over the chips to check how your banner will
-                look on different platforms.
+                {{ $t('image-ratio-explainer') }}
               </div>
             </div>
           </q-card-section>
@@ -212,9 +207,9 @@ const overlayPositions = ref<[number, number][]>([
                 <div
                   class="outline-dashed bg-glass q-pa-md text-h2 text-dark text-center font-inter"
                 >
-                  <span>Lorem Ipsum on lihtsalt proovitekst</span>
+                  <span>{{ $t('lorem-ipsum-1') }}</span>
                   <br />
-                  <span>mida kasutatakse printimis- ja ladumistööstuses</span>
+                  <span>{{ $t('lorem-ipsum-2') }}</span>
                 </div>
 
                 <transition name="card" mode="out-in">
@@ -235,8 +230,7 @@ const overlayPositions = ref<[number, number][]>([
               </div>
 
               <div class="col text-subtitle2">
-                In the posted image, the dashed border and white background will not appear, it only
-                shows up here to help you place the items precisely.
+                {{ $t('image-overlays-explainer') }}
               </div>
             </div>
           </q-card-section>
@@ -249,7 +243,7 @@ const overlayPositions = ref<[number, number][]>([
         <q-item>
           <q-btn
             icon="las la-times"
-            label="Reset"
+            :label="$t('reset')"
             flat
             color="red"
             class="q-ma-sm"
@@ -258,7 +252,7 @@ const overlayPositions = ref<[number, number][]>([
 
           <q-btn
             icon="las la-check"
-            label="Close"
+            :label="$t('close')"
             color="primary"
             class="q-ma-sm"
             @click="emit('close')"

@@ -2,12 +2,10 @@ import { Node, VueNodeViewRenderer } from '@tiptap/vue-3'
 import TemplateVariableRenderer from './template-variable.vue'
 
 export const TemplateVariableId = {
-  'event-date-time': 'Event Date and Time',
-  'event-location': 'Event Location',
-  'description-slot': 'Description Slot',
+  'event-date-time': 'event-date-time',
+  'event-location': 'event-location',
+  'description-slot': 'description-slot',
 } as const
-
-export type TemplateVariableId = (typeof TemplateVariableId)[keyof typeof TemplateVariableId]
 
 export const TemplateVariableNode = Node.create({
   name: 'template-variable',

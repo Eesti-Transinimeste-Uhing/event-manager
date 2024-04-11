@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useI18n } from 'src/hooks/use-i18n'
 import SelectField, { SelectOption } from './base/select-field.vue'
 
 const props = defineProps<{
@@ -9,17 +10,19 @@ const emit = defineEmits<{
   (event: 'update:model-value', value: string | null): void
 }>()
 
+const { t } = useI18n()
+
 const options: SelectOption[] = [
   {
-    label: 'Male',
+    label: t('male'),
     value: 'male',
   },
   {
-    label: 'Female',
+    label: t('female'),
     value: 'female',
   },
   {
-    label: 'Non-binary',
+    label: t('non-binary'),
     value: 'nb',
   },
 ]
@@ -28,7 +31,7 @@ const options: SelectOption[] = [
 <template>
   <select-field
     v-bind="$attrs"
-    label="Gender"
+    :label="$t('gender')"
     :options="options"
     :model-value="props.modelValue || ''"
     has-other

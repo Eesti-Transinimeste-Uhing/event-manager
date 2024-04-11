@@ -8,7 +8,9 @@ import SnackBar from './snack-bar.vue'
 const store = useNotificationsStore()
 const { next, queue } = storeToRefs(store)
 
-const handleDismiss = (id: number) => {
+const handleDismiss = (id?: number) => {
+  if (typeof id !== 'number') return
+
   store.dequeue(id)
 }
 
@@ -44,7 +46,7 @@ onBeforeUnmount(() => {
         v-if="next"
         :key="next.id"
         v-bind="next"
-        @dismiss="handleDismiss(next.id)"
+        @dismiss="handleDismiss(next?.id)"
         :badge="queue.length - 1"
       />
     </transition>

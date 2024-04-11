@@ -46,7 +46,7 @@ switch (props.kind) {
 
   <q-card flat v-else>
     <q-card-section class="text-subtitle1">
-      Form field kind "{{ props.kind }}" is not implemented.
+      {{ $t('form-field-kind-not-implemented', { kind: props.kind }) }}
     </q-card-section>
   </q-card>
 </template>

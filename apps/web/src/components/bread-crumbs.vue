@@ -31,7 +31,7 @@ const parts = computed<RouteRecord[]>(() => {
     <q-breadcrumbs-el
       v-for="(part, index) of parts"
       :key="part.name || part.path"
-      :label="part.meta.label"
+      :label="$t(part.meta.label)"
       :icon="part.meta.icon"
       :to="index === parts.length - 1 ? null : part"
     />

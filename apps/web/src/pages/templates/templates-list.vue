@@ -15,6 +15,7 @@ import DateTime from 'components/date-time.vue'
 import TooltipButton from 'components/tooltip-button.vue'
 import EmptyContent from 'components/empty-content.vue'
 import { useNotificationsStore } from 'src/stores/notifications'
+import { useI18n } from 'src/hooks/use-i18n'
 
 const { isServer } = useIsServer()
 
@@ -163,6 +164,8 @@ const handlePreviousPage = () => {
 
 const notifications = useNotificationsStore()
 
+const { t } = useI18n()
+
 const handleCreateNewClick = async () => {
   try {
     const result = await mutation.mutate()
@@ -177,7 +180,7 @@ const handleCreateNewClick = async () => {
     if (error instanceof Error) {
       notifications.enqueue({
         type: 'error',
-        lines: ['Cannot create new template', error.message],
+        lines: [t('cannot-create-template'), error.message],
       })
     }
   }
@@ -231,14 +234,14 @@ const handleCreateNewClick = async () => {
   <empty-content
     v-else-if="error"
     icon="las la-times"
-    title="Network error"
+    :title="$t('network-error')"
     :content="error.message"
     icon-colour="red"
   />
 
   <div class="col column" v-else>
     <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">
-      <q-input borderless :debounce="300" v-model="filterText" label="Search..." />
+      <q-input borderless :debounce="300" v-model="filterText" :label="$t('search-ellipsis')" />
 
       <template v-slot:action>
         <tooltip-button
@@ -250,7 +253,7 @@ const handleCreateNewClick = async () => {
               ? 'las la-sort-amount-down'
               : 'las la-sort-amount-up'
           "
-          tooltip="Sort"
+          :tooltip="$t('sort')"
           :loading="loading"
           @click="toggleSortDir"
         />
@@ -260,7 +263,7 @@ const handleCreateNewClick = async () => {
           flat
           round
           icon="las la-sync"
-          tooltip="Refresh"
+          :tooltip="$t('refresh')"
           :loading="loading"
           @click="refetch"
         />
@@ -269,7 +272,7 @@ const handleCreateNewClick = async () => {
           color="primary"
           round
           icon="las la-plus"
-          tooltip="Create new"
+          :tooltip="$t('create-new')"
           :loading="mutation.loading.value"
           @click="handleCreateNewClick"
           class="q-ml-sm"
@@ -290,7 +293,7 @@ const handleCreateNewClick = async () => {
                   fit="cover"
                 >
                   <div class="absolute-bottom template-name row items-center justify-between">
-                    <span class="text-h6">{{ edge.node.name || 'Unnamed template' }}</span>
+                    <span class="text-h6">{{ edge.node.name || $t('unnamed-template') }}</span>
                     <span class="text-subtitle2">
                       <date-time :model-value="edge.node.updatedAt" />
                     </span>

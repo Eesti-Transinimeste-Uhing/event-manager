@@ -63,7 +63,7 @@ const handleDrawerToggle = (value?: boolean) => {
 
         <q-toolbar-title class="flex items-center">
           <site-logo class="site-logo q-mr-sm" />
-          <span class="font-pragati">ETÜ Event Planner</span>
+          <span class="font-pragati">{{ $t('site-label') }}</span>
         </q-toolbar-title>
 
         <account-menu />

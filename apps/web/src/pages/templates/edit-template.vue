@@ -19,6 +19,7 @@ import { useFilePreview } from 'src/hooks/use-file-preview'
 import TooltipButton from 'src/components/tooltip-button.vue'
 import SingleImagePreviewDialog from 'src/components/form/single-image-preview-dialog.vue'
 import { useNotificationsStore } from 'src/stores/notifications'
+import { useI18n } from 'src/hooks/use-i18n'
 
 const id = useRouteParam('id')
 
@@ -52,6 +53,8 @@ const updateTemplate = useMutation(
 
 const notifications = useNotificationsStore()
 
+const { t } = useI18n()
+
 const handleSave = async () => {
   try {
     await updateTemplate.mutate({
@@ -68,7 +71,7 @@ const handleSave = async () => {
     })
 
     notifications.enqueue({
-      lines: ['Saved!'],
+      lines: [t('saved')],
       type: 'success',
     })
 
@@ -76,7 +79,7 @@ const handleSave = async () => {
   } catch (error) {
     if (error instanceof Error) {
       notifications.enqueue({
-        lines: ['Cannot save', error.message],
+        lines: [t('cannot-save'), error.message],
         type: 'error',
       })
     }
@@ -170,7 +173,7 @@ const adjustOpen = ref(false)
     <empty-content
       v-if="error"
       :content="error.message"
-      title="Network error"
+      :title="$t('network-error')"
       icon="las la-times"
       icon-colour="red"
     />
@@ -200,7 +203,7 @@ const adjustOpen = ref(false)
               @update:model-value="(v: File | null) => (bannerFile = v)"
             >
               <template #prepend>
-                <tooltip-button flat tooltip="Enlarge" round>
+                <tooltip-button flat :tooltip="$t('enlarge')" round>
                   <q-avatar>
                     <q-img
                       :ratio="1"
@@ -217,7 +220,7 @@ const adjustOpen = ref(false)
           </q-card>
 
           <q-card flat bordered class="q-mb-md">
-            <q-input borderless v-model="name" label="Name" class="q-px-md" />
+            <q-input borderless v-model="name" :label="$t('name')" class="q-px-md" />
           </q-card>
 
           <text-editor v-model="description" class="q-mb-md" />

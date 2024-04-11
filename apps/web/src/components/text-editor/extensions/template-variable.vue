@@ -22,7 +22,7 @@ const label = computed(
   <node-view-wrapper as="span" class="template-variable-wrapper">
     <q-badge color="secondary">
       <q-icon name="las la-code" class="q-mr-xs" />
-      {{ label }}
+      {{ $t(label) }}
     </q-badge>
   </node-view-wrapper>
 </template>

@@ -31,11 +31,8 @@ import background from 'assets/background/gr-stocks-Iq9SaJezkOE-unsplash-lg.jpg'
       class="empty-content absolute-top-left"
       icon-colour="primary"
       icon="las la-question"
-      title="404 - Not found"
-      content="
-        The link you have followed here may have been moved, you may have mistyped the
-        URL, or there could be an outage. In any case, this just won't work for now.
-      "
+      :title="$t('http-not-found')"
+      :content="$t('http-not-found-description')"
     />
 
     <q-btn

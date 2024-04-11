@@ -13,16 +13,15 @@ onMounted(async () => {
   <q-card class="fixed-center card">
     <q-card-section class="row">
       <site-logo class="col-1 q-mr-sm" />
-      <div class="text-h4">Welcome!</div>
-      <div class="text-subtitle2">Link your Discord account to log in</div>
+      <div class="text-h4">{{ $t('welcome') }}</div>
+      <div class="text-subtitle2">{{ $t('link-discord-to-log-in') }}</div>
     </q-card-section>
 
     <q-separator />
 
     <q-card-section horizontal class="q-ma-md">
       <q-icon name="las la-exclamation" size="md" color="warning" />
-      This section of the event bot is for Eesti Transinimeste Ühing staff and volunteers. If you're
-      a guest of ours, please use the links we posted to register for events.
+      {{ $t('login-page-staff-only') }}
     </q-card-section>
 
     <q-separator />

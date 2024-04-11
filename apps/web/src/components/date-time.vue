@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { DateTime } from 'luxon'
+import { useI18n } from 'src/hooks/use-i18n'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+
+const { currentLanguage } = useI18n()
 
 const props = withDefaults(
   defineProps<{
@@ -29,19 +32,19 @@ const props = withDefaults(
 
 const dt = computed(() => {
   if (typeof props.modelValue === 'string') {
-    return DateTime.fromISO(props.modelValue)
+    return DateTime.fromISO(props.modelValue).setLocale(currentLanguage.value)
   }
 
   if (typeof props.modelValue === 'number') {
-    return DateTime.fromMillis(props.modelValue)
+    return DateTime.fromMillis(props.modelValue).setLocale(currentLanguage.value)
   }
 
   if (Object.prototype.toString.call(props.modelValue) === '[object Date]') {
-    return DateTime.fromJSDate(props.modelValue as Date)
+    return DateTime.fromJSDate(props.modelValue as Date).setLocale(currentLanguage.value)
   }
 
   if (props.modelValue instanceof DateTime) {
-    return props.modelValue
+    return props.modelValue.setLocale(currentLanguage.value)
   }
 
   return null

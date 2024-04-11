@@ -21,7 +21,7 @@ export const templates: RouteRecord = {
     auth: 'require',
     dark: true,
     icon: 'las la-file',
-    label: 'Templates',
+    label: 'templates',
     path: [],
   },
 }
@@ -34,7 +34,7 @@ export const templateEdit: RouteRecord = {
     auth: 'require',
     dark: true,
     icon: 'las la-edit',
-    label: 'Edit template',
+    label: 'edit-template',
     path: [templates],
   },
 }
@@ -47,7 +47,7 @@ export const forms: RouteRecord = {
     auth: 'require',
     dark: true,
     icon: 'las la-file-alt',
-    label: 'Forms',
+    label: 'forms',
     path: [],
   },
 }
@@ -60,7 +60,7 @@ export const formEdit: RouteRecord = {
     auth: 'require',
     dark: true,
     icon: 'las la-edit',
-    label: 'Edit form',
+    label: 'edit-form',
     path: [forms],
   },
 }
@@ -73,7 +73,7 @@ export const formSubmit: RouteRecord = {
     auth: 'any',
     dark: false,
     icon: 'las la-edit',
-    label: 'Submit form',
+    label: 'submit-form',
     path: [forms],
   },
 }
@@ -86,7 +86,7 @@ export const submissionList: RouteRecord = {
     auth: 'require',
     dark: true,
     icon: 'las la-stream',
-    label: 'Submissions',
+    label: 'submissions',
     path: [],
   },
 }
@@ -126,7 +126,7 @@ export const dashboard: RouteRecord = {
   meta: {
     auth: 'require',
     dark: true,
-    label: 'Dashboard',
+    label: 'dashboard',
     icon: 'las la-pager',
     path: [],
   },

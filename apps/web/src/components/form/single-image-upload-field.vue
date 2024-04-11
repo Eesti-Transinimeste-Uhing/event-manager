@@ -21,7 +21,7 @@ const { preview } = useFilePreview(reactivePreviewFile)
       class="col"
       :model-value="typeof props.modelValue === 'string' ? null : props.modelValue"
       borderless
-      label="Select image"
+      :label="$t('select-image')"
       accept="image/*"
       max-files="1"
       @update:model-value="(v) => emit('update:model-value', v)"
@@ -43,7 +43,7 @@ const { preview } = useFilePreview(reactivePreviewFile)
       circle
       color="red"
       icon="las la-trash"
-      tooltip="Clear"
+      :tooltip="$t('clear')"
       @click="emit('update:model-value', null)"
     />
   </div>

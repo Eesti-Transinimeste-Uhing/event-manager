@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useQuery } from '@vue/apollo-composable'
 import { graphql } from 'src/graphql/generated'
 import { authFailure, dashboard } from 'src/router/routes'
+import { useI18n } from 'src/hooks/use-i18n'
 
 const router = useRouter()
 
@@ -35,12 +36,14 @@ onError((error) => {
 
 let failTimeout: NodeJS.Timeout | null = null
 
+const { t } = useI18n()
+
 onMounted(() => {
   failTimeout = setTimeout(() => {
     router.push({
       name: authFailure.name,
       query: {
-        message: 'Timed out waiting for the session to initialise, please try again.',
+        message: t('session-acquire-timeout'),
       },
     })
   }, 10_000)
@@ -55,7 +58,7 @@ onResult(async (result) => {
     return router.push({
       name: authFailure.name,
       query: {
-        message: "You either aren't registered, or you don't have permission to view this page.",
+        message: t('auth-no-roles'),
       },
     })
   }
@@ -67,8 +70,8 @@ onResult(async (result) => {
 <template>
   <q-card class="fixed-center card">
     <q-card-section>
-      <div class="text-h5">Securing your session...</div>
-      <div class="text-subtitle2">Please wait</div>
+      <div class="text-h5">{{ $t('securing-session') }}</div>
+      <div class="text-subtitle2">{{ $t('please-wait') }}</div>
     </q-card-section>
 
     <q-linear-progress indeterminate />

@@ -17,7 +17,7 @@ const routes = [route.dashboard, route.templates, route.forms, route.submissionL
         <q-item-section avatar>
           <q-icon :name="route.meta.icon" />
         </q-item-section>
-        <q-item-section>{{ route.meta.label }}</q-item-section>
+        <q-item-section>{{ $t(route.meta.label) }}</q-item-section>
       </q-item>
     </div>
   </q-list>

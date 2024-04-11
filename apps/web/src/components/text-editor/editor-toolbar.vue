@@ -40,7 +40,7 @@ const templateVariableOptions = computed(() =>
       flat
       square
       icon="las la-undo"
-      tooltip="Undo"
+      :tooltip="$t('undo')"
       @click="emit('undo')"
       :disabled="!props.canUndo"
     />
@@ -48,7 +48,7 @@ const templateVariableOptions = computed(() =>
       flat
       square
       icon="las la-redo"
-      tooltip="Redo"
+      :tooltip="$t('redo')"
       @click="emit('redo')"
       :disabled="!props.canRedo"
     />
@@ -59,7 +59,7 @@ const templateVariableOptions = computed(() =>
       flat
       square
       icon="las la-bold"
-      tooltip="Bold"
+      :tooltip="$t('bold')"
       @click="emit('bold')"
       :color="bold ? 'primary' : 'white'"
     />
@@ -67,7 +67,7 @@ const templateVariableOptions = computed(() =>
       flat
       square
       icon="las la-italic"
-      tooltip="Italic"
+      :tooltip="$t('italic')"
       @click="emit('italic')"
       :color="italic ? 'primary' : 'white'"
     />
@@ -75,7 +75,7 @@ const templateVariableOptions = computed(() =>
       flat
       square
       icon="las la-underline"
-      tooltip="Underline"
+      :tooltip="$t('underline')"
       @click="emit('underline')"
       :color="underline ? 'primary' : 'white'"
     />
@@ -84,11 +84,11 @@ const templateVariableOptions = computed(() =>
 
     <button-select
       :model-value="null"
-      :options="templateVariableOptions"
+      :options="templateVariableOptions.map(({ label, value }) => ({ value, label: $t(label) }))"
       flat
       square
       icon="las la-code"
-      tooltip="Insert variable"
+      :tooltip="$t('insert-variable')"
       position="center"
       @update:model-value="
         (v: string) => emit('template-variable', v as keyof typeof TemplateVariableId)

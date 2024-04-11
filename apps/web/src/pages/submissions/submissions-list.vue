@@ -10,6 +10,7 @@ import TooltipButton from 'src/components/tooltip-button.vue'
 import TableSkeleton from 'components/skeletons/table-skeleton.vue'
 import { FormSubmissionListQuery } from 'src/graphql/generated/graphql'
 import { computed } from 'vue'
+import { useI18n } from 'src/hooks/use-i18n'
 
 const {
   loading,
@@ -75,6 +76,8 @@ const {
   }
 )
 
+const { t } = useI18n()
+
 type Column = QTableColumn<FormSubmissionListQuery['formSubmissions']['edges'][0]>
 
 const columns = computed<Column[]>(() => {
@@ -104,7 +107,7 @@ const columns = computed<Column[]>(() => {
   return [
     {
       name: 'form',
-      label: 'Form',
+      label: t('form'),
       align: 'left',
       style: 'width: 250px;',
       field(row) {
@@ -113,7 +116,7 @@ const columns = computed<Column[]>(() => {
     },
     {
       name: 'template',
-      label: 'Template',
+      label: t('template'),
       align: 'left',
       style: 'width: 250px;',
       field(row) {
@@ -123,7 +126,7 @@ const columns = computed<Column[]>(() => {
     ...dynamicColumns,
     {
       name: 'createdAt',
-      label: 'Created',
+      label: t('created'),
       align: 'left',
       style: 'width: 150px;',
       field(row) {
@@ -157,7 +160,7 @@ const handleRowClick = () => {
               ? 'las la-sort-amount-down'
               : 'las la-sort-amount-up'
           "
-          tooltip="Sort"
+          :tooltip="$t('sort')"
           :loading="loading"
           @click="toggleSortDir"
         />
@@ -167,7 +170,7 @@ const handleRowClick = () => {
           flat
           round
           icon="las la-sync"
-          tooltip="Refresh"
+          :tooltip="$t('refresh')"
           :loading="loading"
           @click="refetch"
         />
@@ -179,7 +182,7 @@ const handleRowClick = () => {
     <empty-content
       v-else-if="error"
       :content="error.message"
-      title="Network error"
+      :title="$t('network-error')"
       icon="las la-times"
       icon-colour="red"
     />
@@ -229,7 +232,7 @@ const handleRowClick = () => {
           color="secondary"
           flat
           icon="las la-angle-left"
-          tooltip="Previous page"
+          :tooltip="$t('previous-page')"
           :loading="loading"
           @click="previousPage"
         />
@@ -239,7 +242,7 @@ const handleRowClick = () => {
           color="secondary"
           flat
           icon="las la-angle-right"
-          tooltip="Next page"
+          :tooltip="$t('next-page')"
           :loading="loading"
           @click="nextPage"
         />

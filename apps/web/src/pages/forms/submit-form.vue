@@ -12,6 +12,7 @@ import SiteLogo from 'src/components/site-logo.vue'
 import DarkToggle from 'src/components/dark-toggle.vue'
 import { useQuasar } from 'quasar'
 import { useNotificationsStore } from 'src/stores/notifications'
+import { useI18n } from 'src/hooks/use-i18n'
 
 const id = useRouteParam('id')
 
@@ -44,6 +45,8 @@ const submitForm = useMutation(
 
 const notifications = useNotificationsStore()
 
+const { t } = useI18n()
+
 const handleSubmit = async () => {
   try {
     await submitForm.mutate({
@@ -60,7 +63,7 @@ const handleSubmit = async () => {
 
     notifications.enqueue({
       type: 'success',
-      lines: ['Input saved, see you soon!'],
+      lines: [t('registered-message')],
     })
 
     formState.value = defaultFormState
@@ -146,15 +149,15 @@ const cardBackground = computed(() => {
         :content="error.message"
         icon-colour="red"
         icon="las la-times"
-        title="Network error"
+        :title="$t('network-error')"
       />
 
       <empty-content
         v-else-if="!result?.form"
-        content="This form doesn't exist"
+        :content="$t('form-not-found')"
         icon-colour="primary"
         icon="las la-question"
-        title="404 - Not found"
+        :title="$t('http-not-found')"
       />
 
       <q-form v-else-if="result" @submit="handleSubmit">
@@ -163,7 +166,7 @@ const cardBackground = computed(() => {
             <q-toolbar class="bg-primary text-white">
               <q-toolbar-title class="flex items-center">
                 <site-logo class="site-logo q-mr-sm" />
-                <span class="font-pragati">Eesti Transinimeste Ühing</span>
+                <span class="font-pragati">{{ $t('brand-name') }}</span>
               </q-toolbar-title>
 
               <div class="row items-center">
@@ -207,7 +210,7 @@ const cardBackground = computed(() => {
                 :loading="submitForm.loading.value"
                 flat
                 type="submit"
-                label="Register"
+                :label="$t('register')"
                 icon="las la-paper-plane"
               />
             </q-card-actions>

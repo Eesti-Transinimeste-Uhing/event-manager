@@ -5,6 +5,9 @@ import { graphql } from 'src/graphql/generated'
 import { computed } from 'vue'
 import { config } from 'src/config'
 import { useNotificationsStore } from 'src/stores/notifications'
+import { useI18n } from 'src/hooks/use-i18n'
+
+import LanguageSelector from './language-selector.vue'
 
 const { loading, result, onError } = useQuery(
   graphql(`
@@ -25,10 +28,12 @@ const { loading, result, onError } = useQuery(
 
 const notifications = useNotificationsStore()
 
+const { t } = useI18n()
+
 onError((error) => {
   notifications.enqueue({
     type: 'error',
-    lines: ['Failed to fetch profile information', error.message],
+    lines: [t('failed-fetch-profile-info'), error.message],
   })
 })
 
@@ -46,7 +51,7 @@ const profile = computed(() => {
 </style>
 
 <template>
-  <tooltip-button tooltip="Account menu" position="bottom left" round color="secondary">
+  <tooltip-button :tooltip="$t('account-menu')" position="bottom left" round color="secondary">
     <q-avatar>
       <q-circular-progress v-if="loading || !profile" indeterminate color="white" />
 
@@ -54,6 +59,8 @@ const profile = computed(() => {
     </q-avatar>
 
     <q-menu cover anchor="top left" class="account-menu">
+      <language-selector />
+
       <q-item class="list">
         <q-item-section>
           <q-item-label>{{ profile?.name }}</q-item-label>
@@ -73,7 +80,7 @@ const profile = computed(() => {
         <q-item-section avatar>
           <q-icon name="las la-sign-out-alt" />
         </q-item-section>
-        <q-item-section>Log out</q-item-section>
+        <q-item-section>{{ $t('log-out') }}</q-item-section>
       </q-item>
     </q-menu>
   </tooltip-button>

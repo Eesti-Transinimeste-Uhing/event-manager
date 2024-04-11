@@ -13,7 +13,7 @@ const emit = defineEmits<{
 <template>
   <text-field
     v-bind="$attrs"
-    label="Name"
+    :label="$t('name')"
     :model-value="props.modelValue || ''"
     @update:model-value="(v) => emit('update:model-value', String(v))"
   ></text-field>

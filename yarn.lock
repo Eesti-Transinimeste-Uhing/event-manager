@@ -1556,6 +1556,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fluent/bundle@npm:^0.18.0":
+  version: 0.18.0
+  resolution: "@fluent/bundle@npm:0.18.0"
+  checksum: 10c0/da01cec9c79d339ea973e2c4ca5d610d7e243b12298d3300a04ce44da10511e8b38ae2bbacc296433d9f458c59d5fe6097d138d8ea2aa205ee5b6b2583cfd277
+  languageName: node
+  linkType: hard
+
+"@fluent/sequence@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@fluent/sequence@npm:0.8.0"
+  peerDependencies:
+    "@fluent/bundle": ">= 0.13.0"
+  checksum: 10c0/1a640f34192aaee2c856b78d1e9ff1e1ab51863b67529dde20cfbac69737e9ab3c20c909160db5dfbe4e070eea227c0e48b2c6dbbaf906d78f3edb3fc676975c
+  languageName: node
+  linkType: hard
+
 "@freddy38510/dropcss@npm:2.5.0":
   version: 2.5.0
   resolution: "@freddy38510/dropcss@npm:2.5.0"
@@ -5773,6 +5789,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cached-iterable@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "cached-iterable@npm:0.3.0"
+  checksum: 10c0/908a6d1618ffa000305f12b41600d7ae6583c2949855910de9b7da2b4a4184d760820c459ec6ba946963596b3de86e534d31d7c27d94740b5a87d15bdd943610
+  languageName: node
+  linkType: hard
+
 "call-bind@npm:^1.0.5, call-bind@npm:^1.0.7":
   version: 1.0.7
   resolution: "call-bind@npm:1.0.7"
@@ -8187,6 +8210,7 @@ __metadata:
   resolution: "etue-web@workspace:apps/web"
   dependencies:
     "@apollo/client": "npm:^3.9.7"
+    "@fluent/bundle": "npm:^0.18.0"
     "@graphql-codegen/cli": "npm:^5.0.2"
     "@graphql-codegen/client-preset": "npm:^4.2.4"
     "@parcel/watcher": "npm:^2.4.1"
@@ -8227,11 +8251,13 @@ __metadata:
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-vue: "npm:^9.23.0"
+    fluent-vue: "npm:^3.5.2"
     graphql: "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch"
     graphql-scalars: "npm:^1.23.0"
     idb-keyval: "npm:^6.2.1"
     luxon: "npm:^3.4.4"
     pinia: "npm:^2.1.7"
+    pinia-plugin-persistedstate: "npm:^3.2.1"
     postcss: "npm:^8.4.35"
     prettier: "npm:^3.2.5"
     quasar: "npm:^2.15.1"
@@ -8907,6 +8933,24 @@ __metadata:
   version: 3.3.1
   resolution: "flatted@npm:3.3.1"
   checksum: 10c0/324166b125ee07d4ca9bcf3a5f98d915d5db4f39d711fba640a3178b959919aae1f7cfd8aabcfef5826ed8aa8a2aa14cc85b2d7d18ff638ddf4ae3df39573eaf
+  languageName: node
+  linkType: hard
+
+"fluent-vue@npm:^3.5.2":
+  version: 3.5.2
+  resolution: "fluent-vue@npm:3.5.2"
+  dependencies:
+    "@fluent/sequence": "npm:^0.8.0"
+    cached-iterable: "npm:^0.3.0"
+    vue-demi: "npm:latest"
+  peerDependencies:
+    "@fluent/bundle": ">=0.17.0"
+    "@vue/composition-api": ">=1.0.0-rc.1"
+    vue: ^2.6.11 || >=3.0.0
+  peerDependenciesMeta:
+    "@vue/composition-api":
+      optional: true
+  checksum: 10c0/e4e85ea3a9613a530518878f87a1b1a673ef39aebce0cbcaf0e1907e95ef131dfcce5f893f12f94194e6588a2bcb7b84d66e7ed1fb178cd7f2bb6189403bea4d
   languageName: node
   linkType: hard
 
@@ -12943,6 +12987,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pinia-plugin-persistedstate@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "pinia-plugin-persistedstate@npm:3.2.1"
+  peerDependencies:
+    pinia: ^2.0.0
+  checksum: 10c0/c01ff96176f71298a4ae42f7814f48c7b4860fe1cf90888e2500b856077e6b2f9272ecde1979324b4489ad5e4e80175d9e125425fa21439ae66871ab1837a5dd
+  languageName: node
+  linkType: hard
+
 "pinia@npm:^2.1.7":
   version: 2.1.7
   resolution: "pinia@npm:2.1.7"
@@ -16751,7 +16804,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-demi@npm:>=0.14.5, vue-demi@npm:^0.14.6":
+"vue-demi@npm:>=0.14.5, vue-demi@npm:^0.14.6, vue-demi@npm:latest":
   version: 0.14.7
   resolution: "vue-demi@npm:0.14.7"
   peerDependencies:

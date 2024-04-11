@@ -14,8 +14,8 @@ const message = computed(() =>
 <template>
   <q-card class="fixed-center card">
     <q-card-section>
-      <div class="text-h5">Error</div>
-      <div class="text-subtitle2">Could not authenticate with Discord</div>
+      <div class="text-h5">{{ $t('error') }}</div>
+      <div class="text-subtitle2">{{ $t('could-not-auth-discord') }}</div>
     </q-card-section>
 
     <q-no-ssr>
@@ -31,7 +31,7 @@ const message = computed(() =>
 
     <q-card-section horizontal class="q-ma-md">
       <q-icon name="las la-exclamation" size="md" color="red" />
-      An error occurred during the authentication flow. Please try again.
+      {{ $t('auth-flow-error') }}
     </q-card-section>
 
     <q-separator />

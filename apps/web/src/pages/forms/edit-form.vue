@@ -11,6 +11,7 @@ import { useNotificationsStore } from 'src/stores/notifications'
 import EmptyContent from 'src/components/empty-content.vue'
 import TooltipButton from 'src/components/tooltip-button.vue'
 import { formSubmit } from 'src/router/routes'
+import { useI18n } from 'src/hooks/use-i18n'
 
 const id = useRouteParam('id')
 
@@ -62,6 +63,8 @@ onResult((result) => {
 
 const notifications = useNotificationsStore()
 
+const { t } = useI18n()
+
 const handleSave = async () => {
   try {
     if (!result.value?.form) {
@@ -78,7 +81,7 @@ const handleSave = async () => {
     })
 
     notifications.enqueue({
-      lines: ['Saved!'],
+      lines: [t('saved')],
       type: 'success',
     })
 
@@ -86,7 +89,7 @@ const handleSave = async () => {
   } catch (error) {
     if (error instanceof Error) {
       notifications.enqueue({
-        lines: ['Cannot save', error.message],
+        lines: [t('cannot-save'), error.message],
         type: 'error',
       })
     }
@@ -110,7 +113,7 @@ const handlePreviewClick = () => {
     <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">
       <template v-slot:action>
         <tooltip-button
-          tooltip="View"
+          :tooltip="$t('view')"
           round
           flat
           color="secondary"
@@ -133,7 +136,7 @@ const handlePreviewClick = () => {
     <empty-content
       v-if="error"
       :content="error.message"
-      title="Network error"
+      :title="$t('network-error')"
       icon="las la-times"
       icon-colour="red"
     />
