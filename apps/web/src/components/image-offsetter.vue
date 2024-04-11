@@ -9,12 +9,13 @@ const props = withDefaults(
     modelValue: [number, number]
     aspectRatio?: number
     showGuides?: boolean
-    hintedRatios: AspectRatio[]
+    hintedRatios?: AspectRatio[]
     highlightRatio?: AspectRatio
     readonly?: boolean
   }>(),
   {
     aspectRatio: 1,
+    hintedRatios: () => [],
   }
 )
 
@@ -174,42 +175,6 @@ watch(dragOffset, scheduleDraw)
 </script>
 
 <style lang="scss" scoped>
-$gradient-dark: #141414;
-$gradient-light: $dark;
-
-$stripes: linear-gradient(
-  45deg,
-  $gradient-dark 25%,
-  $gradient-light 25%,
-  $gradient-light 50%,
-  $gradient-dark 50%,
-  $gradient-dark 75%,
-  $gradient-light 75%,
-  $gradient-light 100%
-);
-
-@keyframes bg-move {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 300px 0;
-  }
-}
-
-.bg-stripe {
-  background: $stripes;
-  background-size: 300px 300px;
-  background-repeat: repeat;
-
-  animation-name: bg-move;
-  animation-duration: 2s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-play-state: running;
-}
-
 .drag-root {
   max-height: 100%;
   max-width: 100%;
