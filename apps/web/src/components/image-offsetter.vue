@@ -170,6 +170,12 @@ const scheduleDraw = () => {
   rafRequest.value = requestAnimationFrame(drawCroppedImage)
 }
 
+const canvasRealSize = ref<[number, number]>([0, 0])
+
+const handleCanvasResize = (size: { width: number; height: number }) => {
+  canvasRealSize.value = [size.width, size.height]
+}
+
 watch(image, scheduleDraw)
 watch(dragOffset, scheduleDraw)
 </script>
@@ -218,7 +224,13 @@ watch(dragOffset, scheduleDraw)
 
 <template>
   <div class="drag-root relative-position">
-    <canvas ref="canvas" class="absolute-top-left fit"></canvas>
+    <canvas ref="canvas" class="absolute-top-left fit">
+      <q-resize-observer @resize="handleCanvasResize" />
+    </canvas>
+
+    <div class="absolute-top-left fit">
+      <slot name="default" :parent-size="canvasRealSize" />
+    </div>
 
     <div
       class="drag-target absolute-top-left fit"

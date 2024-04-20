@@ -96,7 +96,7 @@ export const registerMiddleware = async (server: FastifyInstance) => {
     key: Buffer.from(config.secureSession.key),
     cookie: {
       httpOnly: true,
-      secure: true,
+      secure: config.node.env !== 'development',
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // in seconds, 7 days
     },
