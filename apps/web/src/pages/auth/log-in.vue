@@ -3,6 +3,7 @@ import siteLogo from 'components/site-logo.vue'
 import { onMounted } from 'vue'
 
 import { apolloClient } from 'src/graphql/apollo/client'
+import { config } from 'src/config'
 
 onMounted(async () => {
   await apolloClient.resetStore()
@@ -35,7 +36,7 @@ onMounted(async () => {
           icon="lab la-discord"
           label="Log in"
           size="lg"
-          href="//localhost:3000/v1/auth/discord"
+          :href="config.backend.loginUrl"
         />
       </q-card-actions>
     </q-card-section>

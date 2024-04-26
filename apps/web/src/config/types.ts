@@ -5,5 +5,6 @@ export type Config = {
   backend: {
     graphqlUrl: string
     logoutUrl: string
+    loginUrl: string
   }
 }
