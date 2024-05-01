@@ -386,6 +386,7 @@ export type FormListQuery = {
         createdAt: any
         updatedAt: any
         name?: string | null
+        banner: any
         template: {
           __typename?: 'Template'
           id: string
@@ -880,6 +881,7 @@ export const FormListDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'template' },

@@ -143,7 +143,7 @@ module.exports = configure(function (/* ctx */) {
         dark: false,
       },
 
-      // iconSet: 'material-icons', // Quasar icon set
+      iconSet: 'line-awesome', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
 
       // For special cases outside of where the auto-import strategy can have an impact

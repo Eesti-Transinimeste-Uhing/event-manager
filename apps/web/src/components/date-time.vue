@@ -8,6 +8,7 @@ const { currentLanguage } = useI18n()
 const props = withDefaults(
   defineProps<{
     modelValue: Date | DateTime | string | number
+    absolute?: boolean
     position?:
       | 'top middle'
       | 'top left'
@@ -81,13 +82,13 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <span v-if="dt">
+  <span v-if="dt" class="items-center flex">
     <q-tooltip class="bg-black" :anchor="position" self="center middle">
       {{ dt.toLocaleString(DateTime.DATETIME_FULL) }}
     </q-tooltip>
 
-    {{ dt.toRelative({ base: now }) }}
+    {{ props.absolute ? dt.toLocaleString(DateTime.DATETIME_FULL) : dt.toRelative({ base: now }) }}
   </span>
 
-  <span v-else>Invalid date</span>
+  <span v-else class="items-center flex">Invalid date</span>
 </template>

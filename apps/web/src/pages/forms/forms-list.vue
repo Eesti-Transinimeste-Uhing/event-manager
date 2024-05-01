@@ -61,6 +61,7 @@ const {
             createdAt
             updatedAt
             name
+            banner
             template {
               id
               name
@@ -81,6 +82,15 @@ const {
 const { t } = useI18n()
 
 const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
+  {
+    name: 'thumbnail',
+    label: '',
+    align: 'center',
+    style: 'width: 50px;',
+    field(row) {
+      return row.node.banner
+    },
+  },
   {
     name: 'name',
     label: 'name',
@@ -322,6 +332,18 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
               <span class="text-weight-bolder">{{ $t(col.label) }}</span>
             </q-th>
           </q-tr>
+        </template>
+
+        <template #body-cell-thumbnail="props">
+          <q-td :props="props">
+            <q-avatar size="25px">
+              <q-tooltip class="q-pa-none" anchor="center left" self="center right">
+                <q-img :src="props.value" width="196px" height="108px" no-spinner />
+              </q-tooltip>
+
+              <q-img :src="props.value" height="25px" width="25px" no-spinner />
+            </q-avatar>
+          </q-td>
         </template>
 
         <template #body-cell-createdAt="props">

@@ -101,15 +101,15 @@ const handleHintUnhover = () => {
           <template #default="{ parentSize }">
             <overlay-member
               :parent-size="parentSize"
-              :left="0.2"
-              :top="0.3"
+              :left="0.19"
+              :top="0.47"
               :width="0.25"
               :height="0.2"
             >
               <template #default="{ height }">
                 <div
-                  class="fit outline-dashed text-dark font-spacemono"
-                  :style="{ fontSize: `${height / 1.5}px` }"
+                  class="fit text-dark font-spacemono"
+                  :style="{ fontSize: `${height / 1.8}px` }"
                 >
                   <span>00.00</span>
                 </div>
@@ -119,14 +119,14 @@ const handleHintUnhover = () => {
             <overlay-member
               :parent-size="parentSize"
               :left="0.2"
-              :top="0.5"
+              :top="0.61"
               :width="0.25"
               :height="0.2"
             >
               <template #default="{ height }">
                 <div
-                  class="fit outline-dashed text-dark font-spacemono"
-                  :style="{ fontSize: `${height / 1.5}px` }"
+                  class="fit text-dark font-spacemono text-accent"
+                  :style="{ fontSize: `${height / 1.9}px` }"
                 >
                   <span>00:00</span>
                 </div>

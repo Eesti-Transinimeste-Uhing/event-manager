@@ -10,6 +10,9 @@ import { useNotificationsStore } from 'src/stores/notifications'
 
 import EmptyContent from 'src/components/empty-content.vue'
 import TooltipButton from 'src/components/tooltip-button.vue'
+
+import DateTimeField from 'src/components/form/date-time-field.vue'
+
 import { formSubmit } from 'src/router/routes'
 import { useI18n } from 'src/hooks/use-i18n'
 
@@ -50,6 +53,11 @@ const { result, loading, error, refetch, onResult } = useQuery(
 )
 
 const name = ref('')
+const dateTime = ref(new Date())
+
+// const dateTimeLocalised = computed(() => {
+//   return dateTime.value.toLocaleString(DateTime.DATETIME_FULL)
+// })
 
 onResult((result) => {
   const form = result.data?.form
@@ -151,6 +159,8 @@ const handlePreviewClick = () => {
           <q-card flat bordered class="q-mb-md">
             <q-input borderless v-model="name" label="Name" class="q-px-md" />
           </q-card>
+
+          <date-time-field v-model="dateTime" />
         </q-form>
       </q-card-section>
     </q-card>

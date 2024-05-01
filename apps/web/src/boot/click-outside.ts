@@ -19,7 +19,7 @@ export default boot(({ app, ssrContext }) => {
   const createOnClickOutside =
     (element: HTMLElement, binding: DirectiveBinding) => (event: MouseEvent) => {
       if (!(element === event.target || element.contains(event.target as Node))) {
-        binding.value && binding.value(event, element)
+        typeof binding.value === 'function' && binding.value(event, element)
       }
     }
 
