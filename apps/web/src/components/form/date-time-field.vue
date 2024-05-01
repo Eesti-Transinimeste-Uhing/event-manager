@@ -3,9 +3,13 @@ import { DateTime as LuxonDateTime } from 'luxon'
 import { computed, ref } from 'vue'
 
 import DateTime from '../date-time.vue'
+import { useI18n } from 'src/hooks/use-i18n'
+
+const { currentLanguage } = useI18n()
 
 const props = defineProps<{
   modelValue: Date
+  label: string
 }>()
 
 const emit = defineEmits<{
@@ -16,8 +20,6 @@ const format = 'yyyy-MM-dd HH:mm'
 const mask = 'YYYY-MM-DD HH:mm'
 
 const handleChange = (value: string | null) => {
-  console.log(`handleChange(${JSON.stringify(value)})`)
-
   if (!value) return
 
   emit('update:model-value', LuxonDateTime.fromFormat(value, format).toJSDate())
@@ -26,7 +28,9 @@ const handleChange = (value: string | null) => {
 const expanded = ref(false)
 
 const formattedValue = computed(() => {
-  return LuxonDateTime.fromJSDate(props.modelValue).toFormat(format)
+  return LuxonDateTime.fromJSDate(props.modelValue)
+    .setLocale(currentLanguage.value)
+    .toFormat(format)
 })
 </script>
 
@@ -36,35 +40,53 @@ const formattedValue = computed(() => {
       @click="expanded = true"
       flat
       bordered
-      class="q-mb-md row"
+      class="q-mb-md row justify-between"
       v-morph:a:datetime:150.tween="expanded ? 'b' : 'a'"
     >
-      <q-btn
-        @click="expanded = true"
-        unelevated
-        square
-        color="primary"
-        icon="las la-chevron-down"
-      />
+      <div class="column">
+        <span class="text-caption text-grey q-px-md q-pt-sm">{{ props.label }}</span>
+        <date-time class="q-mx-md q-mb-sm" absolute :model-value="props.modelValue" />
+      </div>
 
-      <date-time class="q-ma-md" absolute :model-value="props.modelValue" />
+      <div class="q-pa-sm">
+        <q-btn
+          @click="expanded = true"
+          unelevated
+          round
+          color="primary"
+          icon="las la-chevron-down"
+        />
+      </div>
     </q-card>
 
     <q-card flat bordered class="q-mb-md row" v-morph:b:datetime:150.tween="expanded ? 'b' : 'a'">
-      <q-btn @click="expanded = false" unelevated square color="primary" icon="las la-chevron-up" />
       <q-date
+        landscape
         :model-value="formattedValue"
         :mask="mask"
         square
         @update:model-value="handleChange"
       />
       <q-time
+        landscape
         :model-value="formattedValue"
         :mask="mask"
         square
         format24h
         @update:model-value="handleChange"
       />
+      <q-space />
+      <div class="column justify-center">
+        <q-btn
+          @click="expanded = false"
+          unelevated
+          round
+          size="md"
+          color="primary"
+          icon="las la-chevron-up"
+          class="q-ma-md"
+        />
+      </div>
     </q-card>
   </div>
 </template>

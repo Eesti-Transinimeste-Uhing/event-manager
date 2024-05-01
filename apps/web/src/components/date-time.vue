@@ -84,7 +84,9 @@ onBeforeUnmount(() => {
 <template>
   <span v-if="dt" class="items-center flex">
     <q-tooltip class="bg-black" :anchor="position" self="center middle">
-      {{ dt.toLocaleString(DateTime.DATETIME_FULL) }}
+      {{
+        props.absolute ? dt.toRelative({ base: now }) : dt.toLocaleString(DateTime.DATETIME_FULL)
+      }}
     </q-tooltip>
 
     {{ props.absolute ? dt.toLocaleString(DateTime.DATETIME_FULL) : dt.toRelative({ base: now }) }}

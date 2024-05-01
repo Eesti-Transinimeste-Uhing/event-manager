@@ -1,12 +1,4 @@
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { DateTime } from 'luxon'
-
-import DateTimeField from 'src/components/form/date-time-field.vue'
-
-const format = 'yyyy-MM-DD HH:mm'
-const dt = ref(DateTime.now())
-</script>
+<script lang="ts" setup></script>
 
 <style lang="scss" scoped>
 .dev-card {
@@ -15,5 +7,7 @@ const dt = ref(DateTime.now())
 </style>
 
 <template>
-  <date-time-field v-model="dt" :format="format" />
+  <q-card flat>
+    <span>Prototyping</span>
+  </q-card>
 </template>

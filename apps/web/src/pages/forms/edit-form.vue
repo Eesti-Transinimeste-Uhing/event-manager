@@ -160,7 +160,7 @@ const handlePreviewClick = () => {
             <q-input borderless v-model="name" label="Name" class="q-px-md" />
           </q-card>
 
-          <date-time-field v-model="dateTime" />
+          <date-time-field v-model="dateTime" label="Asd" />
         </q-form>
       </q-card-section>
     </q-card>
