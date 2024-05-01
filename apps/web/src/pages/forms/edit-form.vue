@@ -157,10 +157,10 @@ const handlePreviewClick = () => {
 
         <q-form v-else-if="result" class="column" @submit.prevent="handleSave">
           <q-card flat bordered class="q-mb-md">
-            <q-input borderless v-model="name" label="Name" class="q-px-md" />
+            <q-input borderless v-model="name" :label="t('name')" class="q-px-md" />
           </q-card>
 
-          <date-time-field v-model="dateTime" label="Asd" />
+          <date-time-field v-model="dateTime" :label="t('event-date-time')" />
         </q-form>
       </q-card-section>
     </q-card>
