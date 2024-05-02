@@ -8,13 +8,15 @@ yes = Yes
 no = No
 are-you-coming-to-the-event = Are you coming to the event?
 email-address = E-mail address
-gender = Gender
+man = Man
+woman = Woman
 male = Male
 female = Female
 non-binary = Non-binary
 other = Other
 name = Name
 select-image = Select image
+gender = Gender
 registered-message = Input saved, see you soon!
 
 # Template editor
@@ -76,8 +78,6 @@ login-page-staff-only = This section of the event bot is for Eesti Transinimeste
                 links we posted to register for events.
 
 # Misc
-lorem-ipsum-1 = Lorem Ipsum is simply dummy text
-lorem-ipsum-2 = of the printing and typesetting industry
 collapse-staff-toolbar = Collapse staff toolbar
 expand-staff-toolbar = Expand staff toolbar
 site-label = ETÜ Event Planner

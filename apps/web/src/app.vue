@@ -31,6 +31,10 @@ const updateQuasarLanguage = async (newLang: SupportedLanguages) => {
     case 'et-EE':
       q.lang.set((await import('quasar/lang/et')).default)
       break
+
+    case 'ru-RU':
+      q.lang.set((await import('quasar/lang/ru')).default)
+      break
   }
 }
 

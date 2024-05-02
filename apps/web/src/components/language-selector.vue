@@ -13,5 +13,6 @@ const { changeLanguage, currentLanguage } = useI18n()
   >
     <q-tab name="et-EE">🇪🇪</q-tab>
     <q-tab name="en-GB">🇬🇧</q-tab>
+    <q-tab name="ru-RU">🇷🇺</q-tab>
   </q-tabs>
 </template>

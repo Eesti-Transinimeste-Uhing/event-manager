@@ -60,22 +60,24 @@ const formattedValue = computed(() => {
     </q-card>
 
     <q-card flat bordered class="q-mb-md row" v-morph:b:datetime:150.tween="expanded ? 'b' : 'a'">
-      <q-date
-        landscape
-        :model-value="formattedValue"
-        :mask="mask"
-        square
-        @update:model-value="handleChange"
-      />
-      <q-time
-        landscape
-        :model-value="formattedValue"
-        :mask="mask"
-        square
-        format24h
-        @update:model-value="handleChange"
-      />
-      <q-space />
+      <div class="col row">
+        <q-date
+          flat
+          :model-value="formattedValue"
+          :mask="mask"
+          square
+          @update:model-value="handleChange"
+        />
+        <q-time
+          flat
+          :model-value="formattedValue"
+          :mask="mask"
+          square
+          format24h
+          @update:model-value="handleChange"
+        />
+      </div>
+
       <div class="column justify-center">
         <q-btn
           @click="expanded = false"
