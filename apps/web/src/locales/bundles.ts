@@ -14,13 +14,12 @@ etEeBundle.addResource(new FluentResource(etEeMessages))
 export const ruRuBundle = new FluentBundle('ru-RU')
 ruRuBundle.addResource(new FluentResource(ruRuMessages))
 
-export const getI18nBundle = (lang: SupportedLanguages) => {
-  switch (lang) {
-    case 'en-GB':
-      return enGbBundle
-    case 'et-EE':
-      return etEeBundle
-    case 'ru-RU':
-      return ruRuBundle
-  }
+const map: Record<SupportedLanguages, FluentBundle> = {
+  'en-GB': enGbBundle,
+  'et-EE': etEeBundle,
+  'ru-RU': ruRuBundle,
+}
+
+export const getI18nBundles = (lang: SupportedLanguages): FluentBundle[] => {
+  return [map[lang], enGbBundle]
 }

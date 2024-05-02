@@ -1,6 +1,6 @@
 import { useFluent } from 'fluent-vue'
 
-import { getI18nBundle } from 'src/locales/bundles'
+import { getI18nBundles } from 'src/locales/bundles'
 import { SupportedLanguages, useI18nStore } from 'src/stores/i18n'
 import { toRefs } from 'vue'
 
@@ -14,7 +14,7 @@ export const useI18n = () => {
       store.set(newLanguage)
     }
 
-    bundles.value = [getI18nBundle(newLanguage)]
+    bundles.value = getI18nBundles(newLanguage)
   }
 
   return { t: $t, changeLanguage, currentLanguage }
