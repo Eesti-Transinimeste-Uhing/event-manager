@@ -54,6 +54,7 @@ const { result, loading, error, refetch, onResult } = useQuery(
 
 const name = ref('')
 const dateTime = ref(new Date())
+const location = ref('')
 
 // const dateTimeLocalised = computed(() => {
 //   return dateTime.value.toLocaleString(DateTime.DATETIME_FULL)
@@ -161,6 +162,10 @@ const handlePreviewClick = () => {
           </q-card>
 
           <date-time-field v-model="dateTime" :label="t('event-date-time')" />
+
+          <q-card flat bordered class="q-mb-md">
+            <q-input borderless v-model="location" :label="t('location')" class="q-px-md" />
+          </q-card>
         </q-form>
       </q-card-section>
     </q-card>

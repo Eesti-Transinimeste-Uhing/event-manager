@@ -2,7 +2,13 @@
 import { useI18n } from 'src/hooks/use-i18n'
 import { SupportedLanguages } from 'src/stores/i18n'
 
-const { changeLanguage, currentLanguage } = useI18n()
+const flagMap: Record<SupportedLanguages, string> = {
+  'et-EE': '🇪🇪',
+  'en-GB': '🇬🇧',
+  'ru-RU': '🇷🇺',
+}
+
+const { changeLanguage, currentLanguage, loading } = useI18n()
 </script>
 
 <template>
@@ -11,8 +17,12 @@ const { changeLanguage, currentLanguage } = useI18n()
     @update:model-value="(v: SupportedLanguages) => changeLanguage(v)"
     class="text-h6 text-secondary"
   >
-    <q-tab name="et-EE">🇪🇪</q-tab>
-    <q-tab name="en-GB">🇬🇧</q-tab>
-    <q-tab name="ru-RU">🇷🇺</q-tab>
+    <q-tab v-for="[lang, flag] of Object.entries(flagMap)" :key="lang" :name="lang">
+      {{ flag }}
+    </q-tab>
   </q-tabs>
+
+  <q-slide-transition>
+    <q-linear-progress v-if="loading" indeterminate color="secondary" />
+  </q-slide-transition>
 </template>
