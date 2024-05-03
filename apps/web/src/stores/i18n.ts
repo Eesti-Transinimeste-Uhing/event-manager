@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 
 export const SupportedLanguages = {
-  enGb: 'en-GB',
   etEe: 'et-EE',
+  enGb: 'en-GB',
   ruRu: 'ru-RU',
 } as const
 

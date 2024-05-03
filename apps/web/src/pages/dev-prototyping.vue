@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import ComponentTranslator from 'src/components/component-translator.vue'
+</script>
 
 <style lang="scss" scoped>
 .dev-card {
@@ -7,7 +9,9 @@
 </style>
 
 <template>
-  <q-card flat>
-    <span>Prototyping</span>
-  </q-card>
+  <component-translator>
+    <template #et-EE> ET </template>
+    <template #en-GB> EN </template>
+    <template #ru-RU> RU </template>
+  </component-translator>
 </template>
