@@ -12,7 +12,7 @@ please-wait = Palun oota
 welcome = Tere tulemast!
 created = Loodud
 updated = Uuendatud
-search-ellipsis = Otsi …
+search-ellipsis = Otsi…
 create-new = Loo uus
 event-location = Sündmuse asukoht
 forms = Vormid
@@ -51,3 +51,6 @@ error = Viga
 network-error = Võrgu viga
 form-not-found = Seda vormi pole
 cannot-create-template = Uut +++ ei saa luua
+http-not-found-description =
+    Siin järgitud link võis olla
+    teisaldatud, olete võib-olla URL-i valesti sisestanud või võib esineda katkestus
