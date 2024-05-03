@@ -26,7 +26,7 @@ reset = Alusta uuesti
 # Text editor
 undo = Võta tagasi
 redo = Tee uuesti
-please-enter-valid-email = Palun sisestage kehtiv e-posti aadress
+please-enter-valid-email = Palun sisesta kehtiv e-posti aadress
 age = Vanus
 are-you-coming-to-the-event = Kas tuled üritusele?
 male = Meessoost
@@ -38,19 +38,57 @@ image-ratio-explainer = Parimaks tulemuseks, valige pilt, mis on vähemalt
 image-overlays-explainer = Postitatud pildil katkendlik ääris ja valge
 # Form controls
 clear = Kustuta
-underline = Alljoon
+underline = Allajoon
 insert-variable = Lisa muutuja
 http-not-found = 404 - Puudub
 # Forms
 must-be-between = Peab olema vahemikus { $min } kuni { $max }
 web-registration-form = Veebi regiistreerimis vorm
 # Errors
-failed-fetch-profile-info = Profiili informatsioon puudulik
+failed-fetch-profile-info = Profiili informatsiooni ei leitud
 no-content = Sisu puudub
 error = Viga
 network-error = Võrgu viga
 form-not-found = Seda vormi pole
-cannot-create-template = Uut +++ ei saa luua
-http-not-found-description =
-    Siin järgitud link võis olla
-    teisaldatud, olete võib-olla URL-i valesti sisestanud või võib esineda katkestus
+cannot-create-template = Uut templatei ei saa luua
+http-not-found-description = Link mille avasite võib olla
+facebook-cover = Facebooki kaas
+bold = Bold
+italic = Italic
+form-field-kind-not-implemented = Vormivälja tüüp "{ $kind }" on puudulik.
+session-acquire-timeout = Sessioon aegus, palun proovige uuesti.
+auth-flow-error = Autentimisel toimus viga. Palun proovige uuesti.
+link-discord-to-log-in = Kasutage Discordi kasutajat sisselogimiseks
+search-templates-ellipsis = Otsi template…
+auth-no-roles = Te pole kas registreeritud või teil puudub luba seda lehekülge avada
+securing-session = Sessiooni kindlustamine…
+login-page-staff-only = See osa ürituse botist on Eesti Transinimeste
+# Misc
+collapse-staff-toolbar = Sulge personali tööriba
+couldnt-create = Ei saanud luua
+template = Template
+templates = Templateid
+submit-form = Esitage vorm
+sort = Sorteeri
+enlarge = Suurenda
+submissions = Esitatud
+dashboard = Töölaud
+event-date-time = Sündmuse kuupäev/kellaaeg
+description-slot = Kirjelduse sulud
+offsetter = Nihuta
+location = Asukoht
+unnamed-template = Nimetu template
+overlay = kiht
+next-page = Järgmine lehekülg
+previous-page = Eelmine lehekülg
+edit-form = Muuda vormi
+could-not-auth-discord = Discordiga ei saanud autentida
+registered-message = Olete registreeritud, näeme varsti!
+expand-staff-toolbar = Ava personali tööriba
+site-label = ETÜ Ürituse Planeerija
+cannot-save = Ei saanud salvestada
+# Template editor
+edit-template = Muuda templatei
+# Authentication
+account-menu = Konto menüü
+log-out = Logi välja
