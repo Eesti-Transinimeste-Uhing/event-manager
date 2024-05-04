@@ -9,10 +9,24 @@ export const Template = objectType({
   },
   definition(t) {
     t.id('id')
-    t.string('name')
+    t.string('name', {
+      args: {
+        where: 'WhereLangInput',
+      },
+      resolve(root, args) {
+        return root.name[args.where.lang]
+      },
+    })
     t.dateTime('createdAt')
     t.dateTime('updatedAt')
-    t.nullable.jsonObject('description')
+    t.jsonObject('description', {
+      args: {
+        where: 'WhereLangInput',
+      },
+      resolve(root, args) {
+        return root.description[args.where.lang]
+      },
+    })
     t.int('bannerOffset')
     t.url('banner', {
       resolve(root) {

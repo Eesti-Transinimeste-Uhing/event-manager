@@ -7,13 +7,15 @@ import {
   OneToMany,
   DeleteDateColumn,
 } from 'typeorm'
-import { Form } from './form'
+import { DateTime } from 'luxon'
 import { FormFieldKind } from '@etu/events-proto'
-import { JSONContent } from '@tiptap/core'
+
+import { Form } from './form'
 
 import urlJoin from '../lib/url-join'
 import { config } from '../config'
-import { DateTime } from 'luxon'
+import { I18NString } from '../lib/i18n-entity-string'
+import { I18NTiptapContent } from '../lib/i18n-entity-tiptap-content'
 
 @Entity({ name: 'template' })
 export class Template {
@@ -35,16 +37,11 @@ export class Template {
   })
   deletedAt: Date
 
-  @Column('varchar', {
-    length: 32,
-    default: '',
-  })
-  name: string
+  @Column(() => I18NString)
+  name: I18NString
 
-  @Column('jsonb', {
-    nullable: true,
-  })
-  description: JSONContent
+  @Column(() => I18NTiptapContent)
+  description: I18NTiptapContent
 
   @Column('int', { array: true })
   fields: FormFieldKind[]

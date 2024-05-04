@@ -93,6 +93,18 @@ export interface NexusGenInputs {
     // input type
     templateId: string // ID!
   }
+  I18nJSONInput: {
+    // input type
+    en_GB: NexusGenScalars['JSONObject'] // JSONObject!
+    et_EE: NexusGenScalars['JSONObject'] // JSONObject!
+    ru_RU: NexusGenScalars['JSONObject'] // JSONObject!
+  }
+  I18nStringInput: {
+    // input type
+    en_GB: string // String!
+    et_EE: string // String!
+    ru_RU: string // String!
+  }
   PaginationFilter: {
     // input type
     column: string // String!
@@ -136,9 +148,9 @@ export interface NexusGenInputs {
     // input type
     banner?: NexusGenScalars['Upload'] | null // Upload
     bannerOffset: number // Int!
-    description?: NexusGenScalars['JSONObject'] | null // JSONObject
+    description: NexusGenInputs['I18nJSONInput'] // I18nJSONInput!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
-    name: string // String!
+    name: NexusGenInputs['I18nStringInput'] // I18nStringInput!
   }
   UpdateTemplateWhereInput: {
     // input type
@@ -148,10 +160,15 @@ export interface NexusGenInputs {
     // input type
     id: string // ID!
   }
+  WhereLangInput: {
+    // input type
+    lang: NexusGenEnums['Lang'] // Lang!
+  }
 }
 
 export interface NexusGenEnums {
   FormFieldKind: 0 | 1 | 2 | 3 | 4
+  Lang: 'en_GB' | 'et_EE' | 'ru_RU'
   PaginationSortingOrder: 'ASC' | 'DESC'
   UserRole: 1 | 2 | 0 | 3
 }
@@ -196,6 +213,18 @@ export interface NexusGenObjects {
     // root type
     cursor: string // String!
     node: NexusGenRootTypes['FormSubmission'] // FormSubmission!
+  }
+  I18nJSON: {
+    // root type
+    en_GB: NexusGenScalars['JSONObject'] // JSONObject!
+    et_EE: NexusGenScalars['JSONObject'] // JSONObject!
+    ru_RU: NexusGenScalars['JSONObject'] // JSONObject!
+  }
+  I18nString: {
+    // root type
+    en_GB: string // String!
+    et_EE: string // String!
+    ru_RU: string // String!
   }
   Mutation: {}
   PageInfo: {
@@ -281,6 +310,18 @@ export interface NexusGenFieldTypes {
     cursor: string // String!
     node: NexusGenRootTypes['FormSubmission'] // FormSubmission!
   }
+  I18nJSON: {
+    // field return type
+    en_GB: NexusGenScalars['JSONObject'] // JSONObject!
+    et_EE: NexusGenScalars['JSONObject'] // JSONObject!
+    ru_RU: NexusGenScalars['JSONObject'] // JSONObject!
+  }
+  I18nString: {
+    // field return type
+    en_GB: string // String!
+    et_EE: string // String!
+    ru_RU: string // String!
+  }
   Mutation: {
     // field return type
     createForm: NexusGenRootTypes['Form'] // Form!
@@ -313,7 +354,7 @@ export interface NexusGenFieldTypes {
     banner: NexusGenScalars['URL'] // URL!
     bannerOffset: number // Int!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
-    description: NexusGenScalars['JSONObject'] | null // JSONObject
+    description: NexusGenScalars['JSONObject'] // JSONObject!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
     id: string // ID!
     name: string // String!
@@ -389,6 +430,18 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'FormSubmission'
   }
+  I18nJSON: {
+    // field return type name
+    en_GB: 'JSONObject'
+    et_EE: 'JSONObject'
+    ru_RU: 'JSONObject'
+  }
+  I18nString: {
+    // field return type name
+    en_GB: 'String'
+    et_EE: 'String'
+    ru_RU: 'String'
+  }
   Mutation: {
     // field return type name
     createForm: 'Form'
@@ -446,6 +499,16 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Form: {
+    description: {
+      // args
+      where: NexusGenInputs['WhereLangInput'] // WhereLangInput!
+    }
+    name: {
+      // args
+      where: NexusGenInputs['WhereLangInput'] // WhereLangInput!
+    }
+  }
   Mutation: {
     createForm: {
       // args
@@ -510,6 +573,16 @@ export interface NexusGenArgTypes {
       first?: number | null // Int
       last?: number | null // Int
       sort?: NexusGenInputs['PaginationSorting'][] | null // [PaginationSorting!]
+    }
+  }
+  Template: {
+    description: {
+      // args
+      where: NexusGenInputs['WhereLangInput'] // WhereLangInput!
+    }
+    name: {
+      // args
+      where: NexusGenInputs['WhereLangInput'] // WhereLangInput!
     }
   }
 }

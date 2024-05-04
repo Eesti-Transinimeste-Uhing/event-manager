@@ -9,7 +9,14 @@ export const Form = objectType({
   },
   definition(t) {
     t.id('id')
-    t.nullable.string('name')
+    t.nullable.string('name', {
+      args: {
+        where: 'WhereLangInput',
+      },
+      resolve(root, args) {
+        return root.name[args.where.lang]
+      },
+    })
     t.dateTime('createdAt')
     t.dateTime('updatedAt')
     t.url('banner', {
@@ -18,9 +25,13 @@ export const Form = objectType({
       },
     })
     t.jsonObject('description', {
-      deprecation: 'This field is only planned, it responds with JSON instead of HTML/Text',
-      async resolve(root) {
-        return (await root.template).description
+      args: {
+        where: 'WhereLangInput',
+      },
+      async resolve(root, args) {
+        const template = await root.template
+
+        return template.description[args.where.lang]
       },
     })
     t.field('template', {

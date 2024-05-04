@@ -14,8 +14,12 @@ const UpdateTemplateDataInput = inputObjectType({
   definition(t) {
     t.nullable.upload('banner')
     t.int('bannerOffset')
-    t.string('name')
-    t.nullable.jsonObject('description')
+    t.field('name', {
+      type: 'I18nStringInput',
+    })
+    t.field('description', {
+      type: 'I18nJSONInput',
+    })
     t.list.field('fields', {
       type: 'FormFieldKind',
     })
@@ -31,6 +35,7 @@ export const UpdateTemplate = mutationField((t) => {
     },
     async resolve(root, args, context) {
       const { banner, ...data } = args.data
+
       const result = await templateController.update(args.where.id, data)
 
       if (banner) {

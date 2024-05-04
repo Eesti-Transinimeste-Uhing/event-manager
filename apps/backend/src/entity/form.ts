@@ -13,6 +13,7 @@ import { FormSubmission } from './form-submission'
 import urlJoin from '../lib/url-join'
 import { config } from '../config'
 import { DateTime } from 'luxon'
+import { I18NString } from '../lib/i18n-entity-string'
 
 @Entity({ name: 'form' })
 export class Form {
@@ -34,10 +35,8 @@ export class Form {
   })
   deletedAt: Date
 
-  @Column('varchar', {
-    nullable: true,
-  })
-  name: string
+  @Column(() => I18NString)
+  name: I18NString
 
   get bannerUrl() {
     return urlJoin(
