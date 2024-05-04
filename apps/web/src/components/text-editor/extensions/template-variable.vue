@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { NodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { computed } from 'vue'
-import { TemplateVariableId } from './template-variable'
+import { TemplateVariableId } from '@etu/tiptap'
 
 const props = defineProps<NodeViewProps>()
 

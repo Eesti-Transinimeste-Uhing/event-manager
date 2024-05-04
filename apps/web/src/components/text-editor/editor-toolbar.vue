@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { TemplateVariableId } from '@etu/tiptap'
 import TooltipButton from 'components/tooltip-button.vue'
 import ButtonSelect from '../button-select.vue'
-import { TemplateVariableId } from './extensions/template-variable'
 import { computed } from 'vue'
 
 const props = defineProps<{

@@ -1,0 +1,5 @@
+project:
+  name: 'tiptap'
+  description: 'Headless tiptap package for BE and FE'
+
+tasks:
