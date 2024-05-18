@@ -1,18 +1,15 @@
 <script setup lang="ts">
+import 'vite/types/importMeta.d' // Not needed when not using TypeScript
+
 import { onMounted, watch } from 'vue'
-import NotificationManager from './components/notification-manager.vue'
+import { QuasarLanguage, useQuasar } from 'quasar'
+
 import { useI18nStore } from './stores/i18n'
 import { useI18n } from './hooks/use-i18n'
 
-import 'vite/types/importMeta.d' // Not needed when not using TypeScript
-import { QuasarLanguage, useQuasar } from 'quasar'
 import { SupportedLanguages } from './graphql/generated/graphql'
 
-if (import.meta.hot) {
-  import.meta.hot.on('vite:beforeFullReload', () => {
-    throw '(skipping full reload)'
-  })
-}
+import NotificationManager from './components/notification-manager.vue'
 
 defineOptions({
   name: 'App',
