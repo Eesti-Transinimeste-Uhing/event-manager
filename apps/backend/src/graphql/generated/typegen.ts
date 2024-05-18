@@ -135,13 +135,13 @@ export interface NexusGenInputs {
   }
   PaginationFilter: {
     // input type
-    column: string // String!
-    filter: string // String!
+    columns: string[] // [String!]!
+    query: string // String!
   }
   PaginationSorting: {
     // input type
+    columns: string[] // [String!]!
     order: NexusGenEnums['PaginationSortingOrder'] // PaginationSortingOrder!
-    sort: string // String!
   }
   RemoveFormInput: {
     // input type
@@ -549,19 +549,19 @@ export interface NexusGenArgTypes {
       // args
       after?: string | null // String
       before?: string | null // String
-      filter?: NexusGenInputs['PaginationFilter'][] | null // [PaginationFilter!]
+      filter?: NexusGenInputs['PaginationFilter'] | null // PaginationFilter
       first?: number | null // Int
       last?: number | null // Int
-      sort?: NexusGenInputs['PaginationSorting'][] | null // [PaginationSorting!]
+      sort?: NexusGenInputs['PaginationSorting'] | null // PaginationSorting
     }
     forms: {
       // args
       after?: string | null // String
       before?: string | null // String
-      filter?: NexusGenInputs['PaginationFilter'][] | null // [PaginationFilter!]
+      filter?: NexusGenInputs['PaginationFilter'] | null // PaginationFilter
       first?: number | null // Int
       last?: number | null // Int
-      sort?: NexusGenInputs['PaginationSorting'][] | null // [PaginationSorting!]
+      sort?: NexusGenInputs['PaginationSorting'] | null // PaginationSorting
     }
     template: {
       // args
@@ -571,10 +571,10 @@ export interface NexusGenArgTypes {
       // args
       after?: string | null // String
       before?: string | null // String
-      filter?: NexusGenInputs['PaginationFilter'][] | null // [PaginationFilter!]
+      filter?: NexusGenInputs['PaginationFilter'] | null // PaginationFilter
       first?: number | null // Int
       last?: number | null // Int
-      sort?: NexusGenInputs['PaginationSorting'][] | null // [PaginationSorting!]
+      sort?: NexusGenInputs['PaginationSorting'] | null // PaginationSorting
     }
   }
   Template: {

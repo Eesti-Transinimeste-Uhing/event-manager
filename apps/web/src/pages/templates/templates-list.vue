@@ -63,22 +63,14 @@ const computedVariables = computed<TemplateListQueryVariables>(() => {
   return {
     first: variables.value.before ? undefined : itemsPerRow.value * rowCount.value,
     last: variables.value.before ? itemsPerRow.value * rowCount.value : undefined,
-    filter: [
-      {
-        column: 'name',
-        filter: filterText.value,
-      },
-      {
-        column: 'description',
-        filter: filterText.value,
-      },
-    ],
-    sort: [
-      {
-        order: sortDir.value,
-        sort: 'updatedAt',
-      },
-    ],
+    filter: {
+      columns: ['name'],
+      query: filterText.value,
+    },
+    sort: {
+      order: sortDir.value,
+      columns: ['updatedAt'],
+    },
     lang: currentLanguage.value,
     ...variables.value,
   }
@@ -91,8 +83,8 @@ const { error, refetch, result, loading } = useQuery(
       $last: Int
       $after: String
       $before: String
-      $filter: [PaginationFilter!]
-      $sort: [PaginationSorting!]
+      $filter: PaginationFilter!
+      $sort: PaginationSorting!
       $lang: SupportedLanguages!
     ) {
       templates(

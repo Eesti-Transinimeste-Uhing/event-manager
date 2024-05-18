@@ -31,8 +31,8 @@ const {
       $last: Int
       $after: String
       $before: String
-      $filter: [PaginationFilter!]
-      $sort: [PaginationSorting!]
+      $filter: PaginationFilter!
+      $sort: PaginationSorting!
       $lang: SupportedLanguages!
     ) {
       formSubmissions(

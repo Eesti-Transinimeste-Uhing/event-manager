@@ -29,12 +29,11 @@ export const schema = makeSchema({
     output: true,
   },
   plugins: [
-    connectionPlugin(),
     declarativeWrappingPlugin(),
     connectionPlugin({
       additionalArgs: {
-        sort: Types.PaginationSorting.asArg({ list: true, required: false }),
-        filter: Types.PaginationFilter.asArg({ list: true, required: false }),
+        sort: Types.PaginationSorting.asArg({ required: false }),
+        filter: Types.PaginationFilter.asArg({ required: false }),
       },
     }),
   ],

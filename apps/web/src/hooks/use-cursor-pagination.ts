@@ -32,8 +32,8 @@ type QueryVariables = {
   last?: InputMaybe<number>
   after?: InputMaybe<string>
   before?: InputMaybe<string>
-  filter?: InputMaybe<PaginationFilter[]>
-  sort?: InputMaybe<PaginationSorting[]>
+  filter?: InputMaybe<PaginationFilter>
+  sort?: InputMaybe<PaginationSorting>
 }
 
 type Options<ExtraVariables> = {
@@ -63,19 +63,15 @@ export const useCursorPagination = <
   const filterColumns = ref<string[]>(options.defaultFilterColumns)
   const filterText = ref('')
 
-  const sort = computed<PaginationSorting[]>(() =>
-    sortColumns.value.map((sortColumn) => ({
-      order: sortDir.value,
-      sort: sortColumn,
-    }))
-  )
+  const sort = computed<PaginationSorting>(() => ({
+    order: sortDir.value,
+    columns: sortColumns.value,
+  }))
 
-  const filter = computed<PaginationFilter[]>(() =>
-    filterColumns.value.map((filterColumn) => ({
-      column: filterColumn,
-      filter: filterText.value,
-    }))
-  )
+  const filter = computed<PaginationFilter>(() => ({
+    columns: filterColumns.value,
+    query: filterText.value,
+  }))
 
   const variables = computed<QueryVariables & ExtraVariables>(() => {
     return {

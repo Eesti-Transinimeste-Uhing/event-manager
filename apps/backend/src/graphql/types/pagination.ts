@@ -43,7 +43,7 @@ export const PaginationSortingOrder = enumType({
 export const PaginationSorting = inputObjectType({
   name: 'PaginationSorting',
   definition(t) {
-    t.string('sort')
+    t.list.string('columns')
     t.field('order', {
       type: PaginationSortingOrder,
     })
@@ -53,7 +53,7 @@ export const PaginationSorting = inputObjectType({
 export const PaginationFilter = inputObjectType({
   name: 'PaginationFilter',
   definition(t) {
-    t.string('column')
-    t.string('filter')
+    t.list.string('columns')
+    t.string('query')
   },
 })

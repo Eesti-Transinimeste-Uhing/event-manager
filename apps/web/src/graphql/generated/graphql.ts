@@ -190,13 +190,13 @@ export type PageInfo = {
 }
 
 export type PaginationFilter = {
-  column: Scalars['String']['input']
-  filter: Scalars['String']['input']
+  columns: Array<Scalars['String']['input']>
+  query: Scalars['String']['input']
 }
 
 export type PaginationSorting = {
+  columns: Array<Scalars['String']['input']>
   order: PaginationSortingOrder
-  sort: Scalars['String']['input']
 }
 
 export enum PaginationSortingOrder {
@@ -221,19 +221,19 @@ export type QueryFormArgs = {
 export type QueryFormSubmissionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
-  filter?: InputMaybe<Array<PaginationFilter>>
+  filter?: InputMaybe<PaginationFilter>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
-  sort?: InputMaybe<Array<PaginationSorting>>
+  sort?: InputMaybe<PaginationSorting>
 }
 
 export type QueryFormsArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
-  filter?: InputMaybe<Array<PaginationFilter>>
+  filter?: InputMaybe<PaginationFilter>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
-  sort?: InputMaybe<Array<PaginationSorting>>
+  sort?: InputMaybe<PaginationSorting>
 }
 
 export type QueryTemplateArgs = {
@@ -243,10 +243,10 @@ export type QueryTemplateArgs = {
 export type QueryTemplatesArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
-  filter?: InputMaybe<Array<PaginationFilter>>
+  filter?: InputMaybe<PaginationFilter>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
-  sort?: InputMaybe<Array<PaginationSorting>>
+  sort?: InputMaybe<PaginationSorting>
 }
 
 export type RemoveFormInput = {
@@ -411,8 +411,8 @@ export type FormListQueryVariables = Exact<{
   last?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
-  filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
-  sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
+  filter: PaginationFilter
+  sort: PaginationSorting
   lang: SupportedLanguages
 }>
 
@@ -459,12 +459,12 @@ export type CreateFormMutation = {
 }
 
 export type SearchTemplatesQueryVariables = Exact<{
-  filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
+  filter: PaginationFilter
   first?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
-  sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
+  sort: PaginationSorting
   lang: SupportedLanguages
 }>
 
@@ -520,8 +520,8 @@ export type FormSubmissionListQueryVariables = Exact<{
   last?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
-  filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
-  sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
+  filter: PaginationFilter
+  sort: PaginationSorting
   lang: SupportedLanguages
 }>
 
@@ -588,8 +588,8 @@ export type TemplateListQueryVariables = Exact<{
   last?: InputMaybe<Scalars['Int']['input']>
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
-  filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
-  sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
+  filter: PaginationFilter
+  sort: PaginationSorting
   lang: SupportedLanguages
 }>
 
@@ -879,22 +879,16 @@ export const FormListDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
           type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
-            },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
           },
         },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
           type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
-            },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
           },
         },
         {
@@ -1101,11 +1095,8 @@ export const SearchTemplatesDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
           type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
-            },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
           },
         },
         {
@@ -1132,11 +1123,8 @@ export const SearchTemplatesDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
           type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
-            },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
           },
         },
         {
@@ -1445,22 +1433,16 @@ export const FormSubmissionListDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
           type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
-            },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
           },
         },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
           type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
-            },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
           },
         },
         {
@@ -1782,22 +1764,16 @@ export const TemplateListDocument = {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
           type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
-            },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
           },
         },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
           type: {
-            kind: 'ListType',
-            type: {
-              kind: 'NonNullType',
-              type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
-            },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
           },
         },
         {

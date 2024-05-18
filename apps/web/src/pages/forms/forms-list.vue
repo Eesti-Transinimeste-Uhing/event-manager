@@ -43,8 +43,8 @@ const {
       $last: Int
       $after: String
       $before: String
-      $filter: [PaginationFilter!]
-      $sort: [PaginationSorting!]
+      $filter: PaginationFilter!
+      $sort: PaginationSorting!
       $lang: SupportedLanguages!
     ) {
       forms(
@@ -185,12 +185,12 @@ const {
   'templates',
   graphql(`
     query SearchTemplates(
-      $filter: [PaginationFilter!]
+      $filter: PaginationFilter!
       $first: Int
       $after: String
       $before: String
       $last: Int
-      $sort: [PaginationSorting!]
+      $sort: PaginationSorting!
       $lang: SupportedLanguages!
     ) {
       templates(

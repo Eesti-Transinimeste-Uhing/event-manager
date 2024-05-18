@@ -1,68 +1,98 @@
 import { ObjectLiteral, SelectQueryBuilder } from 'typeorm'
-import { EntityConnection } from 'typeorm-cursor-connection'
-import { ConnectionArguments, Connection } from 'graphql-relay'
+import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
+import { EntityConnection, EntityConnectionSortOption } from 'typeorm-cursor-connection'
+import { Connection } from 'graphql-relay'
 
 import { NexusGenInputs } from '../graphql/generated/typegen'
-import { addColumnFilter } from './entity-search'
-import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata'
+import { PaginationArgs } from 'nexus/dist/plugins/connectionPlugin'
 
-export const paginate = <Entity extends ObjectLiteral>(
-  args: ConnectionArguments & {
-    sort?: Array<NexusGenInputs['PaginationSorting']>
-    filter?: Array<NexusGenInputs['PaginationFilter']>
-  },
-  qb: SelectQueryBuilder<Entity>
-): Connection<Entity> => {
-  const { sort = [], after, before, first, last, filter = [] } = args
-  const columns = qb.connection.getMetadata(qb.alias).columns
+const mapI18nColumns = (input: string[], columns: ColumnMetadata[]) => {
+  const result: string[] = []
 
-  sort.forEach((item, index) => {
+  input.forEach((item, index) => {
     // If the column is a plain column in the db, do nothing
-    if (typeof columns[0].entityMetadata.propertiesMap[item.sort] === 'string') {
+    if (typeof columns[0].entityMetadata.propertiesMap[item] === 'string') {
+      result.push(item)
       return
     }
 
     // If the column is an embedded i18n object, rewrite the sort to search
     // all languages
-    if ('en_GB' in columns[0].entityMetadata.propertiesMap[item.sort]) {
-      const i18nSorts: Array<NexusGenInputs['PaginationSorting']> = Object.values(
-        columns[0].entityMetadata.propertiesMap[item.sort]
-      )
+    if (
+      columns[0].entityMetadata.propertiesMap[item] &&
+      'en_GB' in columns[0].entityMetadata.propertiesMap[item]
+    ) {
+      const expandedItems = Object.values(columns[0].entityMetadata.propertiesMap[item])
         .map((value) => {
           const column = columns.find((col) => col.propertyPath === value)
 
-          if (!column) {
-            return null
-          }
+          if (!column) return null
 
-          return {
-            ...sort[index],
-            sort: column.databaseName,
-          }
+          return column.databaseName
         })
-        .filter(Boolean) as Array<NexusGenInputs['PaginationSorting']>
+        .filter(Boolean) as string[]
 
-      sort.splice(index, 1, ...i18nSorts)
+      result.push(...expandedItems)
+      return
     }
+
+    result.push(item)
   })
 
-  if (filter) {
-    filter
-      .filter((item) => item.column && item.filter)
-      .forEach((item) => {
-        addColumnFilter(qb, item.column, item.filter, 'DESC')
-      })
+  return result
+}
+
+export type PaginateAndSortArgs = PaginationArgs & {
+  sort: {
+    order: 'ASC' | 'DESC'
+    columns: string[]
   }
+  filter: {
+    query: string
+    columns: string[]
+  }
+}
+
+export const paginate = <Entity extends ObjectLiteral>(
+  args: PaginateAndSortArgs,
+  qb: SelectQueryBuilder<Entity>
+): Connection<Entity> => {
+  const { sort, after, before, first, last, filter } = args
+  const columns = qb.connection.getMetadata(qb.alias).columns
+
+  const sortableColumns = mapI18nColumns(sort.columns, columns)
+
+  const realSort: EntityConnectionSortOption[] = sortableColumns.map((columnName) => ({
+    order: sort[0] ? sort[0].order : 'DESC',
+    sort: columnName,
+  }))
+
+  const filterableColumns = mapI18nColumns(filter.columns, columns)
+
+  const realFilter: Array<NexusGenInputs['PaginationFilter']> = filterableColumns.map(
+    (columnName) => ({
+      column: columnName,
+      filter: filter[0] ? filter[0].filter : '',
+    })
+  )
+
+  realFilter.forEach((item) => {
+    const escapedColumn = qb.escape(item.column)
+
+    return qb.orWhere(`"${qb.alias}".${escapedColumn} ILIKE '%' || :query || '%'`, {
+      query: item.filter,
+    })
+  })
 
   // Sorting preference goes from the beginning of the array, push 'id' to the
   // end, so that when users aren't sorting, we still have a way to get the
   // cursor. The library generates the cursor based on the sort array.
-  sort.push({
+  realSort.push({
     order: 'ASC',
     sort: 'id',
   })
 
-  const paginator = new EntityConnection<Entity>({ first, last, after, before }, sort, qb)
+  const paginator = new EntityConnection<Entity>({ first, last, after, before }, realSort, qb)
 
   return {
     pageInfo: {

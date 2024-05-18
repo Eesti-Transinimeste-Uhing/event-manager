@@ -2,9 +2,9 @@ import { AppDataSource } from '../data-source'
 import { TemplateRepository } from '../repository/template'
 import { Template } from '../entity/template'
 import { DeepPartial } from 'typeorm'
-import { PaginationArgs } from 'nexus/dist/plugins/connectionPlugin'
 import { templateBanners } from '../storage'
 import { EntityFetchingError, EntityNotFoundError } from '../lib/errors'
+import { PaginateAndSortArgs } from '../lib/pagination'
 
 export class TemplateController {
   private manager = AppDataSource.createEntityManager()
@@ -23,7 +23,7 @@ export class TemplateController {
     return await this.templates.findOneBy({ id })
   }
 
-  public async paginate(args: PaginationArgs) {
+  public async paginate(args: PaginateAndSortArgs) {
     return await this.templates.paginate(args)
   }
 
