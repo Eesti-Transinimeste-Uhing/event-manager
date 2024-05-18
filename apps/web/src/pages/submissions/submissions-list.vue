@@ -33,6 +33,7 @@ const {
       $before: String
       $filter: [PaginationFilter!]
       $sort: [PaginationSorting!]
+      $lang: SupportedLanguages!
     ) {
       formSubmissions(
         first: $first
@@ -55,10 +56,10 @@ const {
             createdAt
             form {
               id
-              name
+              name(where: { language: $lang })
               template {
                 id
-                name
+                name(where: { language: $lang })
               }
             }
             data {

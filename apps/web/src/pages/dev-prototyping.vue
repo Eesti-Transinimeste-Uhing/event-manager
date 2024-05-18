@@ -1,5 +1,13 @@
 <script lang="ts" setup>
-import ComponentTranslator from 'src/components/component-translator.vue'
+import { ref } from 'vue'
+import I18nInput from '../components/i18n/i18n-input.vue'
+import { SupportedLanguages } from 'src/graphql/generated/graphql'
+
+const value = ref<Record<SupportedLanguages, string>>({
+  en_GB: '',
+  et_EE: '',
+  ru_RU: '',
+})
 </script>
 
 <style lang="scss" scoped>
@@ -9,9 +17,5 @@ import ComponentTranslator from 'src/components/component-translator.vue'
 </style>
 
 <template>
-  <component-translator>
-    <template #et-EE> ET </template>
-    <template #en-GB> EN </template>
-    <template #ru-RU> RU </template>
-  </component-translator>
+  <i18n-input v-model="value" />
 </template>

@@ -20,6 +20,13 @@ export type Scalars = {
   Float: { input: number; output: number }
   /** A DateTime value consumable with Luxon */
   DateTime: { input: any; output: any }
+  /** An object that contains strings for all supported languages */
+  I18nJSON: { input: any; output: any }
+  /** An object that contains strings for all supported languages */
+  I18nString: {
+    input: Record<SupportedLanguages, string>
+    output: Record<SupportedLanguages, string>
+  }
   /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSONObject: { input: any; output: any }
   /** A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt. */
@@ -46,12 +53,21 @@ export type Form = {
   __typename?: 'Form'
   banner: Scalars['URL']['output']
   createdAt: Scalars['DateTime']['output']
-  /** @deprecated This field is only planned, it responds with JSON instead of HTML/Text */
   description: Scalars['JSONObject']['output']
+  description_i18n: Scalars['I18nJSON']['output']
   id: Scalars['ID']['output']
   name?: Maybe<Scalars['String']['output']>
+  name_i18n: Scalars['I18nString']['output']
   template: Template
   updatedAt: Scalars['DateTime']['output']
+}
+
+export type FormDescriptionArgs = {
+  where: WhereLangInput
+}
+
+export type FormNameArgs = {
+  where: WhereLangInput
 }
 
 export type FormConnection = {
@@ -106,6 +122,18 @@ export type FormSubmissionEdge = {
   cursor: Scalars['String']['output']
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
   node: FormSubmission
+}
+
+export type I18nJsonInput = {
+  en_GB?: InputMaybe<Scalars['JSONObject']['input']>
+  et_EE?: InputMaybe<Scalars['JSONObject']['input']>
+  ru_RU?: InputMaybe<Scalars['JSONObject']['input']>
+}
+
+export type I18nStringInput = {
+  en_GB: Scalars['String']['input']
+  et_EE: Scalars['String']['input']
+  ru_RU: Scalars['String']['input']
 }
 
 export type Mutation = {
@@ -242,16 +270,32 @@ export type SubmitFormWhereInput = {
   id: Scalars['ID']['input']
 }
 
+export enum SupportedLanguages {
+  EnGb = 'en_GB',
+  EtEe = 'et_EE',
+  RuRu = 'ru_RU',
+}
+
 export type Template = {
   __typename?: 'Template'
   banner: Scalars['URL']['output']
   bannerOffset: Scalars['Int']['output']
   createdAt: Scalars['DateTime']['output']
   description?: Maybe<Scalars['JSONObject']['output']>
+  description_i18n: Scalars['I18nJSON']['output']
   fields: Array<FormFieldKind>
   id: Scalars['ID']['output']
   name: Scalars['String']['output']
+  name_i18n: Scalars['I18nString']['output']
   updatedAt: Scalars['DateTime']['output']
+}
+
+export type TemplateDescriptionArgs = {
+  where: WhereLangInput
+}
+
+export type TemplateNameArgs = {
+  where: WhereLangInput
 }
 
 export type TemplateConnection = {
@@ -281,9 +325,9 @@ export type UpdateFormWhereInput = {
 export type UpdateTemplateDataInput = {
   banner?: InputMaybe<Scalars['Upload']['input']>
   bannerOffset: Scalars['Int']['input']
-  description?: InputMaybe<Scalars['JSONObject']['input']>
+  description: I18nJsonInput
   fields: Array<FormFieldKind>
-  name: Scalars['String']['input']
+  name: I18nStringInput
 }
 
 export type UpdateTemplateWhereInput = {
@@ -306,6 +350,10 @@ export enum UserRole {
 
 export type WhereIdInput = {
   id: Scalars['ID']['input']
+}
+
+export type WhereLangInput = {
+  language: SupportedLanguages
 }
 
 export type AccountMenuViewerQueryVariables = Exact<{ [key: string]: never }>
@@ -345,6 +393,7 @@ export type UpdateFormMutation = {
 
 export type EditFormQueryVariables = Exact<{
   where: WhereIdInput
+  lang: SupportedLanguages
 }>
 
 export type EditFormQuery = {
@@ -364,6 +413,7 @@ export type FormListQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>
   filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
   sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
+  lang: SupportedLanguages
 }>
 
 export type FormListQuery = {
@@ -415,6 +465,7 @@ export type SearchTemplatesQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
+  lang: SupportedLanguages
 }>
 
 export type SearchTemplatesQuery = {
@@ -438,6 +489,7 @@ export type SearchTemplatesQuery = {
 
 export type FormSubmitQueryVariables = Exact<{
   where: WhereIdInput
+  lang: SupportedLanguages
 }>
 
 export type FormSubmitQuery = {
@@ -470,6 +522,7 @@ export type FormSubmissionListQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>
   filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
   sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
+  lang: SupportedLanguages
 }>
 
 export type FormSubmissionListQuery = {
@@ -512,11 +565,11 @@ export type EditTemplateQuery = {
     __typename?: 'Template'
     id: string
     updatedAt: any
-    name: string
     banner: any
-    description?: any | null
     fields: Array<FormFieldKind>
     bannerOffset: number
+    name: Record<SupportedLanguages, string>
+    description: any
   } | null
 }
 
@@ -537,6 +590,7 @@ export type TemplateListQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>
   filter?: InputMaybe<Array<PaginationFilter> | PaginationFilter>
   sort?: InputMaybe<Array<PaginationSorting> | PaginationSorting>
+  lang: SupportedLanguages
 }>
 
 export type TemplateListQuery = {
@@ -563,6 +617,13 @@ export type CreateTemplateMutationVariables = Exact<{ [key: string]: never }>
 export type CreateTemplateMutation = {
   __typename?: 'Mutation'
   createTemplate: { __typename?: 'Template'; id: string }
+}
+
+export type AuthRouteGuardQueryVariables = Exact<{ [key: string]: never }>
+
+export type AuthRouteGuardQuery = {
+  __typename?: 'Query'
+  viewer?: { __typename?: 'User'; id: string } | null
 }
 
 export const AccountMenuViewerDocument = {
@@ -724,6 +785,14 @@ export const EditFormDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'WhereIdInput' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'SupportedLanguages' } },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -742,7 +811,26 @@ export const EditFormDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'name' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'where' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'language' },
+                            value: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'template' },
@@ -807,6 +895,14 @@ export const FormListDocument = {
               kind: 'NonNullType',
               type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
             },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'SupportedLanguages' } },
           },
         },
       ],
@@ -880,7 +976,29 @@ export const FormListDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'where' },
+                                  value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'language' },
+                                        value: {
+                                          kind: 'Variable',
+                                          name: { kind: 'Name', value: 'lang' },
+                                        },
+                                      },
+                                    ],
+                                  },
+                                },
+                              ],
+                            },
                             { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                             {
                               kind: 'Field',
@@ -889,7 +1007,29 @@ export const FormListDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                    arguments: [
+                                      {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'where' },
+                                        value: {
+                                          kind: 'ObjectValue',
+                                          fields: [
+                                            {
+                                              kind: 'ObjectField',
+                                              name: { kind: 'Name', value: 'language' },
+                                              value: {
+                                                kind: 'Variable',
+                                                name: { kind: 'Name', value: 'lang' },
+                                              },
+                                            },
+                                          ],
+                                        },
+                                      },
+                                    ],
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'bannerOffset' } },
                                 ],
@@ -999,6 +1139,14 @@ export const SearchTemplatesDocument = {
             },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'SupportedLanguages' } },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -1068,7 +1216,29 @@ export const SearchTemplatesDocument = {
                           kind: 'SelectionSet',
                           selections: [
                             { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'where' },
+                                  value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'language' },
+                                        value: {
+                                          kind: 'Variable',
+                                          name: { kind: 'Name', value: 'lang' },
+                                        },
+                                      },
+                                    ],
+                                  },
+                                },
+                              ],
+                            },
                           ],
                         },
                       },
@@ -1099,6 +1269,14 @@ export const FormSubmitDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'WhereIdInput' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'SupportedLanguages' } },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -1117,7 +1295,26 @@ export const FormSubmitDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'name' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'where' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'language' },
+                            value: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                 {
                   kind: 'Field',
@@ -1127,7 +1324,29 @@ export const FormSubmitDocument = {
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'fields' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'where' },
+                            value: {
+                              kind: 'ObjectValue',
+                              fields: [
+                                {
+                                  kind: 'ObjectField',
+                                  name: { kind: 'Name', value: 'language' },
+                                  value: {
+                                    kind: 'Variable',
+                                    name: { kind: 'Name', value: 'lang' },
+                                  },
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                      },
                     ],
                   },
                 },
@@ -1244,6 +1463,14 @@ export const FormSubmissionListDocument = {
             },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'SupportedLanguages' } },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -1321,7 +1548,29 @@ export const FormSubmissionListDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                    arguments: [
+                                      {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'where' },
+                                        value: {
+                                          kind: 'ObjectValue',
+                                          fields: [
+                                            {
+                                              kind: 'ObjectField',
+                                              name: { kind: 'Name', value: 'language' },
+                                              value: {
+                                                kind: 'Variable',
+                                                name: { kind: 'Name', value: 'lang' },
+                                              },
+                                            },
+                                          ],
+                                        },
+                                      },
+                                    ],
+                                  },
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'template' },
@@ -1329,7 +1578,29 @@ export const FormSubmissionListDocument = {
                                       kind: 'SelectionSet',
                                       selections: [
                                         { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                        { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                          arguments: [
+                                            {
+                                              kind: 'Argument',
+                                              name: { kind: 'Name', value: 'where' },
+                                              value: {
+                                                kind: 'ObjectValue',
+                                                fields: [
+                                                  {
+                                                    kind: 'ObjectField',
+                                                    name: { kind: 'Name', value: 'language' },
+                                                    value: {
+                                                      kind: 'Variable',
+                                                      name: { kind: 'Name', value: 'lang' },
+                                                    },
+                                                  },
+                                                ],
+                                              },
+                                            },
+                                          ],
+                                        },
                                       ],
                                     },
                                   },
@@ -1405,11 +1676,19 @@ export const EditTemplateDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'fields' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bannerOffset' } },
+                {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'name' },
+                  name: { kind: 'Name', value: 'name_i18n' },
+                },
+                {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'description' },
+                  name: { kind: 'Name', value: 'description_i18n' },
+                },
               ],
             },
           },
@@ -1521,6 +1800,14 @@ export const TemplateListDocument = {
             },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'SupportedLanguages' } },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -1590,7 +1877,29 @@ export const TemplateListDocument = {
                           kind: 'SelectionSet',
                           selections: [
                             { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'where' },
+                                  value: {
+                                    kind: 'ObjectValue',
+                                    fields: [
+                                      {
+                                        kind: 'ObjectField',
+                                        name: { kind: 'Name', value: 'language' },
+                                        value: {
+                                          kind: 'Variable',
+                                          name: { kind: 'Name', value: 'lang' },
+                                        },
+                                      },
+                                    ],
+                                  },
+                                },
+                              ],
+                            },
                             { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                           ],
@@ -1630,3 +1939,26 @@ export const CreateTemplateDocument = {
     },
   ],
 } as unknown as DocumentNode<CreateTemplateMutation, CreateTemplateMutationVariables>
+export const AuthRouteGuardDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AuthRouteGuard' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'viewer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AuthRouteGuardQuery, AuthRouteGuardQueryVariables>

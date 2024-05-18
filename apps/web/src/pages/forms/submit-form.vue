@@ -15,23 +15,28 @@ import { useNotificationsStore } from 'src/stores/notifications'
 import { useI18n } from 'src/hooks/use-i18n'
 
 const id = useRouteParam('id')
+const { t, currentLanguage } = useI18n()
+
+const variables = computed(() => {
+  return { where: { id }, lang: currentLanguage.value }
+})
 
 const { result, loading, error } = useQuery(
   graphql(`
-    query FormSubmit($where: WhereIdInput!) {
+    query FormSubmit($where: WhereIdInput!, $lang: SupportedLanguages!) {
       form(where: $where) {
         id
-        name
+        name(where: { language: $lang })
         banner
         template {
           id
           fields
-          description
+          description(where: { language: $lang })
         }
       }
     }
   `),
-  { where: { id } },
+  variables,
   { prefetch: false }
 )
 
@@ -44,8 +49,6 @@ const submitForm = useMutation(
 )
 
 const notifications = useNotificationsStore()
-
-const { t } = useI18n()
 
 const handleSubmit = async () => {
   try {

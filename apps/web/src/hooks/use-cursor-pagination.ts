@@ -1,5 +1,7 @@
+import { ComputedRef, computed, ref } from 'vue'
 import { TypedDocumentNode } from '@apollo/client'
 import { useQuery } from '@vue/apollo-composable'
+
 import {
   InputMaybe,
   PaginationFilter,
@@ -7,7 +9,7 @@ import {
   PaginationSortingOrder,
 } from 'src/graphql/generated/graphql'
 import { useNotificationsStore } from 'src/stores/notifications'
-import { computed, ref } from 'vue'
+
 import { useIsServer } from './is-server'
 
 const PAGE_SIZE = 30
@@ -34,18 +36,20 @@ type QueryVariables = {
   sort?: InputMaybe<PaginationSorting[]>
 }
 
-type Options = {
+type Options<ExtraVariables> = {
   defaultSortColumns: string[]
   defaultFilterColumns: string[]
+  extraVariables?: ComputedRef<Omit<ExtraVariables, keyof QueryVariables>>
 }
 
 export const useCursorPagination = <
   ResponseKey extends string,
   Query extends ResultWithPageInfo<ResponseKey>,
+  ExtraVariables,
 >(
   responseKey: ResponseKey,
-  documentNode: TypedDocumentNode<Query, QueryVariables>,
-  options: Options
+  documentNode: TypedDocumentNode<Query, QueryVariables & ExtraVariables>,
+  options: Options<ExtraVariables>
 ) => {
   const { isServer } = useIsServer()
 
@@ -73,7 +77,7 @@ export const useCursorPagination = <
     }))
   )
 
-  const variables = computed<QueryVariables>(() => {
+  const variables = computed<QueryVariables & ExtraVariables>(() => {
     return {
       first: first.value,
       last: last.value,
@@ -81,6 +85,7 @@ export const useCursorPagination = <
       before: beforeCursor.value,
       filter: filter.value,
       sort: sort.value,
+      ...(options.extraVariables?.value as ExtraVariables),
     }
   })
 

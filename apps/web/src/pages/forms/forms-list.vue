@@ -17,6 +17,12 @@ import { useNotificationsStore } from 'src/stores/notifications'
 import { formEdit } from 'src/router/routes'
 import { useI18n } from 'src/hooks/use-i18n'
 
+const { t, currentLanguage } = useI18n()
+
+const extraVariables = computed(() => ({
+  lang: currentLanguage.value,
+}))
+
 const {
   loading,
   result,
@@ -39,6 +45,7 @@ const {
       $before: String
       $filter: [PaginationFilter!]
       $sort: [PaginationSorting!]
+      $lang: SupportedLanguages!
     ) {
       forms(
         first: $first
@@ -60,11 +67,11 @@ const {
             id
             createdAt
             updatedAt
-            name
+            name(where: { language: $lang })
             banner
             template {
               id
-              name
+              name(where: { language: $lang })
               banner
               bannerOffset
             }
@@ -76,10 +83,9 @@ const {
   {
     defaultFilterColumns: ['name'],
     defaultSortColumns: ['updatedAt'],
+    extraVariables,
   }
 )
-
-const { t } = useI18n()
 
 const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
   {
@@ -185,6 +191,7 @@ const {
       $before: String
       $last: Int
       $sort: [PaginationSorting!]
+      $lang: SupportedLanguages!
     ) {
       templates(
         filter: $filter
@@ -204,7 +211,7 @@ const {
         edges {
           node {
             id
-            name
+            name(where: { language: $lang })
           }
         }
       }
@@ -213,6 +220,7 @@ const {
   {
     defaultFilterColumns: ['name'],
     defaultSortColumns: ['name'],
+    extraVariables,
   }
 )
 

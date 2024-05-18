@@ -1,6 +1,10 @@
-import { objectType } from 'nexus'
 import { SupportedLanguages } from './i18n'
-import { NexusInputFieldConfig, NexusOutputFieldConfig, inputObjectType } from 'nexus/dist/core'
+import {
+  NexusInputFieldConfig,
+  NexusOutputFieldConfig,
+  inputObjectType,
+  objectType,
+} from 'nexus/dist/core'
 
 export const i18nType = (name: string, config: NexusOutputFieldConfig<string, string>) => {
   return objectType({

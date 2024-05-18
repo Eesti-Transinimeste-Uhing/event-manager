@@ -31,21 +31,25 @@ const props = withDefaults(
   }
 )
 
+const currentLanguageHyphen = computed(() => {
+  return currentLanguage.value.replaceAll('_', '-')
+})
+
 const dt = computed(() => {
   if (typeof props.modelValue === 'string') {
-    return DateTime.fromISO(props.modelValue).setLocale(currentLanguage.value)
+    return DateTime.fromISO(props.modelValue).setLocale(currentLanguageHyphen.value)
   }
 
   if (typeof props.modelValue === 'number') {
-    return DateTime.fromMillis(props.modelValue).setLocale(currentLanguage.value)
+    return DateTime.fromMillis(props.modelValue).setLocale(currentLanguageHyphen.value)
   }
 
   if (Object.prototype.toString.call(props.modelValue) === '[object Date]') {
-    return DateTime.fromJSDate(props.modelValue as Date).setLocale(currentLanguage.value)
+    return DateTime.fromJSDate(props.modelValue as Date).setLocale(currentLanguageHyphen.value)
   }
 
   if (props.modelValue instanceof DateTime) {
-    return props.modelValue.setLocale(currentLanguage.value)
+    return props.modelValue.setLocale(currentLanguageHyphen.value)
   }
 
   return null

@@ -27,15 +27,14 @@ facebook-cover = Facebook cover
 web-registration-form = Web registration form
 
 image-ratio-explainer = For the best results, select an image that at least is
-                1920x1080 pixels in size, or its aspect ratio is at least 16:9.
-
-                If your image is larger, you can use this interface to adjust
-                its position until you're happy with the results. Hover over the
-                chips to check how your banner will look on different platforms.
+  1920x1080 pixels in size, or its aspect ratio is at least 16:9.
+  If your image is larger, you can use this interface to adjust
+  its position until you're happy with the results. Hover over the
+  chips to check how your banner will look on different platforms.
 
 image-overlays-explainer = In the posted image, the dashed border and white
-                background will not appear, it only shows up here to help you
-                place the items precisely.
+  background will not appear, it only shows up here to help you
+  place the items precisely.
 
 # Form controls
 clear = Clear
@@ -59,8 +58,8 @@ form-not-found = This form doesn't exist
 cannot-create-template = Cannot create new template
 http-not-found = 404 - Not found
 http-not-found-description = The link you have followed here may have been
-                moved, you may have mistyped the URL, or there could be an outage. In any
-                case, this just won't work for now.
+  moved, you may have mistyped the URL, or there could be an outage. In any case,
+  this just won't work for now.
 
 # Authentication
 account-menu = Account menu
@@ -74,8 +73,8 @@ please-wait = Please wait
 welcome = Welcome!
 link-discord-to-log-in = Link your Discord account to log in
 login-page-staff-only = This section of the event bot is for Eesti Transinimeste
-                Ühing staff and volunteers. If you're a guest of ours, please use the
-                links we posted to register for events.
+  Ühing staff and volunteers. If you're a guest of ours, please use the
+  links we posted to register for events.
 
 # Misc
 collapse-staff-toolbar = Collapse staff toolbar

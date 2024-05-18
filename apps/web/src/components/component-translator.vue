@@ -1,30 +1,73 @@
 <script lang="ts" setup>
-import { SupportedLanguages } from 'src/stores/i18n'
-import { computed, ref, useSlots } from 'vue'
+import { computed, ref, useSlots, watch } from 'vue'
 
 import LanguageTabs from './language-tabs.vue'
+import { SupportedLanguages } from 'src/graphql/generated/graphql'
 
 const slots = useSlots()
-const state = ref<SupportedLanguages>('et-EE')
+const state = ref(SupportedLanguages.EtEe)
 
 const slotCount = computed(() => {
   return Object.keys(slots).length
 })
+
+const emit = defineEmits<{
+  (event: 'update:model-value', value: SupportedLanguages): void
+}>()
+
+watch(state, (newState) => {
+  emit('update:model-value', newState)
+})
+
+const tabsWidth = computed(() => {
+  return `${Object.keys(SupportedLanguages).length * 57}px`
+})
+
+const props = defineProps<{
+  square?: boolean
+}>()
 </script>
+
+<style lang="scss" scoped>
+.tab-panel-card {
+  border-top-left-radius: 0;
+}
+
+.tab-card {
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  width: v-bind(tabsWidth);
+}
+</style>
 
 <template>
   <div class="column">
-    <language-tabs v-model="state" align="left" small />
+    <q-card flat bordered class="tab-card">
+      <language-tabs v-model="state" align="left" small :square="props.square" />
+    </q-card>
 
-    <q-card flat>
-      <q-tab-panels v-if="'default' in slots" v-model="state">
-        <q-tab-panel :key="state" :name="state">
+    <q-card flat class="tab-panel-card">
+      <q-tab-panels
+        v-if="'default' in slots && slotCount === 1"
+        v-model="state"
+        :class="{ 'no-border-radius': props.square }"
+      >
+        <q-tab-panel :key="state" :name="state" class="q-pa-none">
           <slot name="default" />
         </q-tab-panel>
       </q-tab-panels>
 
-      <q-tab-panels v-else-if="slotCount > 1" v-model="state" animated>
-        <q-tab-panel v-for="lang in SupportedLanguages" :key="lang" :name="lang">
+      <slot v-else-if="'default' in slots" name="default" />
+
+      <q-tab-panels
+        v-if="slotCount > 1"
+        v-model="state"
+        animated
+        :class="{ 'no-border-radius': props.square }"
+        keep-alive
+      >
+        <q-tab-panel v-for="lang in SupportedLanguages" :key="lang" :name="lang" class="q-pa-none">
           <slot :name="lang" />
         </q-tab-panel>
       </q-tab-panels>

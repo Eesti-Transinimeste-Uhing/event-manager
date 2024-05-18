@@ -57,6 +57,8 @@ const toggleSortDir = () => {
 
 const filterText = ref('')
 
+const { t, currentLanguage } = useI18n()
+
 const computedVariables = computed<TemplateListQueryVariables>(() => {
   return {
     first: variables.value.before ? undefined : itemsPerRow.value * rowCount.value,
@@ -77,6 +79,7 @@ const computedVariables = computed<TemplateListQueryVariables>(() => {
         sort: 'updatedAt',
       },
     ],
+    lang: currentLanguage.value,
     ...variables.value,
   }
 })
@@ -90,6 +93,7 @@ const { error, refetch, result, loading } = useQuery(
       $before: String
       $filter: [PaginationFilter!]
       $sort: [PaginationSorting!]
+      $lang: SupportedLanguages!
     ) {
       templates(
         first: $first
@@ -109,7 +113,7 @@ const { error, refetch, result, loading } = useQuery(
         edges {
           node {
             id
-            name
+            name(where: { language: $lang })
             updatedAt
             banner
           }
@@ -163,8 +167,6 @@ const handlePreviousPage = () => {
 }
 
 const notifications = useNotificationsStore()
-
-const { t } = useI18n()
 
 const handleCreateNewClick = async () => {
   try {

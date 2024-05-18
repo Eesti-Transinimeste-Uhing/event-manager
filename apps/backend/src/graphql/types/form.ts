@@ -9,12 +9,17 @@ export const Form = objectType({
   },
   definition(t) {
     t.id('id')
+    t.i18nString('name_i18n', {
+      resolve(root, args) {
+        return root.name
+      },
+    })
     t.nullable.string('name', {
       args: {
         where: 'WhereLangInput',
       },
       resolve(root, args) {
-        return root.name[args.where.lang]
+        return root.name[args.where.language]
       },
     })
     t.dateTime('createdAt')
@@ -24,6 +29,13 @@ export const Form = objectType({
         return root.bannerUrl
       },
     })
+    t.i18nJSON('description_i18n', {
+      async resolve(root, args) {
+        const template = await root.template
+
+        return template.description
+      },
+    })
     t.jsonObject('description', {
       args: {
         where: 'WhereLangInput',
@@ -31,7 +43,7 @@ export const Form = objectType({
       async resolve(root, args) {
         const template = await root.template
 
-        return template.description[args.where.lang]
+        return template.description[args.where.language]
       },
     })
     t.field('template', {

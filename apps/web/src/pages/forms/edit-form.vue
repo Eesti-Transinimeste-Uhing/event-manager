@@ -17,12 +17,14 @@ import { formSubmit } from 'src/router/routes'
 import { useI18n } from 'src/hooks/use-i18n'
 
 const id = useRouteParam('id')
+const { currentLanguage } = useI18n()
 
 const variables = computed<EditFormQueryVariables>(() => {
   return {
     where: {
       id,
     },
+    lang: currentLanguage.value,
   }
 })
 
@@ -38,10 +40,10 @@ const updateForm = useMutation(
 
 const { result, loading, error, refetch, onResult } = useQuery(
   graphql(`
-    query EditForm($where: WhereIdInput!) {
+    query EditForm($where: WhereIdInput!, $lang: SupportedLanguages!) {
       form(where: $where) {
         id
-        name
+        name(where: { language: $lang })
         template {
           id
         }

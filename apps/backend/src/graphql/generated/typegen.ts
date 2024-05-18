@@ -40,6 +40,20 @@ declare global {
       fieldName: FieldName,
       opts?: core.CommonInputFieldConfig<TypeName, FieldName>
     ): void // "JSONObject";
+    /**
+     * An object that contains strings for all supported languages
+     */
+    i18nJSON<FieldName extends string>(
+      fieldName: FieldName,
+      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
+    ): void // "I18nJSON";
+    /**
+     * An object that contains strings for all supported languages
+     */
+    i18nString<FieldName extends string>(
+      fieldName: FieldName,
+      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
+    ): void // "I18nString";
   }
 }
 declare global {
@@ -73,6 +87,20 @@ declare global {
       ...opts: core.ScalarOutSpread<TypeName, FieldName>
     ): void // "JSONObject";
     /**
+     * An object that contains strings for all supported languages
+     */
+    i18nJSON<FieldName extends string>(
+      fieldName: FieldName,
+      ...opts: core.ScalarOutSpread<TypeName, FieldName>
+    ): void // "I18nJSON";
+    /**
+     * An object that contains strings for all supported languages
+     */
+    i18nString<FieldName extends string>(
+      fieldName: FieldName,
+      ...opts: core.ScalarOutSpread<TypeName, FieldName>
+    ): void // "I18nString";
+    /**
      * Adds a Relay-style connection to the type, with numerous options for configuration
      *
      * @see https://nexusjs.org/docs/plugins/connection
@@ -95,9 +123,9 @@ export interface NexusGenInputs {
   }
   I18nJSONInput: {
     // input type
-    en_GB: NexusGenScalars['JSONObject'] // JSONObject!
-    et_EE: NexusGenScalars['JSONObject'] // JSONObject!
-    ru_RU: NexusGenScalars['JSONObject'] // JSONObject!
+    en_GB?: NexusGenScalars['JSONObject'] | null // JSONObject
+    et_EE?: NexusGenScalars['JSONObject'] | null // JSONObject
+    ru_RU?: NexusGenScalars['JSONObject'] | null // JSONObject
   }
   I18nStringInput: {
     // input type
@@ -162,14 +190,14 @@ export interface NexusGenInputs {
   }
   WhereLangInput: {
     // input type
-    lang: NexusGenEnums['Lang'] // Lang!
+    language: NexusGenEnums['SupportedLanguages'] // SupportedLanguages!
   }
 }
 
 export interface NexusGenEnums {
   FormFieldKind: 0 | 1 | 2 | 3 | 4
-  Lang: 'en_GB' | 'et_EE' | 'ru_RU'
   PaginationSortingOrder: 'ASC' | 'DESC'
+  SupportedLanguages: 'en_GB' | 'et_EE' | 'ru_RU'
   UserRole: 1 | 2 | 0 | 3
 }
 
@@ -180,6 +208,8 @@ export interface NexusGenScalars {
   Boolean: boolean
   ID: string
   DateTime: any
+  I18nJSON: any
+  I18nString: any
   JSONObject: any
   URL: any
   Upload: any
@@ -213,18 +243,6 @@ export interface NexusGenObjects {
     // root type
     cursor: string // String!
     node: NexusGenRootTypes['FormSubmission'] // FormSubmission!
-  }
-  I18nJSON: {
-    // root type
-    en_GB: NexusGenScalars['JSONObject'] // JSONObject!
-    et_EE: NexusGenScalars['JSONObject'] // JSONObject!
-    ru_RU: NexusGenScalars['JSONObject'] // JSONObject!
-  }
-  I18nString: {
-    // root type
-    en_GB: string // String!
-    et_EE: string // String!
-    ru_RU: string // String!
   }
   Mutation: {}
   PageInfo: {
@@ -273,8 +291,10 @@ export interface NexusGenFieldTypes {
     banner: NexusGenScalars['URL'] // URL!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
     description: NexusGenScalars['JSONObject'] // JSONObject!
+    description_i18n: NexusGenScalars['I18nJSON'] // I18nJSON!
     id: string // ID!
     name: string | null // String
+    name_i18n: NexusGenScalars['I18nString'] // I18nString!
     template: NexusGenRootTypes['Template'] // Template!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
@@ -310,18 +330,6 @@ export interface NexusGenFieldTypes {
     cursor: string // String!
     node: NexusGenRootTypes['FormSubmission'] // FormSubmission!
   }
-  I18nJSON: {
-    // field return type
-    en_GB: NexusGenScalars['JSONObject'] // JSONObject!
-    et_EE: NexusGenScalars['JSONObject'] // JSONObject!
-    ru_RU: NexusGenScalars['JSONObject'] // JSONObject!
-  }
-  I18nString: {
-    // field return type
-    en_GB: string // String!
-    et_EE: string // String!
-    ru_RU: string // String!
-  }
   Mutation: {
     // field return type
     createForm: NexusGenRootTypes['Form'] // Form!
@@ -354,10 +362,12 @@ export interface NexusGenFieldTypes {
     banner: NexusGenScalars['URL'] // URL!
     bannerOffset: number // Int!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
-    description: NexusGenScalars['JSONObject'] // JSONObject!
+    description: NexusGenScalars['JSONObject'] | null // JSONObject
+    description_i18n: NexusGenScalars['I18nJSON'] // I18nJSON!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
     id: string // ID!
     name: string // String!
+    name_i18n: NexusGenScalars['I18nString'] // I18nString!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
   TemplateConnection: {
@@ -393,8 +403,10 @@ export interface NexusGenFieldTypeNames {
     banner: 'URL'
     createdAt: 'DateTime'
     description: 'JSONObject'
+    description_i18n: 'I18nJSON'
     id: 'ID'
     name: 'String'
+    name_i18n: 'I18nString'
     template: 'Template'
     updatedAt: 'DateTime'
   }
@@ -430,18 +442,6 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'FormSubmission'
   }
-  I18nJSON: {
-    // field return type name
-    en_GB: 'JSONObject'
-    et_EE: 'JSONObject'
-    ru_RU: 'JSONObject'
-  }
-  I18nString: {
-    // field return type name
-    en_GB: 'String'
-    et_EE: 'String'
-    ru_RU: 'String'
-  }
   Mutation: {
     // field return type name
     createForm: 'Form'
@@ -475,9 +475,11 @@ export interface NexusGenFieldTypeNames {
     bannerOffset: 'Int'
     createdAt: 'DateTime'
     description: 'JSONObject'
+    description_i18n: 'I18nJSON'
     fields: 'FormFieldKind'
     id: 'ID'
     name: 'String'
+    name_i18n: 'I18nString'
     updatedAt: 'DateTime'
   }
   TemplateConnection: {

@@ -1,16 +1,9 @@
 import { defineStore } from 'pinia'
-
-export const SupportedLanguages = {
-  etEe: 'et-EE',
-  enGb: 'en-GB',
-  ruRu: 'ru-RU',
-} as const
-
-export type SupportedLanguages = (typeof SupportedLanguages)[keyof typeof SupportedLanguages]
+import { SupportedLanguages } from 'src/graphql/generated/graphql'
 
 export const useI18nStore = defineStore('i18n', {
   state: () => ({
-    language: SupportedLanguages.etEe as SupportedLanguages,
+    language: SupportedLanguages.EtEe,
   }),
   getters: {
     currentLanguage: (state) => state.language,

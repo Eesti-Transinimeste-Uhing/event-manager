@@ -9,6 +9,7 @@ import EditorToolbar from './editor-toolbar.vue'
 
 const props = defineProps<{
   modelValue: JSONContent | null
+  borderless?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -71,7 +72,7 @@ onBeforeUnmount(() => {
 </style>
 
 <template>
-  <q-card flat bordered>
+  <q-card flat :bordered="!props.borderless">
     <q-no-ssr>
       <editor-toolbar
         key="real"

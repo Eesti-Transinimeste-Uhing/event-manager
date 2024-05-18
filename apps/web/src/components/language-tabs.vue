@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { SupportedLanguages } from 'src/stores/i18n'
+import { SupportedLanguages } from 'src/graphql/generated/graphql'
 
 const flagMap: Record<SupportedLanguages, string> = {
-  'et-EE': '🇪🇪',
-  'en-GB': '🇬🇧',
-  'ru-RU': '🇷🇺',
+  en_GB: '🇬🇧',
+  et_EE: '🇪🇪',
+  ru_RU: '🇷🇺',
 }
 
 const props = withDefaults(
@@ -22,13 +22,20 @@ const emit = defineEmits<{
 }>()
 </script>
 
+<style lang="scss" scoped>
+.tab-row {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+</style>
+
 <template>
   <q-tabs
     :model-value="props.modelValue"
     @update:model-value="(v: SupportedLanguages) => emit('update:model-value', v)"
     :dense="props.small"
   >
-    <q-card flat class="row">
+    <q-card flat class="row tab-row no-wrap">
       <q-tab
         v-for="[lang, flag] of Object.entries(flagMap)"
         :key="lang"

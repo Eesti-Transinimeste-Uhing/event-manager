@@ -8,20 +8,25 @@ import { JSONContent } from '@tiptap/core'
 import { useRouteParam } from 'src/lib/use-route-param'
 import { graphql } from 'src/graphql/generated'
 
-import TextEditor from 'src/components/text-editor/text-editor.vue'
 import SingleImageUploadField from 'src/components/form/single-image-upload-field.vue'
 import FormField from 'src/components/form/form-field.vue'
 import DragHint from 'src/components/drag-hint.vue'
 import EmptyContent from 'src/components/empty-content.vue'
 
-import { FormFieldKind } from 'src/graphql/generated/graphql'
+import { FormFieldKind, SupportedLanguages } from 'src/graphql/generated/graphql'
 import { useFilePreview } from 'src/hooks/use-file-preview'
 import TooltipButton from 'src/components/tooltip-button.vue'
 import SingleImagePreviewDialog from 'src/components/form/single-image-preview-dialog.vue'
 import { useNotificationsStore } from 'src/stores/notifications'
 import { useI18n } from 'src/hooks/use-i18n'
+import I18nInput from 'src/components/i18n/i18n-input.vue'
+import I18nTextEditor from 'src/components/i18n/i18n-text-editor.vue'
 
 const id = useRouteParam('id')
+
+const variables = computed(() => {
+  return { id }
+})
 
 const { result, loading, error, refetch, onResult } = useQuery(
   graphql(`
@@ -29,15 +34,15 @@ const { result, loading, error, refetch, onResult } = useQuery(
       template(where: { id: $id }) {
         id
         updatedAt
-        name
         banner
-        description
         fields
         bannerOffset
+        name: name_i18n
+        description: description_i18n
       }
     }
   `),
-  { id },
+  variables,
   { prefetch: false }
 )
 
@@ -53,7 +58,7 @@ const updateTemplate = useMutation(
 
 const notifications = useNotificationsStore()
 
-const { t } = useI18n()
+const { t, currentLanguage } = useI18n()
 
 const handleSave = async () => {
   try {
@@ -104,8 +109,16 @@ const banner = computed(() => {
 })
 
 const topOffset = ref(0)
-const name = ref('')
-const description = ref<JSONContent | null>(null)
+const name = ref<Record<SupportedLanguages, string>>({
+  en_GB: '',
+  et_EE: '',
+  ru_RU: '',
+})
+const description = ref<Record<SupportedLanguages, JSONContent | null>>({
+  en_GB: null,
+  et_EE: null,
+  ru_RU: null,
+})
 const fields = ref<Array<{ value: FormFieldKind }>>([])
 
 onResult((result) => {
@@ -183,7 +196,7 @@ const adjustOpen = ref(false)
         :open="adjustOpen"
         @close="adjustOpen = false"
         v-model="topOffset"
-        :label="name"
+        :label="name[currentLanguage]"
         :caption="size ? bytes(size) : null"
         :preview="preview"
         :width="dimensions[0]"
@@ -219,11 +232,8 @@ const adjustOpen = ref(false)
             </single-image-upload-field>
           </q-card>
 
-          <q-card flat bordered class="q-mb-md">
-            <q-input borderless v-model="name" :label="$t('name')" class="q-px-md" />
-          </q-card>
-
-          <text-editor v-model="description" class="q-mb-md" />
+          <i18n-input v-model="name" :label="$t('name')" class="q-mb-md" />
+          <i18n-text-editor v-model="description" label="asd" class="q-mb-md" />
 
           <q-card flat class="row q-col-gutter-sm justify-between overflow-hidden">
             <div class="col-8">

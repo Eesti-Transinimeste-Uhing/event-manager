@@ -16,7 +16,7 @@ import Underline from '@tiptap/extension-underline'
 
 import History from '@tiptap/extension-history'
 
-import { TemplateVariableNode, TemplateVariableId } from './extensions/template-variable'
+export { TemplateVariableNode, TemplateVariableId } from './extensions/template-variable'
 
 export const extensions: Extensions = [
   Document,
@@ -32,7 +32,4 @@ export const extensions: Extensions = [
   Italic,
   Underline,
   History,
-  TemplateVariableNode,
 ]
-
-export { TemplateVariableNode, TemplateVariableId }

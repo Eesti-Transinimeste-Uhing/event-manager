@@ -1,7 +1,8 @@
 import { useFluent } from 'fluent-vue'
+import { SupportedLanguages } from 'src/graphql/generated/graphql'
 
 import { getI18nBundles } from 'src/locales/bundles'
-import { SupportedLanguages, useI18nStore } from 'src/stores/i18n'
+import { useI18nStore } from 'src/stores/i18n'
 import { ref, toRefs } from 'vue'
 
 export const useI18n = () => {
