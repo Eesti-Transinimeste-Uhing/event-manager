@@ -34,8 +34,8 @@ female = Naissoost
 other = Muu
 select-image = Lisa pilt
 facebook-event = Facebooki üritus
-image-ratio-explainer = Parimaks tulemuseks, valige pilt, mis on vähemalt
-image-overlays-explainer = Postitatud pildil katkendlik ääris ja valge
+image-ratio-explainer = Parimaks tulemuseks, valige pilt, mis on vähemalt 1920x1080 piksli suurune, või mille kasvuvahe on vähemalt 16:9. Kui teie pilt on suurem, saate kasutada seda liidest, et reguleerida selle positsiooni, kuni olete tulemusega rahul. Liikuge kursoriga  sotsiaalmeedia ikoonile, et näha kuidas banner sellel platvormil välja näeb.
+image-overlays-explainer = Postitatud pildil katkendlik ääris ja valge taust ei ilmu, see kuvab vaid siin, et olla abiks asjade täpsemalt asetamisel.
 # Form controls
 clear = Kustuta
 underline = Allajoon
