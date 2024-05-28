@@ -299,6 +299,7 @@ export interface NexusGenFieldTypes {
     location_i18n: NexusGenScalars['I18nString'] // I18nString!
     name: string | null // String
     name_i18n: NexusGenScalars['I18nString'] // I18nString!
+    startsAt: NexusGenScalars['DateTime'] // DateTime!
     template: NexusGenRootTypes['Template'] // Template!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
@@ -413,6 +414,7 @@ export interface NexusGenFieldTypeNames {
     location_i18n: 'I18nString'
     name: 'String'
     name_i18n: 'I18nString'
+    startsAt: 'DateTime'
     template: 'Template'
     updatedAt: 'DateTime'
   }

@@ -37,6 +37,7 @@ export const Form = objectType({
     })
     t.dateTime('createdAt')
     t.dateTime('updatedAt')
+    t.dateTime('startsAt')
     t.url('banner', {
       resolve(root) {
         return root.bannerUrl

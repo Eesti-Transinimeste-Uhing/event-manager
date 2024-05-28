@@ -60,6 +60,7 @@ export type Form = {
   location_i18n: Scalars['I18nString']['output']
   name?: Maybe<Scalars['String']['output']>
   name_i18n: Scalars['I18nString']['output']
+  startsAt: Scalars['DateTime']['output']
   template: Template
   updatedAt: Scalars['DateTime']['output']
 }
@@ -408,6 +409,7 @@ export type EditFormQuery = {
   form?: {
     __typename?: 'Form'
     id: string
+    startsAt: any
     name: Record<SupportedLanguages, string>
     location: Record<SupportedLanguages, string>
     template: { __typename?: 'Template'; id: string }
@@ -821,6 +823,7 @@ export const EditFormDocument = {
                   alias: { kind: 'Name', value: 'location' },
                   name: { kind: 'Name', value: 'location_i18n' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'template' },

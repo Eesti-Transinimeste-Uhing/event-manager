@@ -29,6 +29,7 @@ type Form {
   location_i18n: I18nString!
   name(where: WhereLangInput!): String
   name_i18n: I18nString!
+  startsAt: DateTime!
   template: Template!
   updatedAt: DateTime!
 }

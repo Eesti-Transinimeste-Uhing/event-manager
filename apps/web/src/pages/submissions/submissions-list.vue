@@ -12,6 +12,12 @@ import { FormSubmissionListQuery } from 'src/graphql/generated/graphql'
 import { computed } from 'vue'
 import { useI18n } from 'src/hooks/use-i18n'
 
+const { t, currentLanguage } = useI18n()
+
+const extraVariables = computed(() => ({
+  lang: currentLanguage.value,
+}))
+
 const {
   loading,
   result,
@@ -72,12 +78,11 @@ const {
     }
   `),
   {
+    extraVariables,
     defaultFilterColumns: [],
     defaultSortColumns: ['createdAt'],
   }
 )
-
-const { t } = useI18n()
 
 type Column = QTableColumn<FormSubmissionListQuery['formSubmissions']['edges'][0]>
 

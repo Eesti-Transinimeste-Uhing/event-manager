@@ -16,16 +16,15 @@ import I18nInput from 'src/components/i18n/i18n-input.vue'
 
 import { formSubmit } from 'src/router/routes'
 import { useI18n } from 'src/hooks/use-i18n'
+import { DateTime } from 'luxon'
 
 const id = useRouteParam('id')
-const { currentLanguage } = useI18n()
 
 const variables = computed<EditFormQueryVariables>(() => {
   return {
     where: {
       id,
     },
-    lang: currentLanguage.value,
   }
 })
 
@@ -46,6 +45,7 @@ const { result, loading, error, refetch, onResult } = useQuery(
         id
         name: name_i18n
         location: location_i18n
+        startsAt
         template {
           id
         }
@@ -75,7 +75,9 @@ onResult((result) => {
     return
   }
 
-  name.value = form.name ?? ''
+  name.value = form.name
+  startsAt.value = DateTime.fromISO(form.startsAt).toJSDate()
+  location.value = form.location
 })
 
 const notifications = useNotificationsStore()
