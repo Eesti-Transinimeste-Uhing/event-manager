@@ -166,7 +166,9 @@ export interface NexusGenInputs {
   }
   UpdateFormDataInput: {
     // input type
-    name: string // String!
+    location: NexusGenInputs['I18nStringInput'] // I18nStringInput!
+    name: NexusGenInputs['I18nStringInput'] // I18nStringInput!
+    startsAt: NexusGenScalars['DateTime'] // DateTime!
   }
   UpdateFormWhereInput: {
     // input type
@@ -293,6 +295,8 @@ export interface NexusGenFieldTypes {
     description: NexusGenScalars['JSONObject'] // JSONObject!
     description_i18n: NexusGenScalars['I18nJSON'] // I18nJSON!
     id: string // ID!
+    location: string | null // String
+    location_i18n: NexusGenScalars['I18nString'] // I18nString!
     name: string | null // String
     name_i18n: NexusGenScalars['I18nString'] // I18nString!
     template: NexusGenRootTypes['Template'] // Template!
@@ -405,6 +409,8 @@ export interface NexusGenFieldTypeNames {
     description: 'JSONObject'
     description_i18n: 'I18nJSON'
     id: 'ID'
+    location: 'String'
+    location_i18n: 'I18nString'
     name: 'String'
     name_i18n: 'I18nString'
     template: 'Template'
@@ -503,6 +509,10 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Form: {
     description: {
+      // args
+      where: NexusGenInputs['WhereLangInput'] // WhereLangInput!
+    }
+    location: {
       // args
       where: NexusGenInputs['WhereLangInput'] // WhereLangInput!
     }

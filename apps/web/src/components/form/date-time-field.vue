@@ -5,7 +5,7 @@ import { computed, ref } from 'vue'
 import DateTime from '../date-time.vue'
 import { useI18n } from 'src/hooks/use-i18n'
 
-const { currentLanguage } = useI18n()
+const { currentLanguageHyphen } = useI18n()
 
 const props = defineProps<{
   modelValue: Date
@@ -29,7 +29,7 @@ const expanded = ref(false)
 
 const formattedValue = computed(() => {
   return LuxonDateTime.fromJSDate(props.modelValue)
-    .setLocale(currentLanguage.value)
+    .setLocale(currentLanguageHyphen.value)
     .toFormat(format)
 })
 </script>

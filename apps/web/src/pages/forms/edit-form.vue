@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@vue/apollo-composable'
 import { useRouter } from 'vue-router'
 
 import { graphql } from 'src/graphql/generated'
-import { EditFormQueryVariables } from 'src/graphql/generated/graphql'
+import { EditFormQueryVariables, SupportedLanguages } from 'src/graphql/generated/graphql'
 import { useRouteParam } from 'src/lib/use-route-param'
 import { useNotificationsStore } from 'src/stores/notifications'
 
@@ -12,6 +12,7 @@ import EmptyContent from 'src/components/empty-content.vue'
 import TooltipButton from 'src/components/tooltip-button.vue'
 
 import DateTimeField from 'src/components/form/date-time-field.vue'
+import I18nInput from 'src/components/i18n/i18n-input.vue'
 
 import { formSubmit } from 'src/router/routes'
 import { useI18n } from 'src/hooks/use-i18n'
@@ -40,10 +41,11 @@ const updateForm = useMutation(
 
 const { result, loading, error, refetch, onResult } = useQuery(
   graphql(`
-    query EditForm($where: WhereIdInput!, $lang: SupportedLanguages!) {
+    query EditForm($where: WhereIdInput!) {
       form(where: $where) {
         id
-        name(where: { language: $lang })
+        name: name_i18n
+        location: location_i18n
         template {
           id
         }
@@ -54,13 +56,17 @@ const { result, loading, error, refetch, onResult } = useQuery(
   { prefetch: false }
 )
 
-const name = ref('')
-const dateTime = ref(new Date())
-const location = ref('')
-
-// const dateTimeLocalised = computed(() => {
-//   return dateTime.value.toLocaleString(DateTime.DATETIME_FULL)
-// })
+const startsAt = ref(new Date())
+const name = ref<Record<SupportedLanguages, string>>({
+  en_GB: '',
+  et_EE: '',
+  ru_RU: '',
+})
+const location = ref<Record<SupportedLanguages, string>>({
+  en_GB: '',
+  et_EE: '',
+  ru_RU: '',
+})
 
 onResult((result) => {
   const form = result.data?.form
@@ -88,6 +94,8 @@ const handleSave = async () => {
       },
       data: {
         name: name.value,
+        location: location.value,
+        startsAt: startsAt.value,
       },
     })
 
@@ -159,15 +167,11 @@ const handlePreviewClick = () => {
         </div>
 
         <q-form v-else-if="result" class="column" @submit.prevent="handleSave">
-          <q-card flat bordered class="q-mb-md">
-            <q-input borderless v-model="name" :label="t('name')" class="q-px-md" />
-          </q-card>
+          <i18n-input borderless v-model="name" :label="t('name')" class="q-mb-md" />
 
-          <date-time-field v-model="dateTime" :label="t('event-date-time')" />
+          <date-time-field v-model="startsAt" :label="t('event-date-time')" />
 
-          <q-card flat bordered class="q-mb-md">
-            <q-input borderless v-model="location" :label="t('location')" class="q-px-md" />
-          </q-card>
+          <i18n-input borderless v-model="location" :label="t('location')" class="q-mb-md" />
         </q-form>
       </q-card-section>
     </q-card>

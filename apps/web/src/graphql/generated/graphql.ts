@@ -56,6 +56,8 @@ export type Form = {
   description: Scalars['JSONObject']['output']
   description_i18n: Scalars['I18nJSON']['output']
   id: Scalars['ID']['output']
+  location?: Maybe<Scalars['String']['output']>
+  location_i18n: Scalars['I18nString']['output']
   name?: Maybe<Scalars['String']['output']>
   name_i18n: Scalars['I18nString']['output']
   template: Template
@@ -63,6 +65,10 @@ export type Form = {
 }
 
 export type FormDescriptionArgs = {
+  where: WhereLangInput
+}
+
+export type FormLocationArgs = {
   where: WhereLangInput
 }
 
@@ -315,7 +321,9 @@ export type TemplateEdge = {
 }
 
 export type UpdateFormDataInput = {
-  name: Scalars['String']['input']
+  location: I18nStringInput
+  name: I18nStringInput
+  startsAt: Scalars['DateTime']['input']
 }
 
 export type UpdateFormWhereInput = {
@@ -393,7 +401,6 @@ export type UpdateFormMutation = {
 
 export type EditFormQueryVariables = Exact<{
   where: WhereIdInput
-  lang: SupportedLanguages
 }>
 
 export type EditFormQuery = {
@@ -401,7 +408,8 @@ export type EditFormQuery = {
   form?: {
     __typename?: 'Form'
     id: string
-    name?: string | null
+    name: Record<SupportedLanguages, string>
+    location: Record<SupportedLanguages, string>
     template: { __typename?: 'Template'; id: string }
   } | null
 }
@@ -785,14 +793,6 @@ export const EditFormDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'WhereIdInput' } },
           },
         },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'SupportedLanguages' } },
-          },
-        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -813,23 +813,13 @@ export const EditFormDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'name' },
-                  arguments: [
-                    {
-                      kind: 'Argument',
-                      name: { kind: 'Name', value: 'where' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'language' },
-                            value: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
-                          },
-                        ],
-                      },
-                    },
-                  ],
+                  alias: { kind: 'Name', value: 'name' },
+                  name: { kind: 'Name', value: 'name_i18n' },
+                },
+                {
+                  kind: 'Field',
+                  alias: { kind: 'Name', value: 'location' },
+                  name: { kind: 'Name', value: 'location_i18n' },
                 },
                 {
                   kind: 'Field',

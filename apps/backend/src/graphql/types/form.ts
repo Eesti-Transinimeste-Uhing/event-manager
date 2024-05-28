@@ -22,6 +22,19 @@ export const Form = objectType({
         return root.name[args.where.language]
       },
     })
+    t.i18nString('location_i18n', {
+      resolve(root, args) {
+        return root.location
+      },
+    })
+    t.nullable.string('location', {
+      args: {
+        where: 'WhereLangInput',
+      },
+      resolve(root, args) {
+        return root.location[args.where.language]
+      },
+    })
     t.dateTime('createdAt')
     t.dateTime('updatedAt')
     t.url('banner', {

@@ -3,7 +3,7 @@ import { SupportedLanguages } from 'src/graphql/generated/graphql'
 
 import { getI18nBundles } from 'src/locales/bundles'
 import { useI18nStore } from 'src/stores/i18n'
-import { ref, toRefs } from 'vue'
+import { computed, ref, toRefs } from 'vue'
 
 export const useI18n = () => {
   const { $t, bundles } = useFluent()
@@ -25,5 +25,9 @@ export const useI18n = () => {
     }
   }
 
-  return { t: $t, changeLanguage, currentLanguage, loading }
+  const currentLanguageHyphen = computed(() => {
+    return currentLanguage.value.replaceAll('_', '-')
+  })
+
+  return { t: $t, changeLanguage, currentLanguage, loading, currentLanguageHyphen }
 }

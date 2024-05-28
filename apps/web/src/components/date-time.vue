@@ -3,7 +3,7 @@ import { DateTime } from 'luxon'
 import { useI18n } from 'src/hooks/use-i18n'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
-const { currentLanguage } = useI18n()
+const { currentLanguageHyphen } = useI18n()
 
 const props = withDefaults(
   defineProps<{
@@ -30,10 +30,6 @@ const props = withDefaults(
     position: 'top middle',
   }
 )
-
-const currentLanguageHyphen = computed(() => {
-  return currentLanguage.value.replaceAll('_', '-')
-})
 
 const dt = computed(() => {
   if (typeof props.modelValue === 'string') {

@@ -38,6 +38,15 @@ export class Form {
   @Column(() => I18NString)
   name: I18NString
 
+  @Column(() => I18NString)
+  location: I18NString
+
+  @Column({
+    type: 'timestamp with time zone',
+    nullable: true,
+  })
+  startsAt: Date
+
   get bannerUrl() {
     return urlJoin(
       config.server.publicUrl,

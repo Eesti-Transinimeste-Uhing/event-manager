@@ -11,7 +11,13 @@ const UpdateFormWhereInput = inputObjectType({
 const UpdateFormDataInput = inputObjectType({
   name: 'UpdateFormDataInput',
   definition(t) {
-    t.string('name')
+    t.field('name', {
+      type: 'I18nStringInput',
+    })
+    t.dateTime('startsAt')
+    t.field('location', {
+      type: 'I18nStringInput',
+    })
   },
 })
 

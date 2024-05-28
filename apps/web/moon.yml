@@ -25,7 +25,7 @@ tasks:
       - -s
       - first
       - -r
-      - 'quasar ssg dev'
+      - 'sleep 1 && quasar ssg dev'
       - 'graphql-codegen --watch'
     inputs:
       - 'src/**/*'

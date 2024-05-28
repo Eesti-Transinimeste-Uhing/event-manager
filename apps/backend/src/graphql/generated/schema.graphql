@@ -25,6 +25,8 @@ type Form {
   description(where: WhereLangInput!): JSONObject!
   description_i18n: I18nJSON!
   id: ID!
+  location(where: WhereLangInput!): String
+  location_i18n: I18nString!
   name(where: WhereLangInput!): String
   name_i18n: I18nString!
   template: Template!
@@ -327,7 +329,9 @@ A field whose value conforms to the standard URL format as specified in RFC3986:
 scalar URL
 
 input UpdateFormDataInput {
-  name: String!
+  location: I18nStringInput!
+  name: I18nStringInput!
+  startsAt: DateTime!
 }
 
 input UpdateFormWhereInput {
