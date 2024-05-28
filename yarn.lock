@@ -3479,15 +3479,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/extension-bubble-menu@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "@tiptap/extension-bubble-menu@npm:2.2.4"
+"@tiptap/extension-bubble-menu@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@tiptap/extension-bubble-menu@npm:2.4.0"
   dependencies:
     tippy.js: "npm:^6.3.7"
   peerDependencies:
     "@tiptap/core": ^2.0.0
     "@tiptap/pm": ^2.0.0
-  checksum: 10c0/df209f137e652cfa95d59530cab11a806c232b68c0b896a188c404dc2aceb0f0f255109b6e6a655af0e6d4d073b4370e44ce9e015ed96ab90705465353565a75
+  checksum: 10c0/9e5e48b92c690f08334d8c68ee645b2c115f07511d97cb51c3292289557a1d9e347a7f2e3c77b09532718a702e25d994ebe396554597143f1934c1b0209982e7
   languageName: node
   linkType: hard
 
@@ -3509,15 +3509,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/extension-floating-menu@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "@tiptap/extension-floating-menu@npm:2.2.4"
+"@tiptap/extension-floating-menu@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@tiptap/extension-floating-menu@npm:2.4.0"
   dependencies:
     tippy.js: "npm:^6.3.7"
   peerDependencies:
     "@tiptap/core": ^2.0.0
     "@tiptap/pm": ^2.0.0
-  checksum: 10c0/f4a8870a6dde642068a0c843185ca1a8d7481e7f17d185c61b0b8ab2ec6a209e6b9a849c0ba4d6157399edb60c3628afd29a9a40a16e71c1cde04cfee5ae4267
+  checksum: 10c0/60f31277ecc116a0fc1015834ecf08204995c182dc8ad0dd2854b4b6ec57208a665d2270e459df082d070f82bfbc1968bad0f6fcb386ca9048920a5aa7ccd83a
   languageName: node
   linkType: hard
 
@@ -3639,17 +3639,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiptap/vue-3@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "@tiptap/vue-3@npm:2.2.4"
+"@tiptap/vue-3@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@tiptap/vue-3@npm:2.4.0"
   dependencies:
-    "@tiptap/extension-bubble-menu": "npm:^2.2.4"
-    "@tiptap/extension-floating-menu": "npm:^2.2.4"
+    "@tiptap/extension-bubble-menu": "npm:^2.4.0"
+    "@tiptap/extension-floating-menu": "npm:^2.4.0"
   peerDependencies:
     "@tiptap/core": ^2.0.0
     "@tiptap/pm": ^2.0.0
     vue: ^3.0.0
-  checksum: 10c0/4b444b843cf130d0fe958b0c8b56d6f3d3abb50b9cde037020cf52816c2e57074b4e34ee6ea90c7085e414ae059188fef3571ded4e9a4873490c6521b926dbb2
+  checksum: 10c0/bbbe923905df3a2e0dd860cc62cfb4d957b423bad206c59d2d12c5d438a7b43f2b369ef3dd685490cbd037a169d45338bf1c2b31fffd1cefb6d6c51ae4963703
   languageName: node
   linkType: hard
 
@@ -8242,7 +8242,7 @@ __metadata:
     "@parcel/watcher": "npm:^2.4.1"
     "@quasar/app-vite": "npm:^1.8.0"
     "@quasar/extras": "npm:^1.16.9"
-    "@tiptap/vue-3": "npm:^2.2.4"
+    "@tiptap/vue-3": "npm:^2.4.0"
     "@types/apollo-upload-client": "npm:^18.0.0"
     "@types/bytes": "npm:^3.1.4"
     "@types/node": "npm:^20.11.1"
@@ -13719,12 +13719,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-model@npm:^1.0.0, prosemirror-model@npm:^1.16.0, prosemirror-model@npm:^1.19.0, prosemirror-model@npm:^1.19.4, prosemirror-model@npm:^1.8.1":
-  version: 1.19.4
-  resolution: "prosemirror-model@npm:1.19.4"
+"prosemirror-model@npm:1.21.0":
+  version: 1.21.0
+  resolution: "prosemirror-model@npm:1.21.0"
   dependencies:
     orderedmap: "npm:^2.0.0"
-  checksum: 10c0/8a84f9ad869ed925245adeaef4127d03dc5ad8202fea0600e5e35b92f3b5a775d4b3bd6c4eeca338b3d9e7471dfc84a931ca67d6a401991aacbe8a5783fcbd4e
+  checksum: 10c0/ec0d23540b816e4c292698030fe5d1ce827ec9dcd1c785f95a70e67c5ebda4b0f1d714a7ff8ecdb49ad97b864b4bcaa20e00e50533639c303a1662eaeb83b834
   languageName: node
   linkType: hard
 
@@ -13795,14 +13795,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prosemirror-view@npm:^1.0.0, prosemirror-view@npm:^1.1.0, prosemirror-view@npm:^1.13.3, prosemirror-view@npm:^1.27.0, prosemirror-view@npm:^1.31.0, prosemirror-view@npm:^1.32.7":
-  version: 1.33.1
-  resolution: "prosemirror-view@npm:1.33.1"
+"prosemirror-view@npm:1.33.6":
+  version: 1.33.6
+  resolution: "prosemirror-view@npm:1.33.6"
   dependencies:
-    prosemirror-model: "npm:^1.16.0"
+    prosemirror-model: "npm:^1.20.0"
     prosemirror-state: "npm:^1.0.0"
     prosemirror-transform: "npm:^1.1.0"
-  checksum: 10c0/9248a3f5fd60279ba2870535deb61f16946f2602a0e9b5736d5a311aa69381bed086095a4474c1c4a5d8149039a8e36e8b28056b8910648ccc8c68958eee1578
+  checksum: 10c0/bec6edb8397f679056014d53efc84e1f64e63b329363d7ec7d8683d242dfeb25eed0c318b6362e416ad64c64a0de9b0855b40b43f9b6fa1c8f4517ef40ded61b
+  languageName: node
+  linkType: hard
+
+"prosemirror-view@patch:prosemirror-view@npm%3A1.33.6#~/.yarn/patches/prosemirror-view-npm-1.33.6-4e9dd2ce02.patch":
+  version: 1.33.6
+  resolution: "prosemirror-view@patch:prosemirror-view@npm%3A1.33.6#~/.yarn/patches/prosemirror-view-npm-1.33.6-4e9dd2ce02.patch::version=1.33.6&hash=3d127b"
+  dependencies:
+    prosemirror-model: "npm:^1.20.0"
+    prosemirror-state: "npm:^1.0.0"
+    prosemirror-transform: "npm:^1.1.0"
+  checksum: 10c0/4a079521cbeee0d35e3377e9d07e90264ef1fdc2c4fca2fb80218c89f6823be1d326eec9de4f8013739c97cd58c3d7e81bcac3bd4ef45cd5b83c3bbcb2d06335
   languageName: node
   linkType: hard
 

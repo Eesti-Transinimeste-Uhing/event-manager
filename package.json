@@ -19,5 +19,9 @@
   },
   "dependencies": {
     "dot-prop": "^8.0.2"
+  },
+  "resolutions": {
+    "prosemirror-view": "patch:prosemirror-view@npm%3A1.33.6#~/.yarn/patches/prosemirror-view-npm-1.33.6-4e9dd2ce02.patch",
+    "prosemirror-model": "1.21.0"
   }
 }

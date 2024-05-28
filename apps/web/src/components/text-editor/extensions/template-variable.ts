@@ -5,6 +5,12 @@ import TemplateVariableRenderer from './template-variable.vue'
 
 export const TemplateVariableNodeWithRenderer = TemplateVariableNode.extend({
   addNodeView() {
-    return VueNodeViewRenderer(TemplateVariableRenderer)
+    return VueNodeViewRenderer(TemplateVariableRenderer, {
+      contentDOMElementTag: '.template-variable-wrapper',
+    })
+  },
+
+  get view() {
+    return VueNodeViewRenderer
   },
 })

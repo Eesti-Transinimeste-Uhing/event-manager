@@ -5,15 +5,21 @@ import ComponentTranslator from 'src/components/component-translator.vue'
 import { SupportedLanguages } from 'src/graphql/generated/graphql'
 import TextEditor from '../text-editor/text-editor.vue'
 
-const props = defineProps<{
-  modelValue: Record<SupportedLanguages, JSONContent | null>
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: Record<SupportedLanguages, JSONContent | null>
+    defaultLanguage?: SupportedLanguages
+  }>(),
+  {
+    defaultLanguage: SupportedLanguages.EtEe,
+  }
+)
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: Record<SupportedLanguages, JSONContent | null>): void
 }>()
 
-const lang = ref<SupportedLanguages>(SupportedLanguages.EtEe)
+const lang = ref<SupportedLanguages>(props.defaultLanguage)
 
 const handleUpdate = (newValue: JSONContent | null) => {
   emit('update:model-value', {
@@ -24,7 +30,10 @@ const handleUpdate = (newValue: JSONContent | null) => {
 </script>
 
 <template>
-  <component-translator @update:model-value="(v) => (lang = v)">
+  <component-translator
+    @update:model-value="(v) => (lang = v)"
+    :default-language="props.defaultLanguage"
+  >
     <template
       v-slot:[language]
       v-for="language in Object.values(SupportedLanguages)"

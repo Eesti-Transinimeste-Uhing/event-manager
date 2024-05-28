@@ -3,16 +3,22 @@ import ComponentTranslator from 'src/components/component-translator.vue'
 import { SupportedLanguages } from 'src/graphql/generated/graphql'
 import { ref } from 'vue'
 
-const props = defineProps<{
-  modelValue: Record<SupportedLanguages, string>
-  class?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: Record<SupportedLanguages, string>
+    class?: string
+    defaultLanguage?: SupportedLanguages
+  }>(),
+  {
+    defaultLanguage: SupportedLanguages.EtEe,
+  }
+)
 
 const emit = defineEmits<{
   (event: 'update:model-value', value: Record<SupportedLanguages, string>): void
 }>()
 
-const lang = ref<SupportedLanguages>(SupportedLanguages.EtEe)
+const lang = ref<SupportedLanguages>(props.defaultLanguage)
 
 const handleUpdate = (newValue: string | number | null) => {
   emit('update:model-value', {
@@ -26,7 +32,10 @@ const handleUpdate = (newValue: string | number | null) => {
 
 <template>
   <div class="component-translator" :class="props.class">
-    <component-translator @update:model-value="(v) => (lang = v)">
+    <component-translator
+      @update:model-value="(v) => (lang = v)"
+      :default-language="props.defaultLanguage"
+    >
       <q-card flat bordered>
         <q-input
           v-bind="$attrs"

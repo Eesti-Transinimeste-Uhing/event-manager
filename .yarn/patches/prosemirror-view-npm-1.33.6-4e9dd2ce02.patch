@@ -1,0 +1,17 @@
+diff --git a/dist/index.js b/dist/index.js
+index 1b7efa86dfaa49cffa96ea29d6242ffe22e5e2f3..464531913bfd0507c8e6ff9509be6cb968feaac9 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1268,12 +1268,6 @@ class NodeViewDesc extends ViewDesc {
+         else if (!dom) {
+             ({ dom, contentDOM } = DOMSerializer.renderSpec(document, node.type.spec.toDOM(node)));
+         }
+-        if (!contentDOM && !node.isText && dom.nodeName != "BR") { // Chrome gets confused by <br contenteditable=false>
+-            if (!dom.hasAttribute("contenteditable"))
+-                dom.contentEditable = "false";
+-            if (node.type.spec.draggable)
+-                dom.draggable = true;
+-        }
+         let nodeDOM = dom;
+         dom = applyOuterDeco(dom, outerDeco, node);
+         if (spec)

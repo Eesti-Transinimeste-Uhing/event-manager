@@ -1,4 +1,4 @@
-import { Node } from '@tiptap/vue-3'
+import { Node, HTMLElement } from '@tiptap/vue-3'
 
 export const TemplateVariableId = {
   'event-date-time': 'event-date-time',
@@ -15,13 +15,15 @@ export const TemplateVariableNode = Node.create({
   atom: true,
 
   renderHTML({ node }) {
-    const vars = this.editor?.storage['template-values'] ?? {}
+    const vars: Record<string, string> = this.editor?.storage['template-values'] ?? {}
 
-    return vars[node.attrs.id] ?? ''
+    return `<div class="template-variable-wrapper">${vars[node.attrs.id] ?? ''}</div>`
   },
 
-  renderText() {
-    return ''
+  renderText({ node }) {
+    const vars: Record<string, string> = this.editor?.storage['template-values'] ?? {}
+
+    return vars[node.attrs.id] ?? ''
   },
 
   addAttributes() {
@@ -31,4 +33,12 @@ export const TemplateVariableNode = Node.create({
       },
     }
   },
+
+  parseDOM: [
+    {
+      tag: 'div',
+      getAttrs: (dom: HTMLElement) => ({}),
+    },
+  ],
+  toDOM: (node: Node) => ['div', {}],
 })

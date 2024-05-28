@@ -4,8 +4,18 @@ import { computed, ref, useSlots, watch } from 'vue'
 import LanguageTabs from './language-tabs.vue'
 import { SupportedLanguages } from 'src/graphql/generated/graphql'
 
+const props = withDefaults(
+  defineProps<{
+    square?: boolean
+    defaultLanguage?: SupportedLanguages
+  }>(),
+  {
+    defaultLanguage: SupportedLanguages.EtEe,
+  }
+)
+
 const slots = useSlots()
-const state = ref(SupportedLanguages.EtEe)
+const state = ref(props.defaultLanguage)
 
 const slotCount = computed(() => {
   return Object.keys(slots).length
@@ -22,10 +32,6 @@ watch(state, (newState) => {
 const tabsWidth = computed(() => {
   return `${Object.keys(SupportedLanguages).length * 57}px`
 })
-
-const props = defineProps<{
-  square?: boolean
-}>()
 </script>
 
 <style lang="scss" scoped>
