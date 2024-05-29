@@ -4,7 +4,7 @@ import { computed, ref } from 'vue'
 
 import { graphql } from 'src/graphql/generated'
 import { useRouteParam } from 'src/lib/use-route-param'
-import { FormFieldKind, SubmitFormDataInput } from 'src/graphql/generated/graphql'
+import { FormFieldKind, RenderTarget, SubmitFormDataInput } from 'src/graphql/generated/graphql'
 
 import FormField from 'src/components/form/form-field.vue'
 import EmptyContent from 'src/components/empty-content.vue'
@@ -18,20 +18,20 @@ const id = useRouteParam('id')
 const { t, currentLanguage } = useI18n()
 
 const variables = computed(() => {
-  return { where: { id }, lang: currentLanguage.value }
+  return { where: { id }, lang: currentLanguage.value, target: RenderTarget.Html }
 })
 
 const { result, loading, error } = useQuery(
   graphql(`
-    query FormSubmit($where: WhereIdInput!, $lang: SupportedLanguages!) {
+    query FormSubmit($where: WhereIdInput!, $lang: SupportedLanguages!, $target: RenderTarget!) {
       form(where: $where) {
         id
         name(where: { language: $lang })
         banner
+        description(where: { language: $lang }, target: $target)
         template {
           id
           fields
-          description(where: { language: $lang })
         }
       }
     }
@@ -189,9 +189,7 @@ const cardBackground = computed(() => {
             <q-separator class="q-mb-md" />
 
             <q-card-section class="q-pt-none">
-              <div>
-                {{ result.form.template.description }}
-              </div>
+              <div v-html="result.form.description" />
             </q-card-section>
           </q-card>
 

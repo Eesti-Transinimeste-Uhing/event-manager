@@ -199,6 +199,7 @@ export interface NexusGenInputs {
 export interface NexusGenEnums {
   FormFieldKind: 0 | 1 | 2 | 3 | 4
   PaginationSortingOrder: 'ASC' | 'DESC'
+  RenderTarget: 2 | 3 | 1
   SupportedLanguages: 'en_GB' | 'et_EE' | 'ru_RU'
   UserRole: 1 | 2 | 0 | 3
 }
@@ -292,7 +293,7 @@ export interface NexusGenFieldTypes {
     // field return type
     banner: NexusGenScalars['URL'] // URL!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
-    description: NexusGenScalars['JSONObject'] // JSONObject!
+    description: string // String!
     description_i18n: NexusGenScalars['I18nJSON'] // I18nJSON!
     id: string // ID!
     location: string | null // String
@@ -407,7 +408,7 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     banner: 'URL'
     createdAt: 'DateTime'
-    description: 'JSONObject'
+    description: 'String'
     description_i18n: 'I18nJSON'
     id: 'ID'
     location: 'String'
@@ -512,6 +513,7 @@ export interface NexusGenArgTypes {
   Form: {
     description: {
       // args
+      target: NexusGenEnums['RenderTarget'] // RenderTarget!
       where: NexusGenInputs['WhereLangInput'] // WhereLangInput!
     }
     location: {

@@ -10,13 +10,11 @@ const props = defineProps<{
 
   bold: boolean
   italic: boolean
-  underline: boolean
 }>()
 
 const emit = defineEmits<{
   (event: 'bold'): void
   (event: 'italic'): void
-  (event: 'underline'): void
 
   (event: 'undo'): void
   (event: 'redo'): void
@@ -70,14 +68,6 @@ const templateVariableOptions = computed(() =>
       :tooltip="$t('italic')"
       @click="emit('italic')"
       :color="italic ? 'primary' : 'white'"
-    />
-    <tooltip-button
-      flat
-      square
-      icon="las la-underline"
-      :tooltip="$t('underline')"
-      @click="emit('underline')"
-      :color="underline ? 'primary' : 'white'"
     />
 
     <q-separator vertical />

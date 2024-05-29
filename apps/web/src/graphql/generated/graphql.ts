@@ -53,7 +53,7 @@ export type Form = {
   __typename?: 'Form'
   banner: Scalars['URL']['output']
   createdAt: Scalars['DateTime']['output']
-  description: Scalars['JSONObject']['output']
+  description: Scalars['String']['output']
   description_i18n: Scalars['I18nJSON']['output']
   id: Scalars['ID']['output']
   location?: Maybe<Scalars['String']['output']>
@@ -66,6 +66,7 @@ export type Form = {
 }
 
 export type FormDescriptionArgs = {
+  target: RenderTarget
   where: WhereLangInput
 }
 
@@ -262,6 +263,12 @@ export type RemoveFormInput = {
 
 export type RemoveTemplateInput = {
   id: Scalars['ID']['input']
+}
+
+export enum RenderTarget {
+  Discord = 'Discord',
+  Html = 'Html',
+  Markdown = 'Markdown',
 }
 
 export type SubmitFormDataInput = {
@@ -500,6 +507,7 @@ export type SearchTemplatesQuery = {
 export type FormSubmitQueryVariables = Exact<{
   where: WhereIdInput
   lang: SupportedLanguages
+  target: RenderTarget
 }>
 
 export type FormSubmitQuery = {
@@ -509,12 +517,8 @@ export type FormSubmitQuery = {
     id: string
     name?: string | null
     banner: any
-    template: {
-      __typename?: 'Template'
-      id: string
-      fields: Array<FormFieldKind>
-      description?: any | null
-    }
+    description: string
+    template: { __typename?: 'Template'; id: string; fields: Array<FormFieldKind> }
   } | null
 }
 
@@ -1258,6 +1262,14 @@ export const FormSubmitDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'SupportedLanguages' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'target' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'RenderTarget' } },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -1299,35 +1311,37 @@ export const FormSubmitDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'banner' } },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'description' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'where' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'language' },
+                            value: { kind: 'Variable', name: { kind: 'Name', value: 'lang' } },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'target' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'target' } },
+                    },
+                  ],
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'template' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'fields' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'description' },
-                        arguments: [
-                          {
-                            kind: 'Argument',
-                            name: { kind: 'Name', value: 'where' },
-                            value: {
-                              kind: 'ObjectValue',
-                              fields: [
-                                {
-                                  kind: 'ObjectField',
-                                  name: { kind: 'Name', value: 'language' },
-                                  value: {
-                                    kind: 'Variable',
-                                    name: { kind: 'Name', value: 'lang' },
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
                     ],
                   },
                 },

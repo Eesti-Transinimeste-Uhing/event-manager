@@ -22,7 +22,7 @@ type DiscordUser {
 type Form {
   banner: URL!
   createdAt: DateTime!
-  description(where: WhereLangInput!): JSONObject!
+  description(target: RenderTarget!, where: WhereLangInput!): String!
   description_i18n: I18nJSON!
   id: ID!
   location(where: WhereLangInput!): String
@@ -266,6 +266,12 @@ input RemoveFormInput {
 
 input RemoveTemplateInput {
   id: ID!
+}
+
+enum RenderTarget {
+  Discord
+  Html
+  Markdown
 }
 
 input SubmitFormDataInput {

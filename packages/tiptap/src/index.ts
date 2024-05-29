@@ -12,11 +12,12 @@ import HardBreak from '@tiptap/extension-hard-break'
 
 import Bold from '@tiptap/extension-bold'
 import Italic from '@tiptap/extension-italic'
-import Underline from '@tiptap/extension-underline'
 
 import History from '@tiptap/extension-history'
 
 export { TemplateVariableNode, TemplateVariableId } from './extensions/template-variable'
+
+export { renderJsonContent, RenderTarget } from './render'
 
 export const extensions: Extensions = [
   Document,
@@ -30,6 +31,5 @@ export const extensions: Extensions = [
   HardBreak,
   Bold,
   Italic,
-  Underline,
   History,
 ]

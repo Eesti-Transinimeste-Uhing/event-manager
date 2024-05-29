@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { objectType } from 'nexus'
+import { formController } from '../../server/static-context'
 
 export const Form = objectType({
   name: 'Form',
@@ -50,14 +51,13 @@ export const Form = objectType({
         return template.description
       },
     })
-    t.jsonObject('description', {
+    t.string('description', {
       args: {
         where: 'WhereLangInput',
+        target: 'RenderTarget',
       },
       async resolve(root, args) {
-        const template = await root.template
-
-        return template.description[args.where.language]
+        return formController.renderDescription(root, args.where.language, args.target)
       },
     })
     t.field('template', {
