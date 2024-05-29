@@ -1,47 +1,70 @@
-import { ReadStream, read } from 'node:fs'
-import stream, { pipeline } from 'node:stream/promises'
+import stream from 'node:stream/promises'
 
 import { Storage } from '../lib/storage'
 
-import * as imageUtils from '../lib/image-toolkit'
 import { downloadPicsumImage } from '../lib/picsum'
-import { ReadableStream } from 'stream/web'
-import { templateController } from '../server/static-context'
-import { crop } from '../lib/image-utils'
+import { config } from '../config'
+import sharp from 'sharp'
+import { AppDataSource } from '../data-source'
+import { Template } from '../entity/template'
 
 export class TemplateBannersStorage extends Storage {
+  private manager = AppDataSource.createEntityManager()
+
   constructor() {
     super('template-banners')
   }
 
-  public override exists = (id: string) => {
+  public override exists = async (id: string) => {
     return this.existsFile(id)
   }
 
   public override get = async (templateId: string) => {
-    if (!(await this.existsFile(templateId))) {
-      const blob = await downloadPicsumImage(templateId, 1920, 1080)
-      await this.putFile(templateId, blob.stream())
+    const template = await this.manager.findOneByOrFail(Template, {
+      id: templateId,
+    })
+
+    let buffer: Buffer | null = Buffer.from([])
+
+    if (
+      config.server.storageCache.includes(this.directory) &&
+      (await this.existsFile(templateId))
+    ) {
+      buffer = await this.getFile(templateId)
+
+      if (!buffer) return null
+    } else {
+      buffer = await downloadPicsumImage(templateId, 1920, 1280)
+
+      if (!buffer) return null
+
+      await this.put(templateId, buffer)
     }
 
-    return await this.getFile(templateId)
+    const pipeline = sharp(buffer).extract({
+      width: 1920,
+      height: 1080,
+      left: 0,
+      top: template.bannerOffset * -1,
+    })
+
+    return await pipeline.toBuffer()
   }
 
-  public crop = async (stream: ReadStream, top: number) => {
-    return stream.pipe(
-      crop({
-        width: 1920,
-        height: 1080,
-        top: top * -1,
-      }).jpeg()
-    )
-  }
-
-  public override put = async (templateId: string, banner: ReadStream | ReadableStream) => {
+  public override put = async (templateId: string, banner: Buffer) => {
     const writeStream = await this.createWriteStream(templateId)
-    const jpegStream = imageUtils.toJpeg()
 
-    await stream.pipeline(banner, jpegStream, writeStream)
+    const pipeline = sharp(banner)
+      .resize({
+        width: 1920,
+        withoutReduction: true,
+      })
+      .resize({
+        height: 1080,
+        withoutReduction: true,
+      })
+
+    await stream.pipeline(pipeline, writeStream)
   }
 
   public override delete = async (templateId: string) => {

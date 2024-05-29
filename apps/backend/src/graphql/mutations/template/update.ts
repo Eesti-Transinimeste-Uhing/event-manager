@@ -1,6 +1,7 @@
 import { inputObjectType, mutationField } from 'nexus'
 import { templateController } from '../../../server/static-context'
 import { templateBanners } from '../../../storage'
+import { streamToBuffer } from '../../../lib/stream-to-buffer'
 
 const UpdateTemplateWhereInput = inputObjectType({
   name: 'UpdateTemplateWhereInput',
@@ -40,7 +41,7 @@ export const UpdateTemplate = mutationField((t) => {
 
       if (banner) {
         const { createReadStream } = await banner
-        await templateBanners.put(args.where.id, createReadStream())
+        await templateBanners.put(args.where.id, await streamToBuffer(createReadStream()))
       }
 
       return result

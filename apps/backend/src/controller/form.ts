@@ -6,7 +6,7 @@ import { PaginationArgs } from 'nexus/dist/plugins/connectionPlugin'
 import { EntityNotFoundError } from '../lib/errors'
 import { FormSubmissionData } from '../entity/form-submission'
 import { FormSubmissionRepository } from '../repository/form-submission'
-import { templateBanners } from '../storage'
+import { formBanners, templateBanners } from '../storage'
 
 export class FormController {
   private manager = AppDataSource.createEntityManager()
@@ -32,16 +32,7 @@ export class FormController {
   }
 
   public async getBanner(id: string) {
-    const form = await this.forms.findOneBy({ id })
-
-    if (!form) return null
-
-    const template = await form.template
-    const banner = await templateBanners.get(template.id)
-
-    if (!banner) return null
-
-    return await templateBanners.crop(banner, template.bannerOffset)
+    return await formBanners.get(id)
   }
 
   public async paginateSubmissions(args: PaginationArgs) {

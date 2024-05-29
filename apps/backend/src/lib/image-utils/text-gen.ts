@@ -1,4 +1,5 @@
 import sharp from 'sharp'
+import { wrapText } from '../wrap-text'
 
 export type TextgenOptions = {
   height: number
@@ -6,37 +7,36 @@ export type TextgenOptions = {
   top: number
   left: number
   content: string
-  colour: string
+  lineWidth: number
+  font: {
+    size: number
+    colour: string
+    family: string
+    weight: 'normal' | 'bold' | 'bolder' | 'lighter' | number
+  }
 }
 
-type SvgOptions = {
-  height: number
-  width: number
-  content: string
-  colour: string
-}
-
-const svg = (options: SvgOptions) => `
+export const textGen = (options: TextgenOptions) => {
+  const svg = `
 <svg height="${options.height}" width="${options.width}">
     <text
-      font-size="${options.height}px"
-      fill="${options.colour}"
-      y="${options.height - options.height / 3.5}"
+      font-size="${options.font.size}px"
+      font-family="${options.font.family}"
+      font-weight="${options.font.weight}"
+      fill="${options.font.colour}"
+      text-anchor="middle"
+      y="${options.top + options.font.size}"
     >
-      ${options.content}
+      ${wrapText(options.lineWidth, options.content)
+        .map((line, index) => {
+          return `<tspan x="${options.left}" y="${options.top}" dy="${1.2 * (index + 1)}em">${line}</tspan>`
+        })
+        .join('\n')}
     </text>
 </svg>
 `
 
-export const textGen = (options: TextgenOptions) => {
-  const svg_buffer = Buffer.from(
-    svg({
-      height: options.height,
-      width: options.width,
-      colour: options.colour,
-      content: options.content,
-    })
-  )
+  const svg_buffer = Buffer.from(svg)
 
   return sharp({
     create: {
@@ -45,5 +45,8 @@ export const textGen = (options: TextgenOptions) => {
       channels: 4,
       background: 'transparent',
     },
-  }).composite([{ input: svg_buffer, top: options.top, left: options.left }])
+  })
+    .composite([{ input: svg_buffer, top: 0, left: 0 }])
+    .png()
+    .toBuffer()
 }

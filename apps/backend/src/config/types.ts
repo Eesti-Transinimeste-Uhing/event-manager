@@ -15,6 +15,7 @@ export type Config = {
     port: number
     publicUrl: string
     trustProxy: boolean
+    storageCache: string[]
   }
   discord: {
     clientId: string

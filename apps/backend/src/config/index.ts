@@ -17,6 +17,7 @@ const getConfig = (): Config => {
       port: getNumber('SERVER_PORT', process.env.SERVER_PORT),
       publicUrl: getString('SERVER_PUBLIC_URL', process.env.SERVER_PUBLIC_URL),
       trustProxy: getString('SERVER_TRUST_PROXY', process.env.SERVER_TRUST_PROXY) === 'true',
+      storageCache: getString('SERVER_STORAGE_CACHE', process.env.SERVER_STORAGE_CACHE).split(','),
     },
     discord: {
       clientId: getString('DISCORD_CLIENT_ID', process.env.DISCORD_CLIENT_ID),
