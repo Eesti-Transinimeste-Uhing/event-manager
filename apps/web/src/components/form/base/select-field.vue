@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useI18n } from 'src/hooks/use-i18n'
 import { computed, ref } from 'vue'
 
 export type SelectOption =
@@ -19,13 +20,15 @@ const emit = defineEmits<{
   (event: 'update:model-value', value: string | null): void
 }>()
 
+const { t } = useI18n()
+
 const appendOther = (options: SelectOption[]): SelectOption[] => {
   if (!props.allowOther) {
     return options
   }
 
   const otherOption =
-    typeof props.options[0] === 'string' ? 'Other' : { label: 'Other', value: 'other' }
+    typeof props.options[0] === 'string' ? t('other') : { label: t('other'), value: 'other' }
 
   return [...options, otherOption]
 }
