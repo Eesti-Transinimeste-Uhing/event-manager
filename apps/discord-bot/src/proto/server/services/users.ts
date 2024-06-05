@@ -1,22 +1,18 @@
 import { UnimplementedUsersService, UserFilter, UserRole, UserRolesResult } from '@etu/events-proto'
 import { ServerUnaryCall, sendUnaryData } from '@grpc/grpc-js'
-import { Client } from '../../../discord/client'
 import { config } from '../../../config'
+import { discord } from '../../../discord/client'
 
 export class UsersService extends UnimplementedUsersService {
-  constructor(private client: Client) {
-    super()
-  }
-
-  override async getUserRoles(
+  public async getUserRoles(
     call: ServerUnaryCall<UserFilter, UserRolesResult>,
     callback: sendUnaryData<UserRolesResult>
   ) {
     try {
-      let member = this.client.guild.members.cache.find((m) => m.user.id === call.request.id)
+      let member = discord.guild.members.cache.find((m) => m.user.id === call.request.id)
 
       if (!member) {
-        member = await this.client.guild.members.fetch({ user: call.request.id })
+        member = await discord.guild.members.fetch({ user: call.request.id })
       }
 
       if (!member) {

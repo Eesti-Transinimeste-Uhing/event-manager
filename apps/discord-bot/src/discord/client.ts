@@ -6,7 +6,7 @@ import { log } from '../log'
 import { config } from '../config'
 import VError from 'verror'
 
-export class Client extends SapphireClient {
+class Client extends SapphireClient {
   constructor() {
     super({
       intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
@@ -37,3 +37,5 @@ export class Client extends SapphireClient {
     this.guild = guild
   }
 }
+
+export const discord = new Client()

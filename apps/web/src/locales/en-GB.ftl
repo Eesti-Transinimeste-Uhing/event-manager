@@ -3,6 +3,10 @@ must-be-between = Must be between { $min } and { $max }
 please-enter-valid-email = Please enter a valid email address
 form-field-kind-not-implemented = Form field kind "{ $kind }" is not implemented.
 data-wipe-notification = Data submitted through this form will be deleted on { $date }.
+email-signup-cta = Get announcements via e-mail
+email-signup-description = Normally we announce events via social media, but
+  you can also get them via e-mail to be the first to know and be able to secure your
+  place on our registration list early.
 
 age = Age
 yes = Yes
@@ -73,14 +77,14 @@ securing-session = Securing your session…
 please-wait = Please wait
 welcome = Welcome!
 link-discord-to-log-in = Link your Discord account to log in
-login-page-staff-only = This section of the event bot is for Eesti Transinimeste
-  Ühing staff and volunteers. If you're a guest of ours, please use the
+login-page-staff-only = This section of the event bot is for Estonian Trans
+  Alliance staff and volunteers. If you're a guest of ours, please use the
   links we posted to register for events.
 
 # Misc
 collapse-staff-toolbar = Collapse staff toolbar
 expand-staff-toolbar = Expand staff toolbar
-site-label = ETÜ Event Planner
+site-label = Event Planner
 brand-name = Estonian Trans Alliance
 saved = Saved
 cannot-save = Cannot save
@@ -113,3 +117,4 @@ offsetter = Offsetter
 overlay = Overlay
 location = Location
 source = Source
+tos-and-privacy = Terms of service and privacy policy
