@@ -2,6 +2,7 @@
 must-be-between = Must be between { $min } and { $max }
 please-enter-valid-email = Please enter a valid email address
 form-field-kind-not-implemented = Form field kind "{ $kind }" is not implemented.
+data-wipe-notification = Data submitted through this form will be deleted on { $date }.
 
 age = Age
 yes = Yes

@@ -10,9 +10,10 @@ import FormField from 'src/components/form/form-field.vue'
 import EmptyContent from 'src/components/empty-content.vue'
 import SiteLogo from 'src/components/site-logo.vue'
 import DarkToggle from 'src/components/dark-toggle.vue'
-import { useQuasar } from 'quasar'
 import { useNotificationsStore } from 'src/stores/notifications'
 import { useI18n } from 'src/hooks/use-i18n'
+import { useUserPreferencesStore } from 'src/stores/user-preferences'
+import { storeToRefs } from 'pinia'
 
 const id = useRouteParam('id')
 const { t, currentLanguage } = useI18n()
@@ -119,10 +120,11 @@ const handleFieldUpdate = (name: FormFieldKind, value: unknown) => {
   }
 }
 
-const q = useQuasar()
+const userPreferencesStore = useUserPreferencesStore()
+const { darkMode } = storeToRefs(userPreferencesStore)
 
 const cardBackground = computed(() => {
-  return q.dark.isActive ? 'rgba(35, 35, 35, 0.75)' : 'rgba(255, 255, 255, 0.75)'
+  return darkMode.value ? 'rgba(35, 35, 35, 0.75)' : 'rgba(255, 255, 255, 0.75)'
 })
 </script>
 

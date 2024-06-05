@@ -7,7 +7,6 @@ import {
 } from 'vue-router'
 
 import { RouteRecord, authLogin, routes } from './routes'
-import { Dark } from 'quasar'
 import { apolloClient } from 'src/graphql/apollo/client'
 import { gql } from '@apollo/client/core'
 
@@ -42,10 +41,6 @@ export default route(() => {
   }
 
   router.afterEach((to) => {
-    setTimeout(() => {
-      Dark.set((to as unknown as RouteRecord).meta.dark)
-    }, 0)
-
     if (typeof window === 'undefined' || (to as unknown as RouteRecord).meta.auth !== 'require')
       return
 

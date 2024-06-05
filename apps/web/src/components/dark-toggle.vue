@@ -1,9 +1,14 @@
 <script lang="ts" setup>
-import { useQuasar } from 'quasar'
+import { storeToRefs } from 'pinia'
+import { useUserPreferencesStore } from 'src/stores/user-preferences'
 
-const q = useQuasar()
+const userPreferencesStore = useUserPreferencesStore()
+const { darkMode } = storeToRefs(userPreferencesStore)
 </script>
 
 <template>
-  <q-toggle :model-value="q.dark.isActive" @update:model-value="(v) => q.dark.set(v)" />
+  <q-toggle
+    :model-value="darkMode"
+    @update:model-value="(v) => userPreferencesStore.setDarkMode(v)"
+  />
 </template>

@@ -1,34 +1,36 @@
 <script lang="ts" setup>
-import { useQuasar } from 'quasar'
 import { computed } from 'vue'
 
 import LanguageSelector from 'src/components/language-selector.vue'
 
 import perlinDark from 'assets/background/perlin-dark.jpg'
 import StickyToolbar from 'components/sticky-toolbar.vue'
+import { useUserPreferencesStore } from 'src/stores/user-preferences'
+import { storeToRefs } from 'pinia'
 
-const q = useQuasar()
+const userPreferencesStore = useUserPreferencesStore()
+const { darkMode } = storeToRefs(userPreferencesStore)
 
 const background = computed(() => {
   return `url(${perlinDark})`
 })
 
 const gradientColour1 = computed(() => {
-  return `rgb(86, 172, 252, ${q.dark.isActive ? 0.5 : 1})`
+  return `rgb(86, 172, 252, ${darkMode.value ? 0.5 : 1})`
 })
 
 const gradientColour2 = computed(() => {
-  return `rgba(246, 144, 230, ${q.dark.isActive ? 0.2 : 0.5})`
+  return `rgba(246, 144, 230, ${darkMode.value ? 0.2 : 0.5})`
 })
 
 const gradientColour3 = computed(() => {
-  return `rgba(255, 236, 70, ${q.dark.isActive ? 0.1 : 0.2})`
+  return `rgba(255, 236, 70, ${darkMode.value ? 0.1 : 0.2})`
 })
 </script>
 
 <template>
   <q-layout view="lHh lpr lff" class="layout-root">
-    <div v-if="q.dark.isActive" class="anti-band-hack" />
+    <div v-if="darkMode" class="anti-band-hack" />
 
     <q-page-container class="fit">
       <router-view v-slot="{ Component, route }">
