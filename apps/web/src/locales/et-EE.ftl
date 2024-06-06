@@ -85,7 +85,7 @@ edit-form = Muuda vormi
 could-not-auth-discord = Discordiga ei saanud autentida
 registered-message = Olete registreeritud, näeme varsti!
 expand-staff-toolbar = Ava personali tööriba
-site-label = ETÜ Ürituse Planeerija
+site-label = Ürituse Planeerija
 cannot-save = Ei saanud salvestada
 # Template editor
 edit-template = Muuda malli
