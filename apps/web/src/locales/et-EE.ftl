@@ -92,3 +92,4 @@ edit-template = Muuda malli
 # Authentication
 account-menu = Konto menüü
 log-out = Logi välja
+source = Allikas
