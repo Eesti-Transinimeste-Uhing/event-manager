@@ -1,15 +1,18 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import LanguageSelector from 'src/components/language-selector.vue'
 
 import perlinDark from 'assets/background/perlin-dark.jpg'
 import StickyToolbar from 'components/sticky-toolbar.vue'
 import { useUserPreferencesStore } from 'src/stores/user-preferences'
-import { storeToRefs } from 'pinia'
+import { useI18n } from 'src/hooks/use-i18n'
 
 const userPreferencesStore = useUserPreferencesStore()
 const { darkMode } = storeToRefs(userPreferencesStore)
+
+const { t } = useI18n()
 
 const background = computed(() => {
   return `url(${perlinDark})`
@@ -41,12 +44,33 @@ const gradientColour3 = computed(() => {
         </transition>
       </router-view>
 
-      <q-card class="row justify-end">
+      <q-card flat class="row justify-end">
         <language-selector />
       </q-card>
 
       <sticky-toolbar />
     </q-page-container>
+
+    <q-footer class="bg-transparent">
+      <q-card flat square class="row justify-between q-px-md">
+        <q-card-section class="column">
+          <a :href="t('site-link')" rel="noopener" target="_blank" class="text-subtitle1">
+            {{ t('brand-name') }}
+          </a>
+        </q-card-section>
+
+        <q-card-section class="column">
+          <a
+            :href="t('tos-and-privacy-link')"
+            rel="noopener"
+            target="_blank"
+            class="text-subtitle2"
+          >
+            {{ t('tos-and-privacy') }}
+          </a>
+        </q-card-section>
+      </q-card>
+    </q-footer>
   </q-layout>
 </template>
 

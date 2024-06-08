@@ -84,6 +84,11 @@ $stripes: linear-gradient(
   animation-play-state: running;
 }
 
+.bg-glass {
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(2px);
+}
+
 body,
 .font-inter {
   font-family: inter, sans-serif;

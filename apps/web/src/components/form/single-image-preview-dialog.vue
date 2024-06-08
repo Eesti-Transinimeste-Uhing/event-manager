@@ -56,11 +56,6 @@ const handleHintUnhover = () => {
   border-radius: $border-radius;
 }
 
-.bg-glass {
-  background-color: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(2px);
-}
-
 .overlay {
   &-wrapper {
     width: 100%;

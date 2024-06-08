@@ -55,6 +55,7 @@ export type Form = {
   createdAt: Scalars['DateTime']['output']
   description: Scalars['String']['output']
   description_i18n: Scalars['I18nJSON']['output']
+  hasReachedSubmitLimit: Scalars['Boolean']['output']
   id: Scalars['ID']['output']
   location?: Maybe<Scalars['String']['output']>
   location_i18n: Scalars['I18nString']['output']
