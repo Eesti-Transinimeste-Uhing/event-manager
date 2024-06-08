@@ -8,6 +8,8 @@ import { useNotificationsStore } from 'src/stores/notifications'
 import { useI18n } from 'src/hooks/use-i18n'
 
 import LanguageSelector from './language-selector.vue'
+import DarkToggle from './dark-toggle.vue'
+import { useUserPreferencesStore } from 'src/stores/user-preferences'
 
 const { loading, result, onError } = useQuery(
   graphql(`
@@ -40,6 +42,12 @@ onError((error) => {
 const profile = computed(() => {
   return result.value?.viewer?.discord
 })
+
+const userPreferencesStore = useUserPreferencesStore()
+
+const handleToggleDarkMode = () => {
+  userPreferencesStore.setDarkMode(!userPreferencesStore.darkMode)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -72,6 +80,13 @@ const profile = computed(() => {
             <q-img no-spinner :src="profile?.avatar" />
           </q-avatar>
         </q-item-section>
+      </q-item>
+
+      <q-item clickable @click="handleToggleDarkMode">
+        <div class="row fit items-center justify-between">
+          <span>{{ t('dark-mode') }}</span>
+          <dark-toggle />
+        </div>
       </q-item>
 
       <q-separator />

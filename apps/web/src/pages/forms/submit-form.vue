@@ -175,7 +175,6 @@ const cardBackground = computed(() => {
               </q-toolbar-title>
 
               <div class="row items-center">
-                <q-icon name="las la-sun" size="sm" />
                 <dark-toggle color="white" />
               </div>
             </q-toolbar>

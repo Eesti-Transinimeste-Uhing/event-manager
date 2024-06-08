@@ -52,9 +52,15 @@ const gradientColour3 = computed(() => {
     </q-page-container>
 
     <q-footer class="bg-transparent">
-      <q-card flat square class="row justify-between q-px-md">
+      <q-card flat square class="row justify-between q-px-md bg-transparent">
         <q-card-section class="column">
-          <a :href="t('site-link')" rel="noopener" target="_blank" class="text-subtitle1">
+          <a
+            :href="t('site-link')"
+            rel="noopener"
+            target="_blank"
+            class="text-subtitle1"
+            :class="{ 'text-dark': !darkMode }"
+          >
             {{ t('brand-name') }}
           </a>
         </q-card-section>
@@ -65,6 +71,7 @@ const gradientColour3 = computed(() => {
             rel="noopener"
             target="_blank"
             class="text-subtitle2"
+            :class="{ 'text-dark': !darkMode }"
           >
             {{ t('tos-and-privacy') }}
           </a>
