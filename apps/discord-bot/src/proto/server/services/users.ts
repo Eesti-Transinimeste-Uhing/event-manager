@@ -1,4 +1,9 @@
-import { UnimplementedUsersService, UserFilter, UserRole, UserRolesResult } from '@etu/events-proto'
+import {
+  UnimplementedUsersService,
+  UserFilter,
+  UserRole,
+  UserRolesResult,
+} from '@etu/events-proto/dist/discord-bot/users'
 import { ServerUnaryCall, sendUnaryData } from '@grpc/grpc-js'
 import { config } from '../../../config'
 import { discord } from '../../../discord/client'

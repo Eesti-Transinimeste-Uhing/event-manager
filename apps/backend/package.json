@@ -37,7 +37,7 @@
     "verror": "^1.10.1"
   },
   "devDependencies": {
-    "@types/google-protobuf": "^3.15.12",
+    "@types/google-protobuf": "patch:@types/google-protobuf@npm%3A3.15.12#~/.yarn/patches/@types-google-protobuf-npm-3.15.12-fa91faceb9.patch",
     "@types/luxon": "^3.4.2",
     "@types/node": "20.11.1",
     "@types/passport-discord": "^0.1.13",

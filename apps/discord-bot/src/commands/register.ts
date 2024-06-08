@@ -2,12 +2,16 @@ import { Command } from '@sapphire/framework'
 import {
   ActionRowBuilder,
   ModalBuilder,
-  SlashCommandStringOption,
   StringSelectMenuBuilder,
   TextInputBuilder,
   TextInputStyle,
 } from 'discord.js'
-import { FormFieldKind, FormSubmission, FormSubmissionData, ObjectFilter } from '@etu/events-proto'
+import {
+  FormFieldKind,
+  FormSubmission,
+  FormSubmissionData,
+  GetFormParams,
+} from '@etu/events-proto/dist/backend/forms'
 
 import { formsClient } from '../proto/clients/forms'
 import { log } from '../log'
@@ -39,7 +43,7 @@ export class FormTestCommand extends Command {
   public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
     try {
       const id = interaction.options.getString('form-id') as string
-      const form = await formsClient.getForm(new ObjectFilter({ id }))
+      const form = await formsClient.getForm(GetFormParams.fromObject({ id }))
       const answers: FormSubmissionData[] = []
       const modal = new ModalBuilder().setTitle('Registration').setCustomId('registration')
 
@@ -197,7 +201,7 @@ export class FormTestCommand extends Command {
         new FormSubmission({
           sourceHash: hash(interaction.user.id),
           data: answers,
-          where: new ObjectFilter({ id }),
+          where: GetFormParams.fromObject({ id }),
         })
       )
 

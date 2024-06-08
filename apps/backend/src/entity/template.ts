@@ -8,7 +8,7 @@ import {
   DeleteDateColumn,
 } from 'typeorm'
 import { DateTime } from 'luxon'
-import { FormFieldKind } from '@etu/events-proto'
+import { FormFieldKind } from '@etu/events-proto/dist'
 
 import { Form } from './form'
 

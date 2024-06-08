@@ -1360,7 +1360,7 @@ __metadata:
     "@grpc/grpc-js": "npm:^1.10.6"
     "@tiptap/core": "npm:^2.2.4"
     "@tiptap/pm": "npm:^2.2.4"
-    "@types/google-protobuf": "npm:^3.15.12"
+    "@types/google-protobuf": "patch:@types/google-protobuf@npm%3A3.15.12#~/.yarn/patches/@types-google-protobuf-npm-3.15.12-fa91faceb9.patch"
     "@types/luxon": "npm:^3.4.2"
     "@types/node": "npm:20.11.1"
     "@types/passport-discord": "npm:^0.1.13"
@@ -1412,7 +1412,7 @@ __metadata:
   dependencies:
     "@grpc/grpc-js": "npm:^1.10.6"
     "@sapphire/framework": "npm:^5.0.7"
-    "@types/google-protobuf": "npm:^3.15.12"
+    "@types/google-protobuf": "patch:@types/google-protobuf@npm%3A3.15.12#~/.yarn/patches/@types-google-protobuf-npm-3.15.12-fa91faceb9.patch"
     "@types/node": "npm:20.11.1"
     "@types/verror": "npm:^1.10.10"
     discord.js: "npm:14.x"
@@ -1431,11 +1431,13 @@ __metadata:
   resolution: "@etu/events-proto@workspace:packages/proto"
   dependencies:
     "@grpc/grpc-js": "npm:^1.10.6"
-    "@types/google-protobuf": "npm:^3.15.12"
+    "@types/google-protobuf": "patch:@types/google-protobuf@npm%3A3.15.12#~/.yarn/patches/@types-google-protobuf-npm-3.15.12-fa91faceb9.patch"
     "@types/node": "npm:20.11.1"
     google-protobuf: "npm:^3.21.2"
     grpc-tools: "npm:^1.12.4"
+    nodemon: "npm:^3.1.3"
     protoc-gen-ts: "npm:^0.8.7"
+    rimraf: "npm:^5.0.7"
     ts-node-dev: "npm:^2.0.0"
     tsconfig-moon: "npm:^1.3.0"
     typescript: "npm:^5.4.2"
@@ -2685,18 +2687,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@moonrepo/cli@npm:^1.22.8":
-  version: 1.22.8
-  resolution: "@moonrepo/cli@npm:1.22.8"
+"@moonrepo/cli@npm:^1.25.3":
+  version: 1.25.4
+  resolution: "@moonrepo/cli@npm:1.25.4"
   dependencies:
-    "@moonrepo/core-linux-arm64-gnu": "npm:1.22.8"
-    "@moonrepo/core-linux-arm64-musl": "npm:1.22.8"
-    "@moonrepo/core-linux-x64-gnu": "npm:1.22.8"
-    "@moonrepo/core-linux-x64-musl": "npm:1.22.8"
-    "@moonrepo/core-macos-arm64": "npm:1.22.8"
-    "@moonrepo/core-macos-x64": "npm:1.22.8"
-    "@moonrepo/core-windows-x64-msvc": "npm:1.22.8"
-    detect-libc: "npm:^2.0.2"
+    "@moonrepo/core-linux-arm64-gnu": "npm:1.25.4"
+    "@moonrepo/core-linux-arm64-musl": "npm:1.25.4"
+    "@moonrepo/core-linux-x64-gnu": "npm:1.25.4"
+    "@moonrepo/core-linux-x64-musl": "npm:1.25.4"
+    "@moonrepo/core-macos-arm64": "npm:1.25.4"
+    "@moonrepo/core-macos-x64": "npm:1.25.4"
+    "@moonrepo/core-windows-x64-msvc": "npm:1.25.4"
+    detect-libc: "npm:^2.0.3"
   dependenciesMeta:
     "@moonrepo/core-linux-arm64-gnu":
       optional: true
@@ -2713,56 +2715,56 @@ __metadata:
     "@moonrepo/core-windows-x64-msvc":
       optional: true
   bin:
-    moon: moon
-  checksum: 10c0/b8ceeb07660e0c229d7c621b31d0b20925fb59394b8866ddbdb9b0a6d1e2499dc28d4045a91ae24a2a02ee1979c970986f84e6cbb3bf75bfbc16157ba367684a
+    moon: moon.js
+  checksum: 10c0/76d2537b037edc74cc2c382c312a6598be2ff01e9df2d0a3f4a6ec3b28ebf8015dd0956a10abff73a8156ba79591ba00cb413a6c8932005dd39d84f1a24e0b19
   languageName: node
   linkType: hard
 
-"@moonrepo/core-linux-arm64-gnu@npm:1.22.8":
-  version: 1.22.8
-  resolution: "@moonrepo/core-linux-arm64-gnu@npm:1.22.8"
+"@moonrepo/core-linux-arm64-gnu@npm:1.25.4":
+  version: 1.25.4
+  resolution: "@moonrepo/core-linux-arm64-gnu@npm:1.25.4"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@moonrepo/core-linux-arm64-musl@npm:1.22.8":
-  version: 1.22.8
-  resolution: "@moonrepo/core-linux-arm64-musl@npm:1.22.8"
+"@moonrepo/core-linux-arm64-musl@npm:1.25.4":
+  version: 1.25.4
+  resolution: "@moonrepo/core-linux-arm64-musl@npm:1.25.4"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@moonrepo/core-linux-x64-gnu@npm:1.22.8":
-  version: 1.22.8
-  resolution: "@moonrepo/core-linux-x64-gnu@npm:1.22.8"
+"@moonrepo/core-linux-x64-gnu@npm:1.25.4":
+  version: 1.25.4
+  resolution: "@moonrepo/core-linux-x64-gnu@npm:1.25.4"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@moonrepo/core-linux-x64-musl@npm:1.22.8":
-  version: 1.22.8
-  resolution: "@moonrepo/core-linux-x64-musl@npm:1.22.8"
+"@moonrepo/core-linux-x64-musl@npm:1.25.4":
+  version: 1.25.4
+  resolution: "@moonrepo/core-linux-x64-musl@npm:1.25.4"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@moonrepo/core-macos-arm64@npm:1.22.8":
-  version: 1.22.8
-  resolution: "@moonrepo/core-macos-arm64@npm:1.22.8"
+"@moonrepo/core-macos-arm64@npm:1.25.4":
+  version: 1.25.4
+  resolution: "@moonrepo/core-macos-arm64@npm:1.25.4"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@moonrepo/core-macos-x64@npm:1.22.8":
-  version: 1.22.8
-  resolution: "@moonrepo/core-macos-x64@npm:1.22.8"
+"@moonrepo/core-macos-x64@npm:1.25.4":
+  version: 1.25.4
+  resolution: "@moonrepo/core-macos-x64@npm:1.25.4"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@moonrepo/core-windows-x64-msvc@npm:1.22.8":
-  version: 1.22.8
-  resolution: "@moonrepo/core-windows-x64-msvc@npm:1.22.8"
+"@moonrepo/core-windows-x64-msvc@npm:1.25.4":
+  version: 1.25.4
+  resolution: "@moonrepo/core-windows-x64-msvc@npm:1.25.4"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -3848,10 +3850,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/google-protobuf@npm:^3.15.12":
+"@types/google-protobuf@npm:3.15.12":
   version: 3.15.12
   resolution: "@types/google-protobuf@npm:3.15.12"
   checksum: 10c0/721783234e627f367dd710c345a1eaa9dca4ac64910032cef0c851c1821e05d06ffb51e9d1693080f1c0797a8674f89130fa56a390395ec7791ea8506d2f3bfb
+  languageName: node
+  linkType: hard
+
+"@types/google-protobuf@patch:@types/google-protobuf@npm%3A3.15.12#~/.yarn/patches/@types-google-protobuf-npm-3.15.12-fa91faceb9.patch":
+  version: 3.15.12
+  resolution: "@types/google-protobuf@patch:@types/google-protobuf@npm%3A3.15.12#~/.yarn/patches/@types-google-protobuf-npm-3.15.12-fa91faceb9.patch::version=3.15.12&hash=2b87b4"
+  checksum: 10c0/76add6a7a999742f4ebbacc0dc7d3afd853fb420eae3a66a13d6da79cf2b301dc827ef1a3f70f7cfcca07f7833c6cce643035766db408e1b4015a104a6a6c7a4
   languageName: node
   linkType: hard
 
@@ -6008,7 +6017,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.5.1, chokidar@npm:^3.5.3, chokidar@npm:^3.6.0":
+"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.5.1, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3, chokidar@npm:^3.6.0":
   version: 3.6.0
   resolution: "chokidar@npm:3.6.0"
   dependencies:
@@ -6872,6 +6881,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"debug@npm:^4":
+  version: 4.3.5
+  resolution: "debug@npm:4.3.5"
+  dependencies:
+    ms: "npm:2.1.2"
+  peerDependenciesMeta:
+    supports-color:
+      optional: true
+  checksum: 10c0/082c375a2bdc4f4469c99f325ff458adad62a3fc2c482d59923c260cb08152f34e2659f72b3767db8bb2f21ca81a60a42d1019605a412132d7b9f59363a005cc
+  languageName: node
+  linkType: hard
+
 "decamelize@npm:^1.1.2, decamelize@npm:^1.2.0":
   version: 1.2.0
   resolution: "decamelize@npm:1.2.0"
@@ -7106,13 +7127,6 @@ __metadata:
   version: 2.0.3
   resolution: "detect-libc@npm:2.0.3"
   checksum: 10c0/88095bda8f90220c95f162bf92cad70bd0e424913e655c20578600e35b91edc261af27531cf160a331e185c0ced93944bc7e09939143225f56312d7fd800fdb7
-  languageName: node
-  linkType: hard
-
-"detect-libc@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "detect-libc@npm:2.0.2"
-  checksum: 10c0/a9f4ffcd2701525c589617d98afe5a5d0676c8ea82bcc4ed6f3747241b79f781d36437c59a5e855254c864d36a3e9f8276568b6b531c28d6e53b093a15703f11
   languageName: node
   linkType: hard
 
@@ -8290,7 +8304,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "etue@workspace:."
   dependencies:
-    "@moonrepo/cli": "npm:^1.22.8"
+    "@moonrepo/cli": "npm:^1.25.3"
     dot-prop: "npm:^8.0.2"
     grpc-tools: "npm:^1.12.4"
     protoc-gen-ts: "npm:^0.8.7"
@@ -9293,6 +9307,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"glob@npm:^10.3.7":
+  version: 10.4.1
+  resolution: "glob@npm:10.4.1"
+  dependencies:
+    foreground-child: "npm:^3.1.0"
+    jackspeak: "npm:^3.1.2"
+    minimatch: "npm:^9.0.4"
+    minipass: "npm:^7.1.2"
+    path-scurry: "npm:^1.11.1"
+  bin:
+    glob: dist/esm/bin.mjs
+  checksum: 10c0/77f2900ed98b9cc2a0e1901ee5e476d664dae3cd0f1b662b8bfd4ccf00d0edc31a11595807706a274ca10e1e251411bbf2e8e976c82bed0d879a9b89343ed379
+  languageName: node
+  linkType: hard
+
 "glob@npm:^7.1.1, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.2.3":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
@@ -9990,6 +10019,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ignore-by-default@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "ignore-by-default@npm:1.0.1"
+  checksum: 10c0/9ab6e70e80f7cc12735def7ecb5527cfa56ab4e1152cd64d294522827f2dcf1f6d85531241537dc3713544e88dd888f65cb3c49c7b2cddb9009087c75274e533
+  languageName: node
+  linkType: hard
+
 "ignore@npm:^5.1.1, ignore@npm:^5.2.0, ignore@npm:^5.2.4":
   version: 5.3.1
   resolution: "ignore@npm:5.3.1"
@@ -10641,6 +10677,19 @@ __metadata:
     "@pkgjs/parseargs":
       optional: true
   checksum: 10c0/f01d8f972d894cd7638bc338e9ef5ddb86f7b208ce177a36d718eac96ec86638a6efa17d0221b10073e64b45edc2ce15340db9380b1f5d5c5d000cbc517dc111
+  languageName: node
+  linkType: hard
+
+"jackspeak@npm:^3.1.2":
+  version: 3.4.0
+  resolution: "jackspeak@npm:3.4.0"
+  dependencies:
+    "@isaacs/cliui": "npm:^8.0.2"
+    "@pkgjs/parseargs": "npm:^0.11.0"
+  dependenciesMeta:
+    "@pkgjs/parseargs":
+      optional: true
+  checksum: 10c0/7e42d1ea411b4d57d43ea8a6afbca9224382804359cb72626d0fc45bb8db1de5ad0248283c3db45fe73e77210750d4fcc7c2b4fe5d24fda94aaa24d658295c5f
   languageName: node
   linkType: hard
 
@@ -11377,6 +11426,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lru-cache@npm:^10.2.0":
+  version: 10.2.2
+  resolution: "lru-cache@npm:10.2.2"
+  checksum: 10c0/402d31094335851220d0b00985084288136136992979d0e015f0f1697e15d1c86052d7d53ae86b614e5b058425606efffc6969a31a091085d7a2b80a8a1e26d6
+  languageName: node
+  linkType: hard
+
 "lru-cache@npm:^4.0.1":
   version: 4.1.5
   resolution: "lru-cache@npm:4.1.5"
@@ -11710,6 +11766,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"minimatch@npm:^9.0.4":
+  version: 9.0.4
+  resolution: "minimatch@npm:9.0.4"
+  dependencies:
+    brace-expansion: "npm:^2.0.1"
+  checksum: 10c0/2c16f21f50e64922864e560ff97c587d15fd491f65d92a677a344e970fe62aafdbeafe648965fa96d33c061b4d0eabfe0213466203dd793367e7f28658cf6414
+  languageName: node
+  linkType: hard
+
 "minimist@npm:^1.1.3, minimist@npm:^1.2.6, minimist@npm:^1.2.8":
   version: 1.2.8
   resolution: "minimist@npm:1.2.8"
@@ -11788,6 +11853,13 @@ __metadata:
   version: 7.0.4
   resolution: "minipass@npm:7.0.4"
   checksum: 10c0/6c7370a6dfd257bf18222da581ba89a5eaedca10e158781232a8b5542a90547540b4b9b7e7f490e4cda43acfbd12e086f0453728ecf8c19e0ef6921bc5958ac5
+  languageName: node
+  linkType: hard
+
+"minipass@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "minipass@npm:7.1.2"
+  checksum: 10c0/b0fd20bb9fb56e5fa9a8bfac539e8915ae07430a619e4b86ff71f5fc757ef3924b23b2c4230393af1eda647ed3d75739e4e0acb250a6b1eb277cf7f8fe449557
   languageName: node
   linkType: hard
 
@@ -12111,6 +12183,26 @@ __metadata:
   version: 2.0.14
   resolution: "node-releases@npm:2.0.14"
   checksum: 10c0/199fc93773ae70ec9969bc6d5ac5b2bbd6eb986ed1907d751f411fef3ede0e4bfdb45ceb43711f8078bea237b6036db8b1bf208f6ff2b70c7d615afd157f3ab9
+  languageName: node
+  linkType: hard
+
+"nodemon@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "nodemon@npm:3.1.3"
+  dependencies:
+    chokidar: "npm:^3.5.2"
+    debug: "npm:^4"
+    ignore-by-default: "npm:^1.0.1"
+    minimatch: "npm:^3.1.2"
+    pstree.remy: "npm:^1.1.8"
+    semver: "npm:^7.5.3"
+    simple-update-notifier: "npm:^2.0.0"
+    supports-color: "npm:^5.5.0"
+    touch: "npm:^3.1.0"
+    undefsafe: "npm:^2.0.5"
+  bin:
+    nodemon: bin/nodemon.js
+  checksum: 10c0/0cee93b3c68ab5c1a286b2e94b6e75d0e2ba1fc5d085fc3401d9aca4515617afd2d528fc4a482773b6eb8de449032b4ab326c9599f8cee3099a79430fd9f4ee4
   languageName: node
   linkType: hard
 
@@ -12839,6 +12931,16 @@ __metadata:
     lru-cache: "npm:^9.1.1 || ^10.0.0"
     minipass: "npm:^5.0.0 || ^6.0.2 || ^7.0.0"
   checksum: 10c0/e5dc78a7348d25eec61ab166317e9e9c7b46818aa2c2b9006c507a6ff48c672d011292d9662527213e558f5652ce0afcc788663a061d8b59ab495681840c0c1e
+  languageName: node
+  linkType: hard
+
+"path-scurry@npm:^1.11.1":
+  version: 1.11.1
+  resolution: "path-scurry@npm:1.11.1"
+  dependencies:
+    lru-cache: "npm:^10.2.0"
+    minipass: "npm:^5.0.0 || ^6.0.2 || ^7.0.0"
+  checksum: 10c0/32a13711a2a505616ae1cc1b5076801e453e7aae6ac40ab55b388bb91b9d0547a52f5aaceff710ea400205f18691120d4431e520afbe4266b836fadede15872d
   languageName: node
   linkType: hard
 
@@ -13878,6 +13980,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pstree.remy@npm:^1.1.8":
+  version: 1.1.8
+  resolution: "pstree.remy@npm:1.1.8"
+  checksum: 10c0/30f78c88ce6393cb3f7834216cb6e282eb83c92ccb227430d4590298ab2811bc4a4745f850a27c5178e79a8f3e316591de0fec87abc19da648c2b3c6eb766d14
+  languageName: node
+  linkType: hard
+
 "pump@npm:^3.0.0":
   version: 3.0.0
   resolution: "pump@npm:3.0.0"
@@ -14432,6 +14541,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rimraf@npm:^5.0.7":
+  version: 5.0.7
+  resolution: "rimraf@npm:5.0.7"
+  dependencies:
+    glob: "npm:^10.3.7"
+  bin:
+    rimraf: dist/esm/bin.mjs
+  checksum: 10c0/bd6dbfaa98ae34ce1e54d1e06045d2d63e8859d9a1979bb4a4628b652b459a2d17b17dc20ee072b034bd2d09bd691e801d24c4d9cfe94e16fdbcc8470a1d4807
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-visualizer@npm:^5.5.4":
   version: 5.12.0
   resolution: "rollup-plugin-visualizer@npm:5.12.0"
@@ -14759,6 +14879,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:^7.5.3":
+  version: 7.6.2
+  resolution: "semver@npm:7.6.2"
+  bin:
+    semver: bin/semver.js
+  checksum: 10c0/97d3441e97ace8be4b1976433d1c32658f6afaff09f143e52c593bae7eef33de19e3e369c88bd985ce1042c6f441c80c6803078d1de2a9988080b66684cbb30c
+  languageName: node
+  linkType: hard
+
 "send@npm:0.18.0":
   version: 0.18.0
   resolution: "send@npm:0.18.0"
@@ -15044,6 +15173,15 @@ __metadata:
   dependencies:
     is-arrayish: "npm:^0.3.1"
   checksum: 10c0/df5e4662a8c750bdba69af4e8263c5d96fe4cd0f9fe4bdfa3cbdeb45d2e869dff640beaaeb1ef0e99db4d8d2ec92f85508c269f50c972174851bc1ae5bd64308
+  languageName: node
+  linkType: hard
+
+"simple-update-notifier@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "simple-update-notifier@npm:2.0.0"
+  dependencies:
+    semver: "npm:^7.5.3"
+  checksum: 10c0/2a00bd03bfbcbf8a737c47ab230d7920f8bfb92d1159d421bdd194479f6d01ebc995d13fbe13d45dace23066a78a3dc6642999b4e3b38b847e6664191575b20c
   languageName: node
   linkType: hard
 
@@ -15558,7 +15696,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^5.3.0":
+"supports-color@npm:^5.3.0, supports-color@npm:^5.5.0":
   version: 5.5.0
   resolution: "supports-color@npm:5.5.0"
   dependencies:
@@ -15901,6 +16039,15 @@ __metadata:
   version: 2.0.2
   resolution: "toposort@npm:2.0.2"
   checksum: 10c0/ab9ca91fce4b972ccae9e2f539d755bf799a0c7eb60da07fd985fce0f14c159ed1e92305ff55697693b5bc13e300f5417db90e2593b127d421c9f6c440950222
+  languageName: node
+  linkType: hard
+
+"touch@npm:^3.1.0":
+  version: 3.1.1
+  resolution: "touch@npm:3.1.1"
+  bin:
+    nodetouch: bin/nodetouch.js
+  checksum: 10c0/d2e4d269a42c846a22a29065b9af0b263de58effc85a1764bb7a2e8fc4b47700e9e2fcbd7eb1f5bffbb7c73d860f93600cef282b93ddac8f0b62321cb498b36e
   languageName: node
   linkType: hard
 
@@ -16314,6 +16461,13 @@ __metadata:
   version: 0.1.2
   resolution: "unc-path-regex@npm:0.1.2"
   checksum: 10c0/bf9c781c4e2f38e6613ea17a51072e4b416840fbe6eeb244597ce9b028fac2fb6cfd3dde1f14111b02c245e665dc461aab8168ecc30b14364d02caa37f812996
+  languageName: node
+  linkType: hard
+
+"undefsafe@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "undefsafe@npm:2.0.5"
+  checksum: 10c0/96c0466a5fbf395917974a921d5d4eee67bca4b30d3a31ce7e621e0228c479cf893e783a109af6e14329b52fe2f0cb4108665fad2b87b0018c0df6ac771261d5
   languageName: node
   linkType: hard
 

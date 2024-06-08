@@ -202,7 +202,7 @@ export interface NexusGenEnums {
   FormFieldKind: 0 | 1 | 2 | 3 | 4
   PaginationSortingOrder: 'ASC' | 'DESC'
   RenderTarget: 2 | 3 | 1
-  SupportedLanguages: 'en_GB' | 'et_EE' | 'ru_RU'
+  SupportedLanguages: 0 | 1 | 3
   UserRole: 1 | 2 | 0 | 3
 }
 

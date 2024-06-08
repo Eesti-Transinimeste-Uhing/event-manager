@@ -7,11 +7,11 @@ import { FormRepository } from '../repository/form'
 import { EntityNotFoundError, FormSubmissionLimitExceededError } from '../lib/errors'
 import { FormSubmissionData } from '../entity/form-submission'
 import { FormSubmissionRepository } from '../repository/form-submission'
-import { formBanners, templateBanners } from '../storage'
-import { SupportedLanguages } from '../lib/i18n'
+import { formBanners } from '../storage'
 import { RenderTarget } from '@etu/tiptap/src/render'
 import { PaginateAndSortArgs } from '../lib/pagination'
 import { TemplateRepository } from '../repository/template'
+import { SupportedLanguages } from '@etu/events-proto/dist/lib'
 
 export class FormController {
   private manager = AppDataSource.createEntityManager()
@@ -123,7 +123,7 @@ export class FormController {
     return renderJsonContent(template.description[lang], target, {
       location: form.location[lang],
       startsAt: form.startsAt,
-      luxonLang: lang.replaceAll('_', '-'),
+      luxonLang: SupportedLanguages[lang].replaceAll('_', '-'),
     })
   }
 }

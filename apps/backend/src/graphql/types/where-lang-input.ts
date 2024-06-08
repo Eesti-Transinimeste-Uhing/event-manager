@@ -1,5 +1,5 @@
+import { SupportedLanguages } from '@etu/events-proto/dist/lib'
 import { enumType, inputObjectType } from 'nexus'
-import { SupportedLanguages } from '../../lib/i18n'
 
 export const SupportedLanguagesEnum = enumType({
   name: 'SupportedLanguages',

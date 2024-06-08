@@ -1,12 +1,15 @@
 syntax = "proto3";
 
+import "lib.proto";
+
 service Forms {
-  rpc getForm (ObjectFilter) returns (Form);
+  rpc getForm (GetFormParams) returns (Form);
   rpc submitForm (FormSubmission) returns (FormSubmissionResult);
 }
 
-message ObjectFilter {
+message GetFormParams {
   string id = 1;
+  SupportedLanguages language = 2;
 }
 
 message FormSubmissionData {
@@ -15,7 +18,7 @@ message FormSubmissionData {
 }
 
 message FormSubmission {
-  ObjectFilter where = 1;
+  GetFormParams where = 1;
   repeated FormSubmissionData data = 2;
   string sourceHash = 3;
 }

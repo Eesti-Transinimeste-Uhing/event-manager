@@ -12,6 +12,8 @@ import { AnnouncerOptionsDiscord } from './announcer-options-discord'
 
 export enum AnnouncerType {
   Discord = 0,
+  Facebook = 1,
+  Instagram = 2,
 }
 
 export class AnnouncerOptions {

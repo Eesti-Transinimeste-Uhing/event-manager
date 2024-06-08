@@ -2,22 +2,18 @@ import {
   Form,
   FormSubmission,
   FormSubmissionResult,
-  ObjectFilter,
-  Template,
   UnimplementedFormsService,
-} from '@etu/events-proto'
+  GetFormParams,
+} from '@etu/events-proto/dist/backend/forms'
 import { ServerUnaryCall, sendUnaryData } from '@grpc/grpc-js'
-import { DateTime } from 'luxon'
 
 import { formController } from '../../../server/static-context'
-import urlJoin from '../../../lib/url-join'
-import { config } from '../../../config'
 import { EntityNotFoundError } from '../../../lib/errors'
 import { wrapError } from '../../../lib/error-wrapping'
 
 export class FormsService extends UnimplementedFormsService {
   override async getForm(
-    call: ServerUnaryCall<ObjectFilter, Form>,
+    call: ServerUnaryCall<GetFormParams, Form>,
     callback: sendUnaryData<Form>
   ): Promise<void> {
     try {
@@ -29,15 +25,15 @@ export class FormsService extends UnimplementedFormsService {
 
       const template = await form.template
 
-      const result = new Form({
+      const result = Form.fromObject({
         id: form.id,
-        name: form.name,
+        name: form.name[call.request.language],
         banner: form.bannerUrl,
         description: JSON.stringify(template.description),
-        template: new Template({
+        template: {
           id: template.id,
           fields: template.fields,
-        }),
+        },
       })
 
       callback(null, result)

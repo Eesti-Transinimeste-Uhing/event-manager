@@ -1,8 +1,9 @@
 import { Server, ServerCredentials } from '@grpc/grpc-js'
 
-import { UsersService } from './services/users'
-
 import { config } from '../../config'
+
+import { UsersService } from './services/users'
+import { AnnouncerService } from './services/announcer'
 
 const startServer = (server: Server): Promise<void> => {
   return new Promise((resolve, reject) => {
@@ -25,6 +26,7 @@ export class ProtoServer extends Server {
     super()
 
     this.addService(UsersService.definition, new UsersService())
+    this.addService(AnnouncerService.definition, new AnnouncerService())
   }
 
   listen() {

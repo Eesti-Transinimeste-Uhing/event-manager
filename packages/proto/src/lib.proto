@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+enum SupportedLanguages {
+  en_GB = 0;
+  et_EE = 1;
+  ru_RU = 3;
+}

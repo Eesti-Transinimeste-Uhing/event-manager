@@ -1,4 +1,4 @@
-import { UsersClient } from '@etu/events-proto'
+import { UsersClient } from '@etu/events-proto/dist/discord-bot/users'
 import { credentials } from '@grpc/grpc-js'
 
 import { config } from '../../config'

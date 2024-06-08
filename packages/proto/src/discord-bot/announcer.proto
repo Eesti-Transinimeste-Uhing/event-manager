@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service Announcer {
+  rpc announceForm (AnnounceFormRequest) returns (AnnounceFormResult);
+}
+
+message AnnounceFormRequest {
+  string message = 1;
+  string channelId = 2;
+  string guildId = 3;
+}
+
+message AnnounceFormResult {
+  bool success = 1;
+}
