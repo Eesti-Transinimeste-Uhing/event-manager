@@ -4,7 +4,7 @@ import { EntityFetchingError, EntityNotFoundError, FormAlreadySubmittedError } f
 
 const appErrors = [FormAlreadySubmittedError, EntityFetchingError, EntityNotFoundError]
 
-export const wrapError = (error: unknown): Error | null => {
+export const wrapError = (error: unknown): VError | null => {
   for (const errorType of appErrors) {
     if (error instanceof errorType) {
       return error

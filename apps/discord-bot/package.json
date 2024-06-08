@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.10.6",
-    "@sapphire/framework": "^5.0.7",
-    "discord.js": "14.x",
+    "@sapphire/framework": "^5.2.1",
+    "discord.js": "14.15.3",
     "google-protobuf": "^3.21.2",
     "pino": "^8.19.0",
     "verror": "^1.10.1"

@@ -5,22 +5,6 @@ import { config } from '../../config'
 import { UsersService } from './services/users'
 import { AnnouncerService } from './services/announcer'
 
-const startServer = (server: Server): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    server.bindAsync(
-      `${config.rpc.server.host}:${config.rpc.server.port}`,
-      ServerCredentials.createInsecure(),
-      (error, port) => {
-        if (error) {
-          return reject(error)
-        }
-
-        return resolve()
-      }
-    )
-  })
-}
-
 export class ProtoServer extends Server {
   constructor() {
     super()
@@ -29,7 +13,19 @@ export class ProtoServer extends Server {
     this.addService(AnnouncerService.definition, new AnnouncerService())
   }
 
-  listen() {
-    return startServer(this)
+  listen(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.bindAsync(
+        `${config.rpc.server.host}:${config.rpc.server.port}`,
+        ServerCredentials.createInsecure(),
+        (error, port) => {
+          if (error) {
+            return reject(error)
+          }
+
+          return resolve()
+        }
+      )
+    })
   }
 }
