@@ -13,6 +13,7 @@ import TooltipButton from 'src/components/tooltip-button.vue'
 
 import DateTimeField from 'src/components/form/date-time-field.vue'
 import I18nInput from 'src/components/i18n/i18n-input.vue'
+import SubmissionLimitField from 'src/components/form/submission-limit-field.vue'
 
 import { formSubmit } from 'src/router/routes'
 import { useI18n } from 'src/hooks/use-i18n'
@@ -46,6 +47,7 @@ const { result, loading, error, refetch, onResult } = useQuery(
         name: name_i18n
         location: location_i18n
         startsAt
+        submitLimit
         template {
           id
         }
@@ -67,6 +69,7 @@ const location = ref<Record<SupportedLanguages, string>>({
   et_EE: '',
   ru_RU: '',
 })
+const submitLimit = ref(0)
 
 onResult((result) => {
   const form = result.data?.form
@@ -78,6 +81,7 @@ onResult((result) => {
   name.value = form.name
   startsAt.value = DateTime.fromISO(form.startsAt).toJSDate()
   location.value = form.location
+  submitLimit.value = form.submitLimit
 })
 
 const notifications = useNotificationsStore()
@@ -98,6 +102,7 @@ const handleSave = async () => {
         name: name.value,
         location: location.value,
         startsAt: startsAt.value,
+        submitLimit: submitLimit.value,
       },
     })
 
@@ -174,6 +179,8 @@ const handlePreviewClick = () => {
           <date-time-field v-model="startsAt" :label="t('event-date-time')" />
 
           <i18n-input borderless v-model="location" :label="t('location')" class="q-mb-md" />
+
+          <submission-limit-field v-model="submitLimit" :label="t('submission-limit')" />
         </q-form>
       </q-card-section>
     </q-card>

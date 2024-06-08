@@ -47,6 +47,12 @@ export class Form {
   })
   startsAt: Date
 
+  @Column({
+    type: 'smallint',
+    nullable: false,
+  })
+  submitLimit: number
+
   get bannerUrl() {
     return urlJoin(
       config.server.publicUrl,

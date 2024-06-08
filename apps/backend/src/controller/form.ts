@@ -4,17 +4,19 @@ import { renderJsonContent } from '@etu/tiptap'
 import { AppDataSource } from '../data-source'
 import { Form } from '../entity/form'
 import { FormRepository } from '../repository/form'
-import { PaginationArgs } from 'nexus/dist/plugins/connectionPlugin'
-import { EntityNotFoundError } from '../lib/errors'
+import { EntityNotFoundError, FormSubmissionLimitExceededError } from '../lib/errors'
 import { FormSubmissionData } from '../entity/form-submission'
 import { FormSubmissionRepository } from '../repository/form-submission'
 import { formBanners, templateBanners } from '../storage'
 import { SupportedLanguages } from '../lib/i18n'
 import { RenderTarget } from '@etu/tiptap/src/render'
-import { DateTime } from 'luxon'
+import { PaginateAndSortArgs } from '../lib/pagination'
+import { TemplateRepository } from '../repository/template'
 
 export class FormController {
   private manager = AppDataSource.createEntityManager()
+
+  private templates = this.manager.withRepository(TemplateRepository)
 
   private forms = this.manager.withRepository(FormRepository)
 
@@ -32,7 +34,7 @@ export class FormController {
     return await this.forms.findOneBy({ id })
   }
 
-  public async paginate(args: PaginationArgs) {
+  public async paginate(args: PaginateAndSortArgs) {
     return await this.forms.paginate(args)
   }
 
@@ -40,7 +42,7 @@ export class FormController {
     return await formBanners.get(id)
   }
 
-  public async paginateSubmissions(args: PaginationArgs) {
+  public async paginateSubmissions(args: PaginateAndSortArgs) {
     return await this.submissions.paginate(args)
   }
 
@@ -52,7 +54,27 @@ export class FormController {
     return true
   }
 
+  public async hasReachedSubmissionLimit(form: Form) {
+    const submissionCount = await this.submissions.countByFormId(form.id)
+
+    return form.submitLimit === 0 || submissionCount < form.submitLimit
+  }
+
+  // TODO: Make use of this in the frontend and allow updating existing submissions
+  public async getExistingSubmission(id: string, sourceHash: string) {
+    return await this.submissions.findOneBy({ form: { id }, sourceHash })
+  }
+
   public async submit(id: string, sourceHash: string, data: FormSubmissionData) {
+    const count = await this.submissions.countByFormId(id)
+    const form = await this.forms.findOneByOrFail({ id })
+
+    // Check if the form has reached its submission limit
+    // If the limit is 0, it means there is no limit
+    if (form.submitLimit !== 0 && count >= form.submitLimit) {
+      throw new FormSubmissionLimitExceededError(null, 'This form has reached its submission limit')
+    }
+
     const submission = this.submissions.create({
       form: {
         id,
@@ -67,7 +89,10 @@ export class FormController {
   }
 
   public async createNew(templateId: string) {
+    const template = await this.templates.findOneByOrFail({ id: templateId })
+
     const form = this.forms.create({
+      submitLimit: template.defaultSubmitLimit,
       template: {
         id: templateId,
       },

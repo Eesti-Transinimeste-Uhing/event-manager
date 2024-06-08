@@ -44,6 +44,7 @@ export class TemplateController {
       await manager.save(template)
     })
 
+    // This will miss the cache and generate a default banner
     await templateBanners.get(template.id)
 
     return template

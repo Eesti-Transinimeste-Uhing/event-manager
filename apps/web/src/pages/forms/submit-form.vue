@@ -75,7 +75,7 @@ const handleSubmit = async () => {
     if (error instanceof Error) {
       notifications.enqueue({
         type: 'error',
-        lines: ['Could not save your input', error.message],
+        lines: [t('cannot-save'), error.message],
       })
     }
   }

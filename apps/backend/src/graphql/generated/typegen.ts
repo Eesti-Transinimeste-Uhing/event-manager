@@ -169,6 +169,7 @@ export interface NexusGenInputs {
     location: NexusGenInputs['I18nStringInput'] // I18nStringInput!
     name: NexusGenInputs['I18nStringInput'] // I18nStringInput!
     startsAt: NexusGenScalars['DateTime'] // DateTime!
+    submitLimit: number // Int!
   }
   UpdateFormWhereInput: {
     // input type
@@ -178,6 +179,7 @@ export interface NexusGenInputs {
     // input type
     banner?: NexusGenScalars['Upload'] | null // Upload
     bannerOffset: number // Int!
+    defaultSubmitLimit: number // Int!
     description: NexusGenInputs['I18nJSONInput'] // I18nJSONInput!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
     name: NexusGenInputs['I18nStringInput'] // I18nStringInput!
@@ -295,12 +297,14 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime'] // DateTime!
     description: string // String!
     description_i18n: NexusGenScalars['I18nJSON'] // I18nJSON!
+    hasReachedSubmitLimit: boolean // Boolean!
     id: string // ID!
     location: string | null // String
     location_i18n: NexusGenScalars['I18nString'] // I18nString!
     name: string | null // String
     name_i18n: NexusGenScalars['I18nString'] // I18nString!
     startsAt: NexusGenScalars['DateTime'] // DateTime!
+    submitLimit: number // Int!
     template: NexusGenRootTypes['Template'] // Template!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
@@ -368,6 +372,7 @@ export interface NexusGenFieldTypes {
     banner: NexusGenScalars['URL'] // URL!
     bannerOffset: number // Int!
     createdAt: NexusGenScalars['DateTime'] // DateTime!
+    defaultSubmitLimit: number // Int!
     description: NexusGenScalars['JSONObject'] | null // JSONObject
     description_i18n: NexusGenScalars['I18nJSON'] // I18nJSON!
     fields: NexusGenEnums['FormFieldKind'][] // [FormFieldKind!]!
@@ -410,12 +415,14 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     description: 'String'
     description_i18n: 'I18nJSON'
+    hasReachedSubmitLimit: 'Boolean'
     id: 'ID'
     location: 'String'
     location_i18n: 'I18nString'
     name: 'String'
     name_i18n: 'I18nString'
     startsAt: 'DateTime'
+    submitLimit: 'Int'
     template: 'Template'
     updatedAt: 'DateTime'
   }
@@ -483,6 +490,7 @@ export interface NexusGenFieldTypeNames {
     banner: 'URL'
     bannerOffset: 'Int'
     createdAt: 'DateTime'
+    defaultSubmitLimit: 'Int'
     description: 'JSONObject'
     description_i18n: 'I18nJSON'
     fields: 'FormFieldKind'

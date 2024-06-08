@@ -46,5 +46,6 @@ export const Template = objectType({
     t.list.field('fields', {
       type: 'FormFieldKind',
     })
+    t.int('defaultSubmitLimit')
   },
 })

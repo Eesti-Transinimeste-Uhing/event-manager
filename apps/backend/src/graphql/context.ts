@@ -1,16 +1,18 @@
 import { BaseContext } from '@apollo/server'
 import { ApolloFastifyContextFunction } from '@as-integrations/fastify'
+import { UserFilter, UserRole } from '@etu/events-proto'
+import { FastifyRequest } from 'fastify'
 
 import { User } from '../entity/user'
 import { UserRepository } from '../repository/user'
 import { usersClient } from '../proto/clients/discord-bot'
-import { UserFilter, UserRole } from '@etu/events-proto'
-import { FastifyRequest } from 'fastify'
+import { hash } from '../lib/hash'
 
 export type GraphqlContext = BaseContext & {
   user: User | null
   roles: UserRole[]
   request: FastifyRequest
+  sourceHash: string
 }
 
 export const graphqlContextFunction: ApolloFastifyContextFunction<GraphqlContext> = async (
@@ -28,9 +30,12 @@ export const graphqlContextFunction: ApolloFastifyContextFunction<GraphqlContext
     ? (await usersClient.getUserRoles(new UserFilter({ id: user.discordId }))).roles
     : []
 
+  const sourceHash = hash(user ? user.id : request.ip)
+
   return {
     user,
     roles,
     request,
+    sourceHash,
   }
 }

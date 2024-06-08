@@ -12,6 +12,7 @@ import SingleImageUploadField from 'src/components/form/single-image-upload-fiel
 import FormField from 'src/components/form/form-field.vue'
 import DragHint from 'src/components/drag-hint.vue'
 import EmptyContent from 'src/components/empty-content.vue'
+import SubmissionLimitField from 'src/components/form/submission-limit-field.vue'
 
 import { FormFieldKind, SupportedLanguages } from 'src/graphql/generated/graphql'
 import { useFilePreview } from 'src/hooks/use-file-preview'
@@ -39,6 +40,7 @@ const { result, loading, error, refetch, onResult } = useQuery(
         bannerOffset
         name: name_i18n
         description: description_i18n
+        defaultSubmitLimit
       }
     }
   `),
@@ -72,6 +74,7 @@ const handleSave = async () => {
         name: name.value,
         description: description.value,
         fields: fields.value.map((field) => field.value),
+        defaultSubmitLimit: defaultSubmitLimit.value,
       },
     })
 
@@ -120,6 +123,7 @@ const description = ref<Record<SupportedLanguages, JSONContent | null>>({
   ru_RU: null,
 })
 const fields = ref<Array<{ value: FormFieldKind }>>([])
+const defaultSubmitLimit = ref(0)
 
 onResult((result) => {
   const template = result.data?.template
@@ -139,6 +143,7 @@ onResult((result) => {
       return !fields.value.some((existingKind) => existingKind.value === kind)
     })
     .map((kind) => ({ value: kind }))
+  defaultSubmitLimit.value = template.defaultSubmitLimit
 })
 
 const draggingLeft = ref(false)
@@ -234,6 +239,8 @@ const adjustOpen = ref(false)
 
           <i18n-input v-model="name" :label="$t('name')" class="q-mb-md" />
           <i18n-text-editor v-model="description" label="asd" class="q-mb-md" />
+
+          <submission-limit-field v-model="defaultSubmitLimit" class="q-mb-md" />
 
           <q-card flat class="row q-col-gutter-sm justify-between overflow-hidden">
             <div class="col-8">

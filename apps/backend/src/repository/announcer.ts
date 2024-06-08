@@ -1,10 +1,10 @@
 import { AppDataSource } from '../data-source'
-import { Form } from '../entity/form'
 import { PaginateAndSortArgs, paginate } from '../lib/pagination'
+import { Announcer } from '../entity/announcer'
 
-export const FormRepository = AppDataSource.getRepository(Form).extend({
+export const AnnouncerRepository = AppDataSource.getRepository(Announcer).extend({
   paginate(args: PaginateAndSortArgs) {
-    const qb = this.createQueryBuilder('form')
+    const qb = this.createQueryBuilder('announcer')
 
     return paginate(args, qb)
   },

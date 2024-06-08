@@ -24,12 +24,14 @@ type Form {
   createdAt: DateTime!
   description(target: RenderTarget!, where: WhereLangInput!): String!
   description_i18n: I18nJSON!
+  hasReachedSubmitLimit: Boolean!
   id: ID!
   location(where: WhereLangInput!): String
   location_i18n: I18nString!
   name(where: WhereLangInput!): String
   name_i18n: I18nString!
   startsAt: DateTime!
+  submitLimit: Int!
   template: Template!
   updatedAt: DateTime!
 }
@@ -297,6 +299,7 @@ type Template {
   banner: URL!
   bannerOffset: Int!
   createdAt: DateTime!
+  defaultSubmitLimit: Int!
   description(where: WhereLangInput!): JSONObject
   description_i18n: I18nJSON!
   fields: [FormFieldKind!]!
@@ -339,6 +342,7 @@ input UpdateFormDataInput {
   location: I18nStringInput!
   name: I18nStringInput!
   startsAt: DateTime!
+  submitLimit: Int!
 }
 
 input UpdateFormWhereInput {
@@ -348,6 +352,7 @@ input UpdateFormWhereInput {
 input UpdateTemplateDataInput {
   banner: Upload
   bannerOffset: Int!
+  defaultSubmitLimit: Int!
   description: I18nJSONInput!
   fields: [FormFieldKind!]!
   name: I18nStringInput!

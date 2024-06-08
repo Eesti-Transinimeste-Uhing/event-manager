@@ -19,3 +19,7 @@ export class EntityNotFoundError extends UserFacingError {
 export class EntityFetchingError extends UserFacingError {
   override name = 'EntityFetchingError'
 }
+
+export class FormSubmissionLimitExceededError extends UserFacingError {
+  override name = 'FormSubmissionLimitExceededError'
+}

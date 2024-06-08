@@ -16,7 +16,6 @@ export enum AnnouncerType {
 
 export class AnnouncerOptions {
   @OneToOne(() => AnnouncerOptionsDiscord, (options) => options.announcer, {
-    lazy: true,
     cascade: true,
     nullable: true,
   })

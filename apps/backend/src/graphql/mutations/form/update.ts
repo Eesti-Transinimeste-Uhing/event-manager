@@ -18,6 +18,7 @@ const UpdateFormDataInput = inputObjectType({
     t.field('location', {
       type: 'I18nStringInput',
     })
+    t.int('submitLimit')
   },
 })
 

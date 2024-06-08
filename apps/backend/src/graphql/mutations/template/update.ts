@@ -24,6 +24,7 @@ const UpdateTemplateDataInput = inputObjectType({
     t.list.field('fields', {
       type: 'FormFieldKind',
     })
+    t.int('defaultSubmitLimit')
   },
 })
 

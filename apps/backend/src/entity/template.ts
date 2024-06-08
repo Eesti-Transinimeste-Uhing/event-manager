@@ -52,6 +52,12 @@ export class Template {
   })
   bannerOffset: number
 
+  @Column('smallint', {
+    nullable: true,
+    default: 25,
+  })
+  defaultSubmitLimit: number
+
   get bannerUrl() {
     return urlJoin(
       config.server.publicUrl,

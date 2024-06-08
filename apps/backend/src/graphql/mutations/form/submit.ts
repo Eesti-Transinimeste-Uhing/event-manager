@@ -1,7 +1,6 @@
 import { inputObjectType, mutationField } from 'nexus'
 
 import { formController } from '../../../server/static-context'
-import { hash } from '../../../lib/hash'
 
 const SubmitFormWhereInput = inputObjectType({
   name: 'SubmitFormWhereInput',
@@ -25,11 +24,7 @@ export const SubmitForm = mutationField((t) => {
       data: SubmitFormDataInput.asArg({ list: true }),
     },
     async resolve(root, args, context) {
-      await formController.submit(
-        args.where.id,
-        hash(context.user ? context.user.id : context.request.ip),
-        args.data
-      )
+      await formController.submit(args.where.id, context.sourceHash, args.data)
 
       return true
     },

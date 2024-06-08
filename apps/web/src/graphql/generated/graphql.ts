@@ -61,6 +61,7 @@ export type Form = {
   name?: Maybe<Scalars['String']['output']>
   name_i18n: Scalars['I18nString']['output']
   startsAt: Scalars['DateTime']['output']
+  submitLimit: Scalars['Int']['output']
   template: Template
   updatedAt: Scalars['DateTime']['output']
 }
@@ -295,6 +296,7 @@ export type Template = {
   banner: Scalars['URL']['output']
   bannerOffset: Scalars['Int']['output']
   createdAt: Scalars['DateTime']['output']
+  defaultSubmitLimit: Scalars['Int']['output']
   description?: Maybe<Scalars['JSONObject']['output']>
   description_i18n: Scalars['I18nJSON']['output']
   fields: Array<FormFieldKind>
@@ -332,6 +334,7 @@ export type UpdateFormDataInput = {
   location: I18nStringInput
   name: I18nStringInput
   startsAt: Scalars['DateTime']['input']
+  submitLimit: Scalars['Int']['input']
 }
 
 export type UpdateFormWhereInput = {
@@ -341,6 +344,7 @@ export type UpdateFormWhereInput = {
 export type UpdateTemplateDataInput = {
   banner?: InputMaybe<Scalars['Upload']['input']>
   bannerOffset: Scalars['Int']['input']
+  defaultSubmitLimit: Scalars['Int']['input']
   description: I18nJsonInput
   fields: Array<FormFieldKind>
   name: I18nStringInput
@@ -417,6 +421,7 @@ export type EditFormQuery = {
     __typename?: 'Form'
     id: string
     startsAt: any
+    submitLimit: number
     name: Record<SupportedLanguages, string>
     location: Record<SupportedLanguages, string>
     template: { __typename?: 'Template'; id: string }
@@ -582,6 +587,7 @@ export type EditTemplateQuery = {
     banner: any
     fields: Array<FormFieldKind>
     bannerOffset: number
+    defaultSubmitLimit: number
     name: Record<SupportedLanguages, string>
     description: any
   } | null
@@ -828,6 +834,7 @@ export const EditFormDocument = {
                   name: { kind: 'Name', value: 'location_i18n' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'startsAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'submitLimit' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'template' },
@@ -1678,6 +1685,7 @@ export const EditTemplateDocument = {
                   alias: { kind: 'Name', value: 'description' },
                   name: { kind: 'Name', value: 'description_i18n' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'defaultSubmitLimit' } },
               ],
             },
           },

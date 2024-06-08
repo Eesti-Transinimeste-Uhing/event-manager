@@ -23,6 +23,10 @@ name = Name
 select-image = Select image
 gender = Gender
 registered-message = Input saved, see you soon!
+submission-limit = Submission limit
+already-submitted-will-update = You already submitted this form. If you submit it again, your previous submission will be updated.
+withdraw = Withdraw
+withdraw-description = Withdrawing means your registration will be deleted. If you decide to register after all, you can submit again as long as the form is accepting submissions.
 
 # Template editor
 edit-template = Edit template
