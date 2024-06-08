@@ -93,3 +93,5 @@ edit-template = Muuda malli
 account-menu = Konto menüü
 log-out = Logi välja
 source = Allikas
+tos-and-privacy-link = https://transinimesed.ee/kasutustingimused-ja-privaatsuspoliitika/
+site-link = https://transinimesed.ee/
