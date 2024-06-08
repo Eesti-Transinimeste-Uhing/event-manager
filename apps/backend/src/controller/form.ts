@@ -1,5 +1,6 @@
 import { DeepPartial } from 'typeorm'
 import { renderJsonContent } from '@etu/tiptap'
+import { SupportedLanguages } from '@etu/events-proto/dist/lib'
 
 import { AppDataSource } from '../data-source'
 import { Form } from '../entity/form'
@@ -11,7 +12,6 @@ import { formBanners } from '../storage'
 import { RenderTarget } from '@etu/tiptap/src/render'
 import { PaginateAndSortArgs } from '../lib/pagination'
 import { TemplateRepository } from '../repository/template'
-import { SupportedLanguages } from '@etu/events-proto/dist/lib'
 
 export class FormController {
   private manager = AppDataSource.createEntityManager()
@@ -120,7 +120,7 @@ export class FormController {
   public async renderDescription(form: Form, lang: SupportedLanguages, target: RenderTarget) {
     const template = await form.template
 
-    return renderJsonContent(template.description[lang], target, {
+    return renderJsonContent(template.description[SupportedLanguages[lang]], target, {
       location: form.location[lang],
       startsAt: form.startsAt,
       luxonLang: SupportedLanguages[lang].replaceAll('_', '-'),

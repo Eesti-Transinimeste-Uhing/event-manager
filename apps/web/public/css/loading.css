@@ -1,0 +1,44 @@
+body > .loading-overlay {
+  transition-duration: 0.2s;
+  transition-property: filter transform opacity;
+  transform-origin: center center;
+  transition-timing-function: ease-in;
+
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+
+  background-color: #1d1d1d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+body > .loading-overlay > svg {
+  width: 256px;
+  animation: spin 1s linear infinite;
+}
+
+body.app-loading > .loading-overlay {
+  user-select: none;
+}
+
+body:not(.app-loading) > .loading-overlay {
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.98);
+  filter: grayscale(0.4);
+}

@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { objectType } from 'nexus'
 import { formController } from '../../server/static-context'
+import { SupportedLanguages } from '@etu/events-proto/dist/lib'
 
 export const Form = objectType({
   name: 'Form',
@@ -20,7 +21,7 @@ export const Form = objectType({
         where: 'WhereLangInput',
       },
       resolve(root, args) {
-        return root.name[args.where.language]
+        return root.name[SupportedLanguages[args.where.language]]
       },
     })
     t.i18nString('location_i18n', {
@@ -33,7 +34,7 @@ export const Form = objectType({
         where: 'WhereLangInput',
       },
       resolve(root, args) {
-        return root.location[args.where.language]
+        return root.location[SupportedLanguages[args.where.language]]
       },
     })
     t.dateTime('createdAt')

@@ -6,17 +6,16 @@ tasks:
   build:
     command:
       - quasar
-      - ssg
-      - generate
+      - build
     inputs:
-      - 'src/**/*'
-      - 'public/**/*'
+      - src
+      - public
       - 'tsconfig.json'
       - 'package.json'
       - 'tsconfig.vue-tsc.json'
       - quasar.config.js
     outputs:
-      - 'dist/ssg'
+      - 'dist'
 
   dev:
     command:
@@ -25,7 +24,7 @@ tasks:
       - -s
       - first
       - -r
-      - 'sleep 1 && quasar ssg dev'
+      - 'sleep 1 && quasar dev'
       - 'graphql-codegen --watch'
     inputs:
       - 'src/**/*'

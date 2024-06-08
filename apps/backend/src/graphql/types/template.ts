@@ -1,3 +1,4 @@
+import { SupportedLanguages } from '@etu/events-proto/dist/lib'
 import { objectType } from 'nexus'
 import path from 'node:path'
 
@@ -19,7 +20,7 @@ export const Template = objectType({
         where: 'WhereLangInput',
       },
       resolve(root, args) {
-        return root.name[args.where.language]
+        return root.name[SupportedLanguages[args.where.language]]
       },
     })
     t.dateTime('createdAt')
@@ -34,7 +35,7 @@ export const Template = objectType({
         where: 'WhereLangInput',
       },
       resolve(root, args) {
-        return root.description[args.where.language]
+        return root.description[SupportedLanguages[args.where.language]]
       },
     })
     t.int('bannerOffset')
