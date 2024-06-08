@@ -62,7 +62,13 @@ const handleDecrement = () => {
     <q-field v-bind="$attrs" stack-label borderless hide-bottom-space class="q-px-md">
       <template v-slot:control>
         <div class="row q-mr-md q-pt-sm items-center justify-center">
-          <q-btn size="sm" color="primary" round label="-" @click="handleDecrement"></q-btn>
+          <q-btn
+            size="sm"
+            color="primary"
+            round
+            icon="las la-minus"
+            @click="handleDecrement"
+          ></q-btn>
         </div>
 
         <q-slider
@@ -79,7 +85,13 @@ const handleDecrement = () => {
         />
 
         <div class="row q-ml-md items-center justify-center">
-          <q-btn size="sm" color="primary" round label="+" @click="handleIncrement"></q-btn>
+          <q-btn
+            size="sm"
+            color="primary"
+            round
+            icon="las la-plus"
+            @click="handleIncrement"
+          ></q-btn>
         </div>
       </template>
     </q-field>
