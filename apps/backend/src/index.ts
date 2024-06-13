@@ -6,6 +6,8 @@ import { createServer } from './server'
 import { AppDataSource } from './data-source'
 
 import { ProtoServer } from './proto/server'
+import { announcerClient } from './proto/clients/discord-bot'
+import { AnnounceFormRequest } from '@etu/events-proto/dist/discord-bot/announcer'
 
 const main = async () => {
   log.debug(`connecting to database`)
@@ -31,6 +33,22 @@ const main = async () => {
     },
     'server listening'
   )
+
+  log.info('announcing')
+
+  try {
+    await announcerClient.announceForm(
+      AnnounceFormRequest.fromObject({
+        channelId: '1250913804544376934',
+        guildId: '1059811599151550496',
+        message: 'Hi!',
+      })
+    )
+  } catch (error) {
+    log.error(error)
+  }
+
+  log.info('announced')
 }
 
 main().catch(console.error)

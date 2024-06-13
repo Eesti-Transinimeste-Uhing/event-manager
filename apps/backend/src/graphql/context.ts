@@ -27,7 +27,7 @@ export const graphqlContextFunction: ApolloFastifyContextFunction<GraphqlContext
       : null
 
   const roles = user
-    ? (await usersClient.getUserRoles(new UserFilter({ id: user.discordId }))).roles
+    ? (await usersClient.getUserRoles(UserFilter.fromObject({ id: user.discordId }))).roles
     : []
 
   const sourceHash = hash(user ? user.id : request.ip)

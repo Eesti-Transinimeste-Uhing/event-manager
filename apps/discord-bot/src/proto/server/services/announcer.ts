@@ -15,19 +15,28 @@ export class AnnouncerService extends UnimplementedAnnouncerService {
     callback: sendUnaryData<AnnounceFormResult>
   ): Promise<void> {
     try {
-      const channel = discord.guild.channels.cache.get(call.request.channelId)
+      const guild = discord.guilds.cache.get(call.request.guildId)
+
+      if (!guild) {
+        return callback(new VError('The bot is not a member of the requested guild'), null)
+      }
+
+      const channel = guild.channels.cache.get(call.request.channelId)
 
       if (!channel) {
-        return callback(new VError('Announcement channel not found'), null)
+        return callback(new VError('Target channel not found'), null)
       }
 
-      if (!(channel instanceof TextChannel)) {
-        return callback(new VError('Announcement channel is not a text channel'), null)
+      if (!channel.isTextBased()) {
+        return callback(new VError('Target channel is not a text based channel'), null)
       }
 
-      await channel.send({ content: call.request.message })
+      const message = await channel.send({ content: call.request.message })
 
-      callback(null, AnnounceFormResult.fromObject({ success: true }))
+      callback(
+        null,
+        AnnounceFormResult.fromObject({ success: message.content === call.request.message })
+      )
     } catch (error) {
       if (error instanceof Error) {
         callback(error)
