@@ -4,7 +4,7 @@ import { Config } from './types'
 const getConfig = (): Config => {
   return {
     discord: {
-      guildId: getString('DISCORD_GUILD_ID', process.env.DISCORD_GUILD_ID),
+      controlGuildId: getString('DISCORD_CONTROL_GUILD_ID', process.env.DISCORD_CONTROL_GUILD_ID),
       clientId: getString('DISCORD_CLIENT_ID', process.env.DISCORD_CLIENT_ID),
       token: getString('DISCORD_TOKEN', process.env.DISCORD_TOKEN),
       role: {

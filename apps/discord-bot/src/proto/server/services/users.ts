@@ -14,10 +14,10 @@ export class UsersService extends UnimplementedUsersService {
     callback: sendUnaryData<UserRolesResult>
   ) {
     try {
-      let member = discord.guild.members.cache.find((m) => m.user.id === call.request.id)
+      let member = discord.controlGuild.members.cache.find((m) => m.user.id === call.request.id)
 
       if (!member) {
-        member = await discord.guild.members.fetch({ user: call.request.id })
+        member = await discord.controlGuild.members.fetch({ user: call.request.id })
       }
 
       if (!member) {

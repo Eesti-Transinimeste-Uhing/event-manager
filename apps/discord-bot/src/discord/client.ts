@@ -1,5 +1,5 @@
-import { Events, SapphireClient } from '@sapphire/framework'
-import { GatewayDispatchEvents, GatewayIntentBits, Guild, REST, Routes } from 'discord.js'
+import { SapphireClient } from '@sapphire/framework'
+import { GatewayIntentBits, Guild, REST, Routes } from 'discord.js'
 
 import { PinoLogger } from '../log/sapphire'
 import { log } from '../log'
@@ -16,25 +16,25 @@ class Client extends SapphireClient {
       },
     })
 
-    // This will be overwritten in init(), so in theory there will be no state
-    // where this.guild is null, provided init() is called right after construction
-    this.guild = null as unknown as Guild
+    // Init will assign this
+    this.controlGuild = undefined as unknown as Guild
   }
 
-  public guild: Guild
+  public controlGuild: Guild
 
   public async init() {
     const rest = new REST().setToken(config.discord.token)
     await rest.put(Routes.applicationCommands(config.discord.clientId), { body: [] })
 
     await this.login(config.discord.token)
-    const guild = this.guilds.cache.find((g) => g.id === config.discord.guildId)
+
+    const guild = this.guilds.cache.find((guild) => guild.id === config.discord.controlGuildId)
 
     if (!guild) {
-      throw new VError(`Guild "${config.discord.guildId}" not found ion cache!`)
+      throw new VError(`Control guild not found by id "${config.discord.controlGuildId}"`)
     }
 
-    this.guild = guild
+    this.controlGuild = guild
   }
 }
 

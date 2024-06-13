@@ -5,7 +5,7 @@ export type Config = {
     env: 'production' | 'development'
   }
   discord: {
-    guildId: string
+    controlGuildId: string
     clientId: string
     token: string
     role: {
