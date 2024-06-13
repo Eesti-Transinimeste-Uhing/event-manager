@@ -1,35 +1,26 @@
 import 'reflect-metadata'
+import VError from 'verror'
 
 import { config } from './config'
 import { log } from './log'
-import { createServer } from './server'
-import { AppDataSource } from './data-source'
 
-import { ProtoServer } from './proto/server'
+import { main as serverRole } from './roles/server'
+import { main as workerRole } from './roles/worker'
 
 const main = async () => {
-  log.debug(`connecting to database`)
-  await AppDataSource.initialize()
-
-  log.debug('creating HTTP server')
-  const httpServer = await createServer()
-
-  log.debug('creating RPC server')
-  const rpcServer = new ProtoServer()
-
-  log.debug('starting servers')
-  await httpServer.listen({
-    host: config.server.host,
-    port: config.server.port,
-  })
-  await rpcServer.listen()
-
-  log.info(
-    {
-      host: config.server.host,
-      port: config.server.port,
-    },
-    'server listening'
+  await Promise.all(
+    config.role.map((role) => {
+      switch (role) {
+        case 'server':
+          log.debug('starting server role')
+          return serverRole(log.child({ role: 'server' }))
+        case 'worker':
+          log.debug('starting worker role')
+          return workerRole(log.child({ role: 'worker' }))
+        default:
+          throw new VError(`Role "${role}" does not exist`)
+      }
+    })
   )
 }
 

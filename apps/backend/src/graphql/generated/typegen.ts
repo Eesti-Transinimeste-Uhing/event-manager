@@ -117,6 +117,10 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  AnnounceFormWhereInput: {
+    // input type
+    id: string // ID!
+  }
   CreateFormInput: {
     // input type
     templateId: string // ID!
@@ -155,10 +159,6 @@ export interface NexusGenInputs {
     // input type
     name: string // String!
     value?: string | null // String
-  }
-  SubmitFormInput: {
-    // input type
-    id: string // ID!
   }
   SubmitFormWhereInput: {
     // input type
@@ -342,6 +342,7 @@ export interface NexusGenFieldTypes {
   }
   Mutation: {
     // field return type
+    announceForm: boolean // Boolean!
     createForm: NexusGenRootTypes['Form'] // Form!
     createTemplate: NexusGenRootTypes['Template'] // Template!
     removeForm: boolean // Boolean!
@@ -460,6 +461,7 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: {
     // field return type name
+    announceForm: 'Boolean'
     createForm: 'Form'
     createTemplate: 'Template'
     removeForm: 'Boolean'
@@ -534,6 +536,10 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    announceForm: {
+      // args
+      where: NexusGenInputs['AnnounceFormWhereInput'] // AnnounceFormWhereInput!
+    }
     createForm: {
       // args
       input: NexusGenInputs['CreateFormInput'] // CreateFormInput!

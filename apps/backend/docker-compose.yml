@@ -14,5 +14,16 @@ services:
     volumes:
       - db_data:/var/lib/postgresql
 
+  valkey:
+    image: bitnami/valkey:7.2.5
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    environment:
+      ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - valkey_data:/bitnami/valkey/data
+
 volumes:
   db_data:
+  valkey_data:

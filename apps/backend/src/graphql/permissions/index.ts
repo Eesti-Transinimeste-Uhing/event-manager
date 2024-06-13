@@ -33,11 +33,13 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
     Mutation: {
       createForm: and(isAuthenticated, or(isOwner, isAdmin, isEditor, isPublisher)),
       updateForm: and(isAuthenticated, or(isOwner, isAdmin, isEditor, isPublisher)),
-      removeForm: and(isAuthenticated, or(isOwner, isAdmin, isEditor, isPublisher)),
+      removeForm: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
       createTemplate: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
       updateTemplate: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
       removeTemplate: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
       submitForm: allow,
+
+      announceForm: and(isAuthenticated, or(isOwner, isAdmin, isPublisher)),
     },
 
     DiscordUser: and(isAuthenticated, isOwnDiscordProfile),

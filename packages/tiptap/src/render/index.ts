@@ -28,6 +28,8 @@ export const renderJsonContent = (
       return markdown(json, data)
     case RenderTarget.Html:
       return html(json, data)
+    case RenderTarget.Discord:
+      return markdown(json, data) // TODO: Implement discord-specific markdown extensions, like <T:>
   }
 
   return ''

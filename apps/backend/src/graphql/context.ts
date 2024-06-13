@@ -8,6 +8,8 @@ import { UserRepository } from '../repository/user'
 import { usersClient } from '../proto/clients/discord-bot'
 import { hash } from '../lib/hash'
 
+import * as Announce from '../queues/announce'
+
 export type GraphqlContext = BaseContext & {
   user: User | null
   roles: UserRole[]

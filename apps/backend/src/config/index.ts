@@ -3,6 +3,7 @@ import { Config } from './types'
 
 const getConfig = (): Config => {
   return {
+    role: getString('PROCESS_ROLE', process.env.PROCESS_ROLE).split(',') as Config['role'],
     secureSession: {
       key: getString('SECURE_SESSION_KEY', process.env.SECURE_SESSION_KEY),
     },
@@ -18,6 +19,11 @@ const getConfig = (): Config => {
       publicUrl: getString('SERVER_PUBLIC_URL', process.env.SERVER_PUBLIC_URL),
       trustProxy: getString('SERVER_TRUST_PROXY', process.env.SERVER_TRUST_PROXY) === 'true',
       storageCache: getString('SERVER_STORAGE_CACHE', process.env.SERVER_STORAGE_CACHE).split(','),
+    },
+    valkey: {
+      host: getString('VALKEY_HOST', process.env.VALKEY_HOST),
+      port: getNumber('VALKEY_PORT', process.env.VALKEY_PORT),
+      db: getNumber('VALKEY_DB', process.env.VALKEY_DB),
     },
     discord: {
       clientId: getString('DISCORD_CLIENT_ID', process.env.DISCORD_CLIENT_ID),

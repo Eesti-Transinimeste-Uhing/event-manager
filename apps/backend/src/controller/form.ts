@@ -13,6 +13,10 @@ import { RenderTarget } from '@etu/tiptap/src/render'
 import { PaginateAndSortArgs } from '../lib/pagination'
 import { TemplateRepository } from '../repository/template'
 
+import * as Announce from '../queues/announce'
+import { AnnouncerRepository } from '../repository/announcer'
+import { AnnouncerOptions, AnnouncerType } from '../entity/announcer'
+
 export class FormController {
   private manager = AppDataSource.createEntityManager()
 
@@ -21,6 +25,12 @@ export class FormController {
   private forms = this.manager.withRepository(FormRepository)
 
   private submissions = this.manager.withRepository(FormSubmissionRepository)
+
+  private announcers = this.manager.withRepository(AnnouncerRepository)
+
+  private queues = {
+    announce: Announce.createQueue(),
+  } as const
 
   public async count() {
     return await this.forms.count()
@@ -58,6 +68,25 @@ export class FormController {
     const submissionCount = await this.submissions.countByFormId(form.id)
 
     return form.submitLimit === 0 || submissionCount < form.submitLimit
+  }
+
+  public async announce(formId: string) {
+    const options = this.announcers.create({
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      id: 'asdf',
+      name: 'test announcer',
+      type: AnnouncerType.Discord,
+      options: {
+        discord: {
+          channelId: '1250913804544376934',
+          guildId: '1059811599151550496',
+          id: 'qwer',
+        },
+      },
+    })
+
+    await this.queues.announce.add('announce', { formId, options })
   }
 
   // TODO: Make use of this in the frontend and allow updating existing submissions
@@ -121,7 +150,7 @@ export class FormController {
     const template = await form.template
 
     return renderJsonContent(template.description[SupportedLanguages[lang]], target, {
-      location: form.location[lang],
+      location: form.location[SupportedLanguages[lang]],
       startsAt: form.startsAt,
       luxonLang: SupportedLanguages[lang].replaceAll('_', '-'),
     })

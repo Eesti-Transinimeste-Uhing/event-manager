@@ -1,6 +1,8 @@
+import { ConnectionOptions } from 'bullmq'
 import * as Pino from 'pino'
 
 export type Config = {
+  role: Array<'server' | 'worker'>
   secureSession: {
     key: string
   }
@@ -10,6 +12,7 @@ export type Config = {
   log: {
     level: Pino.Level
   }
+  valkey: ConnectionOptions
   server: {
     host: string
     port: number
