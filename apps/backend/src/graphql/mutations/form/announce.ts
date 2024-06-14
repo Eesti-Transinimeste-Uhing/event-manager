@@ -1,6 +1,6 @@
 import { inputObjectType, mutationField } from 'nexus'
 
-import { formController } from '../../../server/static-context'
+import { announcerController } from '../../../server/static-context'
 
 const AnnounceFormWhereInput = inputObjectType({
   name: 'AnnounceFormWhereInput',
@@ -15,7 +15,7 @@ export const AnnounceForm = mutationField((t) => {
       where: AnnounceFormWhereInput.asArg(),
     },
     async resolve(root, args, context) {
-      await formController.announce(args.where.id)
+      await announcerController.announce(args.where.id)
 
       return true
     },

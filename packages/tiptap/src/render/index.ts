@@ -1,13 +1,15 @@
 import { JSONContent } from '@tiptap/core'
-import { TemplateVariableId } from '../extensions/template-variable'
 
 import { markdown } from './markdown'
 import { html } from './html'
+import { discord } from './discord'
+import { plainText } from './plain-text'
 
 export const RenderTarget = {
   Markdown: 1,
   Discord: 2,
   Html: 3,
+  PlainText: 4,
 } as const
 
 export type RenderTarget = (typeof RenderTarget)[keyof typeof RenderTarget]
@@ -29,7 +31,9 @@ export const renderJsonContent = (
     case RenderTarget.Html:
       return html(json, data)
     case RenderTarget.Discord:
-      return markdown(json, data) // TODO: Implement discord-specific markdown extensions, like <T:>
+      return discord(json, data)
+    case RenderTarget.PlainText:
+      return plainText(json, data)
   }
 
   return ''

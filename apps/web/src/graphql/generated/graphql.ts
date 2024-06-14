@@ -35,6 +35,10 @@ export type Scalars = {
   Upload: { input: any; output: any }
 }
 
+export type AnnounceFormWhereInput = {
+  id: Scalars['ID']['input']
+}
+
 export type CreateFormInput = {
   templateId: Scalars['ID']['input']
 }
@@ -148,6 +152,7 @@ export type I18nStringInput = {
 
 export type Mutation = {
   __typename?: 'Mutation'
+  announceForm: Scalars['Boolean']['output']
   createForm: Form
   createTemplate: Template
   removeForm: Scalars['Boolean']['output']
@@ -155,6 +160,10 @@ export type Mutation = {
   submitForm: Scalars['Boolean']['output']
   updateForm?: Maybe<Form>
   updateTemplate?: Maybe<Template>
+}
+
+export type MutationAnnounceFormArgs = {
+  where: AnnounceFormWhereInput
 }
 
 export type MutationCreateFormArgs = {
@@ -271,15 +280,12 @@ export enum RenderTarget {
   Discord = 'Discord',
   Html = 'Html',
   Markdown = 'Markdown',
+  PlainText = 'PlainText',
 }
 
 export type SubmitFormDataInput = {
   name: Scalars['String']['input']
   value?: InputMaybe<Scalars['String']['input']>
-}
-
-export type SubmitFormInput = {
-  id: Scalars['ID']['input']
 }
 
 export type SubmitFormWhereInput = {

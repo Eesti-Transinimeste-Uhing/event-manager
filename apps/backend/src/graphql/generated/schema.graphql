@@ -279,6 +279,7 @@ enum RenderTarget {
   Discord
   Html
   Markdown
+  PlainText
 }
 
 input SubmitFormDataInput {

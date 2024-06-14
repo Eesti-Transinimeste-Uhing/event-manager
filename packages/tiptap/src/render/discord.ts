@@ -1,16 +1,46 @@
 import { JSONContent } from '@tiptap/core'
 import { TemplateVariableId } from '../extensions/template-variable'
-
-import { hasMark } from './utils'
-import { RenderData } from '.'
 import { DateTime } from 'luxon'
 
-export const markdown = (json: JSONContent, data: RenderData): string => {
+import { RenderData } from '.'
+import { hasMark } from './utils'
+
+type DiscordTimeFormat =
+  | 'relative'
+  | 'short-time'
+  | 'long-time'
+  | 'short-date'
+  | 'long-date'
+  | 'long-date-short-time'
+  | 'long-date-day-of-week-short-time'
+
+const dtToDiscordSyntax = (dt: DateTime, format: DiscordTimeFormat): string => {
+  const seconds = dt.toSeconds()
+
+  switch (format) {
+    case 'relative':
+      return `<t:${seconds}:R>`
+    case 'short-time':
+      return `<t:${seconds}:t>`
+    case 'long-time':
+      return `<t:${seconds}:T>`
+    case 'short-date':
+      return `<t:${seconds}:d>`
+    case 'long-date':
+      return `<t:${seconds}:D>`
+    case 'long-date-short-time':
+      return `<t:${seconds}:f>`
+    case 'long-date-day-of-week-short-time':
+      return `<t:${seconds}:F>`
+  }
+}
+
+export const discord = (json: JSONContent, data: RenderData): string => {
   let result = ''
 
   if (json.type === 'doc' && json.content) {
     for (const node of json.content) {
-      result += markdown(node, data)
+      result += discord(node, data)
     }
 
     return result
@@ -21,7 +51,7 @@ export const markdown = (json: JSONContent, data: RenderData): string => {
 
     if (json.content)
       for (const node of json.content) {
-        result += markdown(node, data)
+        result += discord(node, data)
       }
 
     result += '\n'
@@ -52,7 +82,8 @@ export const markdown = (json: JSONContent, data: RenderData): string => {
 
     switch (id) {
       case 'event-date-time':
-        result += `${DateTime.fromJSDate(data.startsAt).setLocale(data.luxonLang).toLocaleString(DateTime.DATETIME_MED)} (<T:${DateTime.fromJSDate(data.startsAt).toMillis()}>)`
+        const dt = DateTime.fromJSDate(data.startsAt)
+        result += `${dtToDiscordSyntax(dt, 'long-date-short-time')} (${dtToDiscordSyntax(dt, 'relative')})`
         break
 
       case 'event-location':
