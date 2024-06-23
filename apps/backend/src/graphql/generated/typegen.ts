@@ -201,7 +201,7 @@ export interface NexusGenInputs {
 export interface NexusGenEnums {
   FormFieldKind: 0 | 1 | 2 | 3 | 4
   PaginationSortingOrder: 'ASC' | 'DESC'
-  RenderTarget: 2 | 3 | 1 | 4
+  RenderTarget: 2 | 3 | 5 | 1 | 4
   SupportedLanguages: 0 | 1 | 3
   UserRole: 1 | 2 | 0 | 3
 }
@@ -303,7 +303,7 @@ export interface NexusGenFieldTypes {
     location_i18n: NexusGenScalars['I18nString'] // I18nString!
     name: string | null // String
     name_i18n: NexusGenScalars['I18nString'] // I18nString!
-    startsAt: NexusGenScalars['DateTime'] // DateTime!
+    startsAt: NexusGenScalars['DateTime'] | null // DateTime
     submitLimit: number // Int!
     template: NexusGenRootTypes['Template'] // Template!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!

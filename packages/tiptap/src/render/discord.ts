@@ -1,8 +1,6 @@
 import { JSONContent } from '@tiptap/core'
-import { TemplateVariableId } from '../extensions/template-variable'
 import { DateTime } from 'luxon'
 
-import { RenderData } from '.'
 import { hasMark } from './utils'
 
 type DiscordTimeFormat =
@@ -35,12 +33,12 @@ const dtToDiscordSyntax = (dt: DateTime, format: DiscordTimeFormat): string => {
   }
 }
 
-export const discord = (json: JSONContent, data: RenderData): string => {
+export const discord = (json: JSONContent): string => {
   let result = ''
 
   if (json.type === 'doc' && json.content) {
     for (const node of json.content) {
-      result += discord(node, data)
+      result += discord(node)
     }
 
     return result
@@ -51,10 +49,15 @@ export const discord = (json: JSONContent, data: RenderData): string => {
 
     if (json.content)
       for (const node of json.content) {
-        result += discord(node, data)
+        result += discord(node)
       }
 
     result += '\n'
+    return result
+  }
+
+  if (json.type === 'hardBreak') {
+    result += ' \n'
     return result
   }
 
@@ -69,27 +72,6 @@ export const discord = (json: JSONContent, data: RenderData): string => {
 
     if (i) result += '*'
     if (b) result += '**'
-
-    return result
-  }
-
-  if (json.type === 'template-variable') {
-    if (!json.attrs) {
-      return result
-    }
-
-    const id: TemplateVariableId = json.attrs.id
-
-    switch (id) {
-      case 'event-date-time':
-        const dt = DateTime.fromJSDate(data.startsAt)
-        result += `${dtToDiscordSyntax(dt, 'long-date-short-time')} (${dtToDiscordSyntax(dt, 'relative')})`
-        break
-
-      case 'event-location':
-        result += data.location
-        break
-    }
 
     return result
   }

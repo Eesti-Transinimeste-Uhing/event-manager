@@ -15,6 +15,8 @@ import Italic from '@tiptap/extension-italic'
 
 import History from '@tiptap/extension-history'
 
+export * as Utils from './utils'
+
 export { TemplateVariableNode, TemplateVariableId } from './extensions/template-variable'
 
 export { renderJsonContent, RenderTarget } from './render'

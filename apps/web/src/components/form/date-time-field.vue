@@ -25,7 +25,11 @@ const handleChange = (value: string | null) => {
   emit('update:model-value', LuxonDateTime.fromFormat(value, format).toJSDate())
 }
 
-const expanded = ref(false)
+const modalOpen = ref(false)
+
+const invalid = computed(() => {
+  return !props.modelValue || isNaN(props.modelValue.getTime())
+})
 
 const formattedValue = computed(() => {
   return LuxonDateTime.fromJSDate(props.modelValue)
@@ -34,33 +38,22 @@ const formattedValue = computed(() => {
 })
 </script>
 
+<style lang="scss" scoped>
+.date-time-controls {
+  max-width: 100%;
+}
+</style>
+
 <template>
-  <div class="datetime-field">
-    <q-card
-      @click="expanded = true"
-      flat
-      bordered
-      class="q-mb-md row justify-between"
-      v-morph:a:datetime:150.tween="expanded ? 'b' : 'a'"
-    >
-      <div class="column">
-        <span class="text-caption text-grey q-px-md q-pt-sm">{{ props.label }}</span>
-        <date-time class="q-mx-md q-mb-sm" absolute :model-value="props.modelValue" />
-      </div>
+  <q-card flat bordered class="datetime-field q-px-md q-mb-md" @click="modalOpen = true">
+    <q-field borderless :label="props.label" :stack-label="!invalid">
+      <template #control>
+        <date-time v-if="!invalid" absolute :model-value="props.modelValue" />
+      </template>
+    </q-field>
 
-      <div class="q-pa-sm">
-        <q-btn
-          @click="expanded = true"
-          unelevated
-          round
-          color="primary"
-          icon="las la-chevron-down"
-        />
-      </div>
-    </q-card>
-
-    <q-card flat bordered class="q-mb-md row" v-morph:b:datetime:150.tween="expanded ? 'b' : 'a'">
-      <div class="col row">
+    <q-dialog v-model="modalOpen">
+      <q-card class="row no-wrap date-time-controls">
         <q-date
           flat
           :model-value="formattedValue"
@@ -76,19 +69,7 @@ const formattedValue = computed(() => {
           format24h
           @update:model-value="handleChange"
         />
-      </div>
-
-      <div class="column justify-center">
-        <q-btn
-          @click="expanded = false"
-          unelevated
-          round
-          size="md"
-          color="primary"
-          icon="las la-chevron-up"
-          class="q-ma-md"
-        />
-      </div>
-    </q-card>
-  </div>
+      </q-card>
+    </q-dialog>
+  </q-card>
 </template>

@@ -34,7 +34,7 @@ type Form {
   location_i18n: I18nString!
   name(where: WhereLangInput!): String
   name_i18n: I18nString!
-  startsAt: DateTime!
+  startsAt: DateTime
   submitLimit: Int!
   template: Template!
   updatedAt: DateTime!
@@ -278,6 +278,7 @@ input RemoveTemplateInput {
 enum RenderTarget {
   Discord
   Html
+  Json
   Markdown
   PlainText
 }

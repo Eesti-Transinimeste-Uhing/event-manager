@@ -39,7 +39,7 @@ export const Form = objectType({
     })
     t.dateTime('createdAt')
     t.dateTime('updatedAt')
-    t.dateTime('startsAt')
+    t.nullable.dateTime('startsAt')
     t.url('banner', {
       resolve(root) {
         return root.bannerUrl
@@ -58,7 +58,7 @@ export const Form = objectType({
         target: 'RenderTarget',
       },
       async resolve(root, args) {
-        return formController.renderDescription(root, args.where.language, args.target)
+        return formController.renderDescription(root, [args.where.language], args.target)
       },
     })
     t.field('template', {

@@ -28,7 +28,11 @@ const handleUpdate = (newValue: string | number | null) => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.i18n-input-card {
+  border-top-left-radius: 0;
+}
+</style>
 
 <template>
   <div class="component-translator" :class="props.class">
@@ -36,7 +40,7 @@ const handleUpdate = (newValue: string | number | null) => {
       @update:model-value="(v) => (lang = v)"
       :default-language="props.defaultLanguage"
     >
-      <q-card flat bordered>
+      <q-card flat bordered class="i18n-input-card">
         <q-input
           v-bind="$attrs"
           borderless

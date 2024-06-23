@@ -24,21 +24,23 @@ export const createWorker = () =>
 
       const discordMessage = await formController.renderDescription(
         form,
-        SupportedLanguages.en_GB,
+        [SupportedLanguages.en_GB],
         RenderTarget.Discord
       )
 
-      log.debug(`rendered: "${discordMessage}"`)
+      console.log(discordMessage)
 
-      await client.announceForm(
-        AnnounceFormRequest.fromObject({
-          message: discordMessage,
-          channelId: '1250913804544376934',
-          guildId: '1059811599151550496',
-        })
-      )
+      // log.debug(`rendered: "${discordMessage}"`)
 
-      log.debug('sent')
+      // await client.announceForm(
+      //   AnnounceFormRequest.fromObject({
+      //     message: discordMessage,
+      //     channelId: '1250913804544376934',
+      //     guildId: '1059811599151550496',
+      //   })
+      // )
+
+      // log.debug('sent')
     },
     {
       connection: config.valkey,

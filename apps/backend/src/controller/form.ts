@@ -1,7 +1,6 @@
 import { DeepPartial } from 'typeorm'
-import { renderJsonContent } from '@etu/tiptap'
+import { renderJsonContent, Utils } from '@etu/tiptap'
 import { SupportedLanguages } from '@etu/events-proto/dist/lib'
-import { flagMap } from '@etu/i18n'
 
 import { AppDataSource } from '../data-source'
 import { Form } from '../entity/form'
@@ -13,8 +12,7 @@ import { formBanners } from '../storage'
 import { RenderTarget } from '@etu/tiptap/src/render'
 import { PaginateAndSortArgs } from '../lib/pagination'
 import { TemplateRepository } from '../repository/template'
-
-import * as Announce from '../queues/announce'
+import { substituteTemplateVariables } from '@etu/tiptap/src/utils'
 
 export class FormController {
   private manager = AppDataSource.createEntityManager()
@@ -120,28 +118,21 @@ export class FormController {
     return this.forms.findOneBy({ id })
   }
 
-  public async renderDescription(form: Form, lang: SupportedLanguages, target: RenderTarget) {
+  public async renderDescription(form: Form, langs: SupportedLanguages[], target: RenderTarget) {
     const template = await form.template
-    let result = ''
+    const replaced = langs.map((lang) => {
+      const description = template.description[SupportedLanguages[lang]]
 
-    for (const lang in SupportedLanguages) {
-      if (!template.description[SupportedLanguages[lang]]) continue
-
-      const flag = flagMap[SupportedLanguages[lang]]
-
-      result += '\n\n---\n\n'
-
-      result += renderJsonContent(template.description[SupportedLanguages[lang]], target, {
+      substituteTemplateVariables(description, {
         location: form.location[SupportedLanguages[lang]],
         startsAt: form.startsAt,
-        luxonLang: SupportedLanguages[lang].replaceAll('_', '-'),
+        luxonLang: 'en',
       })
-    }
 
-    return renderJsonContent(template.description[SupportedLanguages[lang]], target, {
-      location: form.location[SupportedLanguages[lang]],
-      startsAt: form.startsAt,
-      luxonLang: SupportedLanguages[lang].replaceAll('_', '-'),
+      return description
     })
+    const joined = Utils.join(replaced)
+
+    return renderJsonContent(joined, target)
   }
 }

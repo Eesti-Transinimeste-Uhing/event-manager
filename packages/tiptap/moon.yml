@@ -3,3 +3,8 @@ project:
   description: 'Headless tiptap package for BE and FE'
 
 tasks:
+  test:
+    command: 'ava'
+    inputs:
+      - 'src/**/*'
+      - 'package.json'
