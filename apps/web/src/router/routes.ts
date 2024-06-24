@@ -28,7 +28,7 @@ export const templates: RouteRecord = {
 
 export const templateEdit: RouteRecord = {
   name: 'template-edit',
-  path: '/template/:id/edit',
+  path: '/template/edit',
   component: () => import('pages/templates/edit-template.vue'),
   meta: {
     auth: 'require',
@@ -54,7 +54,7 @@ export const forms: RouteRecord = {
 
 export const formEdit: RouteRecord = {
   name: 'form-edit',
-  path: '/form/:id/edit',
+  path: '/form/edit',
   component: () => import('pages/forms/edit-form.vue'),
   meta: {
     auth: 'require',
@@ -67,7 +67,7 @@ export const formEdit: RouteRecord = {
 
 export const formSubmit: RouteRecord = {
   name: 'form-submit',
-  path: '/form/:id/submit',
+  path: '/form/submit',
   component: () => import('pages/forms/submit-form.vue'),
   meta: {
     auth: 'any',
@@ -106,7 +106,7 @@ export const announcersList: RouteRecord = {
 
 export const announcerEdit: RouteRecord = {
   name: 'announcer-edit',
-  path: '/announcer/:id/edit',
+  path: '/announcer/edit',
   component: () => import('pages/announcers/edit-announcer.vue'),
   meta: {
     auth: 'require',

@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 
 import { graphql } from 'src/graphql/generated'
 import { EditFormQueryVariables, SupportedLanguages } from 'src/graphql/generated/graphql'
-import { useRouteParam } from 'src/lib/use-route-param'
+import { useRouteQuery } from 'src/lib/use-route-param'
 import { useNotificationsStore } from 'src/stores/notifications'
 
 import EmptyContent from 'src/components/empty-content.vue'
@@ -19,7 +19,7 @@ import { formSubmit } from 'src/router/routes'
 import { useI18n } from 'src/hooks/use-i18n'
 import { DateTime } from 'luxon'
 
-const id = useRouteParam('id')
+const id = useRouteQuery('id')
 
 const variables = computed<EditFormQueryVariables>(() => {
   return {
@@ -127,7 +127,7 @@ const router = useRouter()
 const handlePreviewClick = () => {
   router.push({
     name: formSubmit.name,
-    params: {
+    query: {
       id,
     },
   })

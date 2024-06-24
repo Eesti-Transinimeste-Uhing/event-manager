@@ -138,7 +138,7 @@ const router = useRouter()
 const createEditPath = (id: string) => {
   return router.resolve({
     name: templateEdit.name,
-    params: {
+    query: {
       id,
     },
   })
@@ -166,7 +166,7 @@ const handleCreateNewClick = async () => {
 
     await router.push({
       name: templateEdit.name,
-      params: {
+      query: {
         id: result?.data?.createTemplate.id,
       },
     })

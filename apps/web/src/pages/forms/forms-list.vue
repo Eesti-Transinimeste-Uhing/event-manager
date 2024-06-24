@@ -163,7 +163,7 @@ const handleCreateNew = async (templateId: string) => {
 
     router.push({
       name: formEdit.name,
-      params: {
+      query: {
         id: result?.data?.createForm.id,
       },
     })
@@ -236,7 +236,7 @@ const options = computed(() => {
 const handleRowClick = (evt: Event, row: FormEdge) => {
   return router.push({
     name: formEdit.name,
-    params: {
+    query: {
       id: row.node.id,
     },
   })

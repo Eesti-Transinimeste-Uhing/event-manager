@@ -5,7 +5,7 @@ import VueDraggable from 'vuedraggable'
 import bytes from 'bytes'
 import { JSONContent } from '@tiptap/core'
 
-import { useRouteParam } from 'src/lib/use-route-param'
+import { useRouteQuery } from 'src/lib/use-route-param'
 import { graphql } from 'src/graphql/generated'
 
 import SingleImageUploadField from 'src/components/form/single-image-upload-field.vue'
@@ -23,7 +23,7 @@ import { useI18n } from 'src/hooks/use-i18n'
 import I18nInput from 'src/components/i18n/i18n-input.vue'
 import I18nTextEditor from 'src/components/i18n/i18n-text-editor.vue'
 
-const id = useRouteParam('id')
+const id = useRouteQuery('id')
 
 const variables = computed(() => {
   return { id }

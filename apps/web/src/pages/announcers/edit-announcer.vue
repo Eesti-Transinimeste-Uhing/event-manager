@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouteQuery } from 'src/lib/use-route-param'
 
-const route = useRoute()
-const announcerId = computed(() => route.params.id)
+const announcerId = useRouteQuery('id')
 </script>
 
 <template>

@@ -126,7 +126,7 @@ const handleCreateNewClick = async () => {
 
     router.push({
       name: announcerEdit.name,
-      params: {
+      query: {
         id: result?.data?.createAnnouncer.id,
       },
     })
@@ -143,7 +143,7 @@ const handleCreateNewClick = async () => {
 const handleRowClick = (evt: Event, row: FormEdge) => {
   return router.push({
     name: announcerEdit.name,
-    params: {
+    query: {
       id: row.node.id,
     },
   })

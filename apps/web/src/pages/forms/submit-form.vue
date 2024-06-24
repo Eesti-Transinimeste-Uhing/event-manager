@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@vue/apollo-composable'
 import { computed, ref } from 'vue'
 
 import { graphql } from 'src/graphql/generated'
-import { useRouteParam } from 'src/lib/use-route-param'
+import { useRouteQuery } from 'src/lib/use-route-param'
 import { FormFieldKind, RenderTarget, SubmitFormDataInput } from 'src/graphql/generated/graphql'
 
 import FormField from 'src/components/form/form-field.vue'
@@ -15,7 +15,7 @@ import { useI18n } from 'src/hooks/use-i18n'
 import { useUserPreferencesStore } from 'src/stores/user-preferences'
 import { storeToRefs } from 'pinia'
 
-const id = useRouteParam('id')
+const id = useRouteQuery('id')
 const { t, currentLanguage } = useI18n()
 
 const variables = computed(() => {

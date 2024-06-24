@@ -43,7 +43,7 @@ export type Announcer = {
   __typename?: 'Announcer'
   createdAt: Scalars['DateTime']['output']
   id: Scalars['ID']['output']
-  name: Scalars['String']['output']
+  name?: Maybe<Scalars['String']['output']>
   updatedAt: Scalars['DateTime']['output']
 }
 
@@ -474,7 +474,13 @@ export type AnnouncerListQuery = {
     }
     edges: Array<{
       __typename?: 'AnnouncerEdge'
-      node: { __typename?: 'Announcer'; id: string; createdAt: any; updatedAt: any; name: string }
+      node: {
+        __typename?: 'Announcer'
+        id: string
+        createdAt: any
+        updatedAt: any
+        name?: string | null
+      }
     }>
   }
 }

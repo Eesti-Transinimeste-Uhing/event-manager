@@ -1,8 +1,9 @@
 import { useRoute } from 'vue-router'
 
-export const useRouteParam = (param: string) => {
+export const useRouteQuery = (name: string) => {
   const route = useRoute()
-  const value = route.params[param]
+  const value = route.query[name]
+  const firstValue = Array.isArray(value) ? value[0] : value
 
-  return Array.isArray(value) ? value[0] : value
+  return firstValue ? firstValue : ''
 }
