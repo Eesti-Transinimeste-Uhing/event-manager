@@ -8,5 +8,5 @@ export const isAdmin = rule({ cache: 'contextual' })(async (
   ctx: GraphqlContext,
   info
 ) => {
-  return ctx.roles.includes(UserRole.Admin)
+  return ctx.roles.includes(UserRole.Admin) || ctx.roles.includes(UserRole.Owner)
 })

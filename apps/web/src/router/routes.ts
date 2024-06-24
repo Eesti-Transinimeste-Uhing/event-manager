@@ -91,6 +91,32 @@ export const submissionList: RouteRecord = {
   },
 }
 
+export const announcersList: RouteRecord = {
+  name: 'announcers-list',
+  path: '/announcers/list',
+  component: () => import('pages/announcers/announcers-list.vue'),
+  meta: {
+    auth: 'require',
+    dark: true,
+    icon: 'las la-bullhorn',
+    label: 'announcers',
+    path: [],
+  },
+}
+
+export const announcerEdit: RouteRecord = {
+  name: 'announcer-edit',
+  path: '/announcer/:id/edit',
+  component: () => import('pages/announcers/edit-announcer.vue'),
+  meta: {
+    auth: 'require',
+    dark: true,
+    icon: 'las la-edit',
+    label: 'edit-announcer',
+    path: [announcersList],
+  },
+}
+
 const indexRoutes: RouteRecord[] = [
   templates,
   forms,
@@ -98,6 +124,8 @@ const indexRoutes: RouteRecord[] = [
   templates,
   templateEdit,
   submissionList,
+  announcersList,
+  announcerEdit,
 ]
 
 export const prototyping: RouteRecord = {

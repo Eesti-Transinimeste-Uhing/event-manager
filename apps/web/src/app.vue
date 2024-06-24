@@ -39,7 +39,10 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  removeLoadingOverlay()
+  if (loadingOverlayRemoveTimer.value) {
+    removeLoadingOverlay()
+    clearTimeout(loadingOverlayRemoveTimer.value)
+  }
 })
 </script>
 

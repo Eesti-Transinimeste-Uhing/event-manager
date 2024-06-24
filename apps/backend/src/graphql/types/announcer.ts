@@ -13,6 +13,6 @@ export const Announcer = objectType({
     t.dateTime('createdAt')
     t.dateTime('updatedAt')
 
-    t.string('name')
+    t.nullable.string('name')
   },
 })

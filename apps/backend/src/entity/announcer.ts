@@ -11,9 +11,9 @@ import {
 import { AnnouncerOptionsDiscord } from './announcer-options-discord'
 
 export enum AnnouncerType {
-  Discord = 0,
-  Facebook = 1,
-  Instagram = 2,
+  Discord = 1,
+  Facebook = 2,
+  Instagram = 3,
 }
 
 export class AnnouncerOptions {
@@ -45,10 +45,14 @@ export class Announcer {
   })
   deletedAt: Date
 
-  @Column('varchar')
+  @Column('varchar', {
+    nullable: true,
+  })
   name: string
 
-  @Column('int')
+  @Column('int', {
+    nullable: true,
+  })
   type: AnnouncerType
 
   @Column(() => AnnouncerOptions)

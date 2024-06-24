@@ -6,3 +6,5 @@ export * from './template'
 export * from './form'
 export * from './forms'
 export * from './form-submissions'
+
+export * from './announcers'

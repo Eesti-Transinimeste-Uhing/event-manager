@@ -10,7 +10,6 @@ import { isOwnDiscordProfile } from './is-own-discord-profile'
 import { isAdmin } from './is-admin'
 import { isPublisher } from './is-publisher'
 import { isEditor } from './is-editor'
-import { isOwner } from './is-owner'
 
 export type GraphQLRules<RootType> = {
   [key in keyof RootType]:
@@ -24,22 +23,27 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
   {
     Query: {
       form: allow,
-      forms: and(isAuthenticated, or(isOwner, isAdmin, isEditor, isPublisher)),
-      template: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
-      templates: and(isAuthenticated, or(isOwner, isAdmin, isEditor, isPublisher)),
+      forms: and(isAuthenticated, or(isAdmin, isEditor)),
+      template: and(isAuthenticated, or(isAdmin, isEditor)),
+      templates: and(isAuthenticated, or(isAdmin, isEditor)),
       viewer: allow,
-      formSubmissions: and(isAuthenticated, or(isOwner, isAdmin)),
+      formSubmissions: and(isAuthenticated, isAdmin),
+      announcers: and(isAuthenticated, or(isAdmin, isPublisher)),
     },
     Mutation: {
-      createForm: and(isAuthenticated, or(isOwner, isAdmin, isEditor, isPublisher)),
-      updateForm: and(isAuthenticated, or(isOwner, isAdmin, isEditor, isPublisher)),
-      removeForm: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
-      createTemplate: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
-      updateTemplate: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
-      removeTemplate: and(isAuthenticated, or(isOwner, isAdmin, isEditor)),
-      submitForm: allow,
+      createForm: and(isAuthenticated, or(isAdmin, isEditor)),
+      updateForm: and(isAuthenticated, or(isAdmin, isEditor)),
+      removeForm: and(isAuthenticated, or(isAdmin, isEditor)),
+      createTemplate: and(isAuthenticated, or(isAdmin, isEditor)),
+      updateTemplate: and(isAuthenticated, or(isAdmin, isEditor)),
+      removeTemplate: and(isAuthenticated, or(isAdmin, isEditor)),
 
-      announceForm: and(isAuthenticated, or(isOwner, isAdmin, isPublisher)),
+      submitForm: allow, // anyone can submit a form even if they are not authenticated
+
+      announceForm: and(isAuthenticated, or(isAdmin, isPublisher)),
+
+      createAnnouncer: and(isAuthenticated, or(isAdmin, isPublisher)),
+      updateAnnouncer: and(isAuthenticated, or(isAdmin, isPublisher)),
     },
 
     DiscordUser: and(isAuthenticated, isOwnDiscordProfile),
@@ -50,6 +54,9 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
     Template: allow,
     TemplateConnection: allow,
     TemplateEdge: allow,
+    Announcer: allow,
+    AnnouncerConnection: allow,
+    AnnouncerEdge: allow,
     User: allow,
     FormSubmissionConnection: allow,
     FormSubmissionEdge: allow,

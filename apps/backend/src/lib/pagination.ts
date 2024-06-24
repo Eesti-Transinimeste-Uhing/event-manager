@@ -69,12 +69,12 @@ export const paginate = <Entity extends ObjectLiteral>(
 
   const filterableColumns = mapI18nColumns(filter.columns, columns)
 
-  const realFilter: Array<NexusGenInputs['PaginationFilter']> = filterableColumns.map(
-    (columnName) => ({
-      columns: [columnName],
-      query: filter[0] ? filter[0].filter : '',
-    })
-  )
+  const realFilter: Array<NexusGenInputs['PaginationFilter']> = filter.query
+    ? filterableColumns.map((columnName) => ({
+        columns: [columnName],
+        query: filter.query,
+      }))
+    : []
 
   realFilter.forEach((item) => {
     item.columns.forEach((column) => {

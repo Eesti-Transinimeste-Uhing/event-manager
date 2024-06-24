@@ -231,6 +231,16 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Announcer: Announcer
+  AnnouncerConnection: {
+    // root type
+    edges: NexusGenRootTypes['AnnouncerEdge'][] // [AnnouncerEdge!]!
+    pageInfo: NexusGenRootTypes['PageInfo'] // PageInfo!
+  }
+  AnnouncerEdge: {
+    // root type
+    cursor: string // String!
+    node: NexusGenRootTypes['Announcer'] // Announcer!
+  }
   DiscordUser: DiscordOauthInfo
   Form: Form
   FormConnection: {
@@ -296,8 +306,18 @@ export interface NexusGenFieldTypes {
     // field return type
     createdAt: NexusGenScalars['DateTime'] // DateTime!
     id: string // ID!
-    name: string // String!
+    name: string | null // String
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
+  }
+  AnnouncerConnection: {
+    // field return type
+    edges: NexusGenRootTypes['AnnouncerEdge'][] // [AnnouncerEdge!]!
+    pageInfo: NexusGenRootTypes['PageInfo'] // PageInfo!
+  }
+  AnnouncerEdge: {
+    // field return type
+    cursor: string // String!
+    node: NexusGenRootTypes['Announcer'] // Announcer!
   }
   DiscordUser: {
     // field return type
@@ -380,6 +400,7 @@ export interface NexusGenFieldTypes {
   }
   Query: {
     // field return type
+    announcers: NexusGenRootTypes['AnnouncerConnection'] // AnnouncerConnection!
     form: NexusGenRootTypes['Form'] | null // Form
     formSubmissions: NexusGenRootTypes['FormSubmissionConnection'] // FormSubmissionConnection!
     forms: NexusGenRootTypes['FormConnection'] // FormConnection!
@@ -426,6 +447,16 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     name: 'String'
     updatedAt: 'DateTime'
+  }
+  AnnouncerConnection: {
+    // field return type name
+    edges: 'AnnouncerEdge'
+    pageInfo: 'PageInfo'
+  }
+  AnnouncerEdge: {
+    // field return type name
+    cursor: 'String'
+    node: 'Announcer'
   }
   DiscordUser: {
     // field return type name
@@ -508,6 +539,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: {
     // field return type name
+    announcers: 'AnnouncerConnection'
     form: 'Form'
     formSubmissions: 'FormSubmissionConnection'
     forms: 'FormConnection'
@@ -602,6 +634,15 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    announcers: {
+      // args
+      after?: string | null // String
+      before?: string | null // String
+      filter: NexusGenInputs['PaginationFilter'] // PaginationFilter!
+      first?: number | null // Int
+      last?: number | null // Int
+      sort: NexusGenInputs['PaginationSorting'] // PaginationSorting!
+    }
     form: {
       // args
       where: NexusGenInputs['WhereIdInput'] // WhereIdInput!

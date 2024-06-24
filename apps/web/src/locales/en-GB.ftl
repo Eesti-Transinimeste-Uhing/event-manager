@@ -125,3 +125,4 @@ tos-and-privacy = Terms of service and privacy policy
 tos-and-privacy-link = https://transinimesed.ee/en/privacy-policy/
 site-link = https://transinimesed.ee/en/
 dark-mode = Dark mode
+announcers = Announcers

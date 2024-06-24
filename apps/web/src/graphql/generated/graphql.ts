@@ -39,6 +39,30 @@ export type AnnounceFormWhereInput = {
   id: Scalars['ID']['input']
 }
 
+export type Announcer = {
+  __typename?: 'Announcer'
+  createdAt: Scalars['DateTime']['output']
+  id: Scalars['ID']['output']
+  name: Scalars['String']['output']
+  updatedAt: Scalars['DateTime']['output']
+}
+
+export type AnnouncerConnection = {
+  __typename?: 'AnnouncerConnection'
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types */
+  edges: Array<AnnouncerEdge>
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo */
+  pageInfo: PageInfo
+}
+
+export type AnnouncerEdge = {
+  __typename?: 'AnnouncerEdge'
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor */
+  cursor: Scalars['String']['output']
+  /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
+  node: Announcer
+}
+
 export type CreateFormInput = {
   templateId: Scalars['ID']['input']
 }
@@ -153,11 +177,13 @@ export type I18nStringInput = {
 export type Mutation = {
   __typename?: 'Mutation'
   announceForm: Scalars['Boolean']['output']
+  createAnnouncer: Announcer
   createForm: Form
   createTemplate: Template
   removeForm: Scalars['Boolean']['output']
   removeTemplate: Scalars['Boolean']['output']
   submitForm: Scalars['Boolean']['output']
+  updateAnnouncer?: Maybe<Announcer>
   updateForm?: Maybe<Form>
   updateTemplate?: Maybe<Template>
 }
@@ -181,6 +207,11 @@ export type MutationRemoveTemplateArgs = {
 export type MutationSubmitFormArgs = {
   data: Array<SubmitFormDataInput>
   where: SubmitFormWhereInput
+}
+
+export type MutationUpdateAnnouncerArgs = {
+  data: UpdateAnnouncerDataInput
+  where: UpdateAnnouncerWhereInput
 }
 
 export type MutationUpdateFormArgs = {
@@ -225,12 +256,22 @@ export enum PaginationSortingOrder {
 
 export type Query = {
   __typename?: 'Query'
+  announcers: AnnouncerConnection
   form?: Maybe<Form>
   formSubmissions: FormSubmissionConnection
   forms: FormConnection
   template?: Maybe<Template>
   templates: TemplateConnection
   viewer?: Maybe<User>
+}
+
+export type QueryAnnouncersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  filter: PaginationFilter
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  sort: PaginationSorting
 }
 
 export type QueryFormArgs = {
@@ -240,19 +281,19 @@ export type QueryFormArgs = {
 export type QueryFormSubmissionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
-  filter?: InputMaybe<PaginationFilter>
+  filter: PaginationFilter
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
-  sort?: InputMaybe<PaginationSorting>
+  sort: PaginationSorting
 }
 
 export type QueryFormsArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
-  filter?: InputMaybe<PaginationFilter>
+  filter: PaginationFilter
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
-  sort?: InputMaybe<PaginationSorting>
+  sort: PaginationSorting
 }
 
 export type QueryTemplateArgs = {
@@ -262,10 +303,10 @@ export type QueryTemplateArgs = {
 export type QueryTemplatesArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
-  filter?: InputMaybe<PaginationFilter>
+  filter: PaginationFilter
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
-  sort?: InputMaybe<PaginationSorting>
+  sort: PaginationSorting
 }
 
 export type RemoveFormInput = {
@@ -279,6 +320,7 @@ export type RemoveTemplateInput = {
 export enum RenderTarget {
   Discord = 'Discord',
   Html = 'Html',
+  Json = 'Json',
   Markdown = 'Markdown',
   PlainText = 'PlainText',
 }
@@ -335,6 +377,14 @@ export type TemplateEdge = {
   cursor: Scalars['String']['output']
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
   node: Template
+}
+
+export type UpdateAnnouncerDataInput = {
+  name: Scalars['String']['input']
+}
+
+export type UpdateAnnouncerWhereInput = {
+  id: Scalars['ID']['input']
 }
 
 export type UpdateFormDataInput = {
@@ -399,6 +449,41 @@ export type PublicLayoutViewerQueryVariables = Exact<{ [key: string]: never }>
 export type PublicLayoutViewerQuery = {
   __typename?: 'Query'
   viewer?: { __typename?: 'User'; id: string; roles: Array<UserRole> } | null
+}
+
+export type AnnouncerListQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  filter: PaginationFilter
+  sort: PaginationSorting
+}>
+
+export type AnnouncerListQuery = {
+  __typename?: 'Query'
+  announcers: {
+    __typename?: 'AnnouncerConnection'
+    pageInfo: {
+      __typename?: 'PageInfo'
+      totalCount?: number | null
+      hasNextPage?: boolean | null
+      hasPreviousPage?: boolean | null
+      endCursor?: string | null
+      startCursor?: string | null
+    }
+    edges: Array<{
+      __typename?: 'AnnouncerEdge'
+      node: { __typename?: 'Announcer'; id: string; createdAt: any; updatedAt: any; name: string }
+    }>
+  }
+}
+
+export type CreateAnnouncerMutationVariables = Exact<{ [key: string]: never }>
+
+export type CreateAnnouncerMutation = {
+  __typename?: 'Mutation'
+  createAnnouncer: { __typename?: 'Announcer'; id: string }
 }
 
 export type PostOauthViewerQueryVariables = Exact<{ [key: string]: never }>
@@ -720,6 +805,159 @@ export const PublicLayoutViewerDocument = {
     },
   ],
 } as unknown as DocumentNode<PublicLayoutViewerQuery, PublicLayoutViewerQueryVariables>
+export const AnnouncerListDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AnnouncerList' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationFilter' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'PaginationSorting' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'announcers' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'first' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'last' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'last' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'after' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'before' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'before' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'filter' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'sort' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'sort' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasNextPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'hasPreviousPage' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'endCursor' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'startCursor' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AnnouncerListQuery, AnnouncerListQueryVariables>
+export const CreateAnnouncerDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateAnnouncer' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createAnnouncer' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateAnnouncerMutation, CreateAnnouncerMutationVariables>
 export const PostOauthViewerDocument = {
   kind: 'Document',
   definitions: [
