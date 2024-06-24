@@ -1,8 +1,11 @@
 import { AppDataSource } from '../data-source'
-import { AnnouncerType } from '../entity/announcer'
+import { Announcer, AnnouncerType } from '../entity/announcer'
 import { AnnouncerRepository } from '../repository/announcer'
 
 import * as Announce from '../queues/announce'
+import { DeepPartial } from 'typeorm'
+import { EntityNotFoundError } from '../lib/errors'
+import { PaginateAndSortArgs } from '../lib/pagination'
 
 export class AnnouncerController {
   private manager = AppDataSource.createEntityManager()
@@ -12,6 +15,10 @@ export class AnnouncerController {
   private queues = {
     announce: Announce.createQueue(),
   } as const
+
+  public async paginate(args: PaginateAndSortArgs) {
+    return await this.announcers.paginate(args)
+  }
 
   public async announce(formId: string) {
     const announcer = this.announcers.create({
@@ -30,5 +37,27 @@ export class AnnouncerController {
     })
 
     await this.queues.announce.add('announce', { formId, optionsId: '' })
+  }
+
+  public async createNew() {
+    const announcer = this.announcers.create({})
+
+    await this.manager.transaction(async (manager) => {
+      await manager.save(announcer)
+    })
+
+    return announcer
+  }
+
+  public async update(id: string, data: Omit<DeepPartial<Announcer>, 'id'>) {
+    if (!(await this.announcers.existsBy({ id }))) {
+      throw new EntityNotFoundError(null, `Announcer with ID "${id}" doesn't exist`)
+    }
+
+    await this.manager.transaction(async (manager) => {
+      await manager.update(Announcer, { id }, data)
+    })
+
+    return this.announcers.findOneBy({ id })
   }
 }

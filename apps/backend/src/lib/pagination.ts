@@ -71,16 +71,18 @@ export const paginate = <Entity extends ObjectLiteral>(
 
   const realFilter: Array<NexusGenInputs['PaginationFilter']> = filterableColumns.map(
     (columnName) => ({
-      column: columnName,
-      filter: filter[0] ? filter[0].filter : '',
+      columns: [columnName],
+      query: filter[0] ? filter[0].filter : '',
     })
   )
 
   realFilter.forEach((item) => {
-    const escapedColumn = qb.escape(item.column)
+    item.columns.forEach((column) => {
+      const escapedColumn = qb.escape(column)
 
-    return qb.orWhere(`"${qb.alias}".${escapedColumn} ILIKE '%' || :query || '%'`, {
-      query: item.filter,
+      return qb.orWhere(`"${qb.alias}".${escapedColumn} ILIKE '%' || :query || '%'`, {
+        query: item.query,
+      })
     })
   })
 

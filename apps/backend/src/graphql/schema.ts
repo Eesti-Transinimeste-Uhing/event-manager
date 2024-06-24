@@ -32,8 +32,8 @@ export const schema = makeSchema({
     declarativeWrappingPlugin(),
     connectionPlugin({
       additionalArgs: {
-        sort: Types.PaginationSorting.asArg({ required: false }),
-        filter: Types.PaginationFilter.asArg({ required: false }),
+        sort: Types.PaginationSorting.asArg({ required: true }),
+        filter: Types.PaginationFilter.asArg({ required: true }),
       },
     }),
   ],

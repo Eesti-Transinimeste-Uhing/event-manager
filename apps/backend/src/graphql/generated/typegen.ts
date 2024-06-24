@@ -9,6 +9,7 @@ import type { User } from './../../entity/user'
 import type { Template } from './../../entity/template'
 import type { Form } from './../../entity/form'
 import type { FormSubmission } from './../../entity/form-submission'
+import type { Announcer } from './../../entity/announcer'
 import type { core, connectionPluginCore } from 'nexus'
 declare global {
   interface NexusGenCustomInputMethods<TypeName extends string> {
@@ -164,6 +165,14 @@ export interface NexusGenInputs {
     // input type
     id: string // ID!
   }
+  UpdateAnnouncerDataInput: {
+    // input type
+    name: string // String!
+  }
+  UpdateAnnouncerWhereInput: {
+    // input type
+    id: string // ID!
+  }
   UpdateFormDataInput: {
     // input type
     location: NexusGenInputs['I18nStringInput'] // I18nStringInput!
@@ -221,6 +230,7 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Announcer: Announcer
   DiscordUser: DiscordOauthInfo
   Form: Form
   FormConnection: {
@@ -282,6 +292,13 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Announcer: {
+    // field return type
+    createdAt: NexusGenScalars['DateTime'] // DateTime!
+    id: string // ID!
+    name: string // String!
+    updatedAt: NexusGenScalars['DateTime'] // DateTime!
+  }
   DiscordUser: {
     // field return type
     avatar: NexusGenScalars['URL'] // URL!
@@ -343,11 +360,13 @@ export interface NexusGenFieldTypes {
   Mutation: {
     // field return type
     announceForm: boolean // Boolean!
+    createAnnouncer: NexusGenRootTypes['Announcer'] // Announcer!
     createForm: NexusGenRootTypes['Form'] // Form!
     createTemplate: NexusGenRootTypes['Template'] // Template!
     removeForm: boolean // Boolean!
     removeTemplate: boolean // Boolean!
     submitForm: boolean // Boolean!
+    updateAnnouncer: NexusGenRootTypes['Announcer'] | null // Announcer
     updateForm: NexusGenRootTypes['Form'] | null // Form
     updateTemplate: NexusGenRootTypes['Template'] | null // Template
   }
@@ -401,6 +420,13 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Announcer: {
+    // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    name: 'String'
+    updatedAt: 'DateTime'
+  }
   DiscordUser: {
     // field return type name
     avatar: 'URL'
@@ -462,11 +488,13 @@ export interface NexusGenFieldTypeNames {
   Mutation: {
     // field return type name
     announceForm: 'Boolean'
+    createAnnouncer: 'Announcer'
     createForm: 'Form'
     createTemplate: 'Template'
     removeForm: 'Boolean'
     removeTemplate: 'Boolean'
     submitForm: 'Boolean'
+    updateAnnouncer: 'Announcer'
     updateForm: 'Form'
     updateTemplate: 'Template'
   }
@@ -557,6 +585,11 @@ export interface NexusGenArgTypes {
       data: NexusGenInputs['SubmitFormDataInput'][] // [SubmitFormDataInput!]!
       where: NexusGenInputs['SubmitFormWhereInput'] // SubmitFormWhereInput!
     }
+    updateAnnouncer: {
+      // args
+      data: NexusGenInputs['UpdateAnnouncerDataInput'] // UpdateAnnouncerDataInput!
+      where: NexusGenInputs['UpdateAnnouncerWhereInput'] // UpdateAnnouncerWhereInput!
+    }
     updateForm: {
       // args
       data: NexusGenInputs['UpdateFormDataInput'] // UpdateFormDataInput!
@@ -577,19 +610,19 @@ export interface NexusGenArgTypes {
       // args
       after?: string | null // String
       before?: string | null // String
-      filter?: NexusGenInputs['PaginationFilter'] | null // PaginationFilter
+      filter: NexusGenInputs['PaginationFilter'] // PaginationFilter!
       first?: number | null // Int
       last?: number | null // Int
-      sort?: NexusGenInputs['PaginationSorting'] | null // PaginationSorting
+      sort: NexusGenInputs['PaginationSorting'] // PaginationSorting!
     }
     forms: {
       // args
       after?: string | null // String
       before?: string | null // String
-      filter?: NexusGenInputs['PaginationFilter'] | null // PaginationFilter
+      filter: NexusGenInputs['PaginationFilter'] // PaginationFilter!
       first?: number | null // Int
       last?: number | null // Int
-      sort?: NexusGenInputs['PaginationSorting'] | null // PaginationSorting
+      sort: NexusGenInputs['PaginationSorting'] // PaginationSorting!
     }
     template: {
       // args
@@ -599,10 +632,10 @@ export interface NexusGenArgTypes {
       // args
       after?: string | null // String
       before?: string | null // String
-      filter?: NexusGenInputs['PaginationFilter'] | null // PaginationFilter
+      filter: NexusGenInputs['PaginationFilter'] // PaginationFilter!
       first?: number | null // Int
       last?: number | null // Int
-      sort?: NexusGenInputs['PaginationSorting'] | null // PaginationSorting
+      sort: NexusGenInputs['PaginationSorting'] // PaginationSorting!
     }
   }
   Template: {

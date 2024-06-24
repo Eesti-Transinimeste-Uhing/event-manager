@@ -5,6 +5,13 @@ input AnnounceFormWhereInput {
   id: ID!
 }
 
+type Announcer {
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+}
+
 input CreateFormInput {
   templateId: ID!
 }
@@ -138,11 +145,13 @@ scalar JSONObject
 
 type Mutation {
   announceForm(where: AnnounceFormWhereInput!): Boolean!
+  createAnnouncer: Announcer!
   createForm(input: CreateFormInput!): Form!
   createTemplate: Template!
   removeForm(input: RemoveFormInput!): Boolean!
   removeTemplate(input: RemoveTemplateInput!): Boolean!
   submitForm(data: [SubmitFormDataInput!]!, where: SubmitFormWhereInput!): Boolean!
+  updateAnnouncer(data: UpdateAnnouncerDataInput!, where: UpdateAnnouncerWhereInput!): Announcer
   updateForm(data: UpdateFormDataInput!, where: UpdateFormWhereInput!): Form
   updateTemplate(data: UpdateTemplateDataInput!, where: UpdateTemplateWhereInput!): Template
 }
@@ -204,7 +213,7 @@ type Query {
     Returns the elements in the list that come before the specified cursor
     """
     before: String
-    filter: PaginationFilter
+    filter: PaginationFilter!
 
     """
     Returns the first n elements from the list.
@@ -215,7 +224,7 @@ type Query {
     Returns the last n elements from the list.
     """
     last: Int
-    sort: PaginationSorting
+    sort: PaginationSorting!
   ): FormSubmissionConnection!
   forms(
     """
@@ -227,7 +236,7 @@ type Query {
     Returns the elements in the list that come before the specified cursor
     """
     before: String
-    filter: PaginationFilter
+    filter: PaginationFilter!
 
     """
     Returns the first n elements from the list.
@@ -238,7 +247,7 @@ type Query {
     Returns the last n elements from the list.
     """
     last: Int
-    sort: PaginationSorting
+    sort: PaginationSorting!
   ): FormConnection!
   template(where: WhereIdInput!): Template
   templates(
@@ -251,7 +260,7 @@ type Query {
     Returns the elements in the list that come before the specified cursor
     """
     before: String
-    filter: PaginationFilter
+    filter: PaginationFilter!
 
     """
     Returns the first n elements from the list.
@@ -262,7 +271,7 @@ type Query {
     Returns the last n elements from the list.
     """
     last: Int
-    sort: PaginationSorting
+    sort: PaginationSorting!
   ): TemplateConnection!
   viewer: User
 }
@@ -340,6 +349,14 @@ type TemplateEdge {
 A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt.
 """
 scalar URL
+
+input UpdateAnnouncerDataInput {
+  name: String!
+}
+
+input UpdateAnnouncerWhereInput {
+  id: ID!
+}
 
 input UpdateFormDataInput {
   location: I18nStringInput!

@@ -7,3 +7,6 @@ export * from './form/update'
 export * from './form/remove'
 export * from './form/submit'
 export * from './form/announce'
+
+export * from './announcer/create'
+export * from './announcer/update'
