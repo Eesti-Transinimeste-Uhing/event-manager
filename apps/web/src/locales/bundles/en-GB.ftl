@@ -149,7 +149,6 @@ make-manual-announcement-description = You can use this form to make an ad-hoc a
 about-to-send-announcement =
   You are about to send this announcement to { $targetCount } configured announcement
   { NUMBER($targetCount) ->
-    [0] targets
     [one] target
     *[other] targets
   }. Please confirm by clicking the "Send" button below, which will immediately queue all messages for sending.
