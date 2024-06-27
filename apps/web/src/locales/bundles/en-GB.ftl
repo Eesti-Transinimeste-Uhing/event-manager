@@ -139,8 +139,6 @@ options-for-type-announcer = Options for { $type } announcer
 options-for-type-announcer-description = Set { $type } specific options here.
   These options will be used when the announcer is triggered.
 
-discord = Discord
-
 make-manual-announcement = Make a manual announcement
 make-manual-announcement-description = You can use this form to make an ad-hoc announcement.
   This is useful for announcements that are not tied to any specific event, or if you need
