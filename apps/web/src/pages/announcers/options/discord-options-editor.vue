@@ -35,6 +35,11 @@ const handleChange = (key: keyof AnnouncerOptionsDiscord, value?: string | numbe
   </q-card>
 
   <q-card flat bordered class="q-mb-md q-px-md">
-    <q-input borderless :model-value="modelValue.guildId" :label="t('guild-id')" />
+    <q-input
+      borderless
+      @update:model-value="(value) => handleChange('guildId', value)"
+      :model-value="modelValue.guildId"
+      :label="t('guild-id')"
+    />
   </q-card>
 </template>

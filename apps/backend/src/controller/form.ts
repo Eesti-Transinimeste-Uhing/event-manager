@@ -13,6 +13,7 @@ import { RenderTarget } from '@etu/tiptap/src/render'
 import { PaginateAndSortArgs } from '../lib/pagination'
 import { TemplateRepository } from '../repository/template'
 import { substituteTemplateVariables } from '@etu/tiptap/src/utils'
+import { flagMap } from '@etu/i18n'
 
 export class FormController {
   private manager = AppDataSource.createEntityManager()
@@ -123,15 +124,27 @@ export class FormController {
     const replaced = langs.map((lang) => {
       const description = template.description[SupportedLanguages[lang]]
 
-      substituteTemplateVariables(description, {
-        location: form.location[SupportedLanguages[lang]],
-        startsAt: form.startsAt,
-        luxonLang: 'en',
-      })
+      substituteTemplateVariables(
+        description,
+        {
+          location: form.location[SupportedLanguages[lang]],
+          startsAt: form.startsAt,
+          luxonLang: SupportedLanguages[lang].replaceAll('_', '-'),
+        },
+        target
+      )
 
       return description
     })
-    const joined = Utils.join(replaced)
+
+    const joiner =
+      langs.length > 1
+        ? (index) => {
+            return [{ type: 'hardBreak' }, { type: 'text', text: flagMap[langs[index]] }]
+          }
+        : undefined
+
+    const joined = Utils.join(replaced, joiner)
 
     return renderJsonContent(joined, target)
   }

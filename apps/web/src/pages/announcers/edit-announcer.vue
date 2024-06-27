@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { useMutation, useQuery } from '@vue/apollo-composable'
-import { useRouter } from 'vue-router'
 
 import { graphql } from 'src/graphql/generated'
 import {
@@ -14,9 +13,6 @@ import { useRouteQuery } from 'src/lib/use-route-param'
 import { useNotificationsStore } from 'src/stores/notifications'
 
 import EmptyContent from 'src/components/empty-content.vue'
-import TooltipButton from 'src/components/tooltip-button.vue'
-
-import { formSubmit } from 'src/router/routes'
 import { useI18n } from 'src/hooks/use-i18n'
 
 import DiscordOptionsEditor from './options/discord-options-editor.vue'
@@ -121,33 +117,12 @@ const handleSave = async () => {
     }
   }
 }
-
-const router = useRouter()
-
-const handlePreviewClick = () => {
-  router.push({
-    name: formSubmit.name,
-    query: {
-      id,
-    },
-  })
-}
 </script>
 
 <template>
   <div class="column">
     <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">
       <template v-slot:action>
-        <tooltip-button
-          :tooltip="$t('view')"
-          round
-          flat
-          color="secondary"
-          icon="las la-eye"
-          class="q-ml-sm"
-          @click="handlePreviewClick"
-        />
-
         <q-btn
           round
           color="primary"

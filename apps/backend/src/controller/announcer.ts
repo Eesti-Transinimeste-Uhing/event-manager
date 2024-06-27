@@ -2,47 +2,34 @@ import { AppDataSource } from '../data-source'
 import { Announcer, AnnouncerOptions, AnnouncerType } from '../entity/announcer'
 import { AnnouncerRepository } from '../repository/announcer'
 
-import * as Announce from '../queues/announce'
 import { DeepPartial } from 'typeorm'
 import { EntityConstructionError, EntityNotFoundError } from '../lib/errors'
 import { PaginateAndSortArgs } from '../lib/pagination'
 import { AnnouncerOptionsDiscord } from '../entity/announcer-options-discord'
 import { AnnouncerOptionsDiscordRepository } from '../repository/announcer-options-discord'
+import { createQueues } from '../queues'
 
 export class AnnouncerController {
   private manager = AppDataSource.createEntityManager()
 
   private announcers = this.manager.withRepository(AnnouncerRepository)
 
-  private queues = {
-    announce: Announce.createQueue(),
-  } as const
+  private queues = createQueues()
 
   public async paginate(args: PaginateAndSortArgs) {
     return await this.announcers.paginate(args)
   }
 
   public async announce(formId: string) {
-    const announcer = this.announcers.create({
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      id: 'asdf',
-      name: 'test announcer',
-      type: AnnouncerType.Discord,
-      options: {
-        discord: {
-          channelId: '1250913804544376934',
-          guildId: '1059811599151550496',
-          id: 'qwer',
-        },
-      },
-    })
-
-    await this.queues.announce.add('announce', { formId, optionsId: '' })
+    await this.queues.announce.add('announce', { formId })
   }
 
   public async getById(id: string) {
     return await this.announcers.findOneBy({ id })
+  }
+
+  public async listAnnouncable() {
+    return await this.announcers.findAnnouncable()
   }
 
   private optionsDiscord = this.manager.withRepository(AnnouncerOptionsDiscordRepository)

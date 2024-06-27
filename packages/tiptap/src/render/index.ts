@@ -1,10 +1,10 @@
 import { JSONContent } from '@tiptap/core'
 
-import { markdown } from './markdown'
-import { html } from './html'
-import { discord } from './discord'
-import { plainText } from './plain-text'
-import { json } from './json'
+import { markdownRenderer } from './markdown'
+import { htmlRenderer } from './html'
+import { discordRenderer } from './discord'
+import { plainTextRenderer } from './plain-text'
+import { jsonRenderer } from './json'
 
 export const RenderTarget = {
   Markdown: 1,
@@ -25,15 +25,15 @@ export type RenderData = {
 export const renderJsonContent = (content: JSONContent, target: RenderTarget): string => {
   switch (target) {
     case RenderTarget.Markdown:
-      return markdown(content)
+      return markdownRenderer.renderJsonContent(content)
     case RenderTarget.Html:
-      return html(content)
+      return htmlRenderer.renderJsonContent(content)
     case RenderTarget.Discord:
-      return discord(content)
+      return discordRenderer.renderJsonContent(content)
     case RenderTarget.PlainText:
-      return plainText(content)
+      return plainTextRenderer.renderJsonContent(content)
     case RenderTarget.Json:
-      return json(content)
+      return jsonRenderer.renderJsonContent(content)
   }
 
   return ''
