@@ -43,7 +43,9 @@ export type Announcer = {
   __typename?: 'Announcer'
   createdAt: Scalars['DateTime']['output']
   id: Scalars['ID']['output']
-  name?: Maybe<Scalars['String']['output']>
+  name: Scalars['String']['output']
+  options?: Maybe<AnnouncerOptions>
+  type: AnnouncerType
   updatedAt: Scalars['DateTime']['output']
 }
 
@@ -61,6 +63,34 @@ export type AnnouncerEdge = {
   cursor: Scalars['String']['output']
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
   node: Announcer
+}
+
+export type AnnouncerOptions = AnnouncerOptionsDiscord
+
+export type AnnouncerOptionsDiscord = {
+  __typename?: 'AnnouncerOptionsDiscord'
+  channelId: Scalars['String']['output']
+  guildId: Scalars['String']['output']
+}
+
+export type AnnouncerOptionsDiscordInput = {
+  channelId: Scalars['String']['input']
+  guildId: Scalars['String']['input']
+}
+
+export type AnnouncerOptionsInput = {
+  discord: AnnouncerOptionsDiscordInput
+}
+
+export enum AnnouncerType {
+  Discord = 'Discord',
+  Facebook = 'Facebook',
+  Instagram = 'Instagram',
+  Unset = 'Unset',
+}
+
+export type CreateAnnouncerData = {
+  type: AnnouncerType
 }
 
 export type CreateFormInput = {
@@ -192,6 +222,10 @@ export type MutationAnnounceFormArgs = {
   where: AnnounceFormWhereInput
 }
 
+export type MutationCreateAnnouncerArgs = {
+  data: CreateAnnouncerData
+}
+
 export type MutationCreateFormArgs = {
   input: CreateFormInput
 }
@@ -256,6 +290,7 @@ export enum PaginationSortingOrder {
 
 export type Query = {
   __typename?: 'Query'
+  announcer?: Maybe<Announcer>
   announcers: AnnouncerConnection
   form?: Maybe<Form>
   formSubmissions: FormSubmissionConnection
@@ -263,6 +298,10 @@ export type Query = {
   template?: Maybe<Template>
   templates: TemplateConnection
   viewer?: Maybe<User>
+}
+
+export type QueryAnnouncerArgs = {
+  where: WhereIdInput
 }
 
 export type QueryAnnouncersArgs = {
@@ -381,6 +420,7 @@ export type TemplateEdge = {
 
 export type UpdateAnnouncerDataInput = {
   name: Scalars['String']['input']
+  options: AnnouncerOptionsInput
 }
 
 export type UpdateAnnouncerWhereInput = {
@@ -479,17 +519,45 @@ export type AnnouncerListQuery = {
         id: string
         createdAt: any
         updatedAt: any
-        name?: string | null
+        name: string
+        type: AnnouncerType
       }
     }>
   }
 }
 
-export type CreateAnnouncerMutationVariables = Exact<{ [key: string]: never }>
+export type CreateAnnouncerMutationVariables = Exact<{
+  data: CreateAnnouncerData
+}>
 
 export type CreateAnnouncerMutation = {
   __typename?: 'Mutation'
   createAnnouncer: { __typename?: 'Announcer'; id: string }
+}
+
+export type UpdateAnnouncerMutationVariables = Exact<{
+  where: UpdateAnnouncerWhereInput
+  data: UpdateAnnouncerDataInput
+}>
+
+export type UpdateAnnouncerMutation = {
+  __typename?: 'Mutation'
+  updateAnnouncer?: { __typename?: 'Announcer'; id: string } | null
+}
+
+export type AnnouncerQueryVariables = Exact<{
+  where: WhereIdInput
+}>
+
+export type AnnouncerQuery = {
+  __typename?: 'Query'
+  announcer?: {
+    __typename?: 'Announcer'
+    id: string
+    name: string
+    type: AnnouncerType
+    options?: { __typename?: 'AnnouncerOptionsDiscord'; guildId: string; channelId: string } | null
+  } | null
 }
 
 export type PostOauthViewerQueryVariables = Exact<{ [key: string]: never }>
@@ -927,6 +995,7 @@ export const AnnouncerListDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                           ],
                         },
                       },
@@ -948,12 +1017,29 @@ export const CreateAnnouncerDocument = {
       kind: 'OperationDefinition',
       operation: 'mutation',
       name: { kind: 'Name', value: 'CreateAnnouncer' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateAnnouncerData' } },
+          },
+        },
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'createAnnouncer' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+              },
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
@@ -964,6 +1050,126 @@ export const CreateAnnouncerDocument = {
     },
   ],
 } as unknown as DocumentNode<CreateAnnouncerMutation, CreateAnnouncerMutationVariables>
+export const UpdateAnnouncerDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAnnouncer' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UpdateAnnouncerWhereInput' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UpdateAnnouncerDataInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAnnouncer' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<UpdateAnnouncerMutation, UpdateAnnouncerMutationVariables>
+export const AnnouncerDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Announcer' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'WhereIdInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'announcer' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'options' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'InlineFragment',
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'AnnouncerOptionsDiscord' },
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            { kind: 'Field', name: { kind: 'Name', value: 'guildId' } },
+                            { kind: 'Field', name: { kind: 'Name', value: 'channelId' } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AnnouncerQuery, AnnouncerQueryVariables>
 export const PostOauthViewerDocument = {
   kind: 'Document',
   definitions: [

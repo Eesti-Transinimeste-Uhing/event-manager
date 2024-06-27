@@ -1,11 +1,13 @@
 import { AppDataSource } from '../data-source'
-import { Announcer, AnnouncerType } from '../entity/announcer'
+import { Announcer, AnnouncerOptions, AnnouncerType } from '../entity/announcer'
 import { AnnouncerRepository } from '../repository/announcer'
 
 import * as Announce from '../queues/announce'
 import { DeepPartial } from 'typeorm'
-import { EntityNotFoundError } from '../lib/errors'
+import { EntityConstructionError, EntityNotFoundError } from '../lib/errors'
 import { PaginateAndSortArgs } from '../lib/pagination'
+import { AnnouncerOptionsDiscord } from '../entity/announcer-options-discord'
+import { AnnouncerOptionsDiscordRepository } from '../repository/announcer-options-discord'
 
 export class AnnouncerController {
   private manager = AppDataSource.createEntityManager()
@@ -39,23 +41,73 @@ export class AnnouncerController {
     await this.queues.announce.add('announce', { formId, optionsId: '' })
   }
 
-  public async createNew() {
-    const announcer = this.announcers.create({})
+  public async getById(id: string) {
+    return await this.announcers.findOneBy({ id })
+  }
 
-    await this.manager.transaction(async (manager) => {
+  private optionsDiscord = this.manager.withRepository(AnnouncerOptionsDiscordRepository)
+
+  private getOptionsKey(type: AnnouncerType) {
+    switch (type) {
+      case AnnouncerType.Discord:
+        return 'discord'
+      case AnnouncerType.Facebook:
+        return 'facebook'
+      case AnnouncerType.Instagram:
+        return 'instagram'
+      default:
+        return null
+    }
+  }
+
+  public async createNew(type: AnnouncerType) {
+    return await this.manager.transaction(async (manager) => {
+      const options = new AnnouncerOptions()
+
+      switch (type) {
+        case AnnouncerType.Discord:
+          options.discord = this.optionsDiscord.create({ channelId: '', guildId: '' })
+          break
+        case AnnouncerType.Facebook:
+          break
+        case AnnouncerType.Instagram:
+          break
+        default:
+          throw new EntityConstructionError(null, `Invalid announcer type: ${type}`)
+      }
+
+      const announcer = this.announcers.create({ type, options })
       await manager.save(announcer)
-    })
 
-    return announcer
+      return announcer
+    })
   }
 
   public async update(id: string, data: Omit<DeepPartial<Announcer>, 'id'>) {
-    if (!(await this.announcers.existsBy({ id }))) {
+    const announcer = await this.announcers.findOneBy({ id })
+
+    if (!announcer) {
       throw new EntityNotFoundError(null, `Announcer with ID "${id}" doesn't exist`)
     }
 
+    const optionsKey = this.getOptionsKey(announcer.type)
+
+    if (!optionsKey) {
+      throw new EntityConstructionError(null, `Invalid announcer type: ${announcer.type}`)
+    }
+
     await this.manager.transaction(async (manager) => {
-      await manager.update(Announcer, { id }, data)
+      switch (true) {
+        case announcer.type === AnnouncerType.Discord && !!data.options?.discord:
+          await manager.update(
+            AnnouncerOptionsDiscord,
+            { id: announcer.options[optionsKey].id },
+            data.options.discord
+          )
+          break
+      }
+
+      await manager.update(Announcer, { id }, { ...data, options: undefined })
     })
 
     return this.announcers.findOneBy({ id })

@@ -7,4 +7,5 @@ export * from './form'
 export * from './forms'
 export * from './form-submissions'
 
+export * from './announcer'
 export * from './announcers'

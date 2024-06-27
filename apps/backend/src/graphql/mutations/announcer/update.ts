@@ -9,10 +9,30 @@ const UpdateAnnouncerWhereInput = inputObjectType({
   },
 })
 
+export const AnnouncerOptionsDiscordInput = inputObjectType({
+  name: 'AnnouncerOptionsDiscordInput',
+  definition(t) {
+    t.string('channelId')
+    t.string('guildId')
+  },
+})
+
+export const AnnouncerOptionsInput = inputObjectType({
+  name: 'AnnouncerOptionsInput',
+  definition(t) {
+    t.field('discord', {
+      type: 'AnnouncerOptionsDiscordInput',
+    })
+  },
+})
+
 const UpdateAnnouncerDataInput = inputObjectType({
   name: 'UpdateAnnouncerDataInput',
   definition(t) {
     t.string('name')
+    t.field('options', {
+      type: 'AnnouncerOptionsInput',
+    })
   },
 })
 
@@ -24,9 +44,7 @@ export const UpdateAnnouncer = mutationField((t) => {
       data: UpdateAnnouncerDataInput.asArg(),
     },
     async resolve(root, args, context) {
-      const result = await announcerController.update(args.where.id, args.data)
-
-      return result
+      return await announcerController.update(args.where.id, args.data)
     },
   })
 })

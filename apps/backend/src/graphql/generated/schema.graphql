@@ -8,7 +8,9 @@ input AnnounceFormWhereInput {
 type Announcer {
   createdAt: DateTime!
   id: ID!
-  name: String
+  name: String!
+  options: AnnouncerOptions
+  type: AnnouncerType!
   updatedAt: DateTime!
 }
 
@@ -34,6 +36,33 @@ type AnnouncerEdge {
   https://facebook.github.io/relay/graphql/connections.htm#sec-Node
   """
   node: Announcer!
+}
+
+union AnnouncerOptions = AnnouncerOptionsDiscord
+
+type AnnouncerOptionsDiscord {
+  channelId: String!
+  guildId: String!
+}
+
+input AnnouncerOptionsDiscordInput {
+  channelId: String!
+  guildId: String!
+}
+
+input AnnouncerOptionsInput {
+  discord: AnnouncerOptionsDiscordInput!
+}
+
+enum AnnouncerType {
+  Discord
+  Facebook
+  Instagram
+  Unset
+}
+
+input CreateAnnouncerData {
+  type: AnnouncerType!
 }
 
 input CreateFormInput {
@@ -169,7 +198,7 @@ scalar JSONObject
 
 type Mutation {
   announceForm(where: AnnounceFormWhereInput!): Boolean!
-  createAnnouncer: Announcer!
+  createAnnouncer(data: CreateAnnouncerData!): Announcer!
   createForm(input: CreateFormInput!): Form!
   createTemplate: Template!
   removeForm(input: RemoveFormInput!): Boolean!
@@ -226,6 +255,7 @@ enum PaginationSortingOrder {
 }
 
 type Query {
+  announcer(where: WhereIdInput!): Announcer
   announcers(
     """
     Returns the elements in the list that come after the specified cursor
@@ -399,6 +429,7 @@ scalar URL
 
 input UpdateAnnouncerDataInput {
   name: String!
+  options: AnnouncerOptionsInput!
 }
 
 input UpdateAnnouncerWhereInput {

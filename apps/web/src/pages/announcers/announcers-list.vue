@@ -1,10 +1,16 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMutation } from '@vue/apollo-composable'
 import { QTableColumn } from 'quasar'
 
 import { graphql } from 'src/graphql/generated'
-import { FormEdge, FormListQuery, PaginationSortingOrder } from 'src/graphql/generated/graphql'
+import {
+  AnnouncerListQuery,
+  AnnouncerType,
+  FormEdge,
+  PaginationSortingOrder,
+} from 'src/graphql/generated/graphql'
 import EmptyContent from 'components/empty-content.vue'
 import { useCursorPagination } from 'src/hooks/use-cursor-pagination'
 import DateTime from 'components/date-time.vue'
@@ -13,6 +19,8 @@ import TableSkeleton from 'components/skeletons/table-skeleton.vue'
 import { useNotificationsStore } from 'src/stores/notifications'
 import { useI18n } from 'src/hooks/use-i18n'
 import { announcerEdit } from 'src/router/routes'
+import ButtonSelect from 'components/button-select.vue'
+import { getIconForType } from './get-icon-for-type'
 
 const { t } = useI18n()
 
@@ -60,6 +68,7 @@ const {
             createdAt
             updatedAt
             name
+            type
           }
         }
       }
@@ -71,13 +80,21 @@ const {
   }
 )
 
-const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
+const columns: QTableColumn<AnnouncerListQuery['announcers']['edges'][0]>[] = [
   {
     name: 'name',
     label: 'name',
     align: 'left',
     field(row) {
       return row.node.name
+    },
+  },
+  {
+    name: 'type',
+    label: 'type',
+    align: 'left',
+    field(row) {
+      return row.node.type
     },
   },
   {
@@ -102,8 +119,8 @@ const columns: QTableColumn<FormListQuery['forms']['edges'][0]>[] = [
 
 const mutation = useMutation(
   graphql(`
-    mutation CreateAnnouncer {
-      createAnnouncer {
+    mutation CreateAnnouncer($data: CreateAnnouncerData!) {
+      createAnnouncer(data: $data) {
         id
       }
     }
@@ -113,9 +130,13 @@ const mutation = useMutation(
 const router = useRouter()
 const notifications = useNotificationsStore()
 
-const handleCreateNewClick = async () => {
+const handleCreateNewClick = async (type: AnnouncerType) => {
   try {
-    const result = await mutation.mutate()
+    const result = await mutation.mutate({
+      data: {
+        type,
+      },
+    })
 
     if (result?.errors) {
       notifications.enqueue({
@@ -148,6 +169,12 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
     },
   })
 }
+
+const options = computed(() => {
+  return Object.keys(AnnouncerType)
+    .filter((key) => typeof key === 'string' && key !== AnnouncerType.Unset)
+    .map((key) => ({ label: key, value: key }))
+})
 </script>
 
 <style lang="scss" scoped>
@@ -186,14 +213,17 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
           @click="refetch"
         />
 
-        <tooltip-button
+        <button-select
+          :tooltip="$t('create-new')"
+          :model-value="null"
+          :options="options"
           color="primary"
           round
           icon="las la-plus"
-          :tooltip="$t('create-new')"
-          :loading="mutation.loading.value"
-          @click="handleCreateNewClick"
           class="q-ml-sm"
+          @update:model-value="(selected) => handleCreateNewClick(selected as AnnouncerType)"
+          :loading="mutation.loading.value"
+          position="right"
         />
       </template>
     </q-banner>
@@ -227,6 +257,16 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
               <span class="text-weight-bolder">{{ $t(col.label) }}</span>
             </q-th>
           </q-tr>
+        </template>
+
+        <template #body-cell-type="props">
+          <q-td :props="props">
+            <q-icon :name="getIconForType(props.value)" size="sm">
+              <q-tooltip class="bg-black" anchor="top middle" self="center middle">
+                {{ props.row.node.type }}
+              </q-tooltip>
+            </q-icon>
+          </q-td>
         </template>
 
         <template #body-cell-createdAt="props">

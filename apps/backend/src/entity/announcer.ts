@@ -11,6 +11,7 @@ import {
 import { AnnouncerOptionsDiscord } from './announcer-options-discord'
 
 export enum AnnouncerType {
+  Unset = 0,
   Discord = 1,
   Facebook = 2,
   Instagram = 3,
@@ -20,6 +21,7 @@ export class AnnouncerOptions {
   @OneToOne(() => AnnouncerOptionsDiscord, (options) => options.announcer, {
     cascade: true,
     nullable: true,
+    eager: true,
   })
   @JoinColumn()
   discord: AnnouncerOptionsDiscord | null
@@ -46,12 +48,13 @@ export class Announcer {
   deletedAt: Date
 
   @Column('varchar', {
-    nullable: true,
+    default: '',
   })
   name: string
 
   @Column('int', {
     nullable: true,
+    default: AnnouncerType.Unset,
   })
   type: AnnouncerType
 

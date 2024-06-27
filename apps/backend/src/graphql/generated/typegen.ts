@@ -9,6 +9,7 @@ import type { User } from './../../entity/user'
 import type { Template } from './../../entity/template'
 import type { Form } from './../../entity/form'
 import type { FormSubmission } from './../../entity/form-submission'
+import type { AnnouncerOptionsDiscord } from './../../entity/announcer-options-discord'
 import type { Announcer } from './../../entity/announcer'
 import type { core, connectionPluginCore } from 'nexus'
 declare global {
@@ -122,6 +123,19 @@ export interface NexusGenInputs {
     // input type
     id: string // ID!
   }
+  AnnouncerOptionsDiscordInput: {
+    // input type
+    channelId: string // String!
+    guildId: string // String!
+  }
+  AnnouncerOptionsInput: {
+    // input type
+    discord: NexusGenInputs['AnnouncerOptionsDiscordInput'] // AnnouncerOptionsDiscordInput!
+  }
+  CreateAnnouncerData: {
+    // input type
+    type: NexusGenEnums['AnnouncerType'] // AnnouncerType!
+  }
   CreateFormInput: {
     // input type
     templateId: string // ID!
@@ -168,6 +182,7 @@ export interface NexusGenInputs {
   UpdateAnnouncerDataInput: {
     // input type
     name: string // String!
+    options: NexusGenInputs['AnnouncerOptionsInput'] // AnnouncerOptionsInput!
   }
   UpdateAnnouncerWhereInput: {
     // input type
@@ -208,6 +223,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  AnnouncerType: 1 | 2 | 3 | 0
   FormFieldKind: 0 | 1 | 2 | 3 | 4
   PaginationSortingOrder: 'ASC' | 'DESC'
   RenderTarget: 2 | 3 | 5 | 1 | 4
@@ -241,6 +257,7 @@ export interface NexusGenObjects {
     cursor: string // String!
     node: NexusGenRootTypes['Announcer'] // Announcer!
   }
+  AnnouncerOptionsDiscord: AnnouncerOptionsDiscord
   DiscordUser: DiscordOauthInfo
   Form: Form
   FormConnection: {
@@ -295,9 +312,11 @@ export interface NexusGenObjects {
 
 export interface NexusGenInterfaces {}
 
-export interface NexusGenUnions {}
+export interface NexusGenUnions {
+  AnnouncerOptions: NexusGenRootTypes['AnnouncerOptionsDiscord']
+}
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
@@ -306,7 +325,9 @@ export interface NexusGenFieldTypes {
     // field return type
     createdAt: NexusGenScalars['DateTime'] // DateTime!
     id: string // ID!
-    name: string | null // String
+    name: string // String!
+    options: NexusGenRootTypes['AnnouncerOptions'] | null // AnnouncerOptions
+    type: NexusGenEnums['AnnouncerType'] // AnnouncerType!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
   AnnouncerConnection: {
@@ -318,6 +339,11 @@ export interface NexusGenFieldTypes {
     // field return type
     cursor: string // String!
     node: NexusGenRootTypes['Announcer'] // Announcer!
+  }
+  AnnouncerOptionsDiscord: {
+    // field return type
+    channelId: string // String!
+    guildId: string // String!
   }
   DiscordUser: {
     // field return type
@@ -400,6 +426,7 @@ export interface NexusGenFieldTypes {
   }
   Query: {
     // field return type
+    announcer: NexusGenRootTypes['Announcer'] | null // Announcer
     announcers: NexusGenRootTypes['AnnouncerConnection'] // AnnouncerConnection!
     form: NexusGenRootTypes['Form'] | null // Form
     formSubmissions: NexusGenRootTypes['FormSubmissionConnection'] // FormSubmissionConnection!
@@ -446,6 +473,8 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     id: 'ID'
     name: 'String'
+    options: 'AnnouncerOptions'
+    type: 'AnnouncerType'
     updatedAt: 'DateTime'
   }
   AnnouncerConnection: {
@@ -457,6 +486,11 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     cursor: 'String'
     node: 'Announcer'
+  }
+  AnnouncerOptionsDiscord: {
+    // field return type name
+    channelId: 'String'
+    guildId: 'String'
   }
   DiscordUser: {
     // field return type name
@@ -539,6 +573,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: {
     // field return type name
+    announcer: 'Announcer'
     announcers: 'AnnouncerConnection'
     form: 'Form'
     formSubmissions: 'FormSubmissionConnection'
@@ -600,6 +635,10 @@ export interface NexusGenArgTypes {
       // args
       where: NexusGenInputs['AnnounceFormWhereInput'] // AnnounceFormWhereInput!
     }
+    createAnnouncer: {
+      // args
+      data: NexusGenInputs['CreateAnnouncerData'] // CreateAnnouncerData!
+    }
     createForm: {
       // args
       input: NexusGenInputs['CreateFormInput'] // CreateFormInput!
@@ -634,6 +673,10 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    announcer: {
+      // args
+      where: NexusGenInputs['WhereIdInput'] // WhereIdInput!
+    }
     announcers: {
       // args
       after?: string | null // String
@@ -691,7 +734,9 @@ export interface NexusGenArgTypes {
   }
 }
 
-export interface NexusGenAbstractTypeMembers {}
+export interface NexusGenAbstractTypeMembers {
+  AnnouncerOptions: 'AnnouncerOptionsDiscord'
+}
 
 export interface NexusGenTypeInterfaces {}
 
@@ -705,11 +750,11 @@ export type NexusGenInterfaceNames = never
 
 export type NexusGenScalarNames = keyof NexusGenScalars
 
-export type NexusGenUnionNames = never
+export type NexusGenUnionNames = keyof NexusGenUnions
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never
 
-export type NexusGenAbstractsUsingStrategyResolveType = never
+export type NexusGenAbstractsUsingStrategyResolveType = 'AnnouncerOptions'
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {

@@ -17,10 +17,14 @@ const documents = {
     types.AccountMenuViewerDocument,
   '\n    query PublicLayoutViewer {\n      viewer {\n        id\n        roles\n      }\n    }\n  ':
     types.PublicLayoutViewerDocument,
-  '\n    query AnnouncerList(\n      $first: Int\n      $last: Int\n      $after: String\n      $before: String\n      $filter: PaginationFilter!\n      $sort: PaginationSorting!\n    ) {\n      announcers(\n        first: $first\n        last: $last\n        after: $after\n        before: $before\n        filter: $filter\n        sort: $sort\n      ) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          node {\n            id\n            createdAt\n            updatedAt\n            name\n          }\n        }\n      }\n    }\n  ':
+  '\n    query AnnouncerList(\n      $first: Int\n      $last: Int\n      $after: String\n      $before: String\n      $filter: PaginationFilter!\n      $sort: PaginationSorting!\n    ) {\n      announcers(\n        first: $first\n        last: $last\n        after: $after\n        before: $before\n        filter: $filter\n        sort: $sort\n      ) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          node {\n            id\n            createdAt\n            updatedAt\n            name\n            type\n          }\n        }\n      }\n    }\n  ':
     types.AnnouncerListDocument,
-  '\n    mutation CreateAnnouncer {\n      createAnnouncer {\n        id\n      }\n    }\n  ':
+  '\n    mutation CreateAnnouncer($data: CreateAnnouncerData!) {\n      createAnnouncer(data: $data) {\n        id\n      }\n    }\n  ':
     types.CreateAnnouncerDocument,
+  '\n    mutation UpdateAnnouncer($where: UpdateAnnouncerWhereInput!, $data: UpdateAnnouncerDataInput!) {\n      updateAnnouncer(where: $where, data: $data) {\n        id\n      }\n    }\n  ':
+    types.UpdateAnnouncerDocument,
+  '\n    query Announcer($where: WhereIdInput!) {\n      announcer(where: $where) {\n        id\n        name\n        type\n        options {\n          ... on AnnouncerOptionsDiscord {\n            guildId\n            channelId\n          }\n        }\n      }\n    }\n  ':
+    types.AnnouncerDocument,
   '\n    query PostOauthViewer {\n      viewer {\n        id\n      }\n    }\n  ':
     types.PostOauthViewerDocument,
   '\n    mutation UpdateForm($where: UpdateFormWhereInput!, $data: UpdateFormDataInput!) {\n      updateForm(where: $where, data: $data) {\n        id\n      }\n    }\n  ':
@@ -81,14 +85,26 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    query AnnouncerList(\n      $first: Int\n      $last: Int\n      $after: String\n      $before: String\n      $filter: PaginationFilter!\n      $sort: PaginationSorting!\n    ) {\n      announcers(\n        first: $first\n        last: $last\n        after: $after\n        before: $before\n        filter: $filter\n        sort: $sort\n      ) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          node {\n            id\n            createdAt\n            updatedAt\n            name\n          }\n        }\n      }\n    }\n  '
-): (typeof documents)['\n    query AnnouncerList(\n      $first: Int\n      $last: Int\n      $after: String\n      $before: String\n      $filter: PaginationFilter!\n      $sort: PaginationSorting!\n    ) {\n      announcers(\n        first: $first\n        last: $last\n        after: $after\n        before: $before\n        filter: $filter\n        sort: $sort\n      ) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          node {\n            id\n            createdAt\n            updatedAt\n            name\n          }\n        }\n      }\n    }\n  ']
+  source: '\n    query AnnouncerList(\n      $first: Int\n      $last: Int\n      $after: String\n      $before: String\n      $filter: PaginationFilter!\n      $sort: PaginationSorting!\n    ) {\n      announcers(\n        first: $first\n        last: $last\n        after: $after\n        before: $before\n        filter: $filter\n        sort: $sort\n      ) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          node {\n            id\n            createdAt\n            updatedAt\n            name\n            type\n          }\n        }\n      }\n    }\n  '
+): (typeof documents)['\n    query AnnouncerList(\n      $first: Int\n      $last: Int\n      $after: String\n      $before: String\n      $filter: PaginationFilter!\n      $sort: PaginationSorting!\n    ) {\n      announcers(\n        first: $first\n        last: $last\n        after: $after\n        before: $before\n        filter: $filter\n        sort: $sort\n      ) {\n        pageInfo {\n          totalCount\n          hasNextPage\n          hasPreviousPage\n          endCursor\n          startCursor\n        }\n        edges {\n          node {\n            id\n            createdAt\n            updatedAt\n            name\n            type\n          }\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation CreateAnnouncer {\n      createAnnouncer {\n        id\n      }\n    }\n  '
-): (typeof documents)['\n    mutation CreateAnnouncer {\n      createAnnouncer {\n        id\n      }\n    }\n  ']
+  source: '\n    mutation CreateAnnouncer($data: CreateAnnouncerData!) {\n      createAnnouncer(data: $data) {\n        id\n      }\n    }\n  '
+): (typeof documents)['\n    mutation CreateAnnouncer($data: CreateAnnouncerData!) {\n      createAnnouncer(data: $data) {\n        id\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation UpdateAnnouncer($where: UpdateAnnouncerWhereInput!, $data: UpdateAnnouncerDataInput!) {\n      updateAnnouncer(where: $where, data: $data) {\n        id\n      }\n    }\n  '
+): (typeof documents)['\n    mutation UpdateAnnouncer($where: UpdateAnnouncerWhereInput!, $data: UpdateAnnouncerDataInput!) {\n      updateAnnouncer(where: $where, data: $data) {\n        id\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query Announcer($where: WhereIdInput!) {\n      announcer(where: $where) {\n        id\n        name\n        type\n        options {\n          ... on AnnouncerOptionsDiscord {\n            guildId\n            channelId\n          }\n        }\n      }\n    }\n  '
+): (typeof documents)['\n    query Announcer($where: WhereIdInput!) {\n      announcer(where: $where) {\n        id\n        name\n        type\n        options {\n          ... on AnnouncerOptionsDiscord {\n            guildId\n            channelId\n          }\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

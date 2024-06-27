@@ -22,7 +22,7 @@ export const wrapError = (error: unknown): VError | null => {
   }
 
   if (error instanceof Error) {
-    return new VError(error, 'Error')
+    return new VError(error, 'Wrapped Error')
   }
 
   return null
