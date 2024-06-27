@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import { useRouter } from 'vue-router'
+import { DateTime } from 'luxon'
 
 import { graphql } from 'src/graphql/generated'
 import { EditFormQueryVariables, SupportedLanguages } from 'src/graphql/generated/graphql'
@@ -17,7 +18,8 @@ import SubmissionLimitField from 'src/components/form/submission-limit-field.vue
 
 import { formSubmit } from 'src/router/routes'
 import { useI18n } from 'src/hooks/use-i18n'
-import { DateTime } from 'luxon'
+
+import ButtonMeme from 'src/assets/image/button-meme.jpg'
 
 const id = useRouteQuery('id')
 
@@ -132,11 +134,26 @@ const handlePreviewClick = () => {
     },
   })
 }
+
+const announceDialog = ref(false)
+
+const handleAnnounce = () => {
+  announceDialog.value = true
+}
 </script>
 
 <template>
   <div class="column">
     <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">
+      <tooltip-button
+        :tooltip="$t('announce')"
+        rounded
+        color="secondary"
+        icon="las la-bullhorn"
+        class="q-ml-sm"
+        @click="handleAnnounce"
+      />
+
       <template v-slot:action>
         <tooltip-button
           :tooltip="$t('view')"
@@ -158,6 +175,30 @@ const handlePreviewClick = () => {
         />
       </template>
     </q-banner>
+
+    <q-dialog v-model="announceDialog">
+      <q-card flat>
+        <q-img :src="ButtonMeme" />
+
+        <q-banner class="q-py-md">
+          <template v-slot:avatar>
+            <q-icon name="las la-exclamation" color="warning" />
+          </template>
+
+          {{
+            t('about-to-send-announcement', {
+              targetCount: 1 /* TODO: fetch this from backend */,
+            })
+          }}
+        </q-banner>
+
+        <q-separator />
+
+        <q-card-actions align="right">
+          <q-btn color="secondary" rounded icon="las la-bullhorn" :label="t('send')" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
     <empty-content
       v-if="error"

@@ -134,6 +134,8 @@ edit-announcer = Edit announcer
 type = Type
 channel-id = Channel ID
 guild-id = Guild ID
+announce = Announce
+send = Send
 
 options-for-type-announcer = Options for { $type } announcer
 options-for-type-announcer-description = Set { $type } specific options here.
@@ -143,3 +145,11 @@ make-manual-announcement = Make a manual announcement
 make-manual-announcement-description = You can use this form to make an ad-hoc announcement.
   This is useful for announcements that are not tied to any specific event, or if you need
   to update the community about changes to an already announced event.
+
+about-to-send-announcement =
+  You are about to send this announcement to { $targetCount } configured announcement
+  { NUMBER($targetCount) ->
+    [0] targets
+    [one] target
+    *[other] targets
+  }. Please confirm by clicking the "Send" button below, which will immediately queue all messages for sending.
