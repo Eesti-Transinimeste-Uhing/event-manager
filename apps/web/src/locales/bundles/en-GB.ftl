@@ -3,6 +3,9 @@ must-be-between = Must be between { $min } and { $max }
 please-enter-valid-email = Please enter a valid email address
 form-field-kind-not-implemented = Form field kind "{ $kind }" is not implemented.
 data-wipe-notification = Data submitted through this form will be deleted on { $date }.
+data-retention-description = We will retain your data for { $days } days after the event. After that, it will be deleted,
+  and you'll need to re-submit it when you register for future events.
+
 email-signup-cta = Get announcements via e-mail
 email-signup-description = Normally we announce events via social media, but
   you can also get them via e-mail to be the first to know and be able to secure your
@@ -65,6 +68,7 @@ error = Error
 network-error = Network error
 form-not-found = This form doesn't exist
 cannot-create-template = Cannot create new template
+
 http-not-found = 404 - Not found
 http-not-found-description = The link you have followed here may have been
   moved, you may have mistyped the URL, or there could be an outage. In any case,
@@ -130,5 +134,14 @@ edit-announcer = Edit announcer
 type = Type
 channel-id = Channel ID
 guild-id = Guild ID
+
 options-for-type-announcer = Options for { $type } announcer
+options-for-type-announcer-description = Set { $type } specific options here.
+  These options will be used when the announcer is triggered.
+
 discord = Discord
+
+make-manual-announcement = Make a manual announcement
+make-manual-announcement-description = You can use this form to make an ad-hoc announcement.
+  This is useful for announcements that are not tied to any specific event, or if you need
+  to update the community about changes to an already announced event.
