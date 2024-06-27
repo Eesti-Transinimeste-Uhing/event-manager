@@ -3,13 +3,16 @@ must-be-between = Must be between { $min } and { $max }
 please-enter-valid-email = Please enter a valid email address
 form-field-kind-not-implemented = Form field kind "{ $kind }" is not implemented.
 data-wipe-notification = Data submitted through this form will be deleted on { $date }.
-data-retention-description = We will retain your data for { $days } days after the event. After that, it will be deleted,
+
+data-retention-description =
+  We will retain your data for { $days } days after the event. After that, it will be deleted,
   and you'll need to re-submit it when you register for future events.
 
 email-signup-cta = Get announcements via e-mail
-email-signup-description = Normally we announce events via social media, but
-  you can also get them via e-mail to be the first to know and be able to secure your
-  place on our registration list early.
+
+email-signup-description =
+  Normally we announce events via social media, but you can also get them via e-mail to be
+  the first to know and be able to secure your place on our registration list early.
 
 age = Age
 yes = Yes
@@ -27,9 +30,16 @@ select-image = Select image
 gender = Gender
 registered-message = Input saved, see you soon!
 submission-limit = Submission limit
-already-submitted-will-update = You already submitted this form. If you submit it again, your previous submission will be updated.
+
+already-submitted-will-update =
+  You already submitted this form.
+  If you submit it again, your previous submission will be updated.
+
 withdraw = Withdraw
-withdraw-description = Withdrawing means your registration will be deleted. If you decide to register after all, you can submit again as long as the form is accepting submissions.
+
+withdraw-description =
+  Withdrawing means your registration will be deleted. If you decide to register after all,
+  you can submit again as long as the form is accepting submissions.
 
 # Template editor
 edit-template = Edit template
@@ -38,13 +48,15 @@ facebook-event = Facebook event
 facebook-cover = Facebook cover
 web-registration-form = Web registration form
 
-image-ratio-explainer = For the best results, select an image that at least is
+image-ratio-explainer =
+  For the best results, select an image that at least is
   1920x1080 pixels in size, or its aspect ratio is at least 16:9.
   If your image is larger, you can use this interface to adjust
   its position until you're happy with the results. Hover over the
   chips to check how your banner will look on different platforms.
 
-image-overlays-explainer = In the posted image, the dashed border and white
+image-overlays-explainer =
+  In the posted image, the dashed border and white
   background will not appear, it only shows up here to help you
   place the items precisely.
 
@@ -70,9 +82,10 @@ form-not-found = This form doesn't exist
 cannot-create-template = Cannot create new template
 
 http-not-found = 404 - Not found
-http-not-found-description = The link you have followed here may have been
-  moved, you may have mistyped the URL, or there could be an outage. In any case,
-  this just won't work for now.
+
+http-not-found-description =
+  The link you have followed here may have been moved, you may have mistyped the URL,
+  or there could be an outage. In any case, this just won't work for now.
 
 # Authentication
 account-menu = Account menu
@@ -85,7 +98,9 @@ securing-session = Securing your session…
 please-wait = Please wait
 welcome = Welcome!
 link-discord-to-log-in = Link your Discord account to log in
-login-page-staff-only = This section of the event bot is for Estonian Trans
+
+login-page-staff-only =
+  This section of the event bot is for Estonian Trans
   Alliance staff and volunteers. If you're a guest of ours, please use the
   links we posted to register for events.
 
@@ -138,11 +153,14 @@ announce = Announce
 send = Send
 
 options-for-type-announcer = Options for { $type } announcer
-options-for-type-announcer-description = Set { $type } specific options here.
+
+options-for-type-announcer-description =
+  Set { $type } specific options here.
   These options will be used when the announcer is triggered.
 
 make-manual-announcement = Make a manual announcement
-make-manual-announcement-description = You can use this form to make an ad-hoc announcement.
+make-manual-announcement-description =
+  You can use this form to make an ad-hoc announcement.
   This is useful for announcements that are not tied to any specific event, or if you need
   to update the community about changes to an already announced event.
 
