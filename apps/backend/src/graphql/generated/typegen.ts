@@ -225,6 +225,7 @@ export interface NexusGenInputs {
 export interface NexusGenEnums {
   AnnouncerType: 1 | 2 | 3 | 0
   FormFieldKind: 0 | 1 | 2 | 3 | 4
+  FormSubmittabilityTag: 1 | 2 | 0
   PaginationSortingOrder: 'ASC' | 'DESC'
   RenderTarget: 2 | 3 | 5 | 1 | 4
   SupportedLanguages: 0 | 1 | 3
@@ -285,6 +286,11 @@ export interface NexusGenObjects {
     // root type
     cursor: string // String!
     node: NexusGenRootTypes['FormSubmission'] // FormSubmission!
+  }
+  FormSubmittability: {
+    // root type
+    submittable: boolean // Boolean!
+    tags: NexusGenEnums['FormSubmittabilityTag'][] // [FormSubmittabilityTag!]!
   }
   Mutation: {}
   PageInfo: {
@@ -360,7 +366,6 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime'] // DateTime!
     description: string // String!
     description_i18n: NexusGenScalars['I18nJSON'] // I18nJSON!
-    hasReachedSubmitLimit: boolean // Boolean!
     id: string // ID!
     location: string | null // String
     location_i18n: NexusGenScalars['I18nString'] // I18nString!
@@ -368,6 +373,7 @@ export interface NexusGenFieldTypes {
     name_i18n: NexusGenScalars['I18nString'] // I18nString!
     startsAt: NexusGenScalars['DateTime'] | null // DateTime
     submitLimit: number // Int!
+    submittability: NexusGenRootTypes['FormSubmittability'] // FormSubmittability!
     template: NexusGenRootTypes['Template'] // Template!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
@@ -402,6 +408,11 @@ export interface NexusGenFieldTypes {
     // field return type
     cursor: string // String!
     node: NexusGenRootTypes['FormSubmission'] // FormSubmission!
+  }
+  FormSubmittability: {
+    // field return type
+    submittable: boolean // Boolean!
+    tags: NexusGenEnums['FormSubmittabilityTag'][] // [FormSubmittabilityTag!]!
   }
   Mutation: {
     // field return type
@@ -507,7 +518,6 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     description: 'String'
     description_i18n: 'I18nJSON'
-    hasReachedSubmitLimit: 'Boolean'
     id: 'ID'
     location: 'String'
     location_i18n: 'I18nString'
@@ -515,6 +525,7 @@ export interface NexusGenFieldTypeNames {
     name_i18n: 'I18nString'
     startsAt: 'DateTime'
     submitLimit: 'Int'
+    submittability: 'FormSubmittability'
     template: 'Template'
     updatedAt: 'DateTime'
   }
@@ -549,6 +560,11 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     cursor: 'String'
     node: 'FormSubmission'
+  }
+  FormSubmittability: {
+    // field return type name
+    submittable: 'Boolean'
+    tags: 'FormSubmittabilityTag'
   }
   Mutation: {
     // field return type name

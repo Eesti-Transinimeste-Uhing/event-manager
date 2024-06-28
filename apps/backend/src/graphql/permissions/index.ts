@@ -68,6 +68,7 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
     FormSubmissionEdge: allow,
     FormSubmission: allow,
     FormSubmissionData: allow,
+    FormSubmittability: allow,
   },
   {
     fallbackError(thrownThing) {

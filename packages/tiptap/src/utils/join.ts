@@ -11,7 +11,13 @@ export const join = (
       content.push(...joiner(i))
     }
 
-    content.push(jsons[i])
+    const item = jsons[i]
+
+    if (item.type === 'doc') {
+      if (item.content) content.push(...item.content)
+    } else {
+      content.push(item)
+    }
   }
 
   return {

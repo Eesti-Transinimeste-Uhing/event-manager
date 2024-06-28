@@ -1,28 +1,37 @@
 <script lang="ts" setup>
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 
 import { graphql } from 'src/graphql/generated'
 import { useRouteQuery } from 'src/lib/use-route-param'
-import { FormFieldKind, RenderTarget, SubmitFormDataInput } from 'src/graphql/generated/graphql'
+import {
+  FormFieldKind,
+  FormSubmittabilityTag,
+  RenderTarget,
+  SubmitFormDataInput,
+} from 'src/graphql/generated/graphql'
 
-import FormField from 'src/components/form/form-field.vue'
-import EmptyContent from 'src/components/empty-content.vue'
-import SiteLogo from 'src/components/site-logo.vue'
-import DarkToggle from 'src/components/dark-toggle.vue'
+import FormField from 'components/form/form-field.vue'
+import EmptyContent from 'components/empty-content.vue'
+import SiteLogo from 'components/site-logo.vue'
+import DarkToggle from 'components/dark-toggle.vue'
+import TextEditor from 'components/text-editor/text-editor.vue'
+
 import { useNotificationsStore } from 'src/stores/notifications'
 import { useI18n } from 'src/hooks/use-i18n'
 import { useUserPreferencesStore } from 'src/stores/user-preferences'
-import { storeToRefs } from 'pinia'
+
+import FormNotices from './submit-form/form-notices.vue'
 
 const id = useRouteQuery('id')
 const { t, currentLanguage } = useI18n()
 
 const variables = computed(() => {
-  return { where: { id }, lang: currentLanguage.value, target: RenderTarget.Html }
+  return { where: { id }, lang: currentLanguage.value, target: RenderTarget.Json }
 })
 
-const { result, loading, error } = useQuery(
+const { result, loading, error, refetch } = useQuery(
   graphql(`
     query FormSubmit($where: WhereIdInput!, $lang: SupportedLanguages!, $target: RenderTarget!) {
       form(where: $where) {
@@ -30,6 +39,10 @@ const { result, loading, error } = useQuery(
         name(where: { language: $lang })
         banner
         description(where: { language: $lang }, target: $target)
+        submittability {
+          submittable
+          tags
+        }
         template {
           id
           fields
@@ -71,6 +84,9 @@ const handleSubmit = async () => {
     })
 
     formState.value = defaultFormState
+
+    // Refetch the form to update the submittability status
+    await refetch()
   } catch (error) {
     if (error instanceof Error) {
       notifications.enqueue({
@@ -126,6 +142,23 @@ const { darkMode } = storeToRefs(userPreferencesStore)
 const cardBackground = computed(() => {
   return darkMode.value ? 'rgba(35, 35, 35, 0.75)' : 'rgba(255, 255, 255, 0.75)'
 })
+
+// Show the edit UI if the form is not loading, there is no error, and the form
+// is submittable. Also show the edit UI for people who have already submitted,
+// so they can edit their submission even if the form is not submittable.
+const showEditUi = computed(() => {
+  return (
+    !error.value &&
+    result.value?.form &&
+    (result.value.form.submittability.submittable ||
+      result.value.form.submittability.tags.includes(FormSubmittabilityTag.AlreadySubmitted))
+  )
+})
+
+// Only checks if all fields are filled, not if they are valid
+const valid = computed(() => {
+  return Object.values(formState.value).every(Boolean)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -134,7 +167,8 @@ const cardBackground = computed(() => {
   backdrop-filter: blur(10px);
 }
 
-.form-card {
+.form,
+.banner-image {
   width: 768px;
   max-width: 100vw;
 }
@@ -147,10 +181,8 @@ const cardBackground = computed(() => {
 <template>
   <div class="column items-center fit q-pt-xl">
     <transition name="card" mode="out-in">
-      <q-skeleton v-if="loading" />
-
       <empty-content
-        v-else-if="error"
+        v-if="error"
         :content="error.message"
         icon-colour="red"
         icon="las la-times"
@@ -158,16 +190,16 @@ const cardBackground = computed(() => {
       />
 
       <empty-content
-        v-else-if="!result?.form"
+        v-else-if="!result?.form && !loading"
         :content="$t('form-not-found')"
         icon-colour="primary"
         icon="las la-question"
         :title="$t('http-not-found')"
       />
 
-      <q-form v-else-if="result" @submit="handleSubmit">
+      <q-form v-else @submit="handleSubmit" class="form">
         <div class="column q-gutter-lg">
-          <q-card flat class="form-card bg-glass">
+          <q-card flat class="bg-glass">
             <q-toolbar class="bg-primary text-white">
               <q-toolbar-title class="flex items-center">
                 <site-logo class="site-logo q-mr-sm" />
@@ -179,23 +211,41 @@ const cardBackground = computed(() => {
               </div>
             </q-toolbar>
 
-            <q-img :src="result.form.banner" />
+            <q-skeleton v-if="loading" class="banner-image" height="432px" square />
+            <q-img v-else-if="result" :src="result.form?.banner" class="banner-image" />
           </q-card>
 
-          <q-card flat class="form-card bg-glass">
+          <q-card flat class="bg-glass" v-if="showEditUi">
             <q-card-section>
-              <div class="text-h2">{{ result.form.name }}</div>
+              <q-skeleton v-if="loading" type="rect" />
+              <div v-else-if="result" class="text-h2">{{ result.form?.name }}</div>
             </q-card-section>
 
             <q-separator class="q-mb-md" />
 
             <q-card-section class="q-pt-none">
-              <div v-html="result.form.description" />
+              <div v-if="loading">
+                <q-skeleton v-for="i in 10" :key="i" type="text" />
+              </div>
+
+              <text-editor
+                v-else-if="result"
+                readonly
+                :model-value="
+                  result.form?.description ? JSON.parse(result.form?.description) : null
+                "
+              />
             </q-card-section>
           </q-card>
 
-          <q-card flat class="form-card bg-glass">
-            <q-card-section>
+          <q-card flat class="bg-glass" v-if="showEditUi">
+            <q-card-section v-if="loading">
+              <div v-for="i in 5" :key="i">
+                <q-skeleton type="QInput" class="q-mb-sm" />
+              </div>
+            </q-card-section>
+
+            <q-card-section v-else-if="result">
               <div v-for="(field, index) in formFields" :key="index">
                 <form-field
                   v-bind="field"
@@ -206,14 +256,29 @@ const cardBackground = computed(() => {
             </q-card-section>
           </q-card>
 
-          <q-card flat class="form-card bg-glass">
+          <form-notices v-if="!loading && result?.form" :form="result.form" />
+
+          <q-card v-if="result && showEditUi" flat class="bg-glass">
             <q-card-actions align="right">
+              <q-btn
+                v-if="
+                  result.form?.submittability.tags.includes(FormSubmittabilityTag.AlreadySubmitted)
+                "
+                flat
+                :label="$t('withdraw')"
+                icon="las la-trash"
+                color="red"
+              />
+
+              <q-space />
+
               <q-btn
                 :loading="submitForm.loading.value"
                 flat
                 type="submit"
                 :label="$t('register')"
                 icon="las la-paper-plane"
+                :disable="!valid"
               />
             </q-card-actions>
           </q-card>

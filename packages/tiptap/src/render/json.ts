@@ -1,5 +1,5 @@
 import { JSONContent } from '@tiptap/core'
-import { TiptapRenderer } from './base'
+import { DateTimeArg, TiptapRenderer } from './base'
 import { DateTime } from 'luxon'
 
 class JsonRenderer extends TiptapRenderer {
@@ -7,8 +7,13 @@ class JsonRenderer extends TiptapRenderer {
     return JSON.stringify(json)
   }
 
-  public renderDateTime(dt: DateTime): string {
-    return dt.toISO() || ''
+  public override renderDateTime(dt: DateTime, arg: DateTimeArg): string {
+    switch (arg.preset) {
+      case 'relative':
+        return dt.setLocale(arg.luxonLang).toRelative() || ''
+      case 'datetime':
+        return dt.setLocale(arg.luxonLang).toLocaleString(DateTime.DATETIME_MED) || ''
+    }
   }
 }
 

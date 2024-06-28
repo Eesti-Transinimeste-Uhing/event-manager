@@ -10,6 +10,7 @@ import EditorToolbar from './editor-toolbar.vue'
 const props = defineProps<{
   modelValue: JSONContent | null
   borderless?: boolean
+  readonly?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -18,6 +19,7 @@ const emit = defineEmits<{
 
 const editor = useEditor({
   content: props.modelValue,
+  editable: !props.readonly,
   extensions: [...extensions, TemplateVariableNodeWithRenderer],
   onUpdate() {
     if (!editor.value) {
@@ -41,11 +43,7 @@ const handleTemplateVariable = (id: keyof typeof TemplateVariableId) => {
 watch(
   () => props.modelValue,
   (value) => {
-    if (!editor.value) {
-      return
-    }
-
-    editor.value.commands.setContent(value, false)
+    editor.value?.commands.setContent(value, false)
   }
 )
 
@@ -57,9 +55,7 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 :deep(.tiptap),
 .tiptap {
-  min-height: 15rem;
   height: 100%;
-  padding: 1rem;
 }
 
 :deep(.ProseMirror-focused) {
@@ -72,7 +68,11 @@ onBeforeUnmount(() => {
 </style>
 
 <template>
-  <q-card flat :bordered="!props.borderless">
+  <q-no-ssr v-if="readonly">
+    <editor-content :editor="editor" />
+  </q-no-ssr>
+
+  <q-card v-else flat :bordered="!props.borderless">
     <q-no-ssr>
       <editor-toolbar
         key="real"
@@ -89,7 +89,7 @@ onBeforeUnmount(() => {
 
       <q-separator />
 
-      <q-scroll-area class="editor-content">
+      <q-scroll-area class="editor-content q-ma-md">
         <editor-content :editor="editor" />
       </q-scroll-area>
 

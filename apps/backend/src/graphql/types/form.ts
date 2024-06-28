@@ -65,9 +65,10 @@ export const Form = objectType({
       type: 'Template',
     })
     t.int('submitLimit')
-    t.boolean('hasReachedSubmitLimit', {
-      async resolve(root) {
-        return formController.hasReachedSubmissionLimit(root)
+    t.field('submittability', {
+      type: 'FormSubmittability',
+      async resolve(root, args, context) {
+        return formController.getSubmittability(root.id, context.sourceHash)
       },
     })
   },

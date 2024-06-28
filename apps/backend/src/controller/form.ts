@@ -6,7 +6,7 @@ import { AppDataSource } from '../data-source'
 import { Form } from '../entity/form'
 import { FormRepository } from '../repository/form'
 import { EntityNotFoundError, FormSubmissionLimitExceededError } from '../lib/errors'
-import { FormSubmissionData } from '../entity/form-submission'
+import { FormSubmission, FormSubmissionData } from '../entity/form-submission'
 import { FormSubmissionRepository } from '../repository/form-submission'
 import { formBanners } from '../storage'
 import { RenderTarget } from '@etu/tiptap/src/render'
@@ -14,6 +14,17 @@ import { PaginateAndSortArgs } from '../lib/pagination'
 import { TemplateRepository } from '../repository/template'
 import { substituteTemplateVariables } from '@etu/tiptap/src/utils'
 import { flagMap } from '@etu/i18n'
+
+export enum FormSubmittabilityTag {
+  SubmitLimitReached,
+  AlreadySubmitted,
+  FormDoesNotExist,
+}
+
+type FormSubmittability = {
+  submittable: boolean
+  tags: FormSubmittabilityTag[]
+}
 
 export class FormController {
   private manager = AppDataSource.createEntityManager()
@@ -62,14 +73,65 @@ export class FormController {
     return form.submitLimit === 0 || submissionCount < form.submitLimit
   }
 
-  // TODO: Make use of this in the frontend and allow updating existing submissions
-  public async getExistingSubmission(id: string, sourceHash: string) {
-    return await this.submissions.findOneBy({ form: { id }, sourceHash })
+  public async getSubmittability(
+    formIdOrEntity: string | Form,
+    sourceHash: string
+  ): Promise<FormSubmittability> {
+    const result: FormSubmittability = {
+      submittable: true,
+      tags: [],
+    }
+
+    const form =
+      typeof formIdOrEntity === 'string'
+        ? await this.forms.findOneBy({ id: formIdOrEntity })
+        : formIdOrEntity
+
+    if (!form) {
+      result.submittable = false
+      result.tags.push(FormSubmittabilityTag.FormDoesNotExist)
+      return result
+    }
+
+    if (form.submitLimit !== 0) {
+      const submissionCount = await this.submissions.countByFormId(form.id)
+
+      if (submissionCount >= form.submitLimit) {
+        result.submittable = false
+        result.tags.push(FormSubmittabilityTag.SubmitLimitReached)
+      }
+    }
+
+    const existingSubmission = await this.submissions.existsBy({
+      form: { id: form.id },
+      sourceHash,
+    })
+
+    if (existingSubmission) {
+      result.submittable = false
+      result.tags.push(FormSubmittabilityTag.AlreadySubmitted)
+    }
+
+    return result
   }
 
   public async submit(id: string, sourceHash: string, data: FormSubmissionData) {
     const count = await this.submissions.countByFormId(id)
     const form = await this.forms.findOneByOrFail({ id })
+
+    // Update submission if exists by sourcehash, otherwise create a new one
+    const existingSubmission = await this.submissions.findOneBy({
+      form: { id },
+      sourceHash,
+    })
+
+    if (existingSubmission) {
+      await this.manager.transaction(async (manager) => {
+        await manager.update(FormSubmission, { id: existingSubmission.id }, { data })
+      })
+
+      return
+    }
 
     // Check if the form has reached its submission limit
     // If the limit is 0, it means there is no limit

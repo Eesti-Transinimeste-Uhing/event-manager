@@ -31,9 +31,16 @@ gender = Gender
 registered-message = Input saved, see you soon!
 submission-limit = Submission limit
 
+submission-limit-reached =
+  This event is full, and we can't accept any more registrations. Check back later, in case someone withdraws.
+
+submission-limit-reached-withdraw =
+  This event is full, including you! You can edit your registration by submitting again.
+  Keep in mind that if you withdraw, you may not be able to register again if someone else takes your place.
+
 already-submitted-will-update =
   You already submitted this form.
-  If you submit it again, your previous submission will be updated.
+  If you submit it again, your previous submission will be updated with the data from this one.
 
 withdraw = Withdraw
 

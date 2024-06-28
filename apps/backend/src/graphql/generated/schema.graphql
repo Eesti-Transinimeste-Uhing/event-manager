@@ -88,7 +88,6 @@ type Form {
   createdAt: DateTime!
   description(target: RenderTarget!, where: WhereLangInput!): String!
   description_i18n: I18nJSON!
-  hasReachedSubmitLimit: Boolean!
   id: ID!
   location(where: WhereLangInput!): String
   location_i18n: I18nString!
@@ -96,6 +95,7 @@ type Form {
   name_i18n: I18nString!
   startsAt: DateTime
   submitLimit: Int!
+  submittability: FormSubmittability!
   template: Template!
   updatedAt: DateTime!
 }
@@ -166,6 +166,17 @@ type FormSubmissionEdge {
   https://facebook.github.io/relay/graphql/connections.htm#sec-Node
   """
   node: FormSubmission!
+}
+
+type FormSubmittability {
+  submittable: Boolean!
+  tags: [FormSubmittabilityTag!]!
+}
+
+enum FormSubmittabilityTag {
+  AlreadySubmitted
+  FormDoesNotExist
+  SubmitLimitReached
 }
 
 """

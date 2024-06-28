@@ -113,7 +113,6 @@ export type Form = {
   createdAt: Scalars['DateTime']['output']
   description: Scalars['String']['output']
   description_i18n: Scalars['I18nJSON']['output']
-  hasReachedSubmitLimit: Scalars['Boolean']['output']
   id: Scalars['ID']['output']
   location?: Maybe<Scalars['String']['output']>
   location_i18n: Scalars['I18nString']['output']
@@ -121,6 +120,7 @@ export type Form = {
   name_i18n: Scalars['I18nString']['output']
   startsAt?: Maybe<Scalars['DateTime']['output']>
   submitLimit: Scalars['Int']['output']
+  submittability: FormSubmittability
   template: Template
   updatedAt: Scalars['DateTime']['output']
 }
@@ -190,6 +190,18 @@ export type FormSubmissionEdge = {
   cursor: Scalars['String']['output']
   /** https://facebook.github.io/relay/graphql/connections.htm#sec-Node */
   node: FormSubmission
+}
+
+export type FormSubmittability = {
+  __typename?: 'FormSubmittability'
+  submittable: Scalars['Boolean']['output']
+  tags: Array<FormSubmittabilityTag>
+}
+
+export enum FormSubmittabilityTag {
+  AlreadySubmitted = 'AlreadySubmitted',
+  FormDoesNotExist = 'FormDoesNotExist',
+  SubmitLimitReached = 'SubmitLimitReached',
 }
 
 export type I18nJsonInput = {
@@ -689,6 +701,11 @@ export type FormSubmitQuery = {
     name?: string | null
     banner: any
     description: string
+    submittability: {
+      __typename?: 'FormSubmittability'
+      submittable: boolean
+      tags: Array<FormSubmittabilityTag>
+    }
     template: { __typename?: 'Template'; id: string; fields: Array<FormFieldKind> }
   } | null
 }
@@ -1797,6 +1814,17 @@ export const FormSubmitDocument = {
                       value: { kind: 'Variable', name: { kind: 'Name', value: 'target' } },
                     },
                   ],
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'submittability' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'submittable' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
+                    ],
+                  },
                 },
                 {
                   kind: 'Field',
