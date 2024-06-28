@@ -45,6 +45,7 @@ export type Announcer = {
   id: Scalars['ID']['output']
   name: Scalars['String']['output']
   options?: Maybe<AnnouncerOptions>
+  readiness: AnnouncerReadiness
   type: AnnouncerType
   updatedAt: Scalars['DateTime']['output']
 }
@@ -80,6 +81,16 @@ export type AnnouncerOptionsDiscordInput = {
 
 export type AnnouncerOptionsInput = {
   discord: AnnouncerOptionsDiscordInput
+}
+
+export type AnnouncerReadiness = {
+  __typename?: 'AnnouncerReadiness'
+  status: AnnouncerStatus
+}
+
+export enum AnnouncerStatus {
+  Offline = 'Offline',
+  Online = 'Online',
 }
 
 export enum AnnouncerType {
@@ -533,6 +544,7 @@ export type AnnouncerListQuery = {
         updatedAt: any
         name: string
         type: AnnouncerType
+        readiness: { __typename?: 'AnnouncerReadiness'; status: AnnouncerStatus }
       }
     }>
   }
@@ -1013,6 +1025,16 @@ export const AnnouncerListDocument = {
                             { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                             { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'readiness' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                ],
+                              },
+                            },
                           ],
                         },
                       },

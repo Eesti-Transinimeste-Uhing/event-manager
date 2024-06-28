@@ -9,6 +9,15 @@ import { AnnouncerOptionsDiscord } from '../entity/announcer-options-discord'
 import { AnnouncerOptionsDiscordRepository } from '../repository/announcer-options-discord'
 import { createQueues } from '../queues'
 
+export enum AnnouncerStatus {
+  Online,
+  Offline,
+}
+
+export type AnnouncerReadiness = {
+  status: AnnouncerStatus
+}
+
 export class AnnouncerController {
   private manager = AppDataSource.createEntityManager()
 
@@ -30,6 +39,22 @@ export class AnnouncerController {
 
   public async listAnnouncable() {
     return await this.announcers.findAnnouncable()
+  }
+
+  public async getReadiness(id: string): Promise<AnnouncerReadiness> {
+    const exists = await this.announcers.existsBy({ id })
+
+    if (!exists) {
+      return {
+        status: AnnouncerStatus.Offline,
+      }
+    }
+
+    const announcable = await this.announcers.isAnnouncable(id)
+
+    return {
+      status: announcable ? AnnouncerStatus.Online : AnnouncerStatus.Offline,
+    }
   }
 
   private optionsDiscord = this.manager.withRepository(AnnouncerOptionsDiscordRepository)

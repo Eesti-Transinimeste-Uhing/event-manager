@@ -10,6 +10,7 @@ type Announcer {
   id: ID!
   name: String!
   options: AnnouncerOptions
+  readiness: AnnouncerReadiness!
   type: AnnouncerType!
   updatedAt: DateTime!
 }
@@ -52,6 +53,15 @@ input AnnouncerOptionsDiscordInput {
 
 input AnnouncerOptionsInput {
   discord: AnnouncerOptionsDiscordInput!
+}
+
+type AnnouncerReadiness {
+  status: AnnouncerStatus!
+}
+
+enum AnnouncerStatus {
+  Offline
+  Online
 }
 
 enum AnnouncerType {

@@ -223,6 +223,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  AnnouncerStatus: 1 | 0
   AnnouncerType: 1 | 2 | 3 | 0
   FormFieldKind: 0 | 1 | 2 | 3 | 4
   FormSubmittabilityTag: 1 | 2 | 0
@@ -259,6 +260,10 @@ export interface NexusGenObjects {
     node: NexusGenRootTypes['Announcer'] // Announcer!
   }
   AnnouncerOptionsDiscord: AnnouncerOptionsDiscord
+  AnnouncerReadiness: {
+    // root type
+    status: NexusGenEnums['AnnouncerStatus'] // AnnouncerStatus!
+  }
   DiscordUser: DiscordOauthInfo
   Form: Form
   FormConnection: {
@@ -333,6 +338,7 @@ export interface NexusGenFieldTypes {
     id: string // ID!
     name: string // String!
     options: NexusGenRootTypes['AnnouncerOptions'] | null // AnnouncerOptions
+    readiness: NexusGenRootTypes['AnnouncerReadiness'] // AnnouncerReadiness!
     type: NexusGenEnums['AnnouncerType'] // AnnouncerType!
     updatedAt: NexusGenScalars['DateTime'] // DateTime!
   }
@@ -350,6 +356,10 @@ export interface NexusGenFieldTypes {
     // field return type
     channelId: string // String!
     guildId: string // String!
+  }
+  AnnouncerReadiness: {
+    // field return type
+    status: NexusGenEnums['AnnouncerStatus'] // AnnouncerStatus!
   }
   DiscordUser: {
     // field return type
@@ -485,6 +495,7 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     name: 'String'
     options: 'AnnouncerOptions'
+    readiness: 'AnnouncerReadiness'
     type: 'AnnouncerType'
     updatedAt: 'DateTime'
   }
@@ -502,6 +513,10 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     channelId: 'String'
     guildId: 'String'
+  }
+  AnnouncerReadiness: {
+    // field return type name
+    status: 'AnnouncerStatus'
   }
   DiscordUser: {
     // field return type name

@@ -11,6 +11,7 @@ import TableSkeleton from 'components/skeletons/table-skeleton.vue'
 import { FormSubmissionListQuery } from 'src/graphql/generated/graphql'
 import { computed } from 'vue'
 import { useI18n } from 'src/hooks/use-i18n'
+import { formEdit, templateEdit } from 'src/router/routes'
 
 const { t, currentLanguage } = useI18n()
 
@@ -117,7 +118,7 @@ const columns = computed<Column[]>(() => {
       align: 'left',
       style: 'width: 250px;',
       field(row) {
-        return row.node.form.name
+        return row.node.form
       },
     },
     {
@@ -126,7 +127,7 @@ const columns = computed<Column[]>(() => {
       align: 'left',
       style: 'width: 250px;',
       field(row) {
-        return row.node.form.template.name
+        return row.node.form.template
       },
     },
     ...dynamicColumns,
@@ -142,9 +143,15 @@ const columns = computed<Column[]>(() => {
   ]
 })
 
-const handleRowClick = () => {
-  return null
-}
+const createFormEditRoute = (id: string) => ({
+  name: formEdit.name,
+  query: { id },
+})
+
+const createTemplateEditRoute = (id: string) => ({
+  name: templateEdit.name,
+  query: { id },
+})
 </script>
 
 <style lang="scss" scoped>
@@ -204,7 +211,6 @@ const handleRowClick = () => {
         v-model:pagination="pagination"
         :rows-per-page-options="[0]"
         hide-bottom
-        @row-click="handleRowClick"
       >
         <template #header="props">
           <q-tr :props="props">
@@ -212,6 +218,22 @@ const handleRowClick = () => {
               <span class="text-weight-bolder">{{ col.label }}</span>
             </q-th>
           </q-tr>
+        </template>
+
+        <template #body-cell-form="props">
+          <q-td :props="props">
+            <router-link :to="createFormEditRoute(props.value.id)" class="text-primary">
+              {{ props.value.name }}
+            </router-link>
+          </q-td>
+        </template>
+
+        <template #body-cell-template="props">
+          <q-td :props="props">
+            <router-link :to="createTemplateEditRoute(props.value.id)" class="text-primary">
+              {{ props.value.name }}
+            </router-link>
+          </q-td>
         </template>
 
         <template #body-cell-createdAt="props">

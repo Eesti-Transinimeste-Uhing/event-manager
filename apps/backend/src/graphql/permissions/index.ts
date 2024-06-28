@@ -63,6 +63,7 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
     AnnouncerEdge: allow,
     AnnouncerOptions: allow,
     AnnouncerOptionsDiscord: allow,
+    AnnouncerReadiness: allow,
     User: allow,
     FormSubmissionConnection: allow,
     FormSubmissionEdge: allow,

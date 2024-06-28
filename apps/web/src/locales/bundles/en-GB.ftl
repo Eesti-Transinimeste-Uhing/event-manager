@@ -158,6 +158,9 @@ channel-id = Channel ID
 guild-id = Guild ID
 announce = Announce
 send = Send
+status = Status
+online = Online
+offline = Offline
 
 options-for-type-announcer = Options for { $type } announcer
 

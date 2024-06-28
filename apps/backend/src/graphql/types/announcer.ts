@@ -2,6 +2,7 @@ import { enumType, objectType, unionType } from 'nexus'
 import path from 'node:path'
 
 import { AnnouncerType } from '../../entity/announcer'
+import { announcerController } from '../../server/static-context'
 
 export const AnnouncerTypeEnum = enumType({
   name: 'AnnouncerType',
@@ -53,6 +54,12 @@ export const Announcer = objectType({
       type: 'AnnouncerOptions',
       resolve(root) {
         return root.options?.discord
+      },
+    })
+    t.field('readiness', {
+      type: 'AnnouncerReadiness',
+      resolve(root, _args, ctx) {
+        return announcerController.getReadiness(root.id)
       },
     })
   },

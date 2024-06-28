@@ -7,6 +7,7 @@ import { QTableColumn } from 'quasar'
 import { graphql } from 'src/graphql/generated'
 import {
   AnnouncerListQuery,
+  AnnouncerStatus,
   AnnouncerType,
   FormEdge,
   PaginationSortingOrder,
@@ -69,6 +70,9 @@ const {
             updatedAt
             name
             type
+            readiness {
+              status
+            }
           }
         }
       }
@@ -81,6 +85,15 @@ const {
 )
 
 const columns: QTableColumn<AnnouncerListQuery['announcers']['edges'][0]>[] = [
+  {
+    name: 'status',
+    label: 'status',
+    align: 'center',
+    style: 'width: 50px;',
+    field(row) {
+      return row.node.readiness.status
+    },
+  },
   {
     name: 'name',
     label: 'name',
@@ -257,6 +270,20 @@ const options = computed(() => {
               <span class="text-weight-bolder">{{ $t(col.label) }}</span>
             </q-th>
           </q-tr>
+        </template>
+
+        <template #body-cell-status="props">
+          <q-td :props="props">
+            <q-icon
+              :name="props.value === AnnouncerStatus.Offline ? 'las la-unlink' : 'las la-link'"
+              :color="props.value === AnnouncerStatus.Offline ? 'secondary' : 'primary'"
+              size="sm"
+            >
+              <q-tooltip class="bg-black" anchor="top middle" self="center middle">
+                {{ props.value === AnnouncerStatus.Offline ? t('offline') : t('online') }}
+              </q-tooltip>
+            </q-icon>
+          </q-td>
         </template>
 
         <template #body-cell-type="props">
