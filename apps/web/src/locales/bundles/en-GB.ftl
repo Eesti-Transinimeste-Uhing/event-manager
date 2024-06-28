@@ -161,6 +161,8 @@ send = Send
 status = Status
 online = Online
 offline = Offline
+total = Total
+thumbnail = Thumbnail
 
 options-for-type-announcer = Options for { $type } announcer
 

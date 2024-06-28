@@ -311,7 +311,7 @@ const options = computed(() => {
     </div>
 
     <q-banner inline-actions rounded class="text-white q-mt-md">
-      <span v-if="!loading || result"> Total: {{ pageInfo.totalCount }} </span>
+      <span v-if="!loading || result"> {{ t('total') }}: {{ pageInfo.totalCount }} </span>
 
       <template v-slot:action>
         <tooltip-button

@@ -301,7 +301,7 @@ const handleCreateNewClick = async () => {
     </div>
 
     <q-banner inline-actions rounded class="text-white q-mt-md">
-      <span v-if="result"> Total: {{ result.templates.pageInfo.totalCount }} </span>
+      <span v-if="result"> {{ t('total') }}: {{ result.templates.pageInfo.totalCount }} </span>
 
       <template v-if="result" v-slot:action>
         <tooltip-button

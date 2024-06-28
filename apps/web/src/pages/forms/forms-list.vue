@@ -337,7 +337,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
         <template #header="props">
           <q-tr :props="props">
             <q-th v-for="col in props.cols" :key="col.name" :props="props">
-              <span class="text-weight-bolder">{{ $t(col.label) }}</span>
+              <span v-if="col.label" class="text-weight-bolder">{{ $t(col.label) }}</span>
             </q-th>
           </q-tr>
         </template>
@@ -369,7 +369,7 @@ const handleRowClick = (evt: Event, row: FormEdge) => {
     </div>
 
     <q-banner inline-actions rounded class="text-white q-mt-md">
-      <span v-if="!loading || result"> Total: {{ pageInfo.totalCount }} </span>
+      <span v-if="!loading || result"> {{ t('total') }}: {{ pageInfo.totalCount }} </span>
 
       <template v-slot:action>
         <tooltip-button
