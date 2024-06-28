@@ -95,3 +95,4 @@ log-out = Logi välja
 source = Allikas
 tos-and-privacy-link = https://transinimesed.ee/kasutustingimused-ja-privaatsuspoliitika/
 site-link = https://transinimesed.ee/
+tos-and-privacy = Kasutustingimused ja privaatsuspoliitika
