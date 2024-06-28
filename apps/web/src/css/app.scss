@@ -114,6 +114,10 @@ h6,
   font-family: 'spacemono', monospace;
 }
 
+.q-dialog__backdrop {
+  backdrop-filter: blur(4px);
+}
+
 a {
   text-decoration: none;
   color: inherit;
