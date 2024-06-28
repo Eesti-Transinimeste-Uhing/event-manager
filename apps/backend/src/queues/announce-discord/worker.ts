@@ -34,6 +34,7 @@ export const createWorker = () =>
           message: discordMessage,
           channelId: job.data.options.channelId,
           guildId: job.data.options.guildId,
+          formId: job.data.formId,
         })
       )
     },
