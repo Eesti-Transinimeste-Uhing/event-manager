@@ -2,6 +2,7 @@
 import { useEditor, EditorContent, JSONContent } from '@tiptap/vue-3'
 import { onBeforeUnmount, watch } from 'vue'
 import { extensions, TemplateVariableId } from '@etu/tiptap'
+import deepEqual from 'deep-equal'
 
 import { TemplateVariableNodeWithRenderer } from './extensions/template-variable'
 
@@ -43,6 +44,10 @@ const handleTemplateVariable = (id: keyof typeof TemplateVariableId) => {
 watch(
   () => props.modelValue,
   (value) => {
+    if (!editor.value || deepEqual(editor.value.getJSON(), value)) {
+      return
+    }
+
     editor.value?.commands.setContent(value, false)
   }
 )
@@ -75,7 +80,6 @@ onBeforeUnmount(() => {
   <q-card v-else flat :bordered="!props.borderless">
     <q-no-ssr>
       <editor-toolbar
-        key="real"
         @bold="editor?.chain().focus().toggleBold().run()"
         @italic="editor?.chain().focus().toggleItalic().run()"
         @undo="editor?.chain().focus().undo().run()"
@@ -90,7 +94,7 @@ onBeforeUnmount(() => {
       <q-separator />
 
       <q-scroll-area class="editor-content q-ma-md">
-        <editor-content :editor="editor" />
+        <editor-content key="real" :editor="editor" />
       </q-scroll-area>
 
       <template v-slot:placeholder>
