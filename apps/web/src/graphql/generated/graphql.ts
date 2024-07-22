@@ -100,6 +100,18 @@ export enum AnnouncerType {
   Unset = 'Unset',
 }
 
+export type BullJob = {
+  __typename?: 'BullJob'
+  attemptsMade: Scalars['Int']['output']
+  delay: Scalars['Int']['output']
+  finishedOn?: Maybe<Scalars['DateTime']['output']>
+  id: Scalars['String']['output']
+  name: Scalars['String']['output']
+  processedOn?: Maybe<Scalars['DateTime']['output']>
+  progress: Scalars['String']['output']
+  timestamp: Scalars['DateTime']['output']
+}
+
 export type CreateAnnouncerData = {
   type: AnnouncerType
 }
@@ -229,7 +241,7 @@ export type I18nStringInput = {
 
 export type Mutation = {
   __typename?: 'Mutation'
-  announceForm: Scalars['Boolean']['output']
+  announceForm: BullJob
   createAnnouncer: Announcer
   createForm: Form
   createTemplate: Template

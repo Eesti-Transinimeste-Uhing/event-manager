@@ -1,17 +1,18 @@
 import { Logger } from 'pino'
 
 import { config } from '../config'
-import { createServer } from '../server'
+import { createServers } from '../server'
 import { AppDataSource } from '../data-source'
 
 import { ProtoServer } from '../proto/server'
+import { pubsub } from '../pubsub'
 
 export const main = async (log: Logger) => {
   log.debug(`connecting to database`)
   await AppDataSource.initialize()
 
   log.debug('creating HTTP server')
-  const httpServer = await createServer()
+  const { httpServer } = await createServers()
 
   log.debug('creating RPC server')
   const rpcServer = new ProtoServer()
@@ -30,4 +31,8 @@ export const main = async (log: Logger) => {
     },
     'server listening'
   )
+
+  setInterval(() => {
+    pubsub.publish('TEST_CLOCK', { time: new Date().getTime() })
+  }, 1000)
 }

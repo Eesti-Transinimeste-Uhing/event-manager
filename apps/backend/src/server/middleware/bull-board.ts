@@ -46,6 +46,6 @@ export const registerBullBoard = async (server: FastifyInstance) => {
       return
     }
 
-    reply.code(401).send('Unauthorized')
+    reply.code(403).send('Unauthorized')
   })
 }

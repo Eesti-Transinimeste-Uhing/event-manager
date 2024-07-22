@@ -50,6 +50,9 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
       createAnnouncer: or(isAdmin, isPublisher),
       updateAnnouncer: or(isAdmin, isPublisher),
     },
+    Subscription: {
+      test: allow,
+    },
 
     DiscordUser: isOwnDiscordProfile,
     Form: allow,

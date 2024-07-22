@@ -1,5 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import { applyMiddleware } from 'graphql-middleware'
+import { useServer } from 'graphql-ws/lib/use/ws'
+import { WebSocketServer } from 'ws'
 
 import { ApolloServer } from '@apollo/server'
 import { processRequest } from 'graphql-upload-minimal'
@@ -22,7 +24,7 @@ export const registerApollo = async (server: FastifyInstance) => {
     done(null)
   })
 
-  server.addHook('preValidation', async function (request, reply) {
+  server.addHook('preValidation', async (request, reply) => {
     if (!request.requestContext.get('isMultipart' as never)) {
       return
     }
@@ -33,16 +35,35 @@ export const registerApollo = async (server: FastifyInstance) => {
         maxFiles: 20,
       })
     } catch (error) {
-      reply.status(400).send('400 Invalid Request')
+      reply.status(400).send('Invalid Request')
     }
   })
 
+  const wsServer = new WebSocketServer({
+    server: server.server,
+    path: '/graphql',
+  })
+
+  const serverCleanup = useServer({ schema, context: createDynamicContext }, wsServer)
+
   const apollo = new ApolloServer<DynamicContext>({
     schema: applyMiddleware(schema, permissions),
-    plugins: [fastifyApolloDrainPlugin(server)],
+    plugins: [
+      fastifyApolloDrainPlugin(server),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose()
+            },
+          }
+        },
+      },
+    ],
   })
 
   await apollo.start()
+
   await server.register(fastifyApollo(apollo), {
     context: createDynamicContext,
   })

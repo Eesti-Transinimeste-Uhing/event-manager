@@ -309,6 +309,7 @@ export interface NexusGenObjects {
     totalCount?: number | null // Int
   }
   Query: {}
+  Subscription: {}
   Template: Template
   TemplateConnection: {
     // root type
@@ -468,6 +469,10 @@ export interface NexusGenFieldTypes {
     template: NexusGenRootTypes['Template'] | null // Template
     templates: NexusGenRootTypes['TemplateConnection'] // TemplateConnection!
     viewer: NexusGenRootTypes['User'] | null // User
+  }
+  Subscription: {
+    // field return type
+    test: string // String!
   }
   Template: {
     // field return type
@@ -636,6 +641,10 @@ export interface NexusGenFieldTypeNames {
     template: 'Template'
     templates: 'TemplateConnection'
     viewer: 'User'
+  }
+  Subscription: {
+    // field return type name
+    test: 'String'
   }
   Template: {
     // field return type name

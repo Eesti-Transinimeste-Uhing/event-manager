@@ -410,6 +410,10 @@ input SubmitFormWhereInput {
   id: ID!
 }
 
+type Subscription {
+  test: String!
+}
+
 enum SupportedLanguages {
   en_GB
   et_EE

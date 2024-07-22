@@ -7,6 +7,7 @@ import * as Scalars from './scalars'
 import * as Types from './types'
 import * as Queries from './queries'
 import * as Mutations from './mutations'
+import * as Subscriptions from './subscriptions'
 
 export const schema = makeSchema({
   types: [
@@ -14,6 +15,7 @@ export const schema = makeSchema({
     ...Object.values(Types),
     ...Object.values(Queries),
     ...Object.values(Mutations),
+    ...Object.values(Subscriptions),
   ],
   shouldGenerateArtifacts: config.node.env === 'development',
   contextType: {

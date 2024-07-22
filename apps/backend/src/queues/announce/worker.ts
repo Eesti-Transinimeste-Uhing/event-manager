@@ -1,14 +1,8 @@
-import { AnnounceFormRequest } from '@etu/events-proto/dist/discord-bot/announcer'
 import { Worker } from 'bullmq'
-import VError from 'verror'
-import { SupportedLanguages } from '@etu/events-proto/dist/lib'
-import { RenderTarget } from '@etu/tiptap'
 
-import { announcerClient as client } from '../../proto/clients/discord-bot'
 import { AnnounceInput, AnnounceOutput } from './types'
 import { announcerController, formController, queues } from '../../server/static-context'
 import { config } from '../../config'
-import { log } from '../../log'
 import { AnnouncerType } from '../../entity/announcer'
 
 export const createWorker = () =>
