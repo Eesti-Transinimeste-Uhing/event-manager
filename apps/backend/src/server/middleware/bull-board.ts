@@ -36,6 +36,10 @@ export const registerBullBoard = async (server: FastifyInstance) => {
   })
 
   server.addHook('onRequest', async (req, reply) => {
+    if (!req.url.startsWith('/bull-board')) {
+      return
+    }
+
     const ctx = await createDynamicContext(req, reply)
 
     if (ctx.user && ctx.roles.includes(UserRole.Admin)) {
