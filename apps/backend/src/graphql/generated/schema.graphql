@@ -71,6 +71,17 @@ enum AnnouncerType {
   Unset
 }
 
+type BullJob {
+  attemptsMade: Int!
+  delay: Int!
+  finishedOn: DateTime
+  id: String!
+  name: String!
+  processedOn: DateTime
+  progress: String!
+  timestamp: DateTime!
+}
+
 input CreateAnnouncerData {
   type: AnnouncerType!
 }
@@ -218,7 +229,7 @@ scalar JSONObject
   @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
 type Mutation {
-  announceForm(where: AnnounceFormWhereInput!): Boolean!
+  announceForm(where: AnnounceFormWhereInput!): BullJob!
   createAnnouncer(data: CreateAnnouncerData!): Announcer!
   createForm(input: CreateFormInput!): Form!
   createTemplate: Template!

@@ -30,7 +30,7 @@ export class AnnouncerController {
   }
 
   public async announce(formId: string) {
-    await this.queues.announce.add('announce', { formId })
+    return await this.queues.announce.add('announce', { formId })
   }
 
   public async getById(id: string) {

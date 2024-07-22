@@ -9,6 +9,7 @@ import { isOwnDiscordProfile } from './is-own-discord-profile'
 import { isAdmin } from './is-admin'
 import { isPublisher } from './is-publisher'
 import { isEditor } from './is-editor'
+import { isAuthenticated } from './is-authenticated'
 
 export type GraphQLRules<RootType> = {
   [key in keyof RootType]:
@@ -52,24 +53,25 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
 
     DiscordUser: isOwnDiscordProfile,
     Form: allow,
-    FormConnection: allow,
-    FormEdge: allow,
-    PageInfo: allow,
-    Template: allow,
-    TemplateConnection: allow,
-    TemplateEdge: allow,
-    Announcer: allow,
-    AnnouncerConnection: allow,
-    AnnouncerEdge: allow,
-    AnnouncerOptions: allow,
-    AnnouncerOptionsDiscord: allow,
-    AnnouncerReadiness: allow,
-    User: allow,
-    FormSubmissionConnection: allow,
-    FormSubmissionEdge: allow,
-    FormSubmission: allow,
-    FormSubmissionData: allow,
-    FormSubmittability: allow,
+    FormConnection: isAuthenticated,
+    FormEdge: isAuthenticated,
+    PageInfo: isAuthenticated,
+    Template: isAuthenticated,
+    TemplateConnection: isAuthenticated,
+    TemplateEdge: isAuthenticated,
+    Announcer: isAuthenticated,
+    AnnouncerConnection: isAuthenticated,
+    AnnouncerEdge: isAuthenticated,
+    AnnouncerOptions: isAuthenticated,
+    AnnouncerOptionsDiscord: isAuthenticated,
+    AnnouncerReadiness: isAuthenticated,
+    User: isAuthenticated,
+    FormSubmissionConnection: isAuthenticated,
+    FormSubmissionEdge: isAuthenticated,
+    FormSubmission: isAuthenticated,
+    FormSubmissionData: isAuthenticated,
+    FormSubmittability: isAuthenticated,
+    BullJob: isAuthenticated,
   },
   {
     fallbackError(thrownThing) {

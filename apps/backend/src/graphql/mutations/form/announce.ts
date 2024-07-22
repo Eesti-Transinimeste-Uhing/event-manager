@@ -10,14 +10,13 @@ const AnnounceFormWhereInput = inputObjectType({
 })
 
 export const AnnounceForm = mutationField((t) => {
-  t.boolean('announceForm', {
+  t.field('announceForm', {
+    type: 'BullJob',
     args: {
       where: AnnounceFormWhereInput.asArg(),
     },
     async resolve(root, args, context) {
-      await announcerController.announce(args.where.id)
-
-      return true
+      return await announcerController.announce(args.where.id)
     },
   })
 })

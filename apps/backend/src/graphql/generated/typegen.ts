@@ -11,6 +11,7 @@ import type { Form } from './../../entity/form'
 import type { FormSubmission } from './../../entity/form-submission'
 import type { AnnouncerOptionsDiscord } from './../../entity/announcer-options-discord'
 import type { Announcer } from './../../entity/announcer'
+import type { Job } from 'bullmq'
 import type { core, connectionPluginCore } from 'nexus'
 declare global {
   interface NexusGenCustomInputMethods<TypeName extends string> {
@@ -264,6 +265,7 @@ export interface NexusGenObjects {
     // root type
     status: NexusGenEnums['AnnouncerStatus'] // AnnouncerStatus!
   }
+  BullJob: Job
   DiscordUser: DiscordOauthInfo
   Form: Form
   FormConnection: {
@@ -361,6 +363,17 @@ export interface NexusGenFieldTypes {
     // field return type
     status: NexusGenEnums['AnnouncerStatus'] // AnnouncerStatus!
   }
+  BullJob: {
+    // field return type
+    attemptsMade: number // Int!
+    delay: number // Int!
+    finishedOn: NexusGenScalars['DateTime'] | null // DateTime
+    id: string // String!
+    name: string // String!
+    processedOn: NexusGenScalars['DateTime'] | null // DateTime
+    progress: string // String!
+    timestamp: NexusGenScalars['DateTime'] // DateTime!
+  }
   DiscordUser: {
     // field return type
     avatar: NexusGenScalars['URL'] // URL!
@@ -426,7 +439,7 @@ export interface NexusGenFieldTypes {
   }
   Mutation: {
     // field return type
-    announceForm: boolean // Boolean!
+    announceForm: NexusGenRootTypes['BullJob'] // BullJob!
     createAnnouncer: NexusGenRootTypes['Announcer'] // Announcer!
     createForm: NexusGenRootTypes['Form'] // Form!
     createTemplate: NexusGenRootTypes['Template'] // Template!
@@ -518,6 +531,17 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     status: 'AnnouncerStatus'
   }
+  BullJob: {
+    // field return type name
+    attemptsMade: 'Int'
+    delay: 'Int'
+    finishedOn: 'DateTime'
+    id: 'String'
+    name: 'String'
+    processedOn: 'DateTime'
+    progress: 'String'
+    timestamp: 'DateTime'
+  }
   DiscordUser: {
     // field return type name
     avatar: 'URL'
@@ -583,7 +607,7 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: {
     // field return type name
-    announceForm: 'Boolean'
+    announceForm: 'BullJob'
     createAnnouncer: 'Announcer'
     createForm: 'Form'
     createTemplate: 'Template'
