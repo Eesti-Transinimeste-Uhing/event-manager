@@ -6,10 +6,6 @@ import cors from '@fastify/cors'
 import { config } from '../../config'
 
 export const registerHelmet = async (server: FastifyInstance) => {
-  /**
-   * Security
-   */
-
   await server.register(helmet, {
     global: true,
     contentSecurityPolicy: false,

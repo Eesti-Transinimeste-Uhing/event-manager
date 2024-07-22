@@ -1,5 +1,5 @@
 import { rule } from 'graphql-shield'
-import { GraphqlContext } from '../context'
+import { GraphqlContext } from '../../server/dynamic-context'
 
 export const isAuthenticated = rule({ cache: 'contextual' })(async (
   parent,

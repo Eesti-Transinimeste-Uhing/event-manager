@@ -1,26 +1,24 @@
 import { BaseContext } from '@apollo/server'
 import { ApolloFastifyContextFunction } from '@as-integrations/fastify'
 import { UserFilter, UserRole } from '@etu/events-proto/dist/discord-bot/users'
-import { FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { User } from '../entity/user'
 import { UserRepository } from '../repository/user'
 import { usersClient } from '../proto/clients/discord-bot'
 import { hash } from '../lib/hash'
 
-import * as Announce from '../queues/announce'
-
-export type GraphqlContext = BaseContext & {
+export type DynamicContext = BaseContext & {
   user: User | null
   roles: UserRole[]
   request: FastifyRequest
   sourceHash: string
 }
 
-export const graphqlContextFunction: ApolloFastifyContextFunction<GraphqlContext> = async (
-  request,
-  reply
-) => {
+export const createDynamicContext = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+): Promise<DynamicContext> => {
   const sessionData = request.session.data()
 
   const user =

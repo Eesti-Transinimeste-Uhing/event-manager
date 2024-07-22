@@ -1,5 +1,5 @@
 import { rule } from 'graphql-shield'
-import { GraphqlContext } from '../context'
+import { GraphqlContext } from '../../server/dynamic-context'
 import { UserRole } from '@etu/events-proto/dist/discord-bot/users'
 
 export const isEditor = rule({ cache: 'contextual' })(async (

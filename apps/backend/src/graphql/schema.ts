@@ -17,8 +17,8 @@ export const schema = makeSchema({
   ],
   shouldGenerateArtifacts: config.node.env === 'development',
   contextType: {
-    module: path.resolve(__dirname, 'context.ts'),
-    export: 'GraphqlContext',
+    module: path.resolve(__dirname, '../server/dynamic-context.ts'),
+    export: 'DynamicContext',
   },
   outputs: {
     schema: path.resolve(__dirname, 'generated/schema.graphql'),

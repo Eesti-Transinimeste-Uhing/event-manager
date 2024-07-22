@@ -3,7 +3,7 @@
  * Do not make changes to this file directly
  */
 
-import type { GraphqlContext } from './../context'
+import type { DynamicContext } from './../../server/dynamic-context'
 import type { DiscordOauthInfo } from './../../lib/discord-me'
 import type { User } from './../../entity/user'
 import type { Template } from './../../entity/template'
@@ -820,7 +820,7 @@ export type NexusGenFeaturesConfig = {
 }
 
 export interface NexusGenTypes {
-  context: GraphqlContext
+  context: DynamicContext
   inputTypes: NexusGenInputs
   rootTypes: NexusGenRootTypes
   inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars

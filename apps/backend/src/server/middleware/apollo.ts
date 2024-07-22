@@ -7,7 +7,7 @@ import fastifyApollo, { fastifyApolloDrainPlugin } from '@as-integrations/fastif
 import { fastifyRequestContext } from '@fastify/request-context'
 
 import { schema } from '../../graphql/schema'
-import { GraphqlContext, graphqlContextFunction } from '../../graphql/context'
+import { DynamicContext, createDynamicContext } from '../dynamic-context'
 import { permissions } from '../../graphql/permissions'
 
 export const registerApollo = async (server: FastifyInstance) => {
@@ -37,13 +37,13 @@ export const registerApollo = async (server: FastifyInstance) => {
     }
   })
 
-  const apollo = new ApolloServer<GraphqlContext>({
+  const apollo = new ApolloServer<DynamicContext>({
     schema: applyMiddleware(schema, permissions),
     plugins: [fastifyApolloDrainPlugin(server)],
   })
 
   await apollo.start()
   await server.register(fastifyApollo(apollo), {
-    context: graphqlContextFunction,
+    context: createDynamicContext,
   })
 }
