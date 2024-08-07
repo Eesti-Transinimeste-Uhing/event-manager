@@ -4,7 +4,7 @@ import { RegisterButtonInteractionHandler } from '../interaction-handlers/regist
 
 export const id = 'register-button'
 
-export class Component extends ButtonBuilder {
+export class SetFormFieldButton extends ButtonBuilder {
   constructor(formId: string) {
     super()
 

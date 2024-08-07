@@ -21,7 +21,7 @@ import { ConfirmEventSelect } from '../components/yes-no-select'
 import { RegistrationController } from '../controllers/registration'
 
 export class FormTestCommand extends Command {
-  private registerController = new RegistrationController()
+  private registrationController = new RegistrationController()
 
   public constructor(context: Command.LoaderContext, options: Command.Options) {
     super(context, { ...options })
@@ -39,11 +39,11 @@ export class FormTestCommand extends Command {
               .setDescription('The unique ID of the form you want to submit')
               .setRequired(true)
           ),
-      { idHints: ['1225308478478880858'] }
+      { idHints: ['1270822542482997291'] }
     )
   }
 
   public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-    return await this.registerController.register(interaction)
+    return await this.registrationController.register(interaction)
   }
 }

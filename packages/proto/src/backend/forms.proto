@@ -13,7 +13,8 @@ message GetFormParams {
 }
 
 message FormSubmissionData {
-  string name = 1;
+  // Currently unused
+  // string name = 1;
   optional string value = 2;
 }
 

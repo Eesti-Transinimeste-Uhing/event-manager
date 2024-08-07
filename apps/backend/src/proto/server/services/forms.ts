@@ -60,7 +60,7 @@ export class FormsService extends UnimplementedFormsService {
 
       callback(
         null,
-        new FormSubmissionResult({
+        FormSubmissionResult.fromObject({
           accepted: true,
         })
       )

@@ -23,9 +23,6 @@ class Client extends SapphireClient {
   public controlGuild: Guild
 
   public async init() {
-    const rest = new REST().setToken(config.discord.token)
-    await rest.put(Routes.applicationCommands(config.discord.clientId), { body: [] })
-
     await this.login(config.discord.token)
 
     const guild = this.guilds.cache.find((guild) => guild.id === config.discord.controlGuildId)
@@ -35,6 +32,14 @@ class Client extends SapphireClient {
     }
 
     this.controlGuild = guild
+  }
+
+  // Not called at the moment on purpose
+  public async clearSlashCommands() {
+    const rest = new REST().setToken(config.discord.token)
+
+    // Clear all commands
+    await rest.put(Routes.applicationCommands(config.discord.clientId), { body: [] })
   }
 }
 

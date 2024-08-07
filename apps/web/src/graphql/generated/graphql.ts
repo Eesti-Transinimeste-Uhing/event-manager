@@ -408,6 +408,11 @@ export type SubmitFormWhereInput = {
   id: Scalars['ID']['input']
 }
 
+export type Subscription = {
+  __typename?: 'Subscription'
+  test: Scalars['String']['output']
+}
+
 export enum SupportedLanguages {
   EnGb = 'en_GB',
   EtEe = 'et_EE',
