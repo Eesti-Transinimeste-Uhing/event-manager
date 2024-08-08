@@ -1,23 +1,4 @@
 import { Command } from '@sapphire/framework'
-import {
-  ActionRowBuilder,
-  ModalBuilder,
-  StringSelectMenuBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-} from 'discord.js'
-import {
-  FormFieldKind,
-  FormSubmission,
-  FormSubmissionData,
-  GetFormParams,
-} from '@etu/events-proto/dist/backend/forms'
-
-import { formsClient } from '../proto/clients/forms'
-import { log } from '../log'
-import { GenderModal, GenderSelect } from '../components/gender-select'
-import { hash } from '../lib/hash'
-import { ConfirmEventSelect } from '../components/yes-no-select'
 import { RegistrationController } from '../controllers/registration'
 
 export class FormTestCommand extends Command {
