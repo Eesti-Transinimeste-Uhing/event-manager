@@ -7661,6 +7661,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-vue: "npm:^9.23.0"
+    flagsmith: "npm:^4.0.3"
     fluent-vue: "npm:^3.6.0"
     graphql: "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch"
     graphql-scalars: "npm:^1.23.0"
@@ -8334,6 +8335,13 @@ __metadata:
     semver: "npm:^7.3.7"
     uuid: "npm:^8.3.2"
   checksum: 10c0/c1073e92b92e2a33463f471a3fb772ff36ce0828227942f054a41cd197d6caacafb5b92aeeb2f66d15765a466a5181fa4f1b6025591ef6195ea880beaecd98cd
+  languageName: node
+  linkType: hard
+
+"flagsmith@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "flagsmith@npm:4.0.3"
+  checksum: 10c0/d15751ce3c29a5abed156e31b7f65d2ed6382e0df858bb66e6a6f14314c70d99376fc9fab7b6e4471b47a68bae2c21423114b7487e2c75ee75c55c11add53bb5
   languageName: node
   linkType: hard
 
