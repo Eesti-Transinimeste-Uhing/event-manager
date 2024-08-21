@@ -1,10 +1,7 @@
-import { ReadStream } from 'node:fs'
 import stream from 'node:stream/promises'
-import { DateTime } from 'luxon'
 
 import { Storage } from '../lib/storage'
 
-import { ReadableStream } from 'stream/web'
 import { downloadDiscordAvatar } from '../lib/discord-profile-picture'
 import { config } from '../config'
 

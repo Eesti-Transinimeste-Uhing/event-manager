@@ -3,7 +3,6 @@ import fastify from 'fastify'
 import * as v1Routes from './routes/v1'
 import { registerMiddleware } from './middleware'
 import { config } from '../config'
-import { WebSocketServer } from 'ws'
 
 export const createServers = async () => {
   const httpServer = fastify({ trustProxy: config.server.trustProxy })

@@ -1,4 +1,5 @@
 import { ConnectionOptions } from 'bullmq'
+import { FlagsmithConfig } from 'flagsmith-nodejs'
 import * as Pino from 'pino'
 
 export type Config = {
@@ -19,6 +20,9 @@ export type Config = {
     publicUrl: string
     trustProxy: boolean
     storageCache: string[]
+  }
+  flagsmith: FlagsmithConfig & {
+    pollIntervalSeconds: number
   }
   discord: {
     clientId: string
