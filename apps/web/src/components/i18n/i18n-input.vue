@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ComponentTranslator from 'src/components/component-translator.vue'
+import ComponentTranslator from 'src/components/i18n/component-translator.vue'
 import { SupportedLanguages } from 'src/graphql/generated/graphql'
 import { ref } from 'vue'
 

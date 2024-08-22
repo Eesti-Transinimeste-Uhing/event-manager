@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { JSONContent } from '@tiptap/vue-3'
-import ComponentTranslator from 'src/components/component-translator.vue'
+import ComponentTranslator from 'src/components/i18n/component-translator.vue'
 import { SupportedLanguages } from 'src/graphql/generated/graphql'
 import TextEditor from '../text-editor/text-editor.vue'
 

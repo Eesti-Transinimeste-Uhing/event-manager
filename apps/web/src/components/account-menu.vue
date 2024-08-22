@@ -7,7 +7,8 @@ import { config } from 'src/config'
 import { useNotificationsStore } from 'src/stores/notifications'
 import { useI18n } from 'src/hooks/use-i18n'
 
-import LanguageSelector from './language-selector.vue'
+import LanguageSelector from './i18n/language-selector.vue'
+
 import DarkToggle from './dark-toggle.vue'
 import { useUserPreferencesStore } from 'src/stores/user-preferences'
 

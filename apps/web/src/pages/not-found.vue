@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import EmptyContent from 'src/components/empty-content.vue'
+import LanguageTabs from 'src/components/i18n/language-tabs.vue';
+
 import background from 'assets/background/gr-stocks-Iq9SaJezkOE-unsplash-lg.jpg'
+import { useI18n } from 'src/hooks/use-i18n';
+
+const { changeLanguage, currentLanguage } = useI18n()
 </script>
 
 <style lang="scss" scoped>
@@ -28,12 +33,14 @@ import background from 'assets/background/gr-stocks-Iq9SaJezkOE-unsplash-lg.jpg'
     <div class="empty-content absolute-top-left background-overlay" />
 
     <empty-content
-      class="empty-content absolute-top-left"
-      icon-colour="primary"
-      icon="las la-question"
-      :title="$t('http-not-found')"
-      :content="$t('http-not-found-description')"
+    class="empty-content absolute-top-left"
+    icon-colour="primary"
+    icon="las la-question"
+    :title="$t('http-not-found')"
+    :content="$t('http-not-found-description')"
     />
+
+    <language-tabs :model-value="currentLanguage" @update:model-value="changeLanguage" />
 
     <q-btn
       flat
