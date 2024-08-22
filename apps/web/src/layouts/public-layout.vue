@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
-import LanguageSelector from 'src/components/language-selector.vue'
+import LanguageSelector from 'src/components/i18n/language-selector.vue'
 
 import perlinDark from 'assets/background/perlin-dark.jpg'
 import StickyToolbar from 'components/sticky-toolbar.vue'

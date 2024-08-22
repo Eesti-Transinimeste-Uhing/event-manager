@@ -7,11 +7,7 @@ const { changeLanguage, currentLanguage, loading } = useI18n()
 </script>
 
 <template>
-  <language-tabs
-    :model-value="currentLanguage"
-    @update:model-value="changeLanguage"
-    class="bg-transparent"
-  />
+  <language-tabs :model-value="currentLanguage" @update:model-value="changeLanguage" />
 
   <q-slide-transition>
     <q-linear-progress v-if="loading" indeterminate color="secondary" />

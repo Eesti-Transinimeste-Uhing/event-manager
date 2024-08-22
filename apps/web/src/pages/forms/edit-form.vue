@@ -11,6 +11,7 @@ import { useNotificationsStore } from 'src/stores/notifications'
 
 import EmptyContent from 'src/components/empty-content.vue'
 import TooltipButton from 'src/components/tooltip-button.vue'
+import FeatureFlag from 'src/components/feature-flag.vue'
 
 import DateTimeField from 'src/components/form/date-time-field.vue'
 import I18nInput from 'src/components/i18n/i18n-input.vue'
@@ -145,14 +146,16 @@ const handleAnnounce = () => {
 <template>
   <div class="column">
     <q-banner inline-actions rounded class="text-white q-mb-md q-py-none">
-      <tooltip-button
-        :tooltip="$t('announce')"
-        rounded
-        color="secondary"
-        icon="las la-bullhorn"
-        class="q-ml-sm"
-        @click="handleAnnounce"
-      />
+      <feature-flag flag="announcements">
+        <tooltip-button
+          :tooltip="$t('announce')"
+          rounded
+          color="secondary"
+          icon="las la-bullhorn"
+          class="q-ml-sm"
+          @click="handleAnnounce"
+        />
+      </feature-flag>
 
       <template v-slot:action>
         <tooltip-button
