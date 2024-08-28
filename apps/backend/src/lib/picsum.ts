@@ -1,4 +1,6 @@
 import fetch from 'node-fetch-retry'
+import { ReadableStream } from 'stream/web'
+
 import { streamToBuffer } from './stream-to-buffer'
 
 export const downloadPicsumImage = async (
@@ -14,5 +16,5 @@ export const downloadPicsumImage = async (
 
   const blob: Blob = await resp.blob()
 
-  return await streamToBuffer(blob.stream())
+  return await streamToBuffer(blob.stream() as ReadableStream<any>)
 }

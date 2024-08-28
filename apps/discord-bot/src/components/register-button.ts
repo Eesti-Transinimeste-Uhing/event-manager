@@ -1,6 +1,8 @@
 import { ButtonBuilder, ButtonStyle } from 'discord.js'
 import { encodeCustomId } from '../lib/custom-id'
-import { RegisterButtonInteractionHandler } from '../interaction-handlers/register-button'
+
+import { InteractionHandler } from '../interaction-handlers/register-button'
+import { RegisterButton } from '../declarations/interaction-handlers'
 
 export const id = 'register-button'
 
@@ -12,8 +14,8 @@ export class Component extends ButtonBuilder {
       .setStyle(ButtonStyle.Primary)
       .setCustomId(
         encodeCustomId(
-          RegisterButtonInteractionHandler.name,
-          RegisterButtonInteractionHandler.Actions.BeginRegistration,
+          InteractionHandler.name,
+          RegisterButton.Actions.BeginRegistration,
           formId
         )
       )

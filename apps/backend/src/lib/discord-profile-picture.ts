@@ -1,4 +1,6 @@
 import fetch from 'node-fetch-retry'
+import { ReadableStream } from 'stream/web'
+
 import { streamToBuffer } from './stream-to-buffer'
 
 export const downloadDiscordAvatar = async (userId: string, avatarId: string): Promise<Buffer> => {
@@ -10,5 +12,5 @@ export const downloadDiscordAvatar = async (userId: string, avatarId: string): P
 
   const blob: Blob = await resp.blob()
 
-  return await streamToBuffer(blob.stream())
+  return await streamToBuffer(blob.stream() as ReadableStream<any>)
 }

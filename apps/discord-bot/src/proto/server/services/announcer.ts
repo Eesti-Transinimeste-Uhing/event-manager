@@ -5,7 +5,7 @@ import {
 } from '@etu/events-proto/dist/discord-bot/announcer'
 import { ServerUnaryCall, sendUnaryData } from '@grpc/grpc-js'
 import VError from 'verror'
-import { ActionRowBuilder } from 'discord.js'
+import { ActionRowBuilder, ButtonBuilder } from 'discord.js'
 
 import { discord } from '../../../discord/client'
 import * as RegisterButton from '../../../components/register-button'
@@ -32,7 +32,7 @@ export class AnnouncerService extends UnimplementedAnnouncerService {
         return callback(new VError('Target channel is not a text based channel'), null)
       }
 
-      const actionRow = new ActionRowBuilder().addComponents(
+      const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new RegisterButton.Component(call.request.formId)
       )
 

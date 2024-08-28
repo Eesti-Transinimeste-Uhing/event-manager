@@ -53,7 +53,6 @@ export class FormsService extends UnimplementedFormsService {
         call.request.where.id,
         call.request.sourceHash,
         call.request.data.map((item) => ({
-          name: item.name,
           value: item.value,
         }))
       )

@@ -191,7 +191,7 @@ export class FormController {
         {
           location: form.location[SupportedLanguages[lang]],
           startsAt: form.startsAt,
-          luxonLang: SupportedLanguages[lang].replaceAll('_', '-'),
+          luxonLang: SupportedLanguages[lang].replace(/_/g, '-'),
         },
         target
       )
@@ -202,8 +202,8 @@ export class FormController {
     const joiner =
       langs.length > 1
         ? (index) => {
-            return [{ type: 'hardBreak' }, { type: 'text', text: flagMap[langs[index]] }]
-          }
+          return [{ type: 'hardBreak' }, { type: 'text', text: flagMap[langs[index]] }]
+        }
         : undefined
 
     const joined = Utils.join(replaced, joiner)
