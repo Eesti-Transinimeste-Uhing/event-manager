@@ -28,7 +28,7 @@ RUN yarn --immutable
 FROM devdeps AS sources
 WORKDIR /app
 
-COPY . .
+COPY ./.moon/docker/sources .
 
 #########################################
 FROM sources AS build
