@@ -21,3 +21,8 @@ cases, you'll find a `.env.example` in the project root. Copy this file and name
 it `.env`, then fill out the fields.
 
 To run all projects at once, use `yarn moon :dev`.
+
+## Building
+
+- `yarn moon docker scaffold web discord-bot backend proto i18n tiptap && docker
+  build . --build-arg="NODE_VERSION=20.11.0" --target=runtime`
