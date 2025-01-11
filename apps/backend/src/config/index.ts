@@ -20,14 +20,6 @@ const getConfig = (): Config => {
       trustProxy: getString('SERVER_TRUST_PROXY', process.env.SERVER_TRUST_PROXY) === 'true',
       storageCache: getString('SERVER_STORAGE_CACHE', process.env.SERVER_STORAGE_CACHE).split(','),
     },
-    flagsmith: {
-      environmentKey: getString('FLAGSMITH_ENVIRONMENT_KEY', process.env.FLAGSMITH_ENVIRONMENT_KEY),
-      apiUrl: getString('FLAGSMITH_API_URL', process.env.FLAGSMITH_API_URL),
-      enableAnalytics: getString('FLAGSMITH_ENABLE_ANALYTICS', process.env.FLAGSMITH_ENABLE_ANALYTICS) === 'true',
-      requestTimeoutSeconds: getNumber('FLAGSMITH_REQUEST_TIMEOUT_SECONDS', process.env.FLAGSMITH_REQUEST_TIMEOUT_SECONDS),
-      retries: getNumber('FLAGSMITH_RETRIES', process.env.FLAGSMITH_RETRIES),
-      pollIntervalSeconds: getNumber('FLAGSMITH_POLL_INTERVAL_SECONDS', process.env.FLAGSMITH_POLL_INTERVAL_SECONDS),
-    },
     valkey: {
       host: getString('VALKEY_HOST', process.env.VALKEY_HOST),
       port: getNumber('VALKEY_PORT', process.env.VALKEY_PORT),

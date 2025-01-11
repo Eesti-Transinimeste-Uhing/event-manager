@@ -10,7 +10,6 @@ import { isAdmin } from './is-admin'
 import { isPublisher } from './is-publisher'
 import { isEditor } from './is-editor'
 import { isAuthenticated } from './is-authenticated'
-import { hasFlag } from './has-flag'
 
 export type GraphQLRules<RootType> = {
   [key in keyof RootType]:
@@ -33,8 +32,8 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
 
       formSubmissions: isAdmin,
 
-      announcer: and(hasFlag('announcements'), or(isAdmin, isPublisher)),
-      announcers: and(hasFlag('announcements'), or(isAdmin, isPublisher)),
+      announcer: and(or(isAdmin, isPublisher)),
+      announcers: and(or(isAdmin, isPublisher)),
     },
     Mutation: {
       createForm: or(isAdmin, isEditor),
@@ -46,10 +45,10 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
 
       submitForm: allow, // anyone can submit a form even if they are not authenticated
 
-      announceForm: and(hasFlag('announcements'), or(isAdmin, isPublisher)),
+      announceForm: and(or(isAdmin, isPublisher)),
 
-      createAnnouncer: and(hasFlag('announcements'), or(isAdmin, isPublisher)),
-      updateAnnouncer: and(hasFlag('announcements'), or(isAdmin, isPublisher)),
+      createAnnouncer: and(or(isAdmin, isPublisher)),
+      updateAnnouncer: and(or(isAdmin, isPublisher)),
     },
     Subscription: {
       test: allow,

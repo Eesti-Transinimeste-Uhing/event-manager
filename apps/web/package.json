@@ -24,7 +24,6 @@
     "buffer": "^6.0.3",
     "bytes": "^3.1.2",
     "deep-equal": "^2.2.3",
-    "flagsmith": "^4.0.3",
     "fluent-vue": "^3.6.0",
     "graphql": "patch:graphql@npm%3A16.8.1#~/.yarn/patches/graphql-npm-16.8.1-c2cd08b4c0.patch",
     "graphql-scalars": "^1.23.0",

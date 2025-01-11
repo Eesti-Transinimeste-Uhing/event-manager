@@ -1,9 +1,6 @@
 <script lang="ts" setup>
-import { useFlags } from 'src/hooks/use-flags'
 import * as route from 'src/router/routes'
 import { computed } from 'vue'
-
-const { flags } = useFlags()
 
 const routes = computed(
   () =>
@@ -12,7 +9,7 @@ const routes = computed(
       route.templates,
       route.forms,
       route.submissionList,
-      flags.value.announcements?.enabled ? route.announcersList : null,
+      route.announcersList,
     ].filter(Boolean) as route.RouteRecord[]
 )
 </script>

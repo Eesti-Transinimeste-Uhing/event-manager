@@ -7,8 +7,6 @@ import { AppDataSource } from '../data-source'
 import { ProtoServer } from '../proto/server'
 import { pubsub } from '../pubsub'
 
-import { flags } from '../lib/flags'
-
 export const main = async (log: Logger) => {
   log.debug(`connecting to database`)
   await AppDataSource.initialize()
@@ -25,9 +23,6 @@ export const main = async (log: Logger) => {
     port: config.server.port,
   })
   await rpcServer.listen()
-
-  log.debug('starting flagsmith')
-  await flags.init()
 
   log.info(
     {

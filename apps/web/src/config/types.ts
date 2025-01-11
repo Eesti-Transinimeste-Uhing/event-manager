@@ -1,5 +1,3 @@
-import { IInitConfig } from 'flagsmith/types'
-
 export type Config = {
   node: {
     env: 'production' | 'development'
@@ -9,5 +7,4 @@ export type Config = {
     logoutUrl: string
     loginUrl: string
   }
-  flagsmith: IInitConfig
 }

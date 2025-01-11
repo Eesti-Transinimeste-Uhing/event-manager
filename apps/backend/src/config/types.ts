@@ -21,9 +21,6 @@ export type Config = {
     trustProxy: boolean
     storageCache: string[]
   }
-  flagsmith: FlagsmithConfig & {
-    pollIntervalSeconds: number
-  }
   discord: {
     clientId: string
     clientSecret: string
