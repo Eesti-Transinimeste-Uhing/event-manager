@@ -55,4 +55,4 @@ WORKDIR /app
 COPY --from=proddeps /app/node_modules ./node_modules
 COPY --from=build /app/dist/ ./
 
-ENTRYPOINT [ "sh", "-eu" ]
+ENTRYPOINT [ "/usr/local/bin/node" ]

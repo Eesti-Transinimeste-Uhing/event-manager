@@ -38,6 +38,35 @@ jobs:
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: extract_branch
 
+      - name: Create proto generated directory
+        shell: bash
+        run: mkdir -p packages/proto/generated
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: cache-node-modules
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: lock-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            lock-
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        shell: bash
+        run: yarn --immutable
+
+      - name: Build proto
+        shell: bash
+        run: yarn moon proto:build
+
+      - name: Scaffold
+        shell: bash
+        run: yarn moon docker scaffold web discord-bot backend proto i18n tiptap
+
       # Build and push the Docker image
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
@@ -45,3 +74,5 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/${{ steps.lowercase_owner.outputs.owner }}/${{ github.event.repository.name }}:${{ steps.extract_branch.outputs.branch }}
+          target: runtime
+          build-args: NODE_VERSION=20.11.1
