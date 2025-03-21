@@ -3,7 +3,7 @@ import path from 'node:path'
 
 import { Compiler } from '@decentm/concourse-ts'
 
-const dir = path.resolve(__dirname, './pipelines')
+const dir = path.resolve(import.meta.dirname ?? '', './pipelines')
 const compilation = new Compiler.Compilation()
 
 const files = fs.readdirSync(dir)
@@ -27,7 +27,7 @@ const main = async () => {
     const result = compilation.compile(pipeline)
 
     fs.writeFileSync(
-      path.resolve(__dirname, '../../.ci', result.pipeline.filename),
+      path.resolve(import.meta.dirname ?? '', '../../.ci', result.pipeline.filename),
       result.pipeline.content
     )
   }

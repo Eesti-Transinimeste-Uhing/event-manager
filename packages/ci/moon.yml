@@ -8,5 +8,5 @@ tasks:
       runFromWorkspaceRoot: true
       cache: false
     command:
-      - ./packages/ci/node_modules/.bin/ts-node
+      - ./node_modules/.bin/tsx
       - ./packages/ci/compile.ts

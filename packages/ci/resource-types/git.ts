@@ -6,6 +6,6 @@ export const git_resource_type: Git.ResourceType = new ResourceType('git', (rt) 
 
   rt.source = {
     repository: 'concourse/git-resource',
-    tag: '1',
+    tag: '1.17.0-20250321',
   }
 })

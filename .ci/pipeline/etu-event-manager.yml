@@ -1,0 +1,40 @@
+# Generated with concourse-ts
+#
+# jobs: 1
+# groups: 0
+# resource_types: 1
+# resources: 1
+# var_sources: 0
+
+jobs:
+  - name: build
+    plan:
+      - get: git_code
+        trigger: true
+      - task: build-task
+        config:
+          image_resource:
+            source:
+              repository: alpine
+              tag: latest
+            type: registry-image
+          platform: linux
+          run:
+            path: node_modules/.bin/quasar
+            args:
+              - build
+resource_types:
+  - name: git
+    type: registry-image
+    source:
+      repository: concourse/git-resource
+      tag: 1.17.0-20250321
+resources:
+  - name: git_code
+    type: git
+    source:
+      uri: https://github.com/DecentM/etue
+      branch: main
+      ignore_paths:
+        - .ci
+        - packages/ci
