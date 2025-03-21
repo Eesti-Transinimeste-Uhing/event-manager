@@ -1,5 +1,4 @@
 import { ConnectionOptions } from 'bullmq'
-import { FlagsmithConfig } from 'flagsmith-nodejs'
 import * as Pino from 'pino'
 
 export type Config = {
