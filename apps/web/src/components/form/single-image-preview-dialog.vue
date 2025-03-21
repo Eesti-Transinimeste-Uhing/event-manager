@@ -93,7 +93,7 @@ const handleHintUnhover = () => {
             AspectRatio.widescreen,
           ]"
         >
-          <template #default="{ parentSize }">
+          <!-- <template #default="{ parentSize }">
             <overlay-member
               :parent-size="parentSize"
               :left="0.19"
@@ -127,7 +127,7 @@ const handleHintUnhover = () => {
                 </div>
               </template>
             </overlay-member>
-          </template>
+          </template> -->
         </image-offsetter>
       </div>
 
