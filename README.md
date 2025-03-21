@@ -24,5 +24,4 @@ To run all projects at once, use `yarn moon :dev`.
 
 ## Building
 
-- `yarn moon docker scaffold web discord-bot backend proto i18n tiptap && docker
-  build . --build-arg="NODE_VERSION=20.11.0" --target=runtime`
+- `yarn moon docker scaffold web discord-bot backend proto i18n tiptap && docker build . --build-arg="NODE_VERSION=20.11.0" --target=runtime`

@@ -1,7 +1,6 @@
 import { AnnounceFormRequest } from '@etu/events-proto/dist/discord-bot/announcer'
 import { Worker } from 'bullmq'
 import VError from 'verror'
-import { SupportedLanguages } from '@etu/events-proto/dist/lib'
 import { RenderTarget } from '@etu/tiptap'
 import { IterableSupportedLanguages } from '@etu/i18n'
 

@@ -8,3 +8,11 @@ tasks:
     inputs:
       - 'src/**/*'
       - 'package.json'
+
+  build:
+    command: 'tsc'
+    inputs:
+      - 'src/**/*'
+      - 'package.json'
+    outputs:
+      - 'dist'
