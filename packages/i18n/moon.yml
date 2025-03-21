@@ -3,3 +3,10 @@ project:
   description: 'Internationalisation libraries and shared code'
 
 tasks:
+  build:
+    command: 'tsc'
+    inputs:
+      - 'src/**/*'
+      - 'package.json'
+    outputs:
+      - 'dist'

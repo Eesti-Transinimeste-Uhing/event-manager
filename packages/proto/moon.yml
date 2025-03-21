@@ -14,7 +14,21 @@ tasks:
       - --
       - proto:build
 
+  pre_build:
+    command:
+      - mkdir
+      - -p
+      - generated
+
   build:
+    deps:
+      - build_generated
+    command:
+      - rm
+      - -rf
+      - generated
+
+  build_generated:
     deps:
       - generate
     inputs:
@@ -25,6 +39,8 @@ tasks:
       - tsc
 
   generate:
+    deps:
+      - pre_build
     inputs:
       - src/**/*.proto
       - package.json

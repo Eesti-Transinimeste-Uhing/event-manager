@@ -38,10 +38,6 @@ jobs:
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: extract_branch
 
-      - name: Create proto generated directory
-        shell: bash
-        run: mkdir -p packages/proto/generated
-
       - name: Cache node_modules
         uses: actions/cache@v3
         id: cache-node-modules
@@ -58,10 +54,6 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         shell: bash
         run: yarn --immutable
-
-      - name: Build proto
-        shell: bash
-        run: yarn moon proto:build
 
       - name: Scaffold
         shell: bash

@@ -3,6 +3,7 @@ import { JSONContent } from '@tiptap/core'
 import cloneDeep from 'lodash.clonedeep'
 
 import { substituteTemplateVariables } from './substitute-template-variables'
+import { RenderTarget } from '../render'
 
 test('substitutes first-level template vars', (t) => {
   const input: JSONContent = {
@@ -23,7 +24,7 @@ test('substitutes first-level template vars', (t) => {
     startsAt: new Date('2022-07-01T10:00:00Z'),
     luxonLang: 'en',
     location: 'Somewhere',
-  })
+  }, RenderTarget.Json)
 
   t.deepEqual(result, {
     type: 'doc',
@@ -60,7 +61,7 @@ test('substitutes nested template vars', (t) => {
     startsAt: new Date('2022-07-01T10:00:00Z'),
     luxonLang: 'en',
     location: 'Somewhere',
-  })
+  }, RenderTarget.Json)
 
   t.deepEqual(result, {
     type: 'doc',

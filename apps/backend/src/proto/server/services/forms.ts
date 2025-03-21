@@ -12,7 +12,7 @@ import { EntityNotFoundError } from '../../../lib/errors'
 import { wrapError } from '../../../lib/error-wrapping'
 
 export class FormsService extends UnimplementedFormsService {
-  override async getForm(
+  async getForm(
     call: ServerUnaryCall<GetFormParams, Form>,
     callback: sendUnaryData<Form>
   ): Promise<void> {
@@ -44,7 +44,7 @@ export class FormsService extends UnimplementedFormsService {
     }
   }
 
-  override async submitForm(
+  async submitForm(
     call: ServerUnaryCall<FormSubmission, FormSubmissionResult>,
     callback: sendUnaryData<FormSubmissionResult>
   ): Promise<void> {
