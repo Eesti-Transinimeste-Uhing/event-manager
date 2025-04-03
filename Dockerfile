@@ -53,4 +53,5 @@ FROM base AS runtime
 WORKDIR /app
 
 COPY --from=proddeps /app/node_modules ./node_modules
+COPY ./.moon/docker/workspace/ .
 COPY --from=build /app/dist/ ./
