@@ -17,12 +17,9 @@ tasks:
   build:
     deps:
       - generate
-    inputs:
-      - generated
-    outputs:
-      - dist
-    command:
-      - tsc
+    command: 'tsc'
+    options:
+      cache: false
 
   generate:
     inputs:

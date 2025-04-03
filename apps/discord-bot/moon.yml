@@ -5,9 +5,6 @@ project:
 tasks:
   build:
     command: 'tsc'
-    inputs:
-      - 'src/**/*'
-      - 'package.json'
     options:
       cache: false
 

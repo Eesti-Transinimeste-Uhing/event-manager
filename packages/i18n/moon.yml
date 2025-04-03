@@ -3,3 +3,7 @@ project:
   description: 'Internationalisation libraries and shared code'
 
 tasks:
+  build:
+    command: 'tsc'
+    options:
+      cache: false
