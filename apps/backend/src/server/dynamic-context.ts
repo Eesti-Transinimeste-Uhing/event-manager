@@ -1,6 +1,6 @@
 import { BaseContext } from '@apollo/server'
 import { ApolloFastifyContextFunction } from '@as-integrations/fastify'
-import { UserFilter, UserRole } from '@etu/events-proto/dist/discord-bot/users'
+import { UserFilter, UserRole } from '@etu/events-proto/generated/discord-bot/users'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { User } from '../entity/user'

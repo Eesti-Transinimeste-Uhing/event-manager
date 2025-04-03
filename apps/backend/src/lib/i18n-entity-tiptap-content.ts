@@ -1,6 +1,6 @@
 import { JSONContent } from '@tiptap/core'
 import { Column } from 'typeorm'
-import { SupportedLanguages } from '@etu/events-proto/dist/lib'
+import { SupportedLanguages } from '@etu/events-proto/generated/lib'
 
 export class I18NTiptapContent implements Record<keyof typeof SupportedLanguages, unknown> {
   @Column('jsonb', { nullable: true })

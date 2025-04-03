@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { objectType } from 'nexus'
 import { formController } from '../../server/static-context'
-import { SupportedLanguages } from '@etu/events-proto/dist/lib'
+import { SupportedLanguages } from '@etu/events-proto/generated/lib'
 
 export const Form = objectType({
   name: 'Form',

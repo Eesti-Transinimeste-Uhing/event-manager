@@ -10,6 +10,7 @@
 
 const { configure } = require('quasar/wrappers')
 const fs = require('fs')
+const path = require('path')
 
 const base64Loader = {
   name: 'base64-loader',
@@ -77,7 +78,7 @@ module.exports = configure(function (/* ctx */) {
       // ignorePublicFolder: true,
       // minify: false,
       // polyfillModulePreload: true,
-      // distDir
+      distDir: path.resolve(__dirname, '../../dist/apps/web'),
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},

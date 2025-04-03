@@ -5,7 +5,7 @@ import { BullMQAdapter } from '@bull-board/api/bullMQAdapter'
 
 import { createQueues } from '../../queues'
 import { createDynamicContext } from '../dynamic-context'
-import { UserRole } from '@etu/events-proto/dist/discord-bot/users'
+import { UserRole } from '@etu/events-proto/generated/discord-bot/users'
 import { config } from '../../config'
 
 export const registerBullBoard = async (server: FastifyInstance) => {

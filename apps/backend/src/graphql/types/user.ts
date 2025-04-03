@@ -1,6 +1,6 @@
 import { enumType, objectType } from 'nexus'
 import path from 'node:path'
-import { UserRole } from '@etu/events-proto/dist/discord-bot/users'
+import { UserRole } from '@etu/events-proto/generated/discord-bot/users'
 
 import { fetchDiscordMe } from '../../lib/discord-me'
 

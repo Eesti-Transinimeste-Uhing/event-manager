@@ -1,6 +1,6 @@
 import { DeepPartial } from 'typeorm'
 import { renderJsonContent, Utils } from '@etu/tiptap'
-import { SupportedLanguages } from '@etu/events-proto/dist/lib'
+import { SupportedLanguages } from '@etu/events-proto/generated/lib'
 
 import { AppDataSource } from '../data-source'
 import { Form } from '../entity/form'

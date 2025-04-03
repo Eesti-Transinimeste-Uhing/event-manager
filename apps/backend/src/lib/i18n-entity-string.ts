@@ -1,6 +1,6 @@
 import { Column } from 'typeorm'
 
-import { SupportedLanguages } from '@etu/events-proto/dist/lib'
+import { SupportedLanguages } from '@etu/events-proto/generated/lib'
 
 export class I18NString implements Record<keyof typeof SupportedLanguages, unknown> {
   @Column('varchar', { nullable: true, default: '' })

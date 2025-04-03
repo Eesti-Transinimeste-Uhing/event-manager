@@ -14,8 +14,8 @@ tasks:
       - 'package.json'
       - 'tsconfig.vue-tsc.json'
       - quasar.config.js
-    outputs:
-      - 'dist'
+    options:
+      cache: false
 
   dev:
     command:

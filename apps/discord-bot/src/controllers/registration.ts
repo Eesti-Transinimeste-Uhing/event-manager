@@ -1,4 +1,4 @@
-import { FormSubmissionData } from '@etu/events-proto/dist/backend/forms'
+import { FormSubmissionData } from '@etu/events-proto/generated/backend/forms'
 import { Command } from '@sapphire/framework'
 import {
   ActionRowBuilder,

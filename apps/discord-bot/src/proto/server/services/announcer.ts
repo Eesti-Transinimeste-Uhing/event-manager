@@ -2,7 +2,7 @@ import {
   AnnounceFormRequest,
   AnnounceFormResult,
   UnimplementedAnnouncerService,
-} from '@etu/events-proto/dist/discord-bot/announcer'
+} from '@etu/events-proto/generated/discord-bot/announcer'
 import { ServerUnaryCall, sendUnaryData } from '@grpc/grpc-js'
 import VError from 'verror'
 import { ActionRowBuilder, ButtonBuilder } from 'discord.js'

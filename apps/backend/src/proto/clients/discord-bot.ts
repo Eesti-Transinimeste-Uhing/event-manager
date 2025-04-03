@@ -1,5 +1,5 @@
-import { UsersClient } from '@etu/events-proto/dist/discord-bot/users'
-import { AnnouncerClient } from '@etu/events-proto/dist/discord-bot/announcer'
+import { UsersClient } from '@etu/events-proto/generated/discord-bot/users'
+import { AnnouncerClient } from '@etu/events-proto/generated/discord-bot/announcer'
 import { credentials } from '@grpc/grpc-js'
 
 import { config } from '../../config'

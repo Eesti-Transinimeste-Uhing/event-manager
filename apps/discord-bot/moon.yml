@@ -8,8 +8,8 @@ tasks:
     inputs:
       - 'src/**/*'
       - 'package.json'
-    outputs:
-      - 'dist'
+    options:
+      cache: false
 
   dev:
     command:

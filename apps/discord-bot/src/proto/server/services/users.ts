@@ -3,7 +3,7 @@ import {
   UserFilter,
   UserRole,
   UserRolesResult,
-} from '@etu/events-proto/dist/discord-bot/users'
+} from '@etu/events-proto/generated/discord-bot/users'
 import { ServerUnaryCall, sendUnaryData } from '@grpc/grpc-js'
 import { config } from '../../../config'
 import { discord } from '../../../discord/client'

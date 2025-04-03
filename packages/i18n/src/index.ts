@@ -1,4 +1,4 @@
-import { SupportedLanguages } from '@etu/events-proto/dist/lib'
+import { SupportedLanguages } from '@etu/events-proto/generated/lib'
 
 export const flagMap: Record<SupportedLanguages, string> = {
   [SupportedLanguages.en_GB]: '🇬🇧',

@@ -4,7 +4,7 @@ import {
   FormSubmissionResult,
   UnimplementedFormsService,
   GetFormParams,
-} from '@etu/events-proto/dist/backend/forms'
+} from '@etu/events-proto/generated/backend/forms'
 import { ServerUnaryCall, sendUnaryData } from '@grpc/grpc-js'
 
 import { formController } from '../../../server/static-context'

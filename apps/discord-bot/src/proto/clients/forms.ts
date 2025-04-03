@@ -1,4 +1,4 @@
-import { FormsClient } from '@etu/events-proto/dist/backend/forms'
+import { FormsClient } from '@etu/events-proto/generated/backend/forms'
 import { credentials } from '@grpc/grpc-js'
 
 import { config } from '../../config'
