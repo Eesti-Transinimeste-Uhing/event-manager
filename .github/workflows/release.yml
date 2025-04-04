@@ -70,3 +70,19 @@ jobs:
             ghcr.io/${{ steps.lowercase_owner.outputs.owner }}/${{ github.event.repository.name }}:${{ github.sha }}
           target: runtime
           build-args: NODE_VERSION=20.11.1
+
+      - name: Extract web content from Docker image
+        id: extract-web-content
+        run: |
+          docker_image=ghcr.io/${{ steps.lowercase_owner.outputs.owner }}/${{ github.event.repository.name }}:${{ github.sha }}
+
+          container_id=$(docker create "$docker_image")
+          docker cp "$container_id:/app/apps/web" ./dist
+          docker rm "$container_id"
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=etu-event-planner-web
