@@ -69,7 +69,11 @@ jobs:
             ghcr.io/${{ steps.lowercase_owner.outputs.owner }}/${{ github.event.repository.name }}:${{ steps.extract_branch.outputs.branch }}
             ghcr.io/${{ steps.lowercase_owner.outputs.owner }}/${{ github.event.repository.name }}:${{ github.sha }}
           target: runtime
-          build-args: NODE_VERSION=20.11.1
+          build-args: |
+            GRAPHQL_URL=https://uritused-api.borooka.ee/graphql
+            SERVER_LOGOUT_URL=https://uritused-api.borooka.ee/v1/auth/logout
+            SERVER_LOGIN_URL=https://uritused-api.borooka.ee/v1/auth/discord
+            NODE_VERSION=20.11.1
 
       - name: Extract web content from Docker image
         id: extract-web-content

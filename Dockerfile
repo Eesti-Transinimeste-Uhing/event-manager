@@ -34,6 +34,13 @@ COPY ./.moon/docker/sources .
 FROM sources AS build
 WORKDIR /app
 
+ARG GRAPHQL_URL=fixme
+ENV GRAPHQL_URL=${GRAPHQL_URL}
+ARG SERVER_LOGOUT_URL=fixme
+ENV SERVER_LOGOUT_URL=${SERVER_LOGOUT_URL}
+ARG SERVER_LOGIN_URL=fixme
+ENV SERVER_LOGIN_URL=${SERVER_LOGIN_URL}
+
 RUN yarn moon :build
 
 #########################################
