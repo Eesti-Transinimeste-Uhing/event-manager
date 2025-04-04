@@ -36,6 +36,8 @@ const getConfig = (): Config => {
       username: getString('DB_USERNAME', process.env.DB_USERNAME),
       password: getString('DB_PASSWORD', process.env.DB_PASSWORD),
       database: getString('DB_NAME', process.env.DB_NAME),
+      sync: getString('DB_SYNC', process.env.DB_SYNC) === 'true',
+      migrate: getString('DB_MIGRATE', process.env.DB_MIGRATE) === 'true',
     },
     web: {
       corsOrigin: getString('WEB_CORS_ORIGIN', process.env.WEB_CORS_ORIGIN),

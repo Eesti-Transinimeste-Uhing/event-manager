@@ -3,6 +3,12 @@ project:
   description: 'The API behind the web service'
 
 tasks:
+  typeorm:
+    command: 'ts-node ../../node_modules/.bin/typeorm'
+    options:
+      cache: false
+      envFile: .env
+
   build:
     command: 'tsc'
     inputs:

@@ -31,6 +31,8 @@ export type Config = {
     username: string
     password: string
     database: string
+    sync: boolean
+    migrate: boolean
   }
   web: {
     routes: {
