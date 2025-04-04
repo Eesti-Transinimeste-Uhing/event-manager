@@ -22,6 +22,7 @@ export class DiscordAvatarsStorage extends Storage {
     if (avatarId) {
       const buffer = await downloadDiscordAvatar(discordId, avatarId)
       await this.putFile(discordId, buffer)
+      return buffer
     }
 
     return await this.getFile(discordId)

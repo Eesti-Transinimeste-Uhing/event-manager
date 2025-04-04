@@ -1,5 +1,5 @@
 import { DeepPartial } from 'typeorm'
-import { renderJsonContent, Utils } from '@etu/tiptap'
+import { renderJsonContent, Utils } from '@etu/tiptap/src/index'
 import { SupportedLanguages } from '@etu/events-proto/generated/lib'
 
 import { AppDataSource } from '../data-source'
@@ -13,7 +13,7 @@ import { RenderTarget } from '@etu/tiptap/src/render'
 import { PaginateAndSortArgs } from '../lib/pagination'
 import { TemplateRepository } from '../repository/template'
 import { substituteTemplateVariables } from '@etu/tiptap/src/utils'
-import { flagMap } from '@etu/i18n'
+import { flagMap } from '@etu/i18n/src/index'
 
 export enum FormSubmittabilityTag {
   SubmitLimitReached,
