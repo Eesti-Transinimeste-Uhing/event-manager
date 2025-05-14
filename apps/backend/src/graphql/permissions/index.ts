@@ -59,7 +59,7 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
     FormConnection: isAuthenticated,
     FormEdge: isAuthenticated,
     PageInfo: isAuthenticated,
-    Template: isAuthenticated,
+    Template: allow,
     TemplateConnection: isAuthenticated,
     TemplateEdge: isAuthenticated,
     Announcer: isAuthenticated,
