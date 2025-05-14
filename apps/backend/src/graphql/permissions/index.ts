@@ -73,7 +73,7 @@ export const permissions = shield<GraphQLRules<NexusGenFieldTypes>>(
     FormSubmissionEdge: isAuthenticated,
     FormSubmission: isAuthenticated,
     FormSubmissionData: isAuthenticated,
-    FormSubmittability: isAuthenticated,
+    FormSubmittability: allow,
     BullJob: isAuthenticated,
   },
   {
